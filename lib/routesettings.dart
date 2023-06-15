@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/main.dart';
-import 'package:flutter_application_1/friends.dart';
-import 'package:flutter_application_1/posts.dart';
-import 'package:flutter_application_1/watch.dart';
+import 'main.dart';
+import 'model/friends.dart';
+import 'model/posts.dart';
+import 'model/watch.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings){
     final args = settings.arguments;
     switch (settings.name){
       case '/':
-        return MaterialPageRoute(builder: (_) => Home());
+        return MaterialPageRoute(builder: (_) => const Home());
       case '/friends':
         if(args is String){
           return MaterialPageRoute(builder: (_) => Friends(data: args));
@@ -19,7 +19,7 @@ class RouteGenerator {
           return MaterialPageRoute(builder: (_) => Watch(data: args));
         }
       case 'posts':
-        if(args is String){
+        if(args is Post){
           return MaterialPageRoute(builder: (_) => Posts(data: args));
         }
       default:

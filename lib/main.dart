@@ -1,16 +1,24 @@
 
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/routesettings.dart';
+import 'package:flutter_application_1/model/posts.dart';
+import 'routesettings.dart';
+import 'data/data.dart';
 
 
 void main() {
   runApp(MaterialApp(
-    home: Home(),
+    home: const Home(),
     theme: ThemeData(
       fontFamily: 'HyWenHei',
-      brightness: Brightness.light,
-      primaryColor: Colors.blue,
-      hintColor: Colors.orange,
+      colorScheme: ColorScheme.fromSeed(seedColor: Colors.grey),
+      appBarTheme: const AppBarTheme(
+          backgroundColor: Color.fromARGB(255, 255, 255, 255),
+        foregroundColor: Color.fromRGBO(59, 127, 210, 1),
+      ),
+      tabBarTheme: const TabBarTheme(
+        dividerColor: Color.fromRGBO(59, 127, 210, 1),
+        labelColor: Color.fromRGBO(59, 127, 210, 1),
+      )
     ),
     initialRoute: '/',
     onGenerateRoute: RouteGenerator.generateRoute,
@@ -24,23 +32,38 @@ class Home extends StatefulWidget {
   State<Home> createState() => _HomeState();
 }
 class _HomeState extends State<Home>{
-  final List<int> _items = List<int>.generate(50, (int index) => index);
+
   @override
   Widget build(BuildContext context) {
-    final ColorScheme colorScheme = Theme.of(context).colorScheme;
-    final Color oddItemColor = colorScheme.primary.withOpacity(0.05);
-    final Color evenItemColor = colorScheme.primary.withOpacity(0.15);
+    // final ColorScheme colorScheme = Theme.of(context).colorScheme;
+    // final Color oddItemColor = colorScheme.primary.withOpacity(0.05);
+    // final Color evenItemColor = colorScheme.primary.withOpacity(0.15);
     return  Scaffold(
       body: DefaultTabController(
         length: 3,
         child: NestedScrollView(
           headerSliverBuilder: (context,value){
             return [
-              const SliverAppBar(
+              SliverAppBar(
+                leading: IconButton(
+                  selectedIcon: Icon(Icons.menu_open_outlined),
+                  onPressed: () {  },
+                  icon: Icon(Icons.menu)
+                ),
                 pinned: true,
-                expandedHeight: 100.0,
-                title: Text('Feed'),
-                bottom: TabBar(
+                floating: true,
+                snap: true,
+                actions: [
+                  IconButton(
+                      onPressed: () {},
+                      icon: Icon(Icons.add)),
+                  IconButton(
+                      onPressed: () {},
+                      icon: Icon(Icons.search)),
+                ],
+                expandedHeight: MediaQuery.of(context).size.height * 0.15,
+                title: const Text('Feed'),
+                bottom: const TabBar(
                   tabs: [
                     Tab(
                       icon: Icon(Icons.home),
@@ -61,24 +84,25 @@ class _HomeState extends State<Home>{
           },
           body: TabBarView(
              children: [
-               ReorderableListView(
-                   children: [
-                     for (int index = 0; index < _items.length; index += 1)
-                       ListTile(
-                         key: Key('$index'),
-                         tileColor: _items[index].isOdd ? oddItemColor : evenItemColor,
-                         title: Text('Item ${_items[index]}'),
-                       ),
+               ListView(
+                 padding: EdgeInsets.zero,
+                 children: [
+                     for (int index = 0; index < posts.length; index += 1)
+                       Posts(data: posts [index])
                    ],
-                   onReorder: (int oldIndex, int newIndex) {
-                     setState(() {
-                       if (oldIndex < newIndex) {
-                         newIndex -= 1;
-                       }
-                       final int item = _items.removeAt(oldIndex);
-                       _items.insert(newIndex, item);
-                     });
-                   },)
+                   ),
+               ListView(
+                 padding: EdgeInsets.zero,
+                 children: [
+                   for (int index = 0; index < posts.length; index += 1)
+                       Posts(data: posts [index])
+                 ],),
+               ListView(
+                 padding: EdgeInsets.zero,
+                 children: [
+                   for (int index = 0; index < posts.length; index += 1)
+                       Posts(data: posts [index])
+                 ],)
              ],
 
             ),
