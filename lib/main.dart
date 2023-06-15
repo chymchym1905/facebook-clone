@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+
 import 'package:flutter_application_1/model/posts.dart';
 import 'routesettings.dart';
 import 'data/data.dart';
@@ -10,7 +11,9 @@ void main() {
     home: const Home(),
     theme: ThemeData(
       fontFamily: 'HyWenHei',
-      colorScheme: ColorScheme.fromSeed(seedColor: Colors.grey),
+      brightness: Brightness.light,
+      scaffoldBackgroundColor: Color.fromARGB(235, 244, 247, 245),
+      // colorScheme: ColorScheme.fromSeed(seedColor: const Color.fromARGB(161, 158, 158, 158)),
       appBarTheme: const AppBarTheme(
           backgroundColor: Color.fromARGB(255, 255, 255, 255),
         foregroundColor: Color.fromRGBO(59, 127, 210, 1),
@@ -85,20 +88,20 @@ class _HomeState extends State<Home>{
           body: TabBarView(
              children: [
                ListView(
-                 padding: EdgeInsets.zero,
+                 padding: const EdgeInsets.symmetric(vertical: 5.0),
                  children: [
                      for (int index = 0; index < posts.length; index += 1)
                        Posts(data: posts [index])
                    ],
                    ),
                ListView(
-                 padding: EdgeInsets.zero,
+                 padding: const EdgeInsets.symmetric(vertical: 5.0),
                  children: [
                    for (int index = 0; index < posts.length; index += 1)
                        Posts(data: posts [index])
                  ],),
                ListView(
-                 padding: EdgeInsets.zero,
+                 padding: const EdgeInsets.symmetric(vertical: 5.0),
                  children: [
                    for (int index = 0; index < posts.length; index += 1)
                        Posts(data: posts [index])
