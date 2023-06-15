@@ -39,14 +39,14 @@ class Comment{
 
 
 class Posts extends StatelessWidget{
-  Posts({super.key, required this.data});
-  Post data;
+  const Posts({super.key, required this.data});
+  final Post data;
   @override
   Widget build(BuildContext context){
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 5.0),
       padding: const EdgeInsets.symmetric(vertical: 8.0),
-      color: Color.fromARGB(255, 199, 167, 27)
+      color: Color.fromARGB(255, 255, 255, 255)
     );
   }
 }
