@@ -164,8 +164,7 @@ class Postpage extends StatelessWidget{
         ),
       ],
     );
-    return MaterialApp(
-      home: Scaffold(
+    return Scaffold(
         appBar: AppBar(
           title: const  Text('Feed name'),
           actions: const <Widget>[
