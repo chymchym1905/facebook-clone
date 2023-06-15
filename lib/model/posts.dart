@@ -46,7 +46,6 @@ class Posts extends StatelessWidget {
       margin: const EdgeInsets.symmetric(vertical: 5.0),
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       color: Color.fromARGB(255, 255, 255, 255)
-      
     );
   }
 }
