@@ -1,5 +1,7 @@
 
 import 'package:flutter/material.dart';
+import 'data/data.dart';
+import 'model/posts.dart';
 
 void main() {
   runApp(MaterialApp(
@@ -10,10 +12,9 @@ void main() {
       appBarTheme: const AppBarTheme(
           backgroundColor: Color.fromARGB(255, 255, 255, 255),
         foregroundColor: Color.fromRGBO(59, 127, 210, 1),
-      ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
-    );
-  }
+      ),   
+    ),
+  ));
 }
 
 class Home extends StatefulWidget {
