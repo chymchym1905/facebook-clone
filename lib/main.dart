@@ -1,10 +1,9 @@
-
 import 'package:flutter/material.dart';
 
 import 'package:flutter_application_1/model/posts.dart';
 import 'routesettings.dart';
 import 'data/data.dart';
-import 'model/posts.dart';
+
 
 void main() {
   runApp(MaterialApp(
@@ -17,8 +16,14 @@ void main() {
       appBarTheme: const AppBarTheme(
           backgroundColor: Color.fromARGB(255, 255, 255, 255),
         foregroundColor: Color.fromRGBO(59, 127, 210, 1),
-      ),   
+      ),
+      tabBarTheme: const TabBarTheme(
+        dividerColor: Color.fromRGBO(59, 127, 210, 1),
+        labelColor: Color.fromRGBO(59, 127, 210, 1),
+      )
     ),
+    initialRoute: '/',
+    onGenerateRoute: RouteGenerator.generateRoute,
   ));
 }
 
@@ -107,8 +112,4 @@ class _HomeState extends State<Home>{
         ),
       );
   }
-  
 }
-
-
-

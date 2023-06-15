@@ -177,6 +177,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.3.1"
+  eo_color:
+    dependency: transitive
+    description:
+      name: eo_color
+      sha256: ac7210d3d77b896203c6bd895aaa05af4830b9429ffe466b1da79a3e007371a9
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.2.1"
   fake_async:
     dependency: transitive
     description:
@@ -206,6 +214,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_brand_palettes:
+    dependency: "direct main"
+    description:
+      name: flutter_brand_palettes
+      sha256: "67bbc6a2f9f8d051e2536d2c62d81ccdbc63b6ac55cfa4d0d2ec8b7e6c2a912a"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.5.1"
   flutter_lints:
     dependency: "direct dev"
     description:
@@ -219,6 +235,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  font_awesome_flutter:
+    dependency: "direct main"
+    description:
+      name: font_awesome_flutter
+      sha256: "959ef4add147753f990b4a7c6cccb746d5792dbdc81b1cde99e62e7edb31b206"
+      url: "https://pub.dev"
+    source: hosted
+    version: "10.4.0"
   frontend_server_client:
     dependency: transitive
     description:
@@ -530,4 +554,4 @@ packages:
     version: "3.1.2"
 sdks:
   dart: ">=3.0.3 <4.0.0"
-  flutter: ">=0.1.2"
+  flutter: ">=1.17.0"
