@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/model/user.dart';
 import 'package:flutter_brand_palettes/palettes.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
 const _blue = Facebook.blue();
 class Post{
   final iD;
@@ -37,19 +38,35 @@ class Comment{
 }
 
 
-class Posts extends StatelessWidget {
-  const Posts({super.key, required this.data});
+class Posts extends StatefulWidget {
+  const Posts({Key? key, required this.data}) : super(key: key);
   final Post data;
+  State<Posts> createState() => _PostsState();
+  
+}
+class _PostsState extends State<Posts>{
+  var containerColor = Color.fromARGB(255, 255, 255, 255);
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.symmetric(vertical: 5.0),
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
-      color: Color.fromARGB(255, 255, 255, 255)
-      
+    return Material(
+      color: Colors.transparent,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 8.0),
+        child: InkWell(
+          onTap: () => setState(() {
+            Navigator.of(context).pushNamed('/posts',
+            arguments: widget.data);
+          }),
+          child: Ink(
+            height: 100,
+            color: containerColor,
+          ),
+        ),
+      ),
     );
   }
 }
+
 
 
 
@@ -167,6 +184,7 @@ class Postpage extends StatelessWidget{
     return Scaffold(
         appBar: AppBar(
           title: const  Text('Feed name'),
+          foregroundColor: Colors.white,
           actions: const <Widget>[
             Icon(
             Icons.search,
@@ -186,8 +204,7 @@ class Postpage extends StatelessWidget{
             ],
           ),
         ),
-      ),
-    );
+      );
   }
   Column _builButton(Color color, IconData icon, String label) {
     return Column(
