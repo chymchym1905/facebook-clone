@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/model/user.dart';
 import 'package:flutter_brand_palettes/palettes.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:flutter_application_1/main.dart';
+import 'package:lorem_ipsum_generator/lorem_ipsum_generator.dart';
+
 
 const _blue = Facebook.blue();
 class Post{
@@ -16,7 +19,7 @@ class Post{
   final shares;
   Comment? comment;
 
-
+  List<String>? get getImage => imageUrl;
   Post({
     required this.iD,
     required this.user,
@@ -36,7 +39,6 @@ class Comment{
 
   Comment({required this.postID, required this.username, required this.content});
 }
-
 
 class Posts extends StatefulWidget {
   const Posts({Key? key, required this.data}) : super(key: key);
@@ -70,9 +72,14 @@ class _PostsState extends State<Posts>{
 
 
 
-class Postpage extends StatelessWidget{
-  const Postpage({super.key, required this.data});
+class Postpage extends StatefulWidget{
+  const Postpage({Key? key, required this.data}) : super(key:key);
   final Post data;
+  
+  @override
+  State<Postpage> createState() => _PostPageState() ;
+}
+class _PostPageState extends State<Postpage>{
   @override
   Widget build(BuildContext context){
     Widget pagename = Container(
@@ -96,24 +103,18 @@ class Postpage extends StatelessWidget{
               children: [
                 Container(
                   margin: const EdgeInsets.only(bottom: 5),
-                  child: const Text(
+                  child: Text(
                     'Page name',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 15,
-                    ),
+                    style: Theme.of(context).textTheme.titleMedium,
                   ),
                 ),
-                const Row(
+                Row(
                   children: [
                     Text(
                       'Time ·',
-                      style: TextStyle(
-                        color: Colors.grey,
-                        fontSize: 12,
-                      ),
+                      style: Theme.of(context).textTheme.labelSmall
                     ),
-                    Icon(
+                    const Icon(
                       Icons.public,
                       size: 10,
                       color: Colors.grey,
@@ -133,14 +134,13 @@ class Postpage extends StatelessWidget{
         ],
       ),
     );
-    Widget textfeed = const Padding(
-      padding: EdgeInsets.symmetric(horizontal: 10,vertical: 10),
+    Widget textfeed = Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 10),
       child: Text(
-        'Text.........................',
-        style: TextStyle(
-          color: Colors.white,
-        ),
-      ),
+        LoremIpsumGenerator.generate(paragraphs: 2),
+        style: Theme.of(context).textTheme.labelLarge,
+      )
+      ,
     );
     Widget buttonSection = Container(
       decoration: const BoxDecoration(
@@ -173,38 +173,36 @@ class Postpage extends StatelessWidget{
             ),
           ),
         ),
-        const Text(
+        Text(
           'Number',
-          style: TextStyle(
-            color: Colors.grey,
-          ),
+          style: Theme.of(context).textTheme.labelSmall,
         ),
       ],
     );
-    return Scaffold(
-        appBar: AppBar(
-          title: const  Text('Feed name'),
-          foregroundColor: Colors.white,
-          actions: const <Widget>[
-            Icon(
-            Icons.search,
-            size: 25,
-            ),
-          ],
-          backgroundColor: Colors.black,
-        ),
-        body: Ink(
-          color: Colors.black,
-          child: ListView(
-            children: [
-              pagename,
-              textfeed,
-              buttonSection,
-              iconSection,
+    return MaterialApp(
+      theme: themeManager.themeMode,
+      home: Scaffold(
+          appBar: AppBar(
+            title: const  Text('Feed name'),
+            actions: const <Widget>[
+              Icon(
+              Icons.search,
+              size: 25,
+              ),
             ],
           ),
+          body: Ink(
+            child: ListView(
+              children: [
+                pagename,
+                textfeed,
+                buttonSection,
+                iconSection,
+              ],
+            ),
+          ),
         ),
-      );
+    );
   }
   Column _builButton(Color color, IconData icon, String label) {
     return Column(
@@ -212,11 +210,10 @@ class Postpage extends StatelessWidget{
       mainAxisSize: MainAxisSize.min,
       children: [
         Row(
+          
           children: [
             TextButton.icon(
-            onPressed: () {
-             
-            }, 
+            onPressed: (){},
             icon: Icon(
               icon,
               size: 22,
@@ -224,7 +221,7 @@ class Postpage extends StatelessWidget{
             ),
             label: Text(
               label,
-              style: TextStyle(color: color),
+              style: Theme.of(context).textTheme.labelSmall,
             ),
             ),
           ], 
