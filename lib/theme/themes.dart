@@ -6,18 +6,24 @@ ThemeData light = ThemeData(
   scaffoldBackgroundColor: Color.fromARGB(235, 255, 255, 255),
   textTheme: const TextTheme(
     titleLarge: TextStyle(//feed name
-      letterSpacing: -1.0
+      letterSpacing: -1.0,
+      color: Colors.black,
     ),
     labelSmall: TextStyle( //likes
       color: Colors.grey,
       letterSpacing: -0.2,
     ),
     labelLarge: TextStyle( //content
+      color: Colors.black,
       letterSpacing: -0.8
     ),
     titleMedium: TextStyle( //Poster
       letterSpacing: -1.0
-    )
+    ),
+    bodySmall: TextStyle(
+      color: Color.fromARGB(255, 49, 48, 48),
+      letterSpacing: -0.2,
+    ),
   ),
   appBarTheme: const AppBarTheme(
       backgroundColor: Color.fromARGB(255, 255, 255, 255),
@@ -45,8 +51,10 @@ ThemeData dark = ThemeData(
     // labelMedium: TextStyle(
     //   color: Colors.black,
     // ),
+    
     titleLarge: TextStyle(//feed name
-      letterSpacing: -1.0
+      letterSpacing: -1.0,
+      color: Colors.white,
     ),
     labelSmall: TextStyle( //likes
       color: Colors.grey,
@@ -59,7 +67,11 @@ ThemeData dark = ThemeData(
     titleMedium: TextStyle( //Poster
       color: Color.fromRGBO(255, 255, 255, 1),
       letterSpacing: -1.0
-    )
+    ),
+    bodySmall: TextStyle(
+      color: Color.fromARGB(255, 255, 255, 255),
+      letterSpacing: -0.2,
+    ),
   ),
   appBarTheme: const AppBarTheme(
     backgroundColor: Color.fromARGB(255, 38, 38, 38),
@@ -69,7 +81,7 @@ ThemeData dark = ThemeData(
     unselectedLabelColor: Color.fromRGBO(121, 123, 125, 1),
     dividerColor: Color.fromRGBO(59, 127, 210, 1),
     labelColor: Color.fromRGBO(59, 127, 210, 1),
-  )
+  ),
 
 );
 

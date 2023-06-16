@@ -1,5 +1,6 @@
 import 'package:flutter_application_1/model/user.dart';
 import 'package:flutter_application_1/model/posts.dart';
+import 'package:flutter_application_1/model/comments.dart';
 
 final User currentUser = User(
   name: '你好',
@@ -178,8 +179,8 @@ final List<Post> posts = [
 ];
 
 // final Comment<List> = [];
-final List<Comment> commentLi = [
-    Comment(
+final List<Comment1> commentLi = [
+    Comment1(
       postID: 1,
       content: 'Nice',
       username: 'Danny',
@@ -187,7 +188,7 @@ final List<Comment> commentLi = [
       react: 5,
       timeAgo: '5d',
     ),
-    Comment(
+    Comment1(
       postID: 2,
       content: 'Bad',
       username: 'ABC',
