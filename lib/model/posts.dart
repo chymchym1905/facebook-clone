@@ -1,19 +1,21 @@
-
+import 'package:comment_tree/comment_tree.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/data/data.dart';
 import 'package:flutter_application_1/model/user.dart';
 import 'package:flutter_brand_palettes/palettes.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'fb_reaction_box.dart';
 
 const _blue = Facebook.blue();
 class Post{
-  final iD;
+  final int iD;
   User user;
   String caption;
   String timeAgo;
   List<String>? imageUrl;
-  final likes;
-  final comments;
-  final shares;
+  final int likes;
+  final int comments;
+  final int shares;
   Comment? comment;
 
 
@@ -30,13 +32,22 @@ class Post{
 }
 
 class Comment{
-  final postID;
+  final double postID;
+  final double react;
+  String timeAgo;
   String username;
-  String  content;
+  String content;
+  String imageUrl;
 
-  Comment({required this.postID, required this.username, required this.content});
+  Comment({
+    required this.postID, 
+    required this.username, 
+    required this.content, 
+    required this.react, 
+    required this.imageUrl,
+    required this.timeAgo
+  });
 }
-
 
 class Posts extends StatefulWidget {
   const Posts({Key? key, required this.data}) : super(key: key);
@@ -45,7 +56,7 @@ class Posts extends StatefulWidget {
   
 }
 class _PostsState extends State<Posts>{
-  var containerColor = Color.fromARGB(255, 255, 255, 255);
+  var containerColor = const Color.fromARGB(255, 255, 255, 255);
   @override
   Widget build(BuildContext context) {
     return Material(
@@ -146,13 +157,13 @@ class Postpage extends StatelessWidget{
       decoration: const BoxDecoration(
         border: Border(bottom: BorderSide(color: Colors.grey))
       ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          _builButton(Colors.grey, Icons.thumb_up_off_alt, 'Like'),
-          _builButton(Colors.grey, FontAwesomeIcons.message, 'Comment'),
-          _builButton(Colors.grey, FontAwesomeIcons.share, 'Share'),
-        ],
+      child:Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            _builButton(Colors.grey, Icons.thumb_up_off_alt, 'Like'),
+            _builButton(Colors.grey, FontAwesomeIcons.message, 'Comment'),
+            _builButton(Colors.grey, FontAwesomeIcons.share, 'Share'),
+          ],
       ),
     );
     Widget iconSection = Row(
@@ -181,6 +192,135 @@ class Postpage extends StatelessWidget{
         ),
       ],
     );
+    Widget commentSection(data) {
+      return Container(
+        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+        child: CommentTreeWidget<Comment, Comment>(
+          data[0],
+          [
+            for(int i = 0; i <data.length; i+=1)
+              data[i]
+          ],  
+          treeThemeData: const TreeThemeData(lineColor: Colors.grey, lineWidth: 3),
+          avatarRoot: (context, data) => PreferredSize(
+            preferredSize: const Size.fromRadius(18),
+            child: CircleAvatar(
+              radius: 18,
+              backgroundColor: Colors.grey,
+              backgroundImage: NetworkImage(data.imageUrl),
+            ),
+          ),
+          avatarChild: (context, data) => PreferredSize(
+             preferredSize: const Size.fromRadius(12),
+            child: CircleAvatar(
+              radius: 12,
+              backgroundColor: Colors.grey,
+              backgroundImage:NetworkImage(data.imageUrl),
+            ),
+          ),
+          contentChild: (context, data) {
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
+                  decoration: BoxDecoration(
+                      color: Colors.grey[700],
+                      borderRadius: BorderRadius.circular(12)),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        data.username,
+                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                            fontWeight: FontWeight.w600, color: Colors.white),
+                      ),
+                      const SizedBox(
+                        height: 4,
+                      ),
+                      Text(
+                        data.content,
+                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                            fontWeight: FontWeight.w300, color: Colors.white),
+                      ),
+                    ],
+                  ),
+                ),
+                DefaultTextStyle(
+                  style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                      color: Colors.grey[700], fontWeight: FontWeight.bold),
+                  child: const Padding(
+                    padding:  EdgeInsets.only(top: 4),
+                    child: Row(
+                      children: [
+                        SizedBox(
+                          width: 8,
+                        ),
+                        Text('Like'),
+                        SizedBox(
+                          width: 15,
+                        ),
+                        Text('Reply'),
+                      ],
+                    ),
+                  ),
+                )
+              ],
+            );
+          },
+          contentRoot: (context, data) {
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
+                  decoration: BoxDecoration(
+                      color: Colors.grey[700],
+                      borderRadius: BorderRadius.circular(12)),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        data.username,
+                        style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                            fontWeight: FontWeight.w600, color: Colors.white),
+                      ),
+                      const SizedBox(
+                        height: 4,
+                      ),
+                      Text(
+                        data.content,
+                        style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                            fontWeight: FontWeight.w300, color: Colors.white),
+                      ),
+                    ],
+                  ),
+                ),
+                DefaultTextStyle(
+                  style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                      color: Colors.grey[700], fontWeight: FontWeight.bold),
+                  child: const Padding(
+                    padding: EdgeInsets.only(top: 4),
+                    child: Row(
+                      children: [
+                        SizedBox(
+                          width: 8,
+                        ),
+                        Text('Like'),
+                        SizedBox(
+                          width: 15,
+                        ),
+                        Text('Reply'),
+                      ],
+                    ),
+                  ),
+                )
+              ],
+            );
+          },
+        ),
+      );
+    }
     return Scaffold(
         appBar: AppBar(
           title: const  Text('Feed name'),
@@ -201,6 +341,7 @@ class Postpage extends StatelessWidget{
               textfeed,
               buttonSection,
               iconSection,
+              commentSection(commentLi),
             ],
           ),
         ),

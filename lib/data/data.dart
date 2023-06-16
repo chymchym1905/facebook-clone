@@ -178,3 +178,22 @@ final List<Post> posts = [
 ];
 
 // final Comment<List> = [];
+final List<Comment> commentLi = [
+    Comment(
+      postID: 1,
+      content: 'Nice',
+      username: 'Danny',
+      imageUrl: 'https://www.tutorialkart.com/img/hummingbird.png',
+      react: 5,
+      timeAgo: '5d',
+    ),
+    Comment(
+      postID: 2,
+      content: 'Bad',
+      username: 'ABC',
+      imageUrl: 'https://www.tutorialkart.com/img/hummingbird.png',
+      react: 5,
+      timeAgo: '6h',
+    ),
+   
+];

@@ -6,23 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:path_provider/path_provider.dart';
 
-class FbReactionBox extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          'FB REACTION',
-          style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
-        ),
-        centerTitle: true,
-      ),
-      body: FbReaction(),
-    );
-  }
-}
-
 class FbReaction extends StatefulWidget {
+  const FbReaction({super.key});
   @override
   createState() => FbReactionState();
 }
@@ -364,11 +349,6 @@ class FbReactionState extends State<FbReaction> with TickerProviderStateMixin {
       onHorizontalDragUpdate: onHorizontalDragUpdateBoxIcon,
       child: Column(
         children: <Widget>[
-          // Just a top space
-          const SizedBox(
-            width: double.infinity,
-            height: 100.0,
-          ),
 
           // main content
           Container(
@@ -816,7 +796,6 @@ class FbReactionState extends State<FbReaction> with TickerProviderStateMixin {
         color: Colors.white,
         border: Border.all(color: getColorBorderBtn()),
       ),
-      margin: const EdgeInsets.only(top: 190.0),
       child: GestureDetector(
         onTapDown: onTapDownBtn,
         onTapUp: onTapUpBtn,
@@ -1229,10 +1208,11 @@ class FbReactionState extends State<FbReaction> with TickerProviderStateMixin {
     await audioPlayer.stop();
     final file = File('${(await getTemporaryDirectory()).path}/$nameSound');
     await file.writeAsBytes((await loadAsset(nameSound)).buffer.asUint8List());
-    await audioPlayer.play(file.path, isLocal: true);
+    // await audioPlayer.play(file.path, isLocal: true);
   }
 
   Future loadAsset(String nameSound) async {
     return await rootBundle.load('sounds/$nameSound');
   }
 }
+
