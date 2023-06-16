@@ -52,9 +52,11 @@ ThemeData dark = ThemeData(
       letterSpacing: -0.2,
     ),
     labelLarge: TextStyle( //content
+      color: Color.fromRGBO(255, 255, 255, 1),
       letterSpacing: -0.2
     ),
     titleMedium: TextStyle( //Poster
+      color: Color.fromRGBO(255, 255, 255, 1),
       letterSpacing: -0.3
     )
   ),

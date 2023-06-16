@@ -55,9 +55,9 @@ class _HomeState extends State<Home>{
               return [
                 SliverAppBar(
                   leading: IconButton(
-                    selectedIcon: Icon(Icons.menu_open_outlined),
+                    selectedIcon: const Icon(Icons.menu_open_outlined),
                     onPressed: () {  },
-                    icon: Icon(Icons.menu)
+                    icon: const Icon(Icons.menu)
                   ),
                   pinned: true,
                   floating: true,
@@ -66,10 +66,10 @@ class _HomeState extends State<Home>{
                     Switch(value: themeManager.themeMode == dark, onChanged:(value) => themeManager.toggleTheme(value)),
                     IconButton(
                         onPressed: () {},
-                        icon: Icon(Icons.add)),
+                        icon: const Icon(Icons.add)),
                     IconButton(
                         onPressed: () {},
-                        icon: Icon(Icons.search)),
+                        icon: const Icon(Icons.search)),
                   ],
                   expandedHeight: MediaQuery.of(context).size.height * 0.15,
                   title: const Text('Feed'),
