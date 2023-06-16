@@ -18,9 +18,9 @@ class RouteGenerator {
         if(args is String){
           return MaterialPageRoute(builder: (_) => Watch(data: args));
         }
-      case 'posts':
+      case '/posts':
         if(args is Post){
-          return MaterialPageRoute(builder: (_) => Posts(data: args));
+          return MaterialPageRoute(builder: (_) => Postpage(data: args));
         }
       default:
         return _errorRoute();
