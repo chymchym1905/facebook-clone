@@ -1,4 +1,4 @@
-
+import 'package:flutter_application_1/theme/themes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/model/user.dart';
 import 'package:flutter_brand_palettes/palettes.dart';
@@ -47,12 +47,9 @@ class Posts extends StatefulWidget {
   
 }
 class _PostsState extends State<Posts>{
-  var containerColor = Color.fromARGB(255, 255, 255, 255);
   @override
   Widget build(BuildContext context) {
-    return Material(
-      color: Colors.transparent,
-      child: Padding(
+    return Padding(
         padding: const EdgeInsets.symmetric(vertical: 8.0),
         child: InkWell(
           onTap: () => setState(() {
@@ -61,10 +58,9 @@ class _PostsState extends State<Posts>{
           }),
           child: Ink(
             height: 100,
-            color: containerColor,
+            color: themeManager.themeMode == dark? Color.fromARGB(255, 38, 38, 38) : Color.fromARGB(255, 255, 255, 255),
           ),
         ),
-      ),
     );
   }
 }
@@ -125,6 +121,7 @@ class _PostPageState extends State<Postpage>{
             )
           ),
           IconButton(
+            splashRadius: MediaQuery.of(context).size.width*0.07,
             icon: const Icon(Icons.more_horiz),
             iconSize: 20,
             color: Colors.grey,
@@ -182,24 +179,27 @@ class _PostPageState extends State<Postpage>{
     return MaterialApp(
       theme: themeManager.themeMode,
       home: Scaffold(
+          backgroundColor:themeManager.themeMode == dark ? const Color.fromARGB(255, 38, 38, 38):Colors.white,
           appBar: AppBar(
-            title: const  Text('Feed name'),
-            actions: const <Widget>[
-              Icon(
-              Icons.search,
-              size: 25,
-              ),
+            elevation: 0,
+            leading: IconButton(
+            splashRadius: MediaQuery.of(context).size.width*0.07,
+            icon: const Icon(Icons.arrow_back),
+            onPressed: () => Navigator.pop(context, false),
+          ),
+            title: Text('Feed name',
+            style: Theme.of(context).textTheme.titleLarge),
+            actions: [
+               IconButton(onPressed: () {},icon: const Icon(Icons.search), splashRadius: MediaQuery.of(context).size.width*0.07),
             ],
           ),
-          body: Ink(
-            child: ListView(
+          body: ListView(
               children: [
                 pagename,
                 textfeed,
                 buttonSection,
                 iconSection,
               ],
-            ),
           ),
         ),
     );

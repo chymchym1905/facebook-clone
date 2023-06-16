@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-
+import 'package:fluttericon/octicons_icons.dart';
 import 'package:flutter_application_1/model/posts.dart';
 import 'routesettings.dart';
 import 'data/data.dart';
 import 'theme/themes.dart';
+import 'model/navigation.dart';
 
 
 void main() {
@@ -48,44 +49,55 @@ class _HomeState extends State<Home>{
       initialRoute: '/',
       onGenerateRoute: RouteGenerator.generateRoute,
       home: Scaffold(
+        drawer: NavBar(),
         body: DefaultTabController(
           length: 3,
           child: NestedScrollView(
             headerSliverBuilder: (context,value){
               return [
                 SliverAppBar(
+                  // leadingWidth: MediaQuery.of(context).size.width*0.1,
                   leading: IconButton(
-                    selectedIcon: const Icon(Icons.menu_open_outlined),
-                    onPressed: () {  },
-                    icon: const Icon(Icons.menu)
+                    // iconSize: MediaQuery.of(context).size.width*0.08,
+                    splashRadius: MediaQuery.of(context).size.width*0.07,
+                    onPressed: () {Scaffold.of(context).openDrawer(); },
+                    icon: const Icon(Octicons.three_bars),
+                    
                   ),
                   pinned: true,
+                  titleSpacing: MediaQuery.of(context).size.width*-0.01,
                   floating: true,
                   snap: true,
                   actions: [
-                    Switch(value: themeManager.themeMode == dark, onChanged:(value) => themeManager.toggleTheme(value)),
+                    Switch(value: themeManager.themeMode == dark, 
+                    onChanged:(value) => themeManager.toggleTheme(value),
+                    activeColor: const Color.fromARGB(255, 255, 255, 255)),
                     IconButton(
+                        splashRadius: MediaQuery.of(context).size.width*0.07,
                         onPressed: () {},
                         icon: const Icon(Icons.add)),
                     IconButton(
+                        splashRadius: MediaQuery.of(context).size.width*0.07,
                         onPressed: () {},
                         icon: const Icon(Icons.search)),
                   ],
-                  expandedHeight: MediaQuery.of(context).size.height * 0.15,
-                  title: const Text('Feed'),
+                  // expandedHeight: MediaQuery.of(context).size.height * 0.15,
+                  title: Text(
+                    'fakebook',
+                    style:TextStyle(
+                    color:  themeManager.themeMode == dark? const Color.fromARGB(255, 255, 255, 255): const Color.fromRGBO(59, 127, 210, 1),
+                    letterSpacing: -1.2,
+                  )),
                   bottom: const TabBar(
                     tabs: [
                       Tab(
                         icon: Icon(Icons.home),
-                        text: 'Home',
                       ),
                       Tab(
                         icon: Icon(Icons.people_alt_outlined),
-                        text: 'Friends',
                       ),
                       Tab(
                         icon: Icon(Icons.video_collection_rounded),
-                        text: 'Watch',
                       ),
                     ],
                   ),
