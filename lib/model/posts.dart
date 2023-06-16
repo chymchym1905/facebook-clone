@@ -1,10 +1,11 @@
-import 'package:comment_tree/comment_tree.dart';import 'package:flutter_application_1/theme/themes.dart';
+import 'package:comment_tree/comment_tree.dart';
+import 'package:flutter_application_1/theme/themes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/data/data.dart';
 import 'package:flutter_application_1/model/user.dart';
 import 'package:flutter_brand_palettes/palettes.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'fb_reaction_box.dart';
+// import 'fb_reaction_box.dart';
 import 'package:flutter_application_1/main.dart';
 import 'package:lorem_ipsum_generator/lorem_ipsum_generator.dart';
 
@@ -319,18 +320,15 @@ class _PostPageState extends State<Postpage>{
     }
     return Scaffold(
         appBar: AppBar(
-          title: const  Text('Feed name'),
-          foregroundColor: Colors.white,
-          actions: const <Widget>[
-            Icon(
-            Icons.search,
-            size: 25,
-            ),
+          title: Text('Feed name',
+          style: Theme.of(context).textTheme.titleLarge),
+          actions: [
+            IconButton(splashRadius: MediaQuery.of(context).size.width*0.07,
+                        onPressed: () {},
+                        icon: const Icon(Icons.search))
           ],
-          backgroundColor: Colors.black,
         ),
         body: Ink(
-          color: Colors.black,
           child: ListView(
             children: [
               pagename,
