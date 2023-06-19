@@ -5,6 +5,7 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:indexed/indexed.dart';
 
 class FbReaction extends StatefulWidget {
   const FbReaction({super.key});
@@ -349,7 +350,6 @@ class FbReactionState extends State<FbReaction> with TickerProviderStateMixin {
       onHorizontalDragUpdate: onHorizontalDragUpdateBoxIcon,
       child: Column(
         children: <Widget>[
-
           // main content
           Container(
             margin: const EdgeInsets.only(left: 20.0, right: 20.0),
@@ -537,6 +537,17 @@ class FbReactionState extends State<FbReaction> with TickerProviderStateMixin {
         children: <Widget>[
           // icon like
           Transform.scale(
+            scale: isDragging
+                ? (currentIconFocus == 1
+                    ? this.zoomIconChosen.value
+                    : (previousIconFocus == 1
+                        ? this.zoomIconNotChosen.value
+                        : isJustDragInside
+                            ? this.zoomIconWhenDragInside.value
+                            : 0.8))
+                : isDraggingOutside
+                    ? this.zoomIconWhenDragOutside.value
+                    : this.zoomIconLike.value,
             child: Container(
               margin: EdgeInsets.only(bottom: pushIconLikeUp.value),
               width: 40.0,

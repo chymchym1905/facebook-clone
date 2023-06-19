@@ -1,4 +1,5 @@
 import 'package:comment_tree/comment_tree.dart';
+import 'package:flutter_application_1/model/fb_reaction_box.dart';
 import 'package:flutter_application_1/theme/themes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/data/data.dart';
@@ -246,18 +247,22 @@ class _PostPageState extends State<Postpage>{
                 DefaultTextStyle(
                   style: Theme.of(context).textTheme.bodySmall!.copyWith(
                       color: Colors.grey[700], fontWeight: FontWeight.bold),
-                  child: const Padding(
-                    padding:  EdgeInsets.only(top: 4),
+                  child: Padding(
+                    padding:  const EdgeInsets.only(top: 4),
                     child: Row(
                       children: [
-                        SizedBox(
+                        const SizedBox(
                           width: 8,
                         ),
-                        Text('Like'),
-                        SizedBox(
+                        Text(data.timeAgo),
+                        const SizedBox(
                           width: 15,
                         ),
-                        Text('Reply'),
+                        const Text('Like'),
+                        const SizedBox(
+                          width: 15,
+                        ),
+                        const Text('Reply'),
                       ],
                     ),
                   ),
@@ -296,18 +301,22 @@ class _PostPageState extends State<Postpage>{
                 DefaultTextStyle(
                   style: Theme.of(context).textTheme.bodySmall!.copyWith(
                       color: Colors.grey[700], fontWeight: FontWeight.bold),
-                  child: const Padding(
-                    padding: EdgeInsets.only(top: 4),
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 4),
                     child: Row(
                       children: [
-                        SizedBox(
+                        const SizedBox(
                           width: 8,
                         ),
-                        Text('Like'),
-                        SizedBox(
+                        Text(data.timeAgo),
+                        const SizedBox(
                           width: 15,
                         ),
-                        Text('Reply'),
+                        const Text('Like'),
+                        const SizedBox(
+                          width: 15,
+                        ),
+                        const Text('Reply'),
                       ],
                     ),
                   ),
@@ -318,6 +327,7 @@ class _PostPageState extends State<Postpage>{
         ),
       );
     }
+
     return Scaffold(
         appBar: AppBar(
           title: Text('Feed name',
@@ -332,7 +342,7 @@ class _PostPageState extends State<Postpage>{
           child: ListView(
             children: [
               pagename,
-              textfeed,
+              textfeed,  
               buttonSection,
               iconSection,
               commentSection(commentLi),
