@@ -109,8 +109,9 @@ class _HomeState extends State<Home>{
                  ListView(
                    padding: const EdgeInsets.symmetric(vertical: 5.0),
                    children: [
-                       for (int index = 0; index < posts.length; index += 1)
-                         Posts(data: posts [index])
+                        for (int index = 0; index < posts.length; index += 1) 
+                          if ((posts[index].visibility is! Private))
+                            Posts(data: posts[index]),                   
                      ],
                      ),
                  ListView(
@@ -133,4 +134,8 @@ class _HomeState extends State<Home>{
         ),
     );
   }
+}
+
+void insertPost(){
+  
 }

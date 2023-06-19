@@ -1,4 +1,4 @@
-import 'package:lorem_ipsum_generator/lorem_ipsum_generator.dart';
+// import 'package:lorem_ipsum_generator/lorem_ipsum_generator.dart';
 import 'package:flutter_application_1/data/data.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter/material.dart';
@@ -24,14 +24,14 @@ class _PostPageState extends State<Postpage>{
       margin: const EdgeInsets.all(10),
       child: Row(
         children: [
-          const Padding(
-            padding: EdgeInsets.only(right: 10),
+          Padding(
+            padding: const EdgeInsets.only(right: 10),
             child: SizedBox(
               width: 50,
               height: 50,
               child: CircleAvatar(
                 radius: 120,
-                backgroundImage: NetworkImage('https://www.tutorialkart.com/img/hummingbird.png'),
+                backgroundImage: NetworkImage(widget.data.user.imageUrl),
               ),
             ),
           ), 
@@ -42,14 +42,14 @@ class _PostPageState extends State<Postpage>{
                 Container(
                   margin: const EdgeInsets.only(bottom: 5),
                   child: Text(
-                    'Page name',
+                    widget.data.user.name,
                     style: Theme.of(context).textTheme.titleMedium,
                   ),
                 ),
                 Row(
                   children: [
                     Text(
-                      'Time ·',
+                      '${widget.data.timeAgo} ·',
                       style: Theme.of(context).textTheme.labelSmall
                     ),
                     const Icon(
@@ -76,7 +76,7 @@ class _PostPageState extends State<Postpage>{
     Widget textfeed = Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 10),
       child: Text(
-        LoremIpsumGenerator.generate(paragraphs: 2),
+        widget.data.caption,
         style: Theme.of(context).textTheme.labelLarge,
       )
       ,
@@ -84,7 +84,6 @@ class _PostPageState extends State<Postpage>{
     Widget buttonSection = Container(
       decoration: const BoxDecoration(
         border: Border(
-
           bottom: BorderSide(color: Colors.grey, width:0.2 ))
       ),
       child:Row(
@@ -115,7 +114,7 @@ class _PostPageState extends State<Postpage>{
           ),
         ),
         Text(
-          'Number',
+          widget.data.likes.toString(),
           style: Theme.of(context).textTheme.labelSmall,
         ),
       ],
@@ -132,7 +131,7 @@ class _PostPageState extends State<Postpage>{
               icon: const Icon(Icons.arrow_back),
               onPressed: () => Navigator.pop(context, false)
             ),
-            title: Text('Feed name',
+            title: Text(widget.data.user.name,
             style: Theme.of(context).textTheme.titleLarge),
             actions: [
                IconButton(onPressed: () {},icon: const Icon(Icons.search), splashRadius: MediaQuery.of(context).size.width*0.07),

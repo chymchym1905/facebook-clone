@@ -20,9 +20,8 @@ class _CommentSectionState extends State<CommentSection> {
           widget.data[0],
           [
             for(int i = 0; i <widget.data.length; i+=1)
-              widget.data[i]
+              widget.data[i],
           ],  
-         
           avatarRoot: (context, data) => PreferredSize(
             preferredSize: const Size.fromRadius(18),
             child: CircleAvatar(
