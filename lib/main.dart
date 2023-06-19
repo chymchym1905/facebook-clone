@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:fluttericon/octicons_icons.dart';
-import 'package:flutter_application_1/model/posts.dart';
+import 'package:flutter_application_1/model/post_class.dart';
 import 'routesettings.dart';
 import 'data/data.dart';
 import 'theme/themes.dart';
-import 'model/navigation.dart';
+import 'widgets/drawer.dart';
+import 'widgets/post_card_container.dart';
 
 
 void main() {

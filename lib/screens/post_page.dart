@@ -2,11 +2,11 @@
 import 'package:flutter_application_1/data/data.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter/material.dart';
-import '/model/posts.dart';
+import '../model/post_class.dart';
 import 'package:flutter_application_1/main.dart';
 import 'package:flutter_application_1/theme/themes.dart';
 import 'package:flutter_brand_palettes/palettes.dart';
-import 'comment.dart';
+import '../widgets/comment_widget.dart';
 
 
 const _blue = Facebook.blue();

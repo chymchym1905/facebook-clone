@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/model/comments.dart';
+import 'package:flutter_application_1/model/comment_class.dart';
 import 'package:comment_tree/comment_tree.dart';
 import 'package:flutter_application_1/main.dart';
 import 'package:flutter_application_1/theme/themes.dart';

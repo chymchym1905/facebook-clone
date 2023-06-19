@@ -1,6 +1,6 @@
-import 'package:flutter_application_1/model/user.dart';
-import 'package:flutter_application_1/model/posts.dart';
-import 'package:flutter_application_1/model/comments.dart';
+import 'package:flutter_application_1/model/user_class.dart';
+import 'package:flutter_application_1/model/post_class.dart';
+import 'package:flutter_application_1/model/comment_class.dart';
 
 final User currentUser = User(
   name: 'Lim Clara',
