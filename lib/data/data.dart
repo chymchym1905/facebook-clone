@@ -196,5 +196,12 @@ final List<Comment1> commentLi = [
       react: 5,
       timeAgo: '6h',
     ),
-   
+   Comment1(
+      postID: 2,
+      content: 'Bad',
+      username: 'ABC',
+      imageUrl: 'https://www.tutorialkart.com/img/hummingbird.png',
+      react: 5,
+      timeAgo: '6h',
+    ),
 ];

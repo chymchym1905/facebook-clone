@@ -12,6 +12,6 @@ class Comment1{
     required this.content, 
     required this.react, 
     required this.imageUrl,
-    required this.timeAgo
+    required this.timeAgo,
   });
 }

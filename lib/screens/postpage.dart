@@ -1,3 +1,4 @@
+import 'package:flutter_application_1/model/fb_reaction.dart';
 import 'package:lorem_ipsum_generator/lorem_ipsum_generator.dart';
 import 'package:flutter_application_1/data/data.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -90,7 +91,8 @@ class _PostPageState extends State<Postpage>{
       child:Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            _builButton(Colors.grey, Icons.thumb_up_off_alt, 'Like'),
+            // _builButton(Colors.grey, Icons.thumb_up_off_alt, 'Like'),
+            const FbReaction(),
             _builButton(Colors.grey, FontAwesomeIcons.message, 'Comment'),
             _builButton(Colors.grey, FontAwesomeIcons.share, 'Share'),
           ],
@@ -156,19 +158,18 @@ class _PostPageState extends State<Postpage>{
       mainAxisSize: MainAxisSize.min,
       children: [
         Row(
-          
           children: [
             TextButton.icon(
-            onPressed: (){},
-            icon: Icon(
-              icon,
-              size: 22,
-              color: color,
-            ),
-            label: Text(
-              label,
-              style: Theme.of(context).textTheme.labelSmall,
-            ),
+              onPressed: (){},
+              icon: Icon(
+                icon,
+                size: 22,
+                color: color,
+              ),
+              label: Text(
+                label,
+                style: Theme.of(context).textTheme.labelSmall,
+              ),
             ),
           ], 
         )
