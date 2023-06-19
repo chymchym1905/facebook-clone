@@ -1,17 +1,19 @@
+<<<<<<< HEAD
 import 'package:comment_tree/comment_tree.dart';
 import 'package:flutter_application_1/model/fb_reaction_box.dart';
+=======
+
+>>>>>>> origin/main
 import 'package:flutter_application_1/theme/themes.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/data/data.dart';
 import 'package:flutter_application_1/model/user.dart';
-import 'package:flutter_brand_palettes/palettes.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'comments.dart';
 // import 'fb_reaction_box.dart';
 import 'package:flutter_application_1/main.dart';
-import 'package:lorem_ipsum_generator/lorem_ipsum_generator.dart';
 
 
-const _blue = Facebook.blue();
+
+
 class Post{
   final int iD;
   User user;
@@ -21,7 +23,7 @@ class Post{
   final int likes;
   final int comments;
   final int shares;
-  Comment? comment;
+  Comment1? comment;
 
   List<String>? get getImage => imageUrl;
   Post({
@@ -36,23 +38,7 @@ class Post{
 });
 }
 
-class Comment{
-  final double postID;
-  final double react;
-  String timeAgo;
-  String username;
-  String content;
-  String imageUrl;
 
-  Comment({
-    required this.postID, 
-    required this.username, 
-    required this.content, 
-    required this.react, 
-    required this.imageUrl,
-    required this.timeAgo
-  });
-}
 
 class Posts extends StatefulWidget {
   const Posts({Key? key, required this.data}) : super(key: key);
@@ -82,6 +68,7 @@ class _PostsState extends State<Posts>{
 
 
 
+<<<<<<< HEAD
 class Postpage extends StatefulWidget{
   const Postpage({Key? key, required this.data}) : super(key:key);
   final Post data;
@@ -377,3 +364,5 @@ class _PostPageState extends State<Postpage>{
     );
   }
 }
+=======
+>>>>>>> origin/main
