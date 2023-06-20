@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'main.dart';
-import 'model/friends.dart';
-import 'model/posts.dart';
-import 'model/watch.dart';
-import 'screens/postpage.dart';
+import 'screens/friends_page.dart';
+import 'model/post_class.dart';
+import 'screens/watch_page.dart';
+import 'screens/post_page.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings){

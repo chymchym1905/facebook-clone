@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:fluttericon/octicons_icons.dart';
-import 'package:flutter_application_1/model/posts.dart';
+import 'package:flutter_application_1/model/post_class.dart';
 import 'routesettings.dart';
 import 'data/data.dart';
 import 'theme/themes.dart';
-import 'model/navigation.dart';
+import 'widgets/drawer.dart';
+import 'widgets/post_card_container.dart';
 
 
 void main() {
@@ -109,8 +110,9 @@ class _HomeState extends State<Home>{
                  ListView(
                    padding: const EdgeInsets.symmetric(vertical: 5.0),
                    children: [
-                       for (int index = 0; index < posts.length; index += 1)
-                         Posts(data: posts [index])
+                        for (int index = 0; index < posts.length; index += 1) 
+                          if ((posts[index].visibility is! Private))
+                            Posts(data: posts[index]),                   
                      ],
                      ),
                  ListView(
@@ -133,4 +135,8 @@ class _HomeState extends State<Home>{
         ),
     );
   }
+}
+
+void insertPost(){
+  
 }

@@ -68,8 +68,8 @@ flutter:
   uses-material-design: true
   
   assets:
-    - images/
-    - sounds/
+    - assets/images/
+    - assets/sounds/
   # To add assets to your application, add an assets section, like this:
   # assets:
   #   - images/a_dot_burr.jpeg
@@ -89,7 +89,7 @@ flutter:
   fonts:
     - family: HyWenHei
       fonts:
-      - asset: fonts/zh-cn.ttf
+      - asset: assets/fonts/zh-cn.ttf
 
 
   #

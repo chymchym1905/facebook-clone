@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/model/comments.dart';
+import 'package:flutter_application_1/model/comment_class.dart';
 import 'package:comment_tree/comment_tree.dart';
 import 'package:flutter_application_1/main.dart';
 import 'package:flutter_application_1/theme/themes.dart';
@@ -20,9 +20,8 @@ class _CommentSectionState extends State<CommentSection> {
           widget.data[0],
           [
             for(int i = 0; i <widget.data.length; i+=1)
-              widget.data[i]
+              widget.data[i],
           ],  
-         
           avatarRoot: (context, data) => PreferredSize(
             preferredSize: const Size.fromRadius(18),
             child: CircleAvatar(

@@ -1,9 +1,9 @@
-import 'package:flutter_application_1/model/user.dart';
-import 'package:flutter_application_1/model/posts.dart';
-import 'package:flutter_application_1/model/comments.dart';
+import 'package:flutter_application_1/model/user_class.dart';
+import 'package:flutter_application_1/model/post_class.dart';
+import 'package:flutter_application_1/model/comment_class.dart';
 
 final User currentUser = User(
-  name: '你好',
+  name: 'Lim Clara',
   imageUrl:
   'https://images.unsplash.com/photo-1578133671540-edad0b3d689e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1351&q=80',
 );
@@ -119,7 +119,8 @@ final List<Post> posts = [
     imageUrl: ['https://images.unsplash.com/photo-1525253086316-d0c936c814f8'],
     likes: 1202,
     comments: 184,
-    shares: 96,
+    shares: 96, 
+    visibility: Private(),
   ),
   Post(
     iD: 2,
@@ -131,6 +132,7 @@ final List<Post> posts = [
     likes: 683,
     comments: 79,
     shares: 18,
+    visibility: Public(),
   ),
   Post(
     iD: 3,
@@ -142,6 +144,7 @@ final List<Post> posts = [
     likes: 894,
     comments: 201,
     shares: 27,
+    visibility: Public(),
   ),
   Post(
     iD: 3,
@@ -153,6 +156,7 @@ final List<Post> posts = [
     likes: 722,
     comments: 183,
     shares: 42,
+    visibility: Public(),
   ),
   Post(
     iD: 4,
@@ -164,6 +168,7 @@ final List<Post> posts = [
     likes: 482,
     comments: 37,
     shares: 9,
+    visibility: Public(),
   ),
   Post(
     iD: 5,
@@ -175,6 +180,7 @@ final List<Post> posts = [
     likes: 1523,
     shares: 129,
     comments: 301,
+    visibility: Public(),
   )
 ];
 
@@ -187,6 +193,7 @@ final List<Comment1> commentLi = [
       imageUrl: 'https://www.tutorialkart.com/img/hummingbird.png',
       react: 5,
       timeAgo: '5d',
+      
     ),
     Comment1(
       postID: 2,
