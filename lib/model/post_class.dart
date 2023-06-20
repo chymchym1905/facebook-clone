@@ -1,44 +1,47 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
-
-
-
 import 'package:flutter_application_1/model/user_class.dart';
-
-
+import 'package:json_annotation/json_annotation.dart';
 import 'comment_class.dart';
-// import 'fb_reaction_box.dart';
+part 'post_class.g.dart';
 
 
-class Visibility{}
-class Public extends Visibility{}
-class Private extends Visibility{}
+// class Visibility{}
+// class Public extends Visibility{}
+// class Private extends Visibility{}
 
-
+@JsonSerializable()
 class Post {
-  final int iD;
-  User user;
-  String caption;
-  String timeAgo;
-  Visibility visibility;
-  List<String>? imageUrl;
-  final int likes;
-  final int comments;
-  final int shares;
-  Comment1? comment;
-
-  List<String>? get getImage => imageUrl;
-  Post({
-    required this.iD,
-    required this.user,
-    required this.caption,
-    required this.timeAgo,
-    required this.visibility,
-    this.imageUrl,
-    required this.likes,
-    required this.comments,
-    required this.shares,
+    Post(
+    this.id,
+    this.user,
+    this.caption,
+    // this.visibility,
+    this.imageurl,
+    this.likes,
+    this.comments,
+    this.shares,
     this.comment,
-  });
+  );
+  @JsonKey(required: true)
+  String id;
+  @JsonKey(required: true)
+  User user;
+  @JsonKey(required: true)
+  String caption;
+  // TimeElement timeAgo;
+  @JsonKey(required: true)
+  // Visibility visibility;
+  List<String> imageurl;
+  int likes;
+  int comments;
+  int shares;
+  Comment1 comment;
+  factory Post.fromJson(Map<String, dynamic> json) => _$PostFromJson(json);
+
+  /// `toJson` is the convention for a class to declare support for serialization
+  /// to JSON. The implementation simply calls the private, generated
+  /// helper method `_$UserToJson`.
+  Map<String, dynamic> toJson() => _$PostToJson(this);
+
 }
 
 

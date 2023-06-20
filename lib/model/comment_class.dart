@@ -1,17 +1,27 @@
-class Comment1{
-  final double postID;
-  final double react;
-  String timeAgo;
-  String username;
-  String content;
-  String imageUrl;
+// ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:json_annotation/json_annotation.dart';
+part 'comment_class.g.dart';
 
-  Comment1({
-    required this.postID, 
-    required this.username, 
-    required this.content, 
-    required this.react, 
-    required this.imageUrl,
-    required this.timeAgo
-  });
+@JsonSerializable()
+class Comment1 {
+  @JsonKey(required: true)
+  String id;
+  double react;
+  // String timeAgo;
+  @JsonKey(required: true)
+  String username;
+  @JsonKey(required: true)
+  String content;
+  String imageurl;
+  Comment1(
+    this.id,
+    this.react,
+    this.username,
+    this.content,
+    this.imageurl);
+
+  factory Comment1.fromJson(Map<String, dynamic> json) => _$Comment1FromJson(json);
+
+  Map<String, dynamic> toJson() => _$Comment1ToJson(this);
+
 }
