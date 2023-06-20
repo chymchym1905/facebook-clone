@@ -1,44 +1,51 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:json_annotation/json_annotation.dart';
 
-
-
-import 'package:flutter_application_1/model/user_class.dart';
-
-
+import 'user_class.dart';
 import 'comment_class.dart';
-// import 'fb_reaction_box.dart';
 
+part 'post_class.g.dart';
 
 class Visibility{}
 class Public extends Visibility{}
 class Private extends Visibility{}
 
-
+@JsonSerializable()
 class Post {
-  final int iD;
-  User user;
-  String caption;
-  String timeAgo;
-  Visibility visibility;
+  Post(
+    this.iD,
+    this.user,
+    this.caption,
+    this.timeAgo,
+    this.visibility,
+    this.imageUrl,
+    this.likes,
+    this.comments,
+    this.shares,
+    this.comment,
+  );
   List<String>? imageUrl;
-  final int likes;
-  final int comments;
-  final int shares;
+  @JsonKey(required: true)
+  String iD;
+  @JsonKey(required: true)
+  User user;
+   @JsonKey(required: true)
+  String caption;
+   @JsonKey(required: true)
+  String timeAgo;
+   @JsonKey(required: true)
+  Visibility visibility;
+   @JsonKey(required: true)
+  int likes;
+   @JsonKey(required: true)
+  int comments;
+   @JsonKey(required: true)
+  int shares;
+   @JsonKey(required: true)
   Comment1? comment;
 
-  List<String>? get getImage => imageUrl;
-  Post({
-    required this.iD,
-    required this.user,
-    required this.caption,
-    required this.timeAgo,
-    required this.visibility,
-    this.imageUrl,
-    required this.likes,
-    required this.comments,
-    required this.shares,
-    this.comment,
-  });
+  factory Post.fromJson(Map<String, dynamic> json) => _$PostFromJson(json);
+  Map<String, dynamic> toJson() => _$PostToJson(this);
+  
 }
 
 

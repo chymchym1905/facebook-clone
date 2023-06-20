@@ -1,6 +1,4 @@
-
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/data/fakedata.json';
 import 'package:flutter_application_1/theme/themes.dart';
 import 'package:flutter_application_1/main.dart';
 import 'package:flutter_application_1/model/post_class.dart';
