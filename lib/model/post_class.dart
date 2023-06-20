@@ -28,13 +28,17 @@ class Post {
   @JsonKey(required: true)
   String caption;
   // TimeElement timeAgo;
-  @JsonKey(required: true)
+  @JsonKey(required: false)
   // Visibility visibility;
   List<String> imageurl;
-  int likes;
-  int comments;
-  int shares;
-  Comment1 comment;
+
+  int? likes;
+
+  int? comments;
+
+  int? shares;
+
+  Comment1? comment;
   factory Post.fromJson(Map<String, dynamic> json) => _$PostFromJson(json);
 
   /// `toJson` is the convention for a class to declare support for serialization

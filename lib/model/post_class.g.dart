@@ -9,17 +9,19 @@ part of 'post_class.dart';
 Post _$PostFromJson(Map<String, dynamic> json) {
   $checkKeys(
     json,
-    requiredKeys: const ['id', 'user', 'caption', 'imageurl'],
+    requiredKeys: const ['id', 'user', 'caption'],
   );
   return Post(
     json['id'] as String,
     User.fromJson(json['user'] as Map<String, dynamic>),
     json['caption'] as String,
     (json['imageurl'] as List<dynamic>).map((e) => e as String).toList(),
-    json['likes'] as int,
-    json['comments'] as int,
-    json['shares'] as int,
-    Comment1.fromJson(json['comment'] as Map<String, dynamic>),
+    json['likes'] as int?,
+    json['comments'] as int?,
+    json['shares'] as int?,
+    json['comment'] == null
+        ? null
+        : Comment1.fromJson(json['comment'] as Map<String, dynamic>),
   );
 }
 
