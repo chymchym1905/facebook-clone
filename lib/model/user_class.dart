@@ -1,10 +1,22 @@
+import 'package:json_annotation/json_annotation.dart';
 
+part 'user_class.g.dart';
+
+@JsonSerializable()
 class User {
-  final String name;
-  final String imageUrl;
+  User(
+    this.id,
+    this.name,
+    this.imageUrl,
+  );
+  String imageUrl;
 
-  const User({
-    required this.name,
-    required this.imageUrl,
-  });
+  @JsonKey(required: true)
+  String id;
+
+  @JsonKey(required: true)
+  String name;
+
+  factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
+  Map<String, dynamic> toJson() => _$UserToJson(this);
 }
