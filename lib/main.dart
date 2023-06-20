@@ -1,6 +1,10 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:fluttericon/octicons_icons.dart';
 import 'package:flutter_application_1/model/post_class.dart';
+import 'model/user_class.dart';
 import 'routesettings.dart';
 import 'data/data.dart';
 import 'theme/themes.dart';
@@ -72,7 +76,7 @@ class _HomeState extends State<Home>{
                   actions: [
                     Switch(value: themeManager.themeMode == dark, 
                     onChanged:(value) => themeManager.toggleTheme(value),
-                    activeColor: const Color.fromARGB(255, 255, 255, 255)),
+                    activeColor: white),
                     IconButton(
                         splashRadius: MediaQuery.of(context).size.width*0.07,
                         onPressed: () {},
@@ -86,8 +90,7 @@ class _HomeState extends State<Home>{
                   title: Text(
                     'fakebook',
                     style:TextStyle(
-                    color:  themeManager.themeMode == dark? const Color.fromARGB(255, 255, 255, 255): const Color.fromRGBO(59, 127, 210, 1),
-                    letterSpacing: -1.2,
+                    color:  themeManager.themeMode == dark? white:blue,
                   )),
                   bottom: const TabBar(
                     tabs: [
@@ -107,13 +110,39 @@ class _HomeState extends State<Home>{
             },
             body: TabBarView(
                children: [
-                 ListView(
-                   padding: const EdgeInsets.symmetric(vertical: 5.0),
-                   children: [
-                        for (int index = 0; index < posts.length; index += 1) 
-                            Posts(data: posts[index]),                   
-                     ],
-                     ),
+                //  ListView(
+                //     padding: const EdgeInsets.symmetric(vertical: 5.0),
+                //     children: [
+                //         for (int index = 0; index < posts.length; index += 1) 
+                //           if ((posts[index].visibility is! Private))
+                //             Posts(data: posts[index]),                   
+                //     ],
+                //   ),
+                  FutureBuilder(
+                    future: readJsonData(),
+                    builder: (context, data){
+                    if(data.hasError){
+                      return const Center(
+                        child: Text(
+                          'Data Error',
+                          style: TextStyle(
+                            fontSize: 30,
+                          ),
+                        ),
+                      );
+                    } else if(data.hasData){
+                      var items = data.data as List<User>;
+                      return ListView.builder(
+                        itemCount: items.length,
+                        itemBuilder: (context, index){
+                          return Posts(data: items[index]);
+                        },
+                      );
+                    }else{
+                        return const Center(child: CircularProgressIndicator(),);
+                    }
+                  },
+                  ),
                  ListView(
                    padding: const EdgeInsets.symmetric(vertical: 5.0),
                    children: [
@@ -133,6 +162,13 @@ class _HomeState extends State<Home>{
           ),
         ),
     );
+  }
+
+  Future<List<User>>readJsonData() async{
+     final jsondata = await rootBundle.loadString('lib/data/fakedata.json');
+     final list = json.decode(jsondata) as List<dynamic>;
+
+     return list.map((e) => User.fromJson(e)).toList();
   }
 }
 

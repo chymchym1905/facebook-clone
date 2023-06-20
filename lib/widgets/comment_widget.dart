@@ -68,18 +68,22 @@ class _CommentSectionState extends State<CommentSection> {
                 DefaultTextStyle(
                   style: Theme.of(context).textTheme.bodySmall!.copyWith(
                       color: const Color.fromARGB(255, 109, 107, 107), fontWeight: FontWeight.w300),
-                  child: const Padding(
-                    padding:  EdgeInsets.only(top: 4),
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 4),
                     child: Row(
                       children: [
-                        SizedBox(
+                        const SizedBox(
                           width: 8,
                         ),
-                        Text('Like'),
-                        SizedBox(
+                        Text(data.timeAgo),
+                        const SizedBox(
                           width: 15,
                         ),
-                        Text('Reply'),
+                        const Text('Like'),
+                        const SizedBox(
+                          width: 15,
+                        ),
+                        const Text('Reply'),
                       ],
                     ),
                   ),
@@ -119,18 +123,22 @@ class _CommentSectionState extends State<CommentSection> {
                 DefaultTextStyle(
                   style: Theme.of(context).textTheme.bodySmall!.copyWith(
                       color: const Color.fromARGB(255, 109, 107, 107), fontWeight: FontWeight.w300),
-                  child: const Padding(
-                    padding: EdgeInsets.only(top: 4),
-                    child: Row(
+                  child: Padding(
+                    padding:const EdgeInsets.only(top: 4),
+                    child:  Row(
                       children: [
-                        SizedBox(
+                       const SizedBox(
                           width: 8,
                         ),
-                        Text('Like'),
-                        SizedBox(
+                        Text(data.timeAgo),
+                        const SizedBox(
                           width: 15,
                         ),
-                        Text('Reply'),
+                        const Text('Like'),
+                        const SizedBox(
+                          width: 15,
+                        ),
+                        const Text('Reply'),
                       ],
                     ),
                   ),

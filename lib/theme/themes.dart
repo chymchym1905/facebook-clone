@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 
+const Color white = Color.fromARGB(255, 255, 255, 255);
+const Color blue = Color.fromRGBO(59, 127, 210, 1);
+
+
 ThemeData light = ThemeData(
   fontFamily: 'HyWenHei',
   // brightness: Brightness.light,
