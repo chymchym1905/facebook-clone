@@ -23,7 +23,7 @@ class _PostsState extends State<Posts>{
             color: themeManager.themeMode == dark? const Color.fromARGB(255, 38, 38, 38) : const Color.fromARGB(255, 255, 255, 255),
             child: Column(
               children:[
-                NameBar(imageUrl: widget.data.user.imageUrl, username: widget.data.user.name),
+                NameBar(imageUrl: widget.data.user.imageurl, username: widget.data.user.name),
                 Caption(caption: widget.data.caption),
                 ],
               ),

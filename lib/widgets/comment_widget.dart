@@ -26,14 +26,14 @@ class _CommentSectionState extends State<CommentSection> {
             preferredSize: const Size.fromRadius(18),
             child: CircleAvatar(
               radius: 18,
-              backgroundImage: NetworkImage(data.imageUrl),
+              backgroundImage: NetworkImage(data.imageurl),
             ),
           ),
           avatarChild: (context, data) => PreferredSize(
              preferredSize: const Size.fromRadius(12),
             child: CircleAvatar(
               radius: 12,
-              backgroundImage:NetworkImage(data.imageUrl),
+              backgroundImage:NetworkImage(data.imageurl),
             ),
           ),
           contentChild: (context, data) { //Replies
@@ -75,10 +75,10 @@ class _CommentSectionState extends State<CommentSection> {
                         const SizedBox(
                           width: 8,
                         ),
-                        Text(data.timeAgo),
-                        const SizedBox(
-                          width: 15,
-                        ),
+                        // Text(data.timeAgo),
+                        // const SizedBox(
+                        //   width: 15,
+                        // ),
                         const Text('Like'),
                         const SizedBox(
                           width: 15,
@@ -130,10 +130,10 @@ class _CommentSectionState extends State<CommentSection> {
                        const SizedBox(
                           width: 8,
                         ),
-                        Text(data.timeAgo),
-                        const SizedBox(
-                          width: 15,
-                        ),
+                        // Text(data.timeAgo),
+                        // const SizedBox(
+                        //   width: 15,
+                        // ),
                         const Text('Like'),
                         const SizedBox(
                           width: 15,

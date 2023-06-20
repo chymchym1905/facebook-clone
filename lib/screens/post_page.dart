@@ -31,7 +31,7 @@ class _PostPageState extends State<Postpage>{
               height: 50,
               child: CircleAvatar(
                 radius: 120,
-                backgroundImage: NetworkImage(widget.data.user.imageUrl),
+                backgroundImage: NetworkImage(widget.data.user.imageurl),
               ),
             ),
           ), 
@@ -48,10 +48,10 @@ class _PostPageState extends State<Postpage>{
                 ),
                 Row(
                   children: [
-                    Text(
-                      '${widget.data.timeAgo} ·',
-                      style: Theme.of(context).textTheme.labelSmall
-                    ),
+                    // Text(
+                    //   '${widget.data.timeAgo} ·',
+                    //   style: Theme.of(context).textTheme.labelSmall
+                    // ),
                     const Icon(
                       Icons.public,
                       size: 10,
@@ -119,7 +119,7 @@ class _PostPageState extends State<Postpage>{
         ),
       ],
     );
-    Widget comment = CommentSection(data: commentLi);
+    // Widget comment = CommentSection(data: commentLi);
     return MaterialApp(
       theme: themeManager.themeMode,
       home: Scaffold(
@@ -143,7 +143,7 @@ class _PostPageState extends State<Postpage>{
                 textfeed,
                 buttonSection,
                 iconSection,
-                comment,
+                // comment,
               ],
             ),
       ),

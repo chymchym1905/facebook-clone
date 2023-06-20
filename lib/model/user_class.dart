@@ -8,7 +8,7 @@ class User {
 
   String id;
   String name;
-  String? imageurl;
+  String imageurl;
 
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
 

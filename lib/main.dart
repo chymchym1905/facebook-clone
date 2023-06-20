@@ -1,15 +1,16 @@
 import 'dart:convert';
-
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttericon/octicons_icons.dart';
 import 'package:flutter_application_1/model/post_class.dart';
 import 'model/user_class.dart';
 import 'routesettings.dart';
-import 'data/data.dart';
+// import 'data/data.dart';
 import 'theme/themes.dart';
 import 'widgets/drawer.dart';
 import 'widgets/post_card_container.dart';
+import 'package:flutter/services.dart' as asd;
 
 
 void main() {
@@ -119,7 +120,8 @@ class _HomeState extends State<Home>{
                 //     ],
                 //   ),
                   FutureBuilder(
-                    future: readJsonData(),
+
+                    future: readPostJsonData(),
                     builder: (context, data){
                     if(data.hasError){
                       return const Center(
@@ -131,7 +133,7 @@ class _HomeState extends State<Home>{
                         ),
                       );
                     } else if(data.hasData){
-                      var items = data.data as List<User>;
+                      var items = data.data as List<Post>;
                       return ListView.builder(
                         itemCount: items.length,
                         itemBuilder: (context, index){
@@ -143,18 +145,73 @@ class _HomeState extends State<Home>{
                     }
                   },
                   ),
-                 ListView(
-                   padding: const EdgeInsets.symmetric(vertical: 5.0),
-                   children: [
-                     for (int index = 0; index < posts.length; index += 1)
-                         Posts(data: posts [index])
-                   ],),
-                 ListView(
-                   padding: const EdgeInsets.symmetric(vertical: 5.0),
-                   children: [
-                     for (int index = 0; index < posts.length; index += 1)
-                         Posts(data: posts [index])
-                   ],)
+
+                  FutureBuilder(
+
+                    future: readPostJsonData(),
+                    builder: (context, data){
+                    if(data.hasError){
+                      return const Center(
+                        child: Text(
+                          'Data Error',
+                          style: TextStyle(
+                            fontSize: 30,
+                          ),
+                        ),
+                      );
+                    } else if(data.hasData){
+                      var items = data.data as List<Post>;
+                      return ListView.builder(
+                        itemCount: items.length,
+                        itemBuilder: (context, index){
+                          return Posts(data: items[index]);
+                        },
+                      );
+                    }else{
+                        return const Center(child: CircularProgressIndicator(),);
+                    }
+                  },
+                  ),
+
+                  FutureBuilder(
+
+                    future: readPostJsonData(),
+                    builder: (context, data){
+                    if(data.hasError){
+                      return const Center(
+                        child: Text(
+                          'Data Error',
+                          style: TextStyle(
+                            fontSize: 30,
+                          ),
+                        ),
+                      );
+                    } else if(data.hasData){
+                      var items = data.data as List<Post>;
+                      return ListView.builder(
+                        itemCount: items.length,
+                        itemBuilder: (context, index){
+                          return Posts(data: items[index]);
+                        },
+                      );
+                    }else{
+                        return const Center(child: CircularProgressIndicator(),);
+                    }
+                  },
+                  ),
+
+                //  ListView(
+                //    padding: const EdgeInsets.symmetric(vertical: 5.0),
+                //    children: [
+                //      for (int index = 0; index < posts.length; index += 1)
+                //          Posts(data: posts [index])
+                //    ],),
+                //  ListView(
+                //    padding: const EdgeInsets.symmetric(vertical: 5.0),
+                //    children: [
+                //      for (int index = 0; index < posts.length; index += 1)
+                //          Posts(data: posts [index])
+                //    ],)
                ],
     
               ),
@@ -164,13 +221,25 @@ class _HomeState extends State<Home>{
     );
   }
 
-  Future<List<User>>readJsonData() async{
-     final jsondata = await rootBundle.loadString('lib/data/fakedata.json');
-     final list = json.decode(jsondata) as List<dynamic>;
-
-     return list.map((e) => User.fromJson(e)).toList();
+  Future<List<Post>>readPostJsonData() async{
+     return await Future.delayed(const Duration(seconds: 1), () {
+      // final jsonString = asd.rootBundle.loadString('data/posts.json');
+    //  final list = json.decode(jsondata) as List<dynamic>;
+      final jsonString = File("I:\\Internship\\flutter_application_1\\lib\\data\\posts.json").readAsStringSync();
+      final data = jsonDecode(jsonString) as List<dynamic>;
+      List<Post> users = data.map((e) => Post.fromJson(e)).toList();
+      return users;
+     });
   }
+  //   Future<List<Post>>readPostJsonData() async{
+  //    final jsondata = await asd.rootBundle.loadString('data/posts.json');
+  //    final list = json.decode(jsondata) as List<dynamic>;
+
+  //    return list.map((e) => Post.fromJson(e)).toList();
+  // }
 }
+
+
 
 void insertPost(){
   
