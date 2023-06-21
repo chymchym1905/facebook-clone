@@ -1,12 +1,13 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-
+import 'dart:convert';
 // import 'dart:io';
-import 'screens/postlistview.dart';
+
 import 'package:flutter/material.dart';
 // import 'package:flutter/services.dart';
 import 'package:fluttericon/octicons_icons.dart';
-import 'package:pagination_view/pagination_view.dart';
+
 import 'package:flutter_application_1/model/post_class.dart';
+
 // import 'model/user_class.dart';
 import 'routesettings.dart';
 // import 'data/data.dart';
@@ -32,11 +33,6 @@ class Home extends StatefulWidget {
   State<Home> createState() => _HomeState();
 }
 class _HomeState extends State<Home>{
-
-  final _key1 = GlobalKey<PaginationViewState>();
-  final _key2 = GlobalKey<PaginationViewState>();
-  final _key3 = GlobalKey<PaginationViewState>();
-  
   @override
   void dispose() {
     themeManager.removeListener(themeListener);
@@ -45,9 +41,9 @@ class _HomeState extends State<Home>{
 
   @override
   void initState() {
+    themeManager.addListener(themeListener);
     super.initState();
   }
-  
 
   themeListener(){
     if(mounted){
@@ -56,9 +52,6 @@ class _HomeState extends State<Home>{
       });
     }
   }
-
-
-  
   @override
   Widget build(BuildContext context) {
     // final ColorScheme colorScheme = Theme.of(context).colorScheme;
@@ -125,22 +118,109 @@ class _HomeState extends State<Home>{
             },
             body: TabBarView(
                children: [
-                // ListView.builder(
-                //   controller: _scrollController,
-                //   padding: EdgeInsets.zero,
-                //   itemCount: items.length,
-                //   itemBuilder: (context, index){
-                //     if (index< items.length){
-                //       return Posts(data: items[index]);
-                //     }else{
-                //       return const Center(child: CircularProgressIndicator());
-                //     }                                
-                //   },
-                // )
-                PostListView(key: _key1),
-                PostListView(key: _key2),
-                PostListView(key: _key3),
+                //  ListView(
+                //     padding: const EdgeInsets.symmetric(vertical: 5.0),
+                //     children: [
+                //         for (int index = 0; index < posts.length; index += 1) 
+                //           if ((posts[index].visibility is! Private))
+                //             Posts(data: posts[index]),                   
+                //     ],
+                //   ),
+                  FutureBuilder(
+                    future: readPostJsonData(),
+                    builder: (context, data){
+                    if(data.hasError){
+                      return const Center(
+                        child: Text(
+                          'Data Error',
+                          style: TextStyle(
+                            fontSize: 30,
+                          ),
+                        ),
+                      );
+                    } else if(data.hasData){
+                      var items = data.data as List<Post>;
+                      return ListView.builder(
+                        padding: EdgeInsets.zero,
+                        itemCount: items.length,
+                        itemBuilder: (context, index){
+                          return Posts(data: items[index]);
+                        },
+                      );
+                    }else{
+                        return const Center(child: CircularProgressIndicator(),);
+                    }
+                  },
+                  ),
 
+                  FutureBuilder(
+
+                    future: readPostJsonData(),
+                    builder: (context, data){
+                    if(data.hasError){
+                      return const Center(
+                        child: Text(
+                          'Data Error',
+                          style: TextStyle(
+                            fontSize: 30,
+                          ),
+                        ),
+                      );
+                    } else if(data.hasData){
+                      var items = data.data as List<Post>;
+                      return ListView.builder(
+                        padding: EdgeInsets.zero,
+                        itemCount: items.length,
+                        itemBuilder: (context, index){
+                          return Posts(data: items[index]);
+                        },
+                      );
+                    }else{
+                        return const Center(child: CircularProgressIndicator(),);
+                    }
+                  },
+                  ),
+
+                  FutureBuilder(
+
+                    future: readPostJsonData(),
+                    builder: (context, data){
+                    if(data.hasError){
+                      return const Center(
+                        child: Text(
+                          'Data Error',
+                          style: TextStyle(
+                            fontSize: 30,
+                          ),
+                        ),
+                      );
+                    } else if(data.hasData){
+                      var items = data.data as List<Post>;
+                      return ListView.builder(
+                        padding: EdgeInsets.zero,
+                        itemCount: items.length,
+                        itemBuilder: (context, index){
+                          return Posts(data: items[index]);
+                        },
+                      );
+                    }else{
+                        return const Center(child: CircularProgressIndicator(),);
+                    }
+                  },
+                  ),
+
+                //  ListView(
+                //    padding: const EdgeInsets.symmetric(vertical: 5.0),
+                //    children: [
+                //      for (int index = 0; index < posts.length; index += 1)
+                //          Posts(data: posts [index])
+                //    ],),
+                //  ListView(
+                //    padding: const EdgeInsets.symmetric(vertical: 5.0),
+                //    children: [
+                //      for (int index = 0; index < posts.length; index += 1)
+                //          Posts(data: posts [index])
+                //    ],)
                ],
     
               ),
@@ -149,8 +229,28 @@ class _HomeState extends State<Home>{
         ),
     );
   }
-  
-  
 
+  // Future<List<Post>>readPostJsonData() async{
+  //    return await Future.delayed(const Duration(seconds: 1), () {
+  //     // final jsonString = asd.rootBundle.loadString('data/posts.json');
+  //   //  final list = json.decode(jsondata) as List<dynamic>;
+
+  //     final jsonString = File('data/posts.json').readAsStringSync();
+  //     final data = jsonDecode(jsonString) as List<dynamic>;
+  //     List<Post> users = data.map((e) => Post.fromJson(e)).toList();
+  //     return users;
+  //    });
+  // }
+    Future<List<Post>>readPostJsonData() async{
+     final jsondata = await rootBundle.loadString('assets/jsons/posts.json');
+     final list = json.decode(jsondata) as List<dynamic>;
+
+     return list.map((e) => Post.fromJson(e)).toList();
+  }
 }
 
+
+
+void insertPost(){
+  
+}
