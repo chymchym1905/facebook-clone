@@ -38,12 +38,12 @@ class _PostListViewState extends State<PostListView> {
     await prefs.setDouble('scrollPosition', _scrollController.offset);
   }
 
-  void _restoreScrollPosition() async {
+Future<void> _restoreScrollPosition() async {
     final prefs = await SharedPreferences.getInstance();
-    setState(() {
-      _savedScrollPosition = prefs.getDouble('scrollPosition') ?? 0.0;
-    });
-    _scrollController.jumpTo(_savedScrollPosition);
+    final double savedScrollPosition = prefs.getDouble('scrollPosition') ?? 0;
+    if (_scrollController.hasClients) {
+      _scrollController.jumpTo(savedScrollPosition);
+    }
   }
   
   @override
