@@ -135,6 +135,8 @@ class _HomeState extends State<Home>{
                 //   },
                 // )
                 PaginationView(
+                  key: PageStorageKey('Tab1'),
+                  pullToRefresh: true,
                   paginationViewType: paginationViewType,
                   itemBuilder: (BuildContext context, Post post, int index){
                     return Posts(data: post);
@@ -156,6 +158,7 @@ class _HomeState extends State<Home>{
                 ),
 
                 PaginationView(
+                  key: PageStorageKey('Tab2'),
                   paginationViewType: paginationViewType,
                   itemBuilder: (BuildContext context, Post post, int index){
                     return Posts(data: post);
@@ -177,6 +180,7 @@ class _HomeState extends State<Home>{
                 ),
 
                 PaginationView(
+                  key: PageStorageKey('Tab3'),
                   paginationViewType: paginationViewType,
                   itemBuilder: (BuildContext context, Post post, int index){
                     return Posts(data: post);
@@ -217,16 +221,8 @@ class _HomeState extends State<Home>{
     }
     final nextUsersList = list.sublist(startIndex, endIndex);
 
-    // final Faker faker = Faker();
-    // final List<User> nextUsersList = List.generate(
-    //   20,
-    //   (int index) => User(
-    //     faker.person.name() + ' - $page$index',
-    //     faker.internet.email(),
-    //   ),
-    // );
     await Future<List<Post>?>.delayed(const Duration(seconds: 1));
-    return page == 5 ? [] : nextUsersList.map((e) => Post.fromJson(e)).toList();
+    return nextUsersList.map((e) => Post.fromJson(e)).toList();
   }
 
 }
