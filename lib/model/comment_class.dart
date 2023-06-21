@@ -13,12 +13,14 @@ class Comment1 {
   @JsonKey(required: true)
   String content;
   String imageurl;
+  List<Comment1?> reply;
   Comment1(
     this.id,
     this.react,
     this.username,
     this.content,
-    this.imageurl);
+    this.imageurl,
+    this.reply);
 
   factory Comment1.fromJson(Map<String, dynamic> json) => _$Comment1FromJson(json);
 
