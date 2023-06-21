@@ -5,9 +5,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 // import 'package:flutter/services.dart';
 import 'package:fluttericon/octicons_icons.dart';
-
+import 'package:pagination_view/pagination_view.dart';
 import 'package:flutter_application_1/model/post_class.dart';
-
 // import 'model/user_class.dart';
 import 'routesettings.dart';
 // import 'data/data.dart';
@@ -33,6 +32,7 @@ class Home extends StatefulWidget {
   State<Home> createState() => _HomeState();
 }
 class _HomeState extends State<Home>{
+  
   @override
   void dispose() {
     themeManager.removeListener(themeListener);
@@ -42,8 +42,13 @@ class _HomeState extends State<Home>{
   @override
   void initState() {
     themeManager.addListener(themeListener);
+    page = -1;
+    paginationViewType = PaginationViewType.listView;
     super.initState();
   }
+  int page = 10;
+  PaginationViewType paginationViewType = PaginationViewType.listView;
+  GlobalKey<PaginationViewState> key = GlobalKey();
 
   themeListener(){
     if(mounted){
@@ -52,6 +57,9 @@ class _HomeState extends State<Home>{
       });
     }
   }
+
+
+  
   @override
   Widget build(BuildContext context) {
     // final ColorScheme colorScheme = Theme.of(context).colorScheme;
@@ -118,109 +126,81 @@ class _HomeState extends State<Home>{
             },
             body: TabBarView(
                children: [
-                //  ListView(
-                //     padding: const EdgeInsets.symmetric(vertical: 5.0),
-                //     children: [
-                //         for (int index = 0; index < posts.length; index += 1) 
-                //           if ((posts[index].visibility is! Private))
-                //             Posts(data: posts[index]),                   
-                //     ],
-                //   ),
-                  FutureBuilder(
-                    future: readPostJsonData(),
-                    builder: (context, data){
-                    if(data.hasError){
-                      return const Center(
-                        child: Text(
-                          'Data Error',
-                          style: TextStyle(
-                            fontSize: 30,
-                          ),
-                        ),
-                      );
-                    } else if(data.hasData){
-                      var items = data.data as List<Post>;
-                      return ListView.builder(
-                        padding: EdgeInsets.zero,
-                        itemCount: items.length,
-                        itemBuilder: (context, index){
-                          return Posts(data: items[index]);
-                        },
-                      );
-                    }else{
-                        return const Center(child: CircularProgressIndicator(),);
-                    }
-                  },
+                // ListView.builder(
+                //   controller: _scrollController,
+                //   padding: EdgeInsets.zero,
+                //   itemCount: items.length,
+                //   itemBuilder: (context, index){
+                //     if (index< items.length){
+                //       return Posts(data: items[index]);
+                //     }else{
+                //       return const Center(child: CircularProgressIndicator());
+                //     }                                
+                //   },
+                // )
+                PaginationView(
+                  paginationViewType: paginationViewType,
+                  itemBuilder: (BuildContext context, Post post, int index){
+                    return Posts(data: post);
+                  }, 
+                  pageFetch: pageFetch, 
+                  physics: BouncingScrollPhysics(),
+                  onError: (dynamic error) => Center(
+                    child: Text('Some error occured'),
                   ),
-
-                  FutureBuilder(
-
-                    future: readPostJsonData(),
-                    builder: (context, data){
-                    if(data.hasError){
-                      return const Center(
-                        child: Text(
-                          'Data Error',
-                          style: TextStyle(
-                            fontSize: 30,
-                          ),
-                        ),
-                      );
-                    } else if(data.hasData){
-                      var items = data.data as List<Post>;
-                      return ListView.builder(
-                        padding: EdgeInsets.zero,
-                        itemCount: items.length,
-                        itemBuilder: (context, index){
-                          return Posts(data: items[index]);
-                        },
-                      );
-                    }else{
-                        return const Center(child: CircularProgressIndicator(),);
-                    }
-                  },
+                  onEmpty: Center(
+                    child: Text('Sorry! This is empty'),
                   ),
-
-                  FutureBuilder(
-
-                    future: readPostJsonData(),
-                    builder: (context, data){
-                    if(data.hasError){
-                      return const Center(
-                        child: Text(
-                          'Data Error',
-                          style: TextStyle(
-                            fontSize: 30,
-                          ),
-                        ),
-                      );
-                    } else if(data.hasData){
-                      var items = data.data as List<Post>;
-                      return ListView.builder(
-                        padding: EdgeInsets.zero,
-                        itemCount: items.length,
-                        itemBuilder: (context, index){
-                          return Posts(data: items[index]);
-                        },
-                      );
-                    }else{
-                        return const Center(child: CircularProgressIndicator(),);
-                    }
-                  },
+                  bottomLoader: Center(
+                    child: CircularProgressIndicator(),
                   ),
+                  initialLoader: Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                ),
 
-                //  ListView(
-                //    padding: const EdgeInsets.symmetric(vertical: 5.0),
-                //    children: [
-                //      for (int index = 0; index < posts.length; index += 1)
-                //          Posts(data: posts [index])
-                //    ],),
-                //  ListView(
-                //    padding: const EdgeInsets.symmetric(vertical: 5.0),
-                //    children: [
-                //      for (int index = 0; index < posts.length; index += 1)
-                //          Posts(data: posts [index])
-                //    ],)
+                PaginationView(
+                  paginationViewType: paginationViewType,
+                  itemBuilder: (BuildContext context, Post post, int index){
+                    return Posts(data: post);
+                  }, 
+                  pageFetch: pageFetch, 
+                  physics: BouncingScrollPhysics(),
+                  onError: (dynamic error) => Center(
+                    child: Text('Some error occured'),
+                  ),
+                  onEmpty: Center(
+                    child: Text('Sorry! This is empty'),
+                  ),
+                  bottomLoader: Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                  initialLoader: Center(
+                    child: CircularProgressIndicator(),
+                  ),   
+                ),
+
+                PaginationView(
+                  paginationViewType: paginationViewType,
+                  itemBuilder: (BuildContext context, Post post, int index){
+                    return Posts(data: post);
+                  }, 
+                  pageFetch: pageFetch, 
+                  physics: BouncingScrollPhysics(),
+                  onError: (dynamic error) => Center(
+                    child: Text('Some error occured'),
+                  ),
+                  onEmpty: Center(
+                    child: Text('Sorry! This is empty'),
+                  ),
+                  bottomLoader: Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                  initialLoader: Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                )
+
                ],
     
               ),
@@ -229,28 +209,29 @@ class _HomeState extends State<Home>{
         ),
     );
   }
-
-  // Future<List<Post>>readPostJsonData() async{
-  //    return await Future.delayed(const Duration(seconds: 1), () {
-  //     // final jsonString = asd.rootBundle.loadString('data/posts.json');
-  //   //  final list = json.decode(jsondata) as List<dynamic>;
-
-  //     final jsonString = File('data/posts.json').readAsStringSync();
-  //     final data = jsonDecode(jsonString) as List<dynamic>;
-  //     List<Post> users = data.map((e) => Post.fromJson(e)).toList();
-  //     return users;
-  //    });
-  // }
-    Future<List<Post>>readPostJsonData() async{
-     final jsondata = await rootBundle.loadString('assets/jsons/posts.json');
-     final list = json.decode(jsondata) as List<dynamic>;
-
-     return list.map((e) => Post.fromJson(e)).toList();
-  }
-}
-
-
-
-void insertPost(){
   
+    int offset = 0;
+   Future<List<Post>> pageFetch(int offset) async {
+    final startIndex = offset;
+    var endIndex = startIndex + 8;
+    var items = await rootBundle.loadString('assets/jsons/posts.json');
+    final list = json.decode(items) as List<dynamic> ;
+    if (endIndex > list.length){
+      endIndex = list.length;
+    }
+    final nextUsersList = list.sublist(startIndex, endIndex);
+
+    // final Faker faker = Faker();
+    // final List<User> nextUsersList = List.generate(
+    //   20,
+    //   (int index) => User(
+    //     faker.person.name() + ' - $page$index',
+    //     faker.internet.email(),
+    //   ),
+    // );
+    await Future<List<Post>?>.delayed(const Duration(seconds: 1));
+    return page == 5 ? [] : nextUsersList.map((e) => Post.fromJson(e)).toList();
+  }
+
 }
+
