@@ -44,6 +44,7 @@ dependencies:
   fluttericon: ^2.0.0
   indexed: ^0.0.8
   pagination_view: ^2.0.0
+  shared_preferences: ^2.1.2
 
 dev_dependencies:
   flutter_test:

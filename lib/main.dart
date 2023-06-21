@@ -1,7 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'dart:convert';
-// import 'dart:io';
 
+// import 'dart:io';
+import 'screens/postlistview.dart';
 import 'package:flutter/material.dart';
 // import 'package:flutter/services.dart';
 import 'package:fluttericon/octicons_icons.dart';
@@ -32,6 +32,10 @@ class Home extends StatefulWidget {
   State<Home> createState() => _HomeState();
 }
 class _HomeState extends State<Home>{
+
+  final _key1 = GlobalKey<PaginationViewState>();
+  final _key2 = GlobalKey<PaginationViewState>();
+  final _key3 = GlobalKey<PaginationViewState>();
   
   @override
   void dispose() {
@@ -43,8 +47,7 @@ class _HomeState extends State<Home>{
   void initState() {
     super.initState();
   }
-  int page = 10;
-  PaginationViewType paginationViewType = PaginationViewType.listView;
+  
 
   themeListener(){
     if(mounted){
@@ -134,72 +137,9 @@ class _HomeState extends State<Home>{
                 //     }                                
                 //   },
                 // )
-                PaginationView(
-                  key: PageStorageKey('Tab1'),
-                  pullToRefresh: true,
-                  paginationViewType: paginationViewType,
-                  itemBuilder: (BuildContext context, Post post, int index){
-                    return Posts(data: post);
-                  }, 
-                  pageFetch: pageFetch, 
-                  physics: BouncingScrollPhysics(),
-                  onError: (dynamic error) => Center(
-                    child: Text('Some error occured'),
-                  ),
-                  onEmpty: Center(
-                    child: Text('Sorry! This is empty'),
-                  ),
-                  bottomLoader: Center(
-                    child: CircularProgressIndicator(),
-                  ),
-                  initialLoader: Center(
-                    child: CircularProgressIndicator(),
-                  ),
-                ),
-
-                PaginationView(
-                  key: PageStorageKey('Tab2'),
-                  paginationViewType: paginationViewType,
-                  itemBuilder: (BuildContext context, Post post, int index){
-                    return Posts(data: post);
-                  }, 
-                  pageFetch: pageFetch, 
-                  physics: BouncingScrollPhysics(),
-                  onError: (dynamic error) => Center(
-                    child: Text('Some error occured'),
-                  ),
-                  onEmpty: Center(
-                    child: Text('Sorry! This is empty'),
-                  ),
-                  bottomLoader: Center(
-                    child: CircularProgressIndicator(),
-                  ),
-                  initialLoader: Center(
-                    child: CircularProgressIndicator(),
-                  ),   
-                ),
-
-                PaginationView(
-                  key: PageStorageKey('Tab3'),
-                  paginationViewType: paginationViewType,
-                  itemBuilder: (BuildContext context, Post post, int index){
-                    return Posts(data: post);
-                  }, 
-                  pageFetch: pageFetch, 
-                  physics: BouncingScrollPhysics(),
-                  onError: (dynamic error) => Center(
-                    child: Text('Some error occured'),
-                  ),
-                  onEmpty: Center(
-                    child: Text('Sorry! This is empty'),
-                  ),
-                  bottomLoader: Center(
-                    child: CircularProgressIndicator(),
-                  ),
-                  initialLoader: Center(
-                    child: CircularProgressIndicator(),
-                  ),
-                )
+                PostListView(key: _key1),
+                PostListView(key: _key2),
+                PostListView(key: _key3),
 
                ],
     
@@ -210,20 +150,7 @@ class _HomeState extends State<Home>{
     );
   }
   
-    int offset = 0;
-   Future<List<Post>> pageFetch(int offset) async {
-    final startIndex = offset;
-    var endIndex = startIndex + 8;
-    var items = await rootBundle.loadString('assets/jsons/posts.json');
-    final list = json.decode(items) as List<dynamic> ;
-    if (endIndex > list.length){
-      endIndex = list.length;
-    }
-    final nextUsersList = list.sublist(startIndex, endIndex);
-
-    await Future<List<Post>?>.delayed(const Duration(seconds: 1));
-    return nextUsersList.map((e) => Post.fromJson(e)).toList();
-  }
+  
 
 }
 
