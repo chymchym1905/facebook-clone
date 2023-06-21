@@ -41,14 +41,10 @@ class _HomeState extends State<Home>{
 
   @override
   void initState() {
-    themeManager.addListener(themeListener);
-    page = -1;
-    paginationViewType = PaginationViewType.listView;
     super.initState();
   }
   int page = 10;
   PaginationViewType paginationViewType = PaginationViewType.listView;
-  GlobalKey<PaginationViewState> key = GlobalKey();
 
   themeListener(){
     if(mounted){

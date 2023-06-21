@@ -6,7 +6,7 @@ part 'comment_class.g.dart';
 class Comment1 {
   @JsonKey(required: true)
   String id;
-  double react;
+  double? react;
   // String timeAgo;
   @JsonKey(required: true)
   String username;

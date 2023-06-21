@@ -13,7 +13,7 @@ Comment1 _$Comment1FromJson(Map<String, dynamic> json) {
   );
   return Comment1(
     json['id'] as String,
-    (json['react'] as num).toDouble(),
+    json['react'] as double?,
     json['username'] as String,
     json['content'] as String,
     json['imageurl'] as String,
