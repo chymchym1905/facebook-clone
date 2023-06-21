@@ -1,5 +1,5 @@
 // import 'package:lorem_ipsum_generator/lorem_ipsum_generator.dart';
-import 'package:flutter_application_1/data/data.dart';
+// import 'package:flutter_application_1/data/data.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter/material.dart';
 import '../model/post_class.dart';
