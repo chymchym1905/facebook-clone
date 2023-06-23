@@ -1,29 +1,37 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'dart:convert';
+
+// import 'dart:convert';
 // import 'dart:io';
-
-import 'package:flutter/material.dart';
+// import 'package:fluttericon/octicons_icons.dart';
+// import 'package:flutter/gestures.dart';
+// import 'package:flutter_application_1/model/post_class.dart';
+// import 'widgets/drawer.dart';
+// import 'widgets/post_card_container.dart';
 // import 'package:flutter/services.dart';
-import 'package:fluttericon/octicons_icons.dart';
-
-import 'package:flutter_application_1/model/post_class.dart';
-
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_application_1/model/appdata.dart';
+import 'package:flutter_application_1/widgets/postlistview.dart';
+// import 'package:flutter/services.dart';
+// import 'utils/fileio.dart';
+import 'utils/postlist.dart';
 // import 'model/user_class.dart';
 import 'routesettings.dart';
 // import 'data/data.dart';
 import 'theme/themes.dart';
-import 'widgets/drawer.dart';
-import 'widgets/post_card_container.dart';
-// import 'utils/fileio.dart';
-import 'package:flutter/services.dart';
+
 
 
 void main() {
-  runApp(const Home());
+  runApp(AppDataProvider( AppData(postlist: [] , notificationCount: 0), child: const Home()));
 }
-
+//Variables
+int index = 0;
 ThemeProvider themeManager = ThemeProvider();
+PostList postManager = PostList([]);
+List totalPost = [];
 
+//APP
 class Home extends StatefulWidget {
   const Home({
     Key? key,
@@ -32,28 +40,115 @@ class Home extends StatefulWidget {
   @override
   State<Home> createState() => _HomeState();
 }
-class _HomeState extends State<Home>{
+
+
+class _HomeState extends State<Home> {
+  ScrollController controller1 = ScrollController();
+  ScrollController controller2 = ScrollController();
+  ScrollController controller3 = ScrollController();
+  // List fullpost = [];
+  List posts = []; //placeholder of 5 posts per load
+  
   @override
   void dispose() {
     themeManager.removeListener(themeListener);
+    controller1.removeListener(scrollListener1);
+    controller2.removeListener(scrollListener2);
+    controller3.removeListener(scrollListener3);
+    postManager.removeListener(postlistListener);
     super.dispose();
   }
 
   @override
-  void initState() {
-    themeManager.addListener(themeListener);
+  void initState(){
     super.initState();
+    postManager.addListener(postlistListener);
+    initFetchData();
+    controller1.addListener(scrollListener1);
+    controller2.addListener(scrollListener2);
+    controller3.addListener(scrollListener3);
+    themeManager.addListener(themeListener);
+    // fetch(postManager.post);
+  }
+
+  Future<void> initFetchData() async{
+    await postManager.readPostJsonData();
+    fetch(postManager.post);
+  }
+
+  postlistListener(){
+    if(mounted){
+      setState(() {
+        // print('asd');
+      });
+    }
   }
 
   themeListener(){
     if(mounted){
       setState(() {
-
+        // print(1);
       });
     }
   }
+
+  scrollListener1(){
+    if(mounted){
+      // print(controller.offset);
+      // print(controller.position.maxScrollExtent);
+      if(controller1.position.maxScrollExtent == controller1.offset){
+        // print(controller.offset);
+        fetch(postManager.post);
+      }
+    }
+  }
+
+  scrollListener2(){
+    if(mounted){
+      if(controller2.position.maxScrollExtent == controller2.offset){
+        // print(controller.offset);
+      fetch(postManager.post);
+      }
+    }
+  }
+  
+  scrollListener3(){
+    if(mounted){
+      if(controller3.position.maxScrollExtent == controller3.offset){
+        // print(controller.offset);
+      fetch(postManager.post);
+      }
+    }
+  }
+
+  Future<void> fetch(List fullpost) async{
+    await Future<List?>.delayed(const Duration(seconds: 2));
+    if (index + 5<fullpost.length){
+      setState(() {
+        posts = fullpost.sublist(index, index + 5);
+        index +=5;
+        totalPost += posts;
+        print(index);
+      });
+    }else if(index+5 >= fullpost.length && index != fullpost.length){
+      setState(() {
+        posts = fullpost.sublist(index, fullpost.length);
+        index = fullpost.length;
+        totalPost += posts;
+        print(index);
+      });
+    }else{
+      if (kDebugMode) {
+        // print(index);
+      }
+    }
+  }
+
+
   @override
   Widget build(BuildContext context) {
+    // AppData appdata = AppDataProvider.of(context);
+    // fetch(postManager.post);
     // final ColorScheme colorScheme = Theme.of(context).colorScheme;
     // final Color oddItemColor = colorScheme.primary.withOpacity(0.05);
     // final Color evenItemColor = colorScheme.primary.withOpacity(0.15);
@@ -62,7 +157,7 @@ class _HomeState extends State<Home>{
       initialRoute: '/',
       onGenerateRoute: RouteGenerator.generateRoute,
       home: Scaffold(
-        drawer: NavBar(),
+        // drawer: NavBar(),
         body: DefaultTabController(
           length: 3,
           child: NestedScrollView(
@@ -70,15 +165,16 @@ class _HomeState extends State<Home>{
               return [
                 SliverAppBar(
                   // leadingWidth: MediaQuery.of(context).size.width*0.1,
-                  leading: IconButton(
-                    // iconSize: MediaQuery.of(context).size.width*0.08,
-                    splashRadius: MediaQuery.of(context).size.width*0.07,
-                    onPressed: () {Scaffold.of(context).openDrawer(); },
-                    icon: const Icon(Octicons.three_bars),
+                  forceElevated: value,
+                  // leading: IconButton(
+                  //   // iconSize: MediaQuery.of(context).size.width*0.08,
+                  //   splashRadius: MediaQuery.of(context).size.width*0.07,
+                  //   onPressed: () {Scaffold.of(context).openDrawer(); },
+                  //   icon: const Icon(Octicons.three_bars),
                     
-                  ),
+                  // ),
                   pinned: true,
-                  titleSpacing: MediaQuery.of(context).size.width*-0.01,
+                  // titleSpacing: MediaQuery.of(context).size.width*-0.01,
                   floating: true,
                   snap: true,
                   actions: [
@@ -112,6 +208,7 @@ class _HomeState extends State<Home>{
                         icon: Icon(Icons.video_collection_rounded),
                       ),
                     ],
+                    
                   ),
                 ),
               ];
@@ -126,101 +223,36 @@ class _HomeState extends State<Home>{
                 //             Posts(data: posts[index]),                   
                 //     ],
                 //   ),
-                  FutureBuilder(
-                    future: readPostJsonData(),
-                    builder: (context, data){
-                    if(data.hasError){
-                      return const Center(
-                        child: Text(
-                          'Data Error',
-                          style: TextStyle(
-                            fontSize: 30,
-                          ),
-                        ),
-                      );
-                    } else if(data.hasData){
-                      var items = data.data as List<Post>;
-                      return ListView.builder(
-                        padding: EdgeInsets.zero,
-                        itemCount: items.length,
-                        itemBuilder: (context, index){
-                          return Posts(data: items[index]);
-                        },
-                      );
-                    }else{
-                        return const Center(child: CircularProgressIndicator(),);
-                    }
-                  },
-                  ),
+                  // FutureBuilder(
+                  //   future: postlist.readPostJsonData(),
+                  //   builder: (context, data){
+                  //   if(data.hasError){
+                  //     return const Center(
+                  //       child: Text(
+                  //         'Data Error',
+                  //         style: TextStyle(
+                  //           fontSize: 30,
+                  //         ),
+                  //       ),
+                  //     );
+                  //   } else if(data.hasData){
+                  //     var items = data.data as List<Post>;
+                  //     return ListView.builder(
+                  //       padding: EdgeInsets.zero,
+                  //       itemCount: items.length,
+                  //       itemBuilder: (context, index){
+                  //         return Posts(data: items[index]);
+                  //       },
+                  //     );
+                  //   }else{
+                  //       return const Center(child: CircularProgressIndicator(),);
+                  //   }
+                  // },
+                  // ),
 
-                  FutureBuilder(
-
-                    future: readPostJsonData(),
-                    builder: (context, data){
-                    if(data.hasError){
-                      return const Center(
-                        child: Text(
-                          'Data Error',
-                          style: TextStyle(
-                            fontSize: 30,
-                          ),
-                        ),
-                      );
-                    } else if(data.hasData){
-                      var items = data.data as List<Post>;
-                      return ListView.builder(
-                        padding: EdgeInsets.zero,
-                        itemCount: items.length,
-                        itemBuilder: (context, index){
-                          return Posts(data: items[index]);
-                        },
-                      );
-                    }else{
-                        return const Center(child: CircularProgressIndicator(),);
-                    }
-                  },
-                  ),
-
-                  FutureBuilder(
-
-                    future: readPostJsonData(),
-                    builder: (context, data){
-                    if(data.hasError){
-                      return const Center(
-                        child: Text(
-                          'Data Error',
-                          style: TextStyle(
-                            fontSize: 30,
-                          ),
-                        ),
-                      );
-                    } else if(data.hasData){
-                      var items = data.data as List<Post>;
-                      return ListView.builder(
-                        padding: EdgeInsets.zero,
-                        itemCount: items.length,
-                        itemBuilder: (context, index){
-                          return Posts(data: items[index]);
-                        },
-                      );
-                    }else{
-                        return const Center(child: CircularProgressIndicator(),);
-                    }
-                  },
-                  ),
-
-                //  ListView(
-                //    padding: const EdgeInsets.symmetric(vertical: 5.0),
-                //    children: [
-                //      for (int index = 0; index < posts.length; index += 1)
-                //          Posts(data: posts [index])
-                //    ],),
-                //  ListView(
-                //    padding: const EdgeInsets.symmetric(vertical: 5.0),
-                //    children: [
-                //      for (int index = 0; index < posts.length; index += 1)
-                //          Posts(data: posts [index])
-                //    ],)
+                  PostListView(controller:controller1, list: totalPost),
+                  PostListView(controller:controller2, list: totalPost),
+                  PostListView(controller:controller3, list: totalPost)
                ],
     
               ),
@@ -241,16 +273,7 @@ class _HomeState extends State<Home>{
   //     return users;
   //    });
   // }
-    Future<List<Post>>readPostJsonData() async{
-     final jsondata = await rootBundle.loadString('assets/jsons/posts.json');
-     final list = json.decode(jsondata) as List<dynamic>;
-
-     return list.map((e) => Post.fromJson(e)).toList();
-  }
-}
-
-
-
-void insertPost(){
   
+    
 }
+

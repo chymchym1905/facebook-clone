@@ -6,6 +6,8 @@ import 'package:flutter_application_1/model/post_class.dart';
 class Posts extends StatefulWidget {
   const Posts({Key? key, required this.data}) : super(key: key);
   final Post data;
+
+  @override
   State<Posts> createState() => _PostsState();
   
 }
