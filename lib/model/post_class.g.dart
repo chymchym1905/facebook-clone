@@ -19,8 +19,8 @@ Post _$PostFromJson(Map<String, dynamic> json) {
     json['likes'] as int?,
     json['comments'] as int?,
     json['shares'] as int?,
-    (json['comment'] as List<dynamic>?)
-        ?.map((e) => Comment1.fromJson(e as Map<String, dynamic>))
+    (json['comment'] as List<dynamic>)
+        .map((e) => Comment1.fromJson(e as Map<String, dynamic>))
         .toList(),
   );
 }

@@ -17,8 +17,8 @@ Comment1 _$Comment1FromJson(Map<String, dynamic> json) {
     json['username'] as String,
     json['content'] as String,
     json['imageurl'] as String,
-    (json['reply'] as List<dynamic>?)
-        ?.map((e) => Comment1.fromJson(e as Map<String, dynamic>))
+    (json['reply'] as List<dynamic>)
+        .map((e) => Comment1.fromJson(e as Map<String, dynamic>))
         .toList(),
   );
 }
