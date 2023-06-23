@@ -13,7 +13,7 @@ class Comment1 {
   @JsonKey(required: true)
   String content;
   String imageurl;
-  List<Comment1>? reply;
+  List<Comment1> reply;
   Comment1(
     this.id,
     this.react,

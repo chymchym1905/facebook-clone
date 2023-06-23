@@ -142,7 +142,7 @@ class _PostPageState extends State<Postpage>{
                 textfeed,
                 buttonSection,
                 iconSection,
-                // comment,
+                CommentSection(data: widget.data.comment),
               ],
             ),
       ),

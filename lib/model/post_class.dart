@@ -38,7 +38,7 @@ class Post {
 
   int? shares;
 
-  List<Comment1>? comment;
+  List<Comment1> comment;
   factory Post.fromJson(Map<String, dynamic> json) => _$PostFromJson(json);
 
   /// `toJson` is the convention for a class to declare support for serialization
