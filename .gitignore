@@ -44,5 +44,5 @@ app.*.map.json
 /android/app/release
 
 **/*generated_plugin*
-**/*GeneratedPlugin*
+**/*GeneratedPluginRegistrant*
 
