@@ -127,8 +127,8 @@ class CommmentTreeSection extends StatefulWidget {
 class _CommmentTreeSectionState extends State<CommmentTreeSection> {
   @override
   Widget build(BuildContext context) {
-    // List<Comment1> listReply = [];
-    // countReply(widget.list, listReply);
+    List<Comment1> listReply = [];
+    countReply(widget.list, listReply);
     int defalutReply = 1;
     Color hideTree;
     return Column(
@@ -148,8 +148,8 @@ class _CommmentTreeSectionState extends State<CommmentTreeSection> {
               child: CommentTreeWidget<Comment1, Comment1>( 
                 widget.list,
                 [
-                  for(int i =1; i < defalutReply+widget.list.reply.length; i++)
-                    widget.list.reply[i-1],
+                  for(int i =1; i < defalutReply+listReply.length; i++)
+                    listReply[i-1],
                 ], 
                 treeThemeData: TreeThemeData(
                   lineColor: hideTree,
@@ -287,14 +287,16 @@ class _CommmentTreeSectionState extends State<CommmentTreeSection> {
   }
 }
 
-// void countReply(Comment1 data, List<Comment1> listdata){
-//   int count = 0;
-//   while(data.reply.length-- > 0)
-//   {
-//     listdata.add(data.reply[count]);
-//     if(data.reply[count].reply.isNotEmpty){
-//       countReply(data.reply[count], listdata);
-//     }
-//     count++;
-//   }
-// }
+void countReply(Comment1 data, List<Comment1> listdata){
+  int count = 0;
+  var countLoop = data.reply.length;
+  while(countLoop  > 0)
+  {
+    listdata.add(data.reply[count]);
+    if(data.reply[count].reply.isNotEmpty){
+      countReply(data.reply[count], listdata);
+    }
+    count++;
+    countLoop--;
+  }
+}
