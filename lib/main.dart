@@ -24,11 +24,16 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> with TickerProviderStateMixin{
   late TabController _tabController;
-  ScrollController controller1 = ScrollController();
-  ScrollController controller2 = ScrollController();
-  ScrollController controller3 = ScrollController();
-  final GlobalKey<ExtendedNestedScrollViewState> _key =
-      GlobalKey<ExtendedNestedScrollViewState>();
+  // LoadMorePost source1 = LoadMorePost();
+  // LoadMorePost source2 = LoadMorePost();
+  // LoadMorePost source3 = LoadMorePost();
+  late LoadMorePost source1 ;
+  late LoadMorePost source2 ;
+  late LoadMorePost source3 ;
+  // ScrollController controller1 = ScrollController();
+  // ScrollController controller2 = ScrollController();
+  // ScrollController controller3 = ScrollController();
+  final GlobalKey<ExtendedNestedScrollViewState> _key = GlobalKey<ExtendedNestedScrollViewState>();
   // ScrollController controller = ScrollController();
   // List fullpost = [];
   List posts = []; //placeholder of 5 posts per load
@@ -37,6 +42,9 @@ class _HomeState extends State<Home> with TickerProviderStateMixin{
   void dispose() {
     // _tabController.removeListener(_handleTabChange);
     themeManager.removeListener(themeListener);
+    source1.dispose();
+    source2.dispose();
+    source3.dispose();
     // controller.removeListener(scrollListener);
     // controller1.removeListener(scrollListener1);
     // controller2.removeListener(scrollListener2);
@@ -48,22 +56,28 @@ class _HomeState extends State<Home> with TickerProviderStateMixin{
   @override
   void initState(){
     super.initState();
+    postManager.addListener(postlistListener);
+    initFetchData();
+    // controller.addListener(scrollListener);
     _tabController = TabController(length: 3, vsync: this);
     _tabController.addListener(_handleTabChange);
-    postManager.addListener(postlistListener);
-    // controller.addListener(scrollListener);
-    initFetchData();
     // controller1.addListener(scrollListener1);
     // controller2.addListener(scrollListener2);
     // controller3.addListener(scrollListener3);
     themeManager.addListener(themeListener);
-    // fetch(postManager.post);
+    
+    source1 = LoadMorePost();
+    source2 = LoadMorePost();    
+    source3 = LoadMorePost();
+
+
+    // fetch(postManager.post)
   }
 
   Future<void> initFetchData() async{
     await postManager.readPostJsonData();
     fullPost = postManager.post;
-    fetch(postManager.post);
+    // fetch(postManager.post);
   }
 
   void _handleTabChange(){
@@ -144,7 +158,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin{
       });
     }else{
       if (kDebugMode) {
-        // print(index);
+        print(Exception('???'));
       }
     }
   }
@@ -222,10 +236,10 @@ class _HomeState extends State<Home> with TickerProviderStateMixin{
             },
             body: TabBarView(
                   controller: _tabController,
-                   children: [
-                      PostListView(controller:controller1, list: totalPost, pagekey: PageStorageKey('tab1')),
-                      PostListView(controller:controller2, list: totalPost, pagekey: PageStorageKey('tab2')),
-                      PostListView(controller:controller3, list: totalPost, pagekey: PageStorageKey('tab3'))
+                   children:  [
+                      PostListView(controller: ScrollController(), source: source1, pagekey: PageStorageKey('tab1')),
+                      PostListView(controller: ScrollController(), source: source2 ,pagekey: PageStorageKey('tab2')),
+                      PostListView(controller: ScrollController(), source: source3 ,pagekey: PageStorageKey('tab3'))
                    ],
                   ),
             ),

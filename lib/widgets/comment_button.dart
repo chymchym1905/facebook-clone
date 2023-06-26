@@ -17,31 +17,34 @@ class _CommentAppBarState extends State<CommentAppBar> {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: themeManager.themeMode == dark ? const Color.fromARGB(255,58,59,60):Color.fromARGB(155, 180, 177, 177),
+        color: themeManager.themeMode == dark ? lightdark:white,
         border: const Border(
           top: BorderSide(color: Colors.grey, width:0.2 )
         ),
       ),
-      padding: const EdgeInsets.only(bottom: 12, right: 12, left: 12, top: 7),
+      padding: EdgeInsets.only(
+        bottom: MediaQuery.of(context).size.height*0.02, right: 12, left: 12, 
+        top:MediaQuery.of(context).size.height*0.02),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          TextField(
-            autocorrect: true,
-            focusNode: widget.myfocusNode,
-            decoration: InputDecoration(
-              hintText: 'Write a comment...',
-              hintStyle: const TextStyle(fontSize: 16),
-              border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(50),
-                  borderSide: const BorderSide(
-                      width: 0, 
-                      style: BorderStyle.none,
-                  ),
-              ),
-              filled: true,
-              fillColor: Colors.grey,
-              ),
+          SizedBox(
+            height: MediaQuery.of(context).size.height*0.05,
+            child: TextField(
+              autocorrect: true,
+              focusNode: widget.myfocusNode,
+              decoration: InputDecoration(
+                hintText: 'Write a comment...',
+                border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(50),
+                    borderSide: const BorderSide(
+                        width: 0, 
+                        style: BorderStyle.none,
+                    ),
+                ),
+                filled: true,
+                ),
+            ),
           ),
           Visibility(
             visible: widget.isKeyboard,

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 const Color white = Color.fromARGB(255, 255, 255, 255);
 const Color blue = Color.fromRGBO(59, 127, 210, 1);
+const Color lightdark = Color.fromARGB(255, 38, 38, 38);
 
 
 ThemeData light = ThemeData(
@@ -38,6 +39,17 @@ ThemeData light = ThemeData(
     dividerColor: Color.fromRGBO(59, 127, 210, 1),
     labelColor: Color.fromRGBO(59, 127, 210, 1),
   ),
+  inputDecorationTheme: const InputDecorationTheme(
+    border: InputBorder.none,
+    fillColor: Color.fromARGB(255, 240, 242, 245),
+    hintStyle: TextStyle(
+      color: Color.fromARGB(255, 143,146,150),
+      letterSpacing: -0.2,
+      fontSize: 12,
+      fontStyle: FontStyle.normal
+    )
+  ),
+  
   
   // colorScheme: ColorScheme.fromSeed(seedColor: Colors.white),
 );
@@ -86,7 +98,16 @@ ThemeData dark = ThemeData(
     dividerColor: Color.fromRGBO(59, 127, 210, 1),
     labelColor: Color.fromRGBO(59, 127, 210, 1),
   ),
-
+  inputDecorationTheme: const InputDecorationTheme(
+    border: InputBorder.none,
+    fillColor: Color.fromARGB(255, 58, 59, 60),
+    hintStyle: TextStyle(
+      color: Color.fromARGB(255, 143,146,150),
+      letterSpacing: -0.2,
+      fontSize: 12,
+      fontStyle: FontStyle.normal
+    )
+  )
 );
 
 class ThemeProvider with ChangeNotifier {
