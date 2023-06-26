@@ -1,12 +1,13 @@
 // import 'package:lorem_ipsum_generator/lorem_ipsum_generator.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:flutter_application_1/widgets/comment_button.dart';
+import 'package:flutter_application_1/widgets/fb_reaction.dart';
+import 'package:flutter_application_1/widgets/share_button.dart';
 import 'package:flutter/material.dart';
 import '../model/post_class.dart';
 import 'package:flutter_application_1/main.dart';
 import 'package:flutter_application_1/theme/themes.dart';
 import 'package:flutter_brand_palettes/palettes.dart';
 import '../widgets/comment_widget.dart';
-
 
 const _blue = Facebook.blue();
 class Postpage extends StatefulWidget{
@@ -17,8 +18,11 @@ class Postpage extends StatefulWidget{
   State<Postpage> createState() => _PostPageState() ;
 }
 class _PostPageState extends State<Postpage>{
+  final myfocusNode = FocusNode();
+  
   @override
   Widget build(BuildContext context){
+    final isKeyboard = MediaQuery.of(context).viewInsets.bottom != 0;
     Widget pagename = Container(
       margin: const EdgeInsets.all(10),
       child: Row(
@@ -88,9 +92,9 @@ class _PostPageState extends State<Postpage>{
       child:Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            _builButton(Colors.grey, Icons.thumb_up_off_alt, 'Like'),
-            _builButton(Colors.grey, FontAwesomeIcons.message, 'Comment'),
-            _builButton(Colors.grey, FontAwesomeIcons.share, 'Share'),
+            const FbReaction(),
+            CommentButton(myfocusNode: myfocusNode),
+            ShareButton(data: widget.data),
           ],
       ),
     );
@@ -121,56 +125,42 @@ class _PostPageState extends State<Postpage>{
     // Widget comment = CommentSection(data: commentLi);
     return MaterialApp(
       theme: themeManager.themeMode,
-      home: Scaffold(
-          backgroundColor:themeManager.themeMode == dark ? const Color.fromARGB(255, 38, 38, 38):Colors.white,
-          appBar: AppBar(
-            elevation: 0,
-            leading: IconButton(
-              splashRadius: MediaQuery.of(context).size.width*0.07,
-              icon: const Icon(Icons.arrow_back),
-              onPressed: () => Navigator.pop(context, false)
+      home: GestureDetector(
+        onTap: () => FocusScope.of(context).unfocus(),
+        child: Scaffold(
+            backgroundColor:themeManager.themeMode == dark ? const Color.fromARGB(255, 38, 38, 38):Colors.white,
+            appBar: AppBar(
+              elevation: 0,
+              leading: IconButton(
+                splashRadius: MediaQuery.of(context).size.width*0.07,
+                icon: const Icon(Icons.arrow_back),
+                onPressed: () => Navigator.pop(context, false)
+              ),
+              title: Text(widget.data.user.name,
+              style: Theme.of(context).textTheme.titleLarge),
+              actions: [
+                 IconButton(onPressed: () {},icon: const Icon(Icons.search), splashRadius: MediaQuery.of(context).size.width*0.07),
+              ],
+              // bottom: ,
             ),
-            title: Text(widget.data.user.name,
-            style: Theme.of(context).textTheme.titleLarge),
-            actions: [
-               IconButton(onPressed: () {},icon: const Icon(Icons.search), splashRadius: MediaQuery.of(context).size.width*0.07),
-            ],
-          ),
-          body: ListView(
+            body: Column(
               children: [
-                pagename,
-                textfeed,
-                buttonSection,
-                iconSection,
-                CommentSection(data: widget.data.comment),
+                Expanded(
+                  child: ListView(
+                      children: [
+                        pagename,
+                        textfeed,
+                        buttonSection,
+                        iconSection,
+                        CommentSection(data: widget.data.comment),
+                      ],
+                  ),
+                ),
+                CommentAppBar(myfocusNode: myfocusNode, isKeyboard: isKeyboard),
               ],
             ),
+        ),
       ),
-    );
-  }
-  Column _builButton(Color color, IconData icon, String label) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Row(
-          
-          children: [
-            TextButton.icon(
-            onPressed: (){},
-            icon: Icon(
-              icon,
-              size: 22,
-              color: color,
-            ),
-            label: Text(
-              label,
-              style: Theme.of(context).textTheme.labelSmall,
-            ),
-            ),
-          ], 
-        )
-      ],
     );
   }
 }

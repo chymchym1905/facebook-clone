@@ -123,6 +123,5 @@ class Caption extends StatelessWidget {
         ),
       ),
     );
-      
   }
 }
