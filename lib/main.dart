@@ -1,25 +1,4 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
-
-// import 'dart:convert';
-// import 'dart:io';
-// import 'package:fluttericon/octicons_icons.dart';
-// import 'package:flutter/gestures.dart';
-// import 'package:flutter_application_1/model/post_class.dart';
-// import 'widgets/drawer.dart';
-// import 'widgets/post_card_container.dart';
-// import 'package:flutter/services.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_application_1/model/appdata.dart';
-import 'package:flutter_application_1/widgets/postlistview.dart';
-// import 'package:flutter/services.dart';
-// import 'utils/fileio.dart';
-import 'utils/postlist.dart';
-// import 'model/user_class.dart';
-import 'routesettings.dart';
-// import 'data/data.dart';
-import 'theme/themes.dart';
-
+import '../index.dart';
 
 
 void main() {
@@ -29,7 +8,8 @@ void main() {
 int index = 0;
 ThemeProvider themeManager = ThemeProvider();
 PostList postManager = PostList([]);
-List totalPost = [];
+List totalPost = []; //current number of posts loaded
+List fullPost = []; //all posts here
 
 //APP
 class Home extends StatefulWidget {
@@ -42,11 +22,14 @@ class Home extends StatefulWidget {
 }
 
 
-class _HomeState extends State<Home>{
-  // late TabController _tabController;
+class _HomeState extends State<Home> with TickerProviderStateMixin{
+  late TabController _tabController;
   ScrollController controller1 = ScrollController();
   ScrollController controller2 = ScrollController();
   ScrollController controller3 = ScrollController();
+  final GlobalKey<ExtendedNestedScrollViewState> _key =
+      GlobalKey<ExtendedNestedScrollViewState>();
+  // ScrollController controller = ScrollController();
   // List fullpost = [];
   List posts = []; //placeholder of 5 posts per load
   
@@ -54,9 +37,10 @@ class _HomeState extends State<Home>{
   void dispose() {
     // _tabController.removeListener(_handleTabChange);
     themeManager.removeListener(themeListener);
-    controller1.removeListener(scrollListener1);
-    controller2.removeListener(scrollListener2);
-    controller3.removeListener(scrollListener3);
+    // controller.removeListener(scrollListener);
+    // controller1.removeListener(scrollListener1);
+    // controller2.removeListener(scrollListener2);
+    // controller3.removeListener(scrollListener3);
     postManager.removeListener(postlistListener);
     super.dispose();
   }
@@ -64,24 +48,34 @@ class _HomeState extends State<Home>{
   @override
   void initState(){
     super.initState();
-    // _tabController = TabController(length: 3, vsync: this);
-    // _tabController.addListener(_handleTabChange);
+    _tabController = TabController(length: 3, vsync: this);
+    _tabController.addListener(_handleTabChange);
     postManager.addListener(postlistListener);
+    // controller.addListener(scrollListener);
     initFetchData();
-    controller1.addListener(scrollListener1);
-    controller2.addListener(scrollListener2);
-    controller3.addListener(scrollListener3);
+    // controller1.addListener(scrollListener1);
+    // controller2.addListener(scrollListener2);
+    // controller3.addListener(scrollListener3);
     themeManager.addListener(themeListener);
     // fetch(postManager.post);
   }
 
   Future<void> initFetchData() async{
     await postManager.readPostJsonData();
+    fullPost = postManager.post;
     fetch(postManager.post);
   }
 
-  // void _handleTabChange() {
-  //   setState(() {});
+  void _handleTabChange(){
+    if(mounted){
+      setState(() {
+        
+      });
+    }
+  }
+
+  // scrollListener(){
+
   // }
 
   postlistListener(){
@@ -100,34 +94,37 @@ class _HomeState extends State<Home>{
     }
   }
 
-  scrollListener1(){
-    if(mounted){
-      // print(controller.offset);
-      // print(controller.position.maxScrollExtent);
-      if(controller1.position.maxScrollExtent == controller1.offset){
-        // print(controller.offset);
-        fetch(postManager.post);
-      }
-    }
-  }
+  // scrollListener1(){
+  //   if(mounted){
+  //     // print(controller.offset);
+  //     // print(controller.position.maxScrollExtent);
+  //     print(controller1.offset);
+  //     if(controller1.position.maxScrollExtent == controller1.offset){
+        
+  //       fetch(postManager.post);
+  //     }
+  //   }
+  // }
 
-  scrollListener2(){
-    if(mounted){
-      if(controller2.position.maxScrollExtent == controller2.offset){
-        // print(controller.offset);
-      fetch(postManager.post);
-      }
-    }
-  }
+  // scrollListener2(){
+  //   if(mounted){
+  //     print(controller2.offset);
+  //     if(controller2.position.maxScrollExtent == controller2.offset){
+        
+  //     fetch(postManager.post);
+  //     }
+  //   }
+  // }
   
-  scrollListener3(){
-    if(mounted){
-      if(controller3.position.maxScrollExtent == controller3.offset){
-        // print(controller.offset);
-      fetch(postManager.post);
-      }
-    }
-  }
+  // scrollListener3(){
+  //   if(mounted){
+  //     print(controller3.offset);
+  //     if(controller3.position.maxScrollExtent == controller3.offset){
+        
+  //     fetch(postManager.post);
+  //     }
+  //   }
+  // }
 
   Future<void> fetch(List fullpost) async{
     await Future<List?>.delayed(const Duration(milliseconds: 500));
@@ -155,6 +152,8 @@ class _HomeState extends State<Home>{
 
   @override
   Widget build(BuildContext context) {
+    final double statusBarHeight = MediaQuery.of(context).padding.top;
+    final double pinnedHeaderHeight = statusBarHeight + kToolbarHeight;
     // AppData appdata = AppDataProvider.of(context);
     // fetch(postManager.post);
     // final ColorScheme colorScheme = Theme.of(context).colorScheme;
@@ -166,110 +165,70 @@ class _HomeState extends State<Home>{
       onGenerateRoute: RouteGenerator.generateRoute,
       home: Scaffold(
         // drawer: NavBar(),
-        body: DefaultTabController(
-          length: 3,
-          child: NestedScrollView(
-            headerSliverBuilder: (context,value){
+        body: ExtendedNestedScrollView(
+          key: _key,
+            pinnedHeaderSliverHeightBuilder: () {
+              return pinnedHeaderHeight/2;
+            },
+            onlyOneScrollInBody: true,
+            headerSliverBuilder: (context,bool innerBoxisScrolled){
               return [
-                SliverAppBar(
-                  // leadingWidth: MediaQuery.of(context).size.width*0.1,
-                  forceElevated: value,
-                  // leading: IconButton(
-                  //   // iconSize: MediaQuery.of(context).size.width*0.08,
-                  //   splashRadius: MediaQuery.of(context).size.width*0.07,
-                  //   onPressed: () {Scaffold.of(context).openDrawer(); },
-                  //   icon: const Icon(Octicons.three_bars),
+                    SliverAppBar(
+                    // leadingWidth: MediaQuery.of(context).size.width*0.1,
+                    // forceElevated: innerBoxisScrolled,
+                    // leading: IconButton(
+                    //   // iconSize: MediaQuery.of(context).size.width*0.08,
+                    //   splashRadius: MediaQuery.of(context).size.width*0.07,
+                    //   onPressed: () {Scaffold.of(context).openDrawer(); },
+                    //   icon: const Icon(Octicons.three_bars),
                     
-                  // ),
-                  pinned: true,
-                  floating: true,
-                  snap: true,
-                  // titleSpacing: MediaQuery.of(context).size.width*-0.01,
-                  // floating: true,
-                  // snap: true,
-                  actions: [
-                    Switch(value: themeManager.themeMode == dark, 
-                    onChanged:(value) => themeManager.toggleTheme(value),
-                    activeColor: white),
-                    IconButton(
-                        splashRadius: MediaQuery.of(context).size.width*0.07,
-                        onPressed: () {},
-                        icon: const Icon(Icons.add)),
-                    IconButton(
-                        splashRadius: MediaQuery.of(context).size.width*0.07,
-                        onPressed: () {},
-                        icon: const Icon(Icons.search)),
-                  ],
-                  // expandedHeight: MediaQuery.of(context).size.height * 0.15,
-                  title: Text(
-                    'fakebook',
-                    style:TextStyle(
-                    color:  themeManager.themeMode == dark? white:blue,
-                  )),
-                  bottom: TabBar(
-
-                    tabs: const [
-                      Tab(
-                        icon: Icon(Icons.home),
-                      ),
-                      Tab(
-                        icon: Icon(Icons.people_alt_outlined),
-                      ),
-                      Tab(
-                        icon: Icon(Icons.video_collection_rounded),
-                      ),
+                    // ),
+                    pinned: true,
+                    floating: true,
+                    snap: true,
+                    // expandedHeight: 150,
+                    // titleSpacing: MediaQuery.of(context).size.width*-0.01,
+                    // floating: true,
+                    // snap: true,
+                    actions: [
+                      Switch(value: themeManager.themeMode == dark, 
+                      onChanged:(value) => themeManager.toggleTheme(value),
+                      activeColor: white),
+                      IconButton(
+                          splashRadius: MediaQuery.of(context).size.width*0.07,
+                          onPressed: () {},
+                          icon: const Icon(Icons.add)),
+                      IconButton(
+                          splashRadius: MediaQuery.of(context).size.width*0.07,
+                          onPressed: () {},
+                          icon: const Icon(Icons.search)),
                     ],
-                    
+                    // expandedHeight: MediaQuery.of(context).size.height * 0.15,
+                    title: Text(
+                      'fakebook',
+                      style:TextStyle(
+                      color:  themeManager.themeMode == dark? white:blue,
+                    )),
+                    bottom: TabBar(
+                      controller: _tabController,
+                      tabs: const [
+                        Tab(icon: Icon(Icons.home),),
+                        Tab(icon: Icon(Icons.people_alt_outlined),),
+                        Tab(icon: Icon(Icons.video_collection_rounded),),
+                      ],                      
+                    ),
                   ),
-                ),
               ];
             },
             body: TabBarView(
-              // controller: _tabController,
-               children: [
-                //  ListView(
-                //     padding: const EdgeInsets.symmetric(vertical: 5.0),
-                //     children: [
-                //         for (int index = 0; index < posts.length; index += 1) 
-                //           if ((posts[index].visibility is! Private))
-                //             Posts(data: posts[index]),                   
-                //     ],
-                //   ),
-                  // FutureBuilder(
-                  //   future: postlist.readPostJsonData(),
-                  //   builder: (context, data){
-                  //   if(data.hasError){
-                  //     return const Center(
-                  //       child: Text(
-                  //         'Data Error',
-                  //         style: TextStyle(
-                  //           fontSize: 30,
-                  //         ),
-                  //       ),
-                  //     );
-                  //   } else if(data.hasData){
-                  //     var items = data.data as List<Post>;
-                  //     return ListView.builder(
-                  //       padding: EdgeInsets.zero,
-                  //       itemCount: items.length,
-                  //       itemBuilder: (context, index){
-                  //         return Posts(data: items[index]);
-                  //       },
-                  //     );
-                  //   }else{
-                  //       return const Center(child: CircularProgressIndicator(),);
-                  //   }
-                  // },
-                  // ),
-
-                  PostListView(controller:controller1, list: totalPost, pagekey: PageStorageKey('tab1')),
-                  PostListView(controller:controller2, list: totalPost, pagekey: PageStorageKey('tab2')),
-                  PostListView(controller:controller3, list: totalPost, pagekey: PageStorageKey('tab3'))
-               ],
-    
-              ),
+                  controller: _tabController,
+                   children: [
+                      PostListView(controller:controller1, list: totalPost, pagekey: PageStorageKey('tab1')),
+                      PostListView(controller:controller2, list: totalPost, pagekey: PageStorageKey('tab2')),
+                      PostListView(controller:controller3, list: totalPost, pagekey: PageStorageKey('tab3'))
+                   ],
+                  ),
             ),
-          ),
         ),
     );
   }

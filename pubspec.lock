@@ -257,6 +257,30 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.2.1"
+  extended_list:
+    dependency: transitive
+    description:
+      name: extended_list
+      sha256: "7eb3c21cd8b7710b0092cb0606807cd24614e5832e65f370e5dee226d317de44"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.0.0"
+  extended_list_library:
+    dependency: transitive
+    description:
+      name: extended_list_library
+      sha256: cb424a04464e89bd6737f9ae025029bd8e913c7bf37101ad10c2defe0238d842
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.0.0"
+  extended_nested_scroll_view:
+    dependency: "direct main"
+    description:
+      name: extended_nested_scroll_view
+      sha256: "49c0de4f648a7ed4dc5501db7855aec38582d076ef61bb1708ba73d58f0f2525"
+      url: "https://pub.dev"
+    source: hosted
+    version: "6.1.1"
   fake_async:
     dependency: transitive
     description:
@@ -440,6 +464,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.1"
+  loading_more_list:
+    dependency: "direct main"
+    description:
+      name: loading_more_list
+      sha256: aa680edc81cf024c394dccfa7ba1db701a5efb23ec1b8c657308428ce9da11d1
+      url: "https://pub.dev"
+    source: hosted
+    version: "5.0.3"
+  loading_more_list_library:
+    dependency: transitive
+    description:
+      name: loading_more_list_library
+      sha256: "31348925a98748ffe04f661e4b47df37103fabad39442064fcf59148a5fee2dd"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.1"
   logging:
     dependency: transitive
     description:
@@ -632,6 +672,62 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.2.3"
+  shared_preferences:
+    dependency: "direct main"
+    description:
+      name: shared_preferences
+      sha256: "396f85b8afc6865182610c0a2fc470853d56499f75f7499e2a73a9f0539d23d0"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.1.2"
+  shared_preferences_android:
+    dependency: transitive
+    description:
+      name: shared_preferences_android
+      sha256: "6478c6bbbecfe9aced34c483171e90d7c078f5883558b30ec3163cf18402c749"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.1.4"
+  shared_preferences_foundation:
+    dependency: transitive
+    description:
+      name: shared_preferences_foundation
+      sha256: e014107bb79d6d3297196f4f2d0db54b5d1f85b8ea8ff63b8e8b391a02700feb
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.2.2"
+  shared_preferences_linux:
+    dependency: transitive
+    description:
+      name: shared_preferences_linux
+      sha256: "9d387433ca65717bbf1be88f4d5bb18f10508917a8fa2fb02e0fd0d7479a9afa"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.2.0"
+  shared_preferences_platform_interface:
+    dependency: transitive
+    description:
+      name: shared_preferences_platform_interface
+      sha256: fb5cf25c0235df2d0640ac1b1174f6466bd311f621574997ac59018a6664548d
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.2.0"
+  shared_preferences_web:
+    dependency: transitive
+    description:
+      name: shared_preferences_web
+      sha256: "74083203a8eae241e0de4a0d597dbedab3b8fef5563f33cf3c12d7e93c655ca5"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.1.0"
+  shared_preferences_windows:
+    dependency: transitive
+    description:
+      name: shared_preferences_windows
+      sha256: "5e588e2efef56916a3b229c3bfe81e6a525665a454519ca51dbcc4236a274173"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.2.0"
   shelf:
     dependency: transitive
     description:
@@ -765,6 +861,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.4"
+  visibility_detector:
+    dependency: transitive
+    description:
+      name: visibility_detector
+      sha256: dd5cc11e13494f432d15939c3aa8ae76844c42b723398643ce9addb88a5ed420
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.4.0+2"
   watcher:
     dependency: transitive
     description:
@@ -773,6 +877,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.1.0"
+  waterfall_flow:
+    dependency: transitive
+    description:
+      name: waterfall_flow
+      sha256: "84486ac34f51977176990ada50b44d83be24726814fa03c22c1e10e3791cc3f2"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.0.2"
   web_socket_channel:
     dependency: transitive
     description:
@@ -807,4 +919,4 @@ packages:
     version: "3.1.2"
 sdks:
   dart: ">=3.0.3 <4.0.0"
-  flutter: ">=3.3.0"
+  flutter: ">=3.10.0"

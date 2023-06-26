@@ -1,10 +1,4 @@
-// import 'dart:async';
-// import 'dart:io';
-
-import 'package:flutter/material.dart';
-// import 'package:flutter/services.dart';
-import 'package:flutter_brand_palettes/palettes.dart';
-// import 'package:indexed/indexed.dart';
+import '../index.dart';
 
 class FbReaction extends StatefulWidget {
   const FbReaction({super.key});

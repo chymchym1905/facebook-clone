@@ -1,7 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_application_1/theme/themes.dart';
-import 'package:flutter_application_1/main.dart';
-import 'package:flutter_application_1/model/post_class.dart';
+import '../index.dart';
 
 class Posts extends StatefulWidget {
   const Posts({Key? key, required this.data}) : super(key: key);
