@@ -42,7 +42,8 @@ class Home extends StatefulWidget {
 }
 
 
-class _HomeState extends State<Home> {
+class _HomeState extends State<Home>{
+  // late TabController _tabController;
   ScrollController controller1 = ScrollController();
   ScrollController controller2 = ScrollController();
   ScrollController controller3 = ScrollController();
@@ -51,6 +52,7 @@ class _HomeState extends State<Home> {
   
   @override
   void dispose() {
+    // _tabController.removeListener(_handleTabChange);
     themeManager.removeListener(themeListener);
     controller1.removeListener(scrollListener1);
     controller2.removeListener(scrollListener2);
@@ -62,6 +64,8 @@ class _HomeState extends State<Home> {
   @override
   void initState(){
     super.initState();
+    // _tabController = TabController(length: 3, vsync: this);
+    // _tabController.addListener(_handleTabChange);
     postManager.addListener(postlistListener);
     initFetchData();
     controller1.addListener(scrollListener1);
@@ -75,6 +79,10 @@ class _HomeState extends State<Home> {
     await postManager.readPostJsonData();
     fetch(postManager.post);
   }
+
+  // void _handleTabChange() {
+  //   setState(() {});
+  // }
 
   postlistListener(){
     if(mounted){
@@ -122,7 +130,7 @@ class _HomeState extends State<Home> {
   }
 
   Future<void> fetch(List fullpost) async{
-    await Future<List?>.delayed(const Duration(seconds: 2));
+    await Future<List?>.delayed(const Duration(milliseconds: 500));
     if (index + 5<fullpost.length){
       setState(() {
         posts = fullpost.sublist(index, index + 5);
@@ -174,9 +182,11 @@ class _HomeState extends State<Home> {
                     
                   // ),
                   pinned: true,
-                  // titleSpacing: MediaQuery.of(context).size.width*-0.01,
                   floating: true,
                   snap: true,
+                  // titleSpacing: MediaQuery.of(context).size.width*-0.01,
+                  // floating: true,
+                  // snap: true,
                   actions: [
                     Switch(value: themeManager.themeMode == dark, 
                     onChanged:(value) => themeManager.toggleTheme(value),
@@ -196,8 +206,9 @@ class _HomeState extends State<Home> {
                     style:TextStyle(
                     color:  themeManager.themeMode == dark? white:blue,
                   )),
-                  bottom: const TabBar(
-                    tabs: [
+                  bottom: TabBar(
+
+                    tabs: const [
                       Tab(
                         icon: Icon(Icons.home),
                       ),
@@ -214,6 +225,7 @@ class _HomeState extends State<Home> {
               ];
             },
             body: TabBarView(
+              // controller: _tabController,
                children: [
                 //  ListView(
                 //     padding: const EdgeInsets.symmetric(vertical: 5.0),
@@ -250,9 +262,9 @@ class _HomeState extends State<Home> {
                   // },
                   // ),
 
-                  PostListView(controller:controller1, list: totalPost),
-                  PostListView(controller:controller2, list: totalPost),
-                  PostListView(controller:controller3, list: totalPost)
+                  PostListView(controller:controller1, list: totalPost, pagekey: PageStorageKey('tab1')),
+                  PostListView(controller:controller2, list: totalPost, pagekey: PageStorageKey('tab2')),
+                  PostListView(controller:controller3, list: totalPost, pagekey: PageStorageKey('tab3'))
                ],
     
               ),

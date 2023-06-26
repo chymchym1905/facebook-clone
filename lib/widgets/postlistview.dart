@@ -15,16 +15,20 @@ class PostListView extends StatelessWidget {
   
   final List<dynamic> list;
   final ScrollController controller;
+  final PageStorageKey pagekey;
+
   const PostListView({
     Key? key,
     required this.list,
     required this.controller,
+    required this.pagekey,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     // AppData appdata = AppDataProvider.of(context);
     return ListView.builder(
+      key: pagekey,
       controller: controller,
       padding: EdgeInsets.zero,
       itemCount: list.length+1,
