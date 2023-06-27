@@ -19,7 +19,7 @@ class _CommentSectionState extends State<CommentSection> {
           itemCount: widget.data.length,
           itemBuilder: (context, index){
             if(widget.data[index].reply.isEmpty){
-              hideTree = Colors.white;
+              hideTree = themeManager.themeMode==dark? lightdark:white;
             } else {
               hideTree = Colors.grey;
             }
@@ -135,7 +135,7 @@ class _CommmentTreeSectionState extends State<CommmentTreeSection> {
           itemCount: defalutReply,
           itemBuilder: (context, index){
             if(widget.list.reply.isEmpty){
-              hideTree = Colors.white;
+              hideTree = themeManager.themeMode==dark? lightdark : white;
             } else {
               hideTree = Colors.grey;
             }
