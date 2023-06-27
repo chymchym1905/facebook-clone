@@ -13,4 +13,7 @@ export 'package:flutter/material.dart';
 export 'package:flutter_application_1/model/comment_class.dart';
 export 'package:flutter_application_1/widgets/postlistview.dart';
 export 'package:flutter_brand_palettes/palettes.dart';
-
+export 'package:font_awesome_flutter/font_awesome_flutter.dart';
+export 'package:fluttericon/font_awesome5_icons.dart';
+export 'package:fluttericon/iconic_icons.dart';
+export 'package:fluttericon/elusive_icons.dart';
