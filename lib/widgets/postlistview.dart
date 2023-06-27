@@ -37,6 +37,7 @@ class LoadMorePost extends LoadingMoreBase<Post>{
         await Future.delayed(const Duration(milliseconds:500)); 
       }
       posts = fullPost.getRange(length, length+5).toList();
+      print(fullPost);
       if(_pageIndex==1){
         clear();
       }
@@ -75,13 +76,13 @@ class LoadMorePost extends LoadingMoreBase<Post>{
 class PostListView extends StatefulWidget {
   final LoadMorePost source;
   // final List<dynamic> list;
-  final ScrollController controller;
+  // final ScrollController controller;
   final PageStorageKey pagekey;
 
   const PostListView({
     Key? key,
     // required this.list,
-    required this.controller,
+    // required this.controller,
     required this.source,
     required this.pagekey,
   }) : super(key: key);
@@ -90,7 +91,7 @@ class PostListView extends StatefulWidget {
   State<PostListView> createState() => _PostListViewState();
 }
 
-class _PostListViewState extends State<PostListView> with AutomaticKeepAliveClientMixin{
+class _PostListViewState extends State<PostListView> {
 
   @override
   void initState(){
@@ -99,23 +100,24 @@ class _PostListViewState extends State<PostListView> with AutomaticKeepAliveClie
   } 
 
   void initLoad() async{
-    await widget.source.loadData()==true;
+    // await widget.source.loadData()==true;
   }
 
   
   @override
   void dispose() {
-    widget.source.dispose();
+    // widget.source.dispose();
     super.dispose();
   }
 
-  @override
-  bool get wantKeepAlive => true;
+  // @override
+  // bool get wantKeepAlive => true;
 
   @override
   Widget build(BuildContext context) {
-    super.build(context);
+    // super.build(context);
     // AppData appdata = AppDataProvider.of(context);
+
     return ExtendedVisibilityDetector(
       uniqueKey: widget.pagekey,
       child: LoadingMoreList<Post>(
@@ -177,15 +179,14 @@ class _PostListViewState extends State<PostListView> with AutomaticKeepAliveClie
       ),
     );
   
-      // child: ListView.builder(
-      //   key: pagekey,
-      //   controller: controller,
+      // return ListView.builder(
+      //   key: widget.key,
       //   padding: EdgeInsets.zero,
-      //   itemCount: list.length+1,
+      //   itemCount: widget.source.length+1,
       //   itemBuilder: (context, index) {
       //     // var items = list.map((e) => Post.fromJson(e)).toList();
-      //     if (index<list.length){
-      //       return Posts(data: list[index]);
+      //     if (index<widget.source.length){
+      //       return Posts(data: widget.source[index]);
       //     }else{
       //       return const Padding(
       //         padding: EdgeInsets.all(8.0),
@@ -195,7 +196,7 @@ class _PostListViewState extends State<PostListView> with AutomaticKeepAliveClie
       //       );
       //     }
       //   },
-      //   addAutomaticKeepAlives: true,),
+      //   );
   }
 }
 

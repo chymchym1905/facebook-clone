@@ -181,67 +181,54 @@ class _HomeState extends State<Home> with TickerProviderStateMixin{
         // drawer: NavBar(),
         body: ExtendedNestedScrollView(
           key: _key,
-            pinnedHeaderSliverHeightBuilder: () {
-              return pinnedHeaderHeight/2;
-            },
-            onlyOneScrollInBody: true,
-            headerSliverBuilder: (context,bool innerBoxisScrolled){
-              return [
-                    SliverAppBar(
-                    // leadingWidth: MediaQuery.of(context).size.width*0.1,
-                    // forceElevated: innerBoxisScrolled,
-                    // leading: IconButton(
-                    //   // iconSize: MediaQuery.of(context).size.width*0.08,
-                    //   splashRadius: MediaQuery.of(context).size.width*0.07,
-                    //   onPressed: () {Scaffold.of(context).openDrawer(); },
-                    //   icon: const Icon(Octicons.three_bars),
-                    
-                    // ),
-                    pinned: true,
-                    floating: true,
-                    snap: true,
-                    // expandedHeight: 150,
-                    // titleSpacing: MediaQuery.of(context).size.width*-0.01,
-                    // floating: true,
-                    // snap: true,
-                    actions: [
-                      Switch(value: themeManager.themeMode == dark, 
-                      onChanged:(value) => themeManager.toggleTheme(value),
-                      activeColor: white),
-                      IconButton(
-                          splashRadius: MediaQuery.of(context).size.width*0.07,
-                          onPressed: () {},
-                          icon: const Icon(Icons.add)),
-                      IconButton(
-                          splashRadius: MediaQuery.of(context).size.width*0.07,
-                          onPressed: () {},
-                          icon: const Icon(Icons.search)),
-                    ],
-                    // expandedHeight: MediaQuery.of(context).size.height * 0.15,
-                    title: Text(
-                      'fakebook',
-                      style:TextStyle(
-                      color:  themeManager.themeMode == dark? white:blue,
-                    )),
-                    bottom: TabBar(
-                      controller: _tabController,
-                      tabs: const [
-                        Tab(icon: Icon(Icons.home),),
-                        Tab(icon: Icon(Icons.people_alt_outlined),),
-                        Tab(icon: Icon(Icons.video_collection_rounded),),
-                      ],                      
-                    ),
+          pinnedHeaderSliverHeightBuilder: () {
+            return pinnedHeaderHeight/2;
+          },
+          onlyOneScrollInBody: true,
+          headerSliverBuilder: (context,bool innerBoxisScrolled){
+            return [
+                  SliverAppBar(
+                  pinned: true,
+                  floating: true,
+                  snap: true,
+                  actions: [
+                    Switch(value: themeManager.themeMode == dark, 
+                    onChanged:(value) => themeManager.toggleTheme(value),
+                    activeColor: white),
+                    IconButton(
+                        splashRadius: MediaQuery.of(context).size.width*0.07,
+                        onPressed: () {},
+                        icon: const Icon(Icons.add)),
+                    IconButton(
+                        splashRadius: MediaQuery.of(context).size.width*0.07,
+                        onPressed: () {},
+                        icon: const Icon(Icons.search)),
+                  ],
+                  // expandedHeight: MediaQuery.of(context).size.height * 0.15,
+                  title: Text(
+                    'fakebook',
+                    style:TextStyle(
+                    color:  themeManager.themeMode == dark? white:blue,
+                  )),
+                  bottom: TabBar(
+                    controller: _tabController,
+                    tabs: const [
+                      Tab(icon: Icon(Icons.home),),
+                      Tab(icon: Icon(Icons.people_alt_outlined),),
+                      Tab(icon: Icon(Icons.video_collection_rounded),),
+                    ],                      
                   ),
-              ];
-            },
-            body: TabBarView(
-                  controller: _tabController,
-                   children:  [
-                      PostListView(controller: ScrollController(), source: source1, pagekey: PageStorageKey('tab1')),
-                      PostListView(controller: ScrollController(), source: source2 ,pagekey: PageStorageKey('tab2')),
-                      PostListView(controller: ScrollController(), source: source3 ,pagekey: PageStorageKey('tab3'))
-                   ],
-                  ),
+                ),
+            ];
+          },
+          body: TabBarView(
+                controller: _tabController,
+                  children:  [
+                    PostListView(source: source1, pagekey: PageStorageKey('tab1')),
+                    PostListView(source: source2, pagekey: PageStorageKey('tab2')),
+                    PostListView(source: source3, pagekey: PageStorageKey('tab3'))
+                  ],
+                ),
             ),
         ),
     );
