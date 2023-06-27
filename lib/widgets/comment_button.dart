@@ -1,8 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-
-import '../main.dart';
-import '../theme/themes.dart';
+import '../index.dart';
 
 class CommentAppBar extends StatefulWidget {
   const CommentAppBar({super.key, required this.myfocusNode, required this.isKeyboard});
