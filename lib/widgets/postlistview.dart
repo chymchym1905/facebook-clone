@@ -14,38 +14,42 @@ import 'post_card_container.dart';
 class PostListView extends StatelessWidget {
   
   final List<dynamic> list;
-  final ScrollController controller;
   final PageStorageKey pagekey;
 
   const PostListView({
     Key? key,
     required this.list,
-    required this.controller,
     required this.pagekey,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     // AppData appdata = AppDataProvider.of(context);
-    return ListView.builder(
+    return CustomScrollView(
       key: pagekey,
-      controller: controller,
-      padding: EdgeInsets.zero,
-      itemCount: list.length+1,
-      itemBuilder: (context, index) {
-        // var items = list.map((e) => Post.fromJson(e)).toList();
-        if (index<list.length){
-          return Posts(data: list[index]);
-        }else{
-          return const Padding(
-            padding: EdgeInsets.all(8.0),
-            child: Center(
-              child: CircularProgressIndicator(),
-            ),
-          );
-        }
-      },
-      addAutomaticKeepAlives: true,);
+      slivers: [
+        SliverOverlapInjector(
+          handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context)),
+        SliverPadding(
+        padding: EdgeInsets.zero,
+        sliver: SliverList.builder(
+          itemCount: list.length+1,
+          itemBuilder: (context, index) {
+            // var items = list.map((e) => Post.fromJson(e)).toList();
+            if (index<list.length){
+              return Posts(data: list[index]);
+            }else{
+              return const Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Center(
+                  child: CircularProgressIndicator(),
+                ),
+              );
+            }
+          },
+          addAutomaticKeepAlives: true,),
+      ),]
+    );
   }
 }
 
