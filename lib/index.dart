@@ -17,3 +17,6 @@ export 'package:font_awesome_flutter/font_awesome_flutter.dart';
 export 'package:fluttericon/font_awesome5_icons.dart';
 export 'package:fluttericon/iconic_icons.dart';
 export 'package:fluttericon/elusive_icons.dart';
+export 'package:flutter_application_1/widgets/share_button.dart';
+export 'package:flutter_application_1/widgets/fb_reaction.dart';
+export 'package:flutter_application_1/widgets/comment_button.dart';
