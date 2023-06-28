@@ -1,9 +1,8 @@
 import '../index.dart';
 import 'package:loading_more_list/loading_more_list.dart';
 
-
-class LoadMorePost extends LoadingMoreBase<Post>{
-  bool isFirstLoad = true;
+class LoadMorePost extends LoadingMoreBase<Post> {
+  // bool isFirstLoad = true;
   bool _hasMore = true;
   bool forceRefresh = false;
   int _pageIndex = 1;
@@ -29,20 +28,15 @@ class LoadMorePost extends LoadingMoreBase<Post>{
     try {
       List<dynamic>? posts;
       //to show loading more clearly, in your app,remove this
-      
-      if(isFirstLoad){
-        await Future.delayed(const Duration(seconds:5)); 
-        isFirstLoad = false;
-      }else{
-        await Future.delayed(const Duration(milliseconds:500)); 
-      }
-      posts = fullPost.getRange(length, length+5).toList();
-      print(fullPost);
-      if(_pageIndex==1){
+      await Future.delayed(const Duration(milliseconds: 500));
+      await postManager.readPostJsonData(length, length + 5);
+      posts = postManager.post;
+      // print(fullPost);
+      if (_pageIndex == 1) {
         clear();
       }
-      for(final Post item in posts){
-        if(hasMore) add(item);
+      for (final Post item in posts) {
+        if (hasMore) add(item);
       }
       _hasMore = posts.isNotEmpty;
       _pageIndex++;
@@ -63,7 +57,7 @@ class LoadMorePost extends LoadingMoreBase<Post>{
       //     // print(index);
       //   }
       // }
-    isSuccess =  true;
+      isSuccess = true;
     } catch (exception, stack) {
       isSuccess = false;
       print(exception);
@@ -92,18 +86,16 @@ class PostListView extends StatefulWidget {
 }
 
 class _PostListViewState extends State<PostListView> {
-
   @override
-  void initState(){
+  void initState() {
     super.initState();
     initLoad();
-  } 
+  }
 
-  void initLoad() async{
+  void initLoad() async {
     // await widget.source.loadData()==true;
   }
 
-  
   @override
   void dispose() {
     // widget.source.dispose();
@@ -120,83 +112,84 @@ class _PostListViewState extends State<PostListView> {
 
     return ExtendedVisibilityDetector(
       uniqueKey: widget.pagekey,
-      child: LoadingMoreList<Post>(
-        ListConfig<Post>(
-          sourceList: widget.source,
-          itemBuilder: (context, item, index) {
+      child: LoadingMoreList<Post>(ListConfig<Post>(
+        sourceList: widget.source,
+        itemBuilder: (context, item, index) {
           // var items = list.map((e) => Post.fromJson(e)).toList();
-            return Posts(data: widget.source[index]);
-          },
-          indicatorBuilder: (context, status) {
-            switch(status){
-              case IndicatorStatus.loadingMoreBusying:
-                return const Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Center(
-                    child: CircularProgressIndicator(),
-                  ),
-                );
-              case IndicatorStatus.error:
-                return Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Center(
-                    child: ErrorWidget('Not found'),
-                  ),
-                );
-              case IndicatorStatus.noMoreLoad:
-                return Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Center(
-                    child: Text('Come back tommrow!', style: Theme.of(context).textTheme.titleMedium),
-                  ),
-                );
-              case IndicatorStatus.empty:
-                return Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Center(
-                    child: Text('No posts available', style: Theme.of(context).textTheme.titleMedium),
-                  ),
-                );
-              case IndicatorStatus.fullScreenBusying:
-                return Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Center(
-                    child: Text('Fullscreen Busying...', style: Theme.of(context).textTheme.titleMedium),
-                  ),
-                );
-              case IndicatorStatus.none:
-              case IndicatorStatus.fullScreenError:
+          return Posts(data: widget.source[index]);
+        },
+        indicatorBuilder: (context, status) {
+          switch (status) {
+            case IndicatorStatus.loadingMoreBusying:
+              return const Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Center(
+                  child: CircularProgressIndicator(),
+                ),
+              );
+            case IndicatorStatus.error:
               return Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Center(
-                    child: Text('Cannot load data', style: Theme.of(context).textTheme.titleMedium),
-                  ),
-                );
-            }
-
-          },
-          )
-      ),
+                padding: const EdgeInsets.all(8.0),
+                child: Center(
+                  child: ErrorWidget('Not found'),
+                ),
+              );
+            case IndicatorStatus.noMoreLoad:
+              return Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Center(
+                  child: Text('Come back tommrow!',
+                      style: Theme.of(context).textTheme.titleMedium),
+                ),
+              );
+            case IndicatorStatus.empty:
+              return Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Center(
+                  child: Text('No posts available',
+                      style: Theme.of(context).textTheme.titleMedium),
+                ),
+              );
+            case IndicatorStatus.fullScreenBusying:
+              return Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Center(
+                  child: Text('Fullscreen Busying...',
+                      style: Theme.of(context).textTheme.titleMedium),
+                ),
+              );
+            case IndicatorStatus.none:
+            case IndicatorStatus.fullScreenError:
+              return Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Center(
+                  child: Text('Cannot load data',
+                      style: Theme.of(context).textTheme.titleMedium),
+                ),
+              );
+          }
+        },
+      )),
     );
-  
-      // return ListView.builder(
-      //   key: widget.key,
-      //   padding: EdgeInsets.zero,
-      //   itemCount: widget.source.length+1,
-      //   itemBuilder: (context, index) {
-      //     // var items = list.map((e) => Post.fromJson(e)).toList();
-      //     if (index<widget.source.length){
-      //       return Posts(data: widget.source[index]);
-      //     }else{
-      //       return const Padding(
-      //         padding: EdgeInsets.all(8.0),
-      //         child: Center(
-      //           child: CircularProgressIndicator(),
-      //         ),
-      //       );
-      //     }
-      //   },
-      //   );
+
+    // return ListView.builder(
+    //   key: widget.key,
+    //   padding: EdgeInsets.zero,
+    //   itemCount: widget.source.length+1,
+    //   itemBuilder: (context, index) {
+    //     // var items = list.map((e) => Post.fromJson(e)).toList();
+    //     if (index<widget.source.length){
+    //       return Posts(data: widget.source[index]);
+    //     }else{
+    //       return const Padding(
+    //         padding: EdgeInsets.all(8.0),
+    //         child: Center(
+    //           child: CircularProgressIndicator(),
+    //         ),
+    //       );
+    //     }
+    //   },
+    //   );
   }
 }
 
