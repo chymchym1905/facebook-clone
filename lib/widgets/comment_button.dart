@@ -1,7 +1,13 @@
 import '../index.dart';
 
 class CommentAppBar extends StatefulWidget {
-  const CommentAppBar({super.key, required this.myfocusNode, required this.isKeyboard});
+  const CommentAppBar({
+    super.key,
+    required this.myfocusNode, 
+    required this.isKeyboard,
+    required this.myController
+  });
+  final TextEditingController myController;
   final bool isKeyboard;
   final FocusNode myfocusNode;
   @override
@@ -9,6 +15,7 @@ class CommentAppBar extends StatefulWidget {
 }
 
 class _CommentAppBarState extends State<CommentAppBar> {
+  
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -27,6 +34,7 @@ class _CommentAppBarState extends State<CommentAppBar> {
           SizedBox(
             height: MediaQuery.of(context).size.height*0.05,
             child: TextField(
+            controller: widget.myController,
               autocorrect: true,
               focusNode: widget.myfocusNode,
               decoration: InputDecoration(

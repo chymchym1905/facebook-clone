@@ -21,3 +21,6 @@ export 'package:fluttericon/elusive_icons.dart';
 export 'package:flutter/services.dart';
 export './config/pallete.dart';
 export 'package:flutter_animate/flutter_animate.dart';
+export 'package:flutter_application_1/widgets/share_button.dart';
+export 'package:flutter_application_1/widgets/fb_reaction.dart';
+export 'package:flutter_application_1/widgets/comment_button.dart';

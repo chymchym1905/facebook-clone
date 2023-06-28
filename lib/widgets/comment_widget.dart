@@ -1,8 +1,15 @@
 import '../index.dart';
 
 class CommentSection extends StatefulWidget {
-  const  CommentSection({super.key, required this.data});
+  const  CommentSection({
+    super.key, 
+    required this.data,
+    required this.myController,
+    required this.countCommentAdd
+  });
   final List<Comment1> data;
+  final TextEditingController myController;
+  final int countCommentAdd;
   @override
   State<CommentSection> createState() => _CommentSectionState();
 }
@@ -10,105 +17,225 @@ class CommentSection extends StatefulWidget {
 class _CommentSectionState extends State<CommentSection> {
   @override
   Widget build(BuildContext context) {
-    Color hideTree;
+    Comment1 newComment = Comment1(
+      widget.data[0].user,
+      widget.data[0].react,
+      widget.myController.text.toString(),
+      []
+    );
     return Column(
       children: [
+        // ListView.builder(
+        //   physics: const ClampingScrollPhysics(), 
+        //   shrinkWrap: true,
+        //   itemCount: widget.data.length,
+        //   itemBuilder: (context, index){
+        //     if(widget.data[index].reply.isEmpty){
+        //       hideTree = Colors.white;
+        //     } else {
+        //       hideTree = Colors.grey;
+        //     }
+        //     return Container(
+        //       padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 10),
+        //       child: CommentTreeWidget<Comment1, CommmentTreeSection>( 
+        //         widget.data[index],
+        //         [
+        //           for(int i = 0; i <widget.data[index].reply.length; i+=1)
+        //             CommmentTreeSection(list: widget.data[index].reply[i]),
+        //         ],
+        //         treeThemeData: TreeThemeData(
+        //           lineColor: hideTree,
+        //           lineWidth: 2,
+        //         ),
+        //         avatarRoot: (context, data) => PreferredSize(
+        //           preferredSize: const Size.fromRadius(18),
+        //           child: CircleAvatar(
+        //             radius: 18,
+        //             backgroundImage: NetworkImage(data.imageurl),
+        //           ),
+        //         ),
+        //         avatarChild: (context, data) => const PreferredSize(
+        //           preferredSize: Size.fromRadius(25),
+        //           child: Row(),
+        //         ),
+        //         contentChild: (context, data) { //Replies
+        //           return data;
+        //         },
+        //         contentRoot: (context, data) { // Parent comment
+        //           return Column(
+        //             crossAxisAlignment: CrossAxisAlignment.start,
+        //             children: [
+        //               Container(
+        //                 padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
+        //                 decoration: BoxDecoration(
+        //                     color: themeManager.themeMode == dark ? const Color.fromARGB(255,58,59,60):Color.fromARGB(155, 180, 177, 177),
+        //                     borderRadius: BorderRadius.circular(12)),
+        //                 child: Column(
+        //                   crossAxisAlignment: CrossAxisAlignment.start,
+        //                   children: [
+        //                     Text(
+        //                       data.username,
+        //                       style: Theme.of(context).textTheme.labelLarge?.copyWith(
+        //                         fontWeight: FontWeight.w300)
+        //                     ),
+        //                     const SizedBox(
+        //                       height: 4,
+        //                     ),
+        //                     Text(
+        //                       data.content,
+        //                       style: Theme.of(context).textTheme.bodySmall?.copyWith(
+        //                         fontStyle: FontStyle.normal),
+        //                     ),
+        //                   ],
+        //                 ),
+        //               ),
+        //               DefaultTextStyle(
+        //                 style: Theme.of(context).textTheme.bodySmall!.copyWith(
+        //                     color: const Color.fromARGB(255, 109, 107, 107), fontWeight: FontWeight.w300),
+        //                 child: const Padding(
+        //                   padding:EdgeInsets.only(top: 4),
+        //                   child:  Row(
+        //                     children: [
+        //                     SizedBox(
+        //                         width: 8,
+        //                       ),
+        //                       // Text(data.timeAgo),
+        //                       // const SizedBox(
+        //                       //   width: 15,
+        //                       // ),
+        //                       Text('Like'),
+        //                       SizedBox(
+        //                         width: 15,
+        //                       ),
+        //                       Text('Reply'),
+        //                     ],
+        //                   ),
+        //                 ),
+        //               )
+        //             ],
+        //           );
+        //         },
+        //       ),
+        //     );
+        //   },
+        // ),
+        BuildComment(data: widget.data, length: widget.data.length),
         ListView.builder(
           physics: const ClampingScrollPhysics(), 
           shrinkWrap: true,
-          itemCount: widget.data.length,
+          itemCount: widget.countCommentAdd,
           itemBuilder: (context, index){
-            if(widget.data[index].reply.isEmpty){
-              hideTree = themeManager.themeMode==dark? lightdark:white;
-            } else {
-              hideTree = Colors.grey;
-            }
-            return Container(
-              padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 10),
-              child: CommentTreeWidget<Comment1, CommmentTreeSection>( 
-                widget.data[index],
-                [
-                  for(int i = 0; i <widget.data[index].reply.length; i+=1)
-                    CommmentTreeSection(list: widget.data[index].reply[i]),
-                ],
-                treeThemeData: TreeThemeData(
-                  lineColor: hideTree,
-                  lineWidth: 2,
-                ),
-                avatarRoot: (context, data) => PreferredSize(
-                  preferredSize: const Size.fromRadius(18),
-                  child: CircleAvatar(
-                    radius: 18,
-                    backgroundImage: NetworkImage(data.imageurl),
-                  ),
-                ),
-                avatarChild: (context, data) => const PreferredSize(
-                  preferredSize: Size.fromRadius(25),
-                  child: Row(),
-                ),
-                contentChild: (context, data) { //Replies
-                  return data;
-                },
-
-                contentRoot: (context, data) { // Parent comment
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
-                        decoration: BoxDecoration(
-                            color: themeManager.themeMode == dark ? const Color.fromARGB(255,58,59,60):Color.fromARGB(155, 180, 177, 177),
-                            borderRadius: BorderRadius.circular(12)),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              data.username,
-                              style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                                fontWeight: FontWeight.w300)
-                            ),
-                            const SizedBox(
-                              height: 4,
-                            ),
-                            Text(
-                              data.content,
-                              style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                                fontStyle: FontStyle.normal),
-                            ),
-                          ],
-                        ),
-                      ),
-                      DefaultTextStyle(
-                        style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                            color: const Color.fromARGB(255, 109, 107, 107), fontWeight: FontWeight.w300),
-                        child: const Padding(
-                          padding:EdgeInsets.only(top: 4),
-                          child:  Row(
-                            children: [
-                            SizedBox(
-                                width: 8,
-                              ),
-                              // Text(data.timeAgo),
-                              // const SizedBox(
-                              //   width: 15,
-                              // ),
-                              Text('Like'),
-                              SizedBox(
-                                width: 15,
-                              ),
-                              Text('Reply'),
-                            ],
-                          ),
-                        ),
-                      )
-                    ],
-                  );
-                },
-              ),
-            );
+            return BuildComment(data: [newComment], length: 1,);
           },
         ),
+        
       ],
+    );
+  }
+}
+
+class BuildComment extends StatelessWidget {
+  const BuildComment({super.key, required this.data, required this.length});
+  final List<Comment1> data;
+  final int length;
+
+  @override
+  Widget build(BuildContext context) {
+    Color hideTree;
+    return ListView.builder(
+      physics: const ClampingScrollPhysics(), 
+      shrinkWrap: true,
+      itemCount: length,
+      itemBuilder: (context, index){
+        if(data[index].reply.isEmpty){
+          hideTree = Colors.white;
+        } else {
+          hideTree = Colors.grey;
+        }
+        return Container(
+          padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 10),
+          child: CommentTreeWidget<Comment1, CommmentTreeSection>( 
+            data[index],
+            [
+              for(int i = 0; i < data[index].reply.length; i+=1)
+                CommmentTreeSection(list: data[index].reply[i]),
+            ],
+            treeThemeData: TreeThemeData(
+              lineColor: hideTree,
+              lineWidth: 2,
+            ),
+            avatarRoot: (context, data) => PreferredSize(
+              preferredSize: const Size.fromRadius(18),
+              child: CircleAvatar(
+                radius: 18,
+                backgroundImage: NetworkImage(data.user.imageurl),
+              ),
+            ),
+            avatarChild: (context, data) => const PreferredSize(
+              preferredSize: Size.fromRadius(25),
+              child: Row(),
+            ),
+            contentChild: (context, data) { //Replies
+              return data;
+            },
+
+            contentRoot: (context, data) { // Parent comment
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
+                    decoration: BoxDecoration(
+                        color: themeManager.themeMode == dark ? const Color.fromARGB(255,58,59,60):Color.fromARGB(155, 180, 177, 177),
+                        borderRadius: BorderRadius.circular(12)),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          data.user.name,
+                          style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                            fontWeight: FontWeight.w300)
+                        ),
+                        const SizedBox(
+                          height: 4,
+                        ),
+                        Text(
+                          data.content,
+                          style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                            fontStyle: FontStyle.normal),
+                        ),
+                      ],
+                    ),
+                  ),
+                  DefaultTextStyle(
+                    style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                        color: const Color.fromARGB(255, 109, 107, 107), fontWeight: FontWeight.w300),
+                    child: const Padding(
+                      padding:EdgeInsets.only(top: 4),
+                      child:  Row(
+                        children: [
+                        SizedBox(
+                            width: 8,
+                          ),
+                          // Text(data.timeAgo),
+                          // const SizedBox(
+                          //   width: 15,
+                          // ),
+                          Text('Like'),
+                          SizedBox(
+                            width: 15,
+                          ),
+                          Text('Reply'),
+                        ],
+                      ),
+                    ),
+                  )
+                ],
+              );
+            },
+          ),
+        );
+      },
     );
   }
 }
@@ -155,14 +282,14 @@ class _CommmentTreeSectionState extends State<CommmentTreeSection> {
                   preferredSize: const Size.fromRadius(18),
                   child: CircleAvatar(
                     radius: 18,
-                    backgroundImage: NetworkImage(data.imageurl),
+                    backgroundImage: NetworkImage(data.user.imageurl),
                   ),
                 ),
                 avatarChild: (context, data) => PreferredSize(
                   preferredSize: const Size.fromRadius(18),
                   child: CircleAvatar(
                     radius: 18,
-                    backgroundImage: NetworkImage(data.imageurl),
+                    backgroundImage: NetworkImage(data.user.imageurl),
                   ),
                 ),
                 contentChild: (context, data) { //Replies
@@ -178,7 +305,7 @@ class _CommmentTreeSectionState extends State<CommmentTreeSection> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              data.username,
+                              data.user.name,
                               style: Theme.of(context).textTheme.labelLarge?.copyWith(
                                 fontWeight: FontWeight.w300)
                             ),
@@ -233,7 +360,7 @@ class _CommmentTreeSectionState extends State<CommmentTreeSection> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              data.username,
+                              data.user.name,
                               style: Theme.of(context).textTheme.labelLarge?.copyWith(
                                 fontWeight: FontWeight.w300)
                             ),

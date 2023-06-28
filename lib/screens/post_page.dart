@@ -1,13 +1,4 @@
-// import 'package:lorem_ipsum_generator/lorem_ipsum_generator.dart';
-import 'package:flutter_application_1/widgets/comment_button.dart';
-import 'package:flutter_application_1/widgets/fb_reaction.dart';
-import 'package:flutter_application_1/widgets/share_button.dart';
-import 'package:flutter/material.dart';
-import '../model/post_class.dart';
-import 'package:flutter_application_1/main.dart';
-import 'package:flutter_application_1/theme/themes.dart';
-import 'package:flutter_brand_palettes/palettes.dart';
-import '../widgets/comment_widget.dart';
+import '../index.dart';
 
 const _blue = Facebook.blue();
 class Postpage extends StatefulWidget{
@@ -19,7 +10,25 @@ class Postpage extends StatefulWidget{
 }
 class _PostPageState extends State<Postpage>{
   final myfocusNode = FocusNode();
-  
+  late TextEditingController myController;
+   int countCommentAdd = 0;
+
+  @override
+  void initState() {
+    myController = TextEditingController()
+      ..addListener(() {
+        setState(() {
+          countCommentAdd++;
+        });
+      });
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    myController.dispose();
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context){
     final isKeyboard = MediaQuery.of(context).viewInsets.bottom != 0;
@@ -49,13 +58,13 @@ class _PostPageState extends State<Postpage>{
                     style: Theme.of(context).textTheme.titleMedium,
                   ),
                 ),
-                Row(
+                const Row(
                   children: [
                     // Text(
                     //   '${widget.data.timeAgo} ·',
                     //   style: Theme.of(context).textTheme.labelSmall
                     // ),
-                    const Icon(
+                    Icon(
                       Icons.public,
                       size: 10,
                       color: Colors.grey,
@@ -152,11 +161,11 @@ class _PostPageState extends State<Postpage>{
                         textfeed,
                         buttonSection,
                         iconSection,
-                        CommentSection(data: widget.data.comment),
+                        CommentSection(data: widget.data.comment, myController: myController, countCommentAdd: countCommentAdd,),
                       ],
                   ),
                 ),
-                CommentAppBar(myfocusNode: myfocusNode, isKeyboard: isKeyboard),
+                CommentAppBar(myfocusNode: myfocusNode, isKeyboard: isKeyboard, myController: myController,),
               ],
             ),
         ),
