@@ -8,7 +8,7 @@ class LoadMorePost extends LoadingMoreBase<Post> {
   int _pageIndex = 1;
 
   @override
-  bool get hasMore => (_hasMore && length < 40) || forceRefresh;
+  bool get hasMore => (_hasMore) || forceRefresh;
 
   @override
   Future<bool> refresh([bool clearBeforeRequest = false]) async {
