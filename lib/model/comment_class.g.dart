@@ -9,14 +9,12 @@ part of 'comment_class.dart';
 Comment1 _$Comment1FromJson(Map<String, dynamic> json) {
   $checkKeys(
     json,
-    requiredKeys: const ['id', 'username', 'content'],
+    requiredKeys: const ['user', 'content'],
   );
   return Comment1(
-    json['id'] as String,
+    User.fromJson(json['user'] as Map<String, dynamic>),
     (json['react'] as num?)?.toDouble(),
-    json['username'] as String,
     json['content'] as String,
-    json['imageurl'] as String,
     (json['reply'] as List<dynamic>)
         .map((e) => Comment1.fromJson(e as Map<String, dynamic>))
         .toList(),
@@ -24,10 +22,8 @@ Comment1 _$Comment1FromJson(Map<String, dynamic> json) {
 }
 
 Map<String, dynamic> _$Comment1ToJson(Comment1 instance) => <String, dynamic>{
-      'id': instance.id,
+      'user': instance.user,
       'react': instance.react,
-      'username': instance.username,
       'content': instance.content,
-      'imageurl': instance.imageurl,
       'reply': instance.reply,
     };

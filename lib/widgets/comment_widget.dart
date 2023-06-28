@@ -18,11 +18,9 @@ class _CommentSectionState extends State<CommentSection> {
   @override
   Widget build(BuildContext context) {
     Comment1 newComment = Comment1(
-      widget.data[0].id,
+      widget.data[0].user,
       widget.data[0].react,
-      widget.data[0].username,
       widget.myController.text.toString(),
-      widget.data[0].imageurl,
       []
     );
     return Column(
@@ -63,43 +61,6 @@ class _CommentSectionState extends State<CommentSection> {
         //         contentChild: (context, data) { //Replies
         //           return data;
         //         },
-        ListView.builder(
-          physics: const ClampingScrollPhysics(), 
-          shrinkWrap: true,
-          itemCount: widget.data.length,
-          itemBuilder: (context, index){
-            if(widget.data[index].reply.isEmpty){
-              hideTree = themeManager.themeMode==dark? lightdark:white;
-            } else {
-              hideTree = Colors.grey;
-            }
-            return Container(
-              padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 10),
-              child: CommentTreeWidget<Comment1, CommmentTreeSection>( 
-                widget.data[index],
-                [
-                  for(int i = 0; i <widget.data[index].reply.length; i+=1)
-                    CommmentTreeSection(list: widget.data[index].reply[i]),
-                ],
-                treeThemeData: TreeThemeData(
-                  lineColor: hideTree,
-                  lineWidth: 2,
-                ),
-                avatarRoot: (context, data) => PreferredSize(
-                  preferredSize: const Size.fromRadius(18),
-                  child: CircleAvatar(
-                    radius: 18,
-                    backgroundImage: NetworkImage(data.imageurl),
-                  ),
-                ),
-                avatarChild: (context, data) => const PreferredSize(
-                  preferredSize: Size.fromRadius(25),
-                  child: Row(),
-                ),
-                contentChild: (context, data) { //Replies
-                  return data;
-                },
-
         //         contentRoot: (context, data) { // Parent comment
         //           return Column(
         //             crossAxisAlignment: CrossAxisAlignment.start,
@@ -159,14 +120,14 @@ class _CommentSectionState extends State<CommentSection> {
         //   },
         // ),
         BuildComment(data: widget.data, length: widget.data.length),
-        // ListView.builder(
-        //   physics: const ClampingScrollPhysics(), 
-        //   shrinkWrap: true,
-        //   itemCount: widget.countCommentAdd,
-        //   itemBuilder: (context, index){
-        //     return BuildComment(data: [newComment], length: 1,);
-        //   },
-        // ),
+        ListView.builder(
+          physics: const ClampingScrollPhysics(), 
+          shrinkWrap: true,
+          itemCount: widget.countCommentAdd,
+          itemBuilder: (context, index){
+            return BuildComment(data: [newComment], length: 1,);
+          },
+        ),
         
       ],
     );
@@ -207,7 +168,7 @@ class BuildComment extends StatelessWidget {
               preferredSize: const Size.fromRadius(18),
               child: CircleAvatar(
                 radius: 18,
-                backgroundImage: NetworkImage(data.imageurl),
+                backgroundImage: NetworkImage(data.user.imageurl),
               ),
             ),
             avatarChild: (context, data) => const PreferredSize(
@@ -231,7 +192,7 @@ class BuildComment extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          data.username,
+                          data.user.name,
                           style: Theme.of(context).textTheme.labelLarge?.copyWith(
                             fontWeight: FontWeight.w300)
                         ),
@@ -321,14 +282,14 @@ class _CommmentTreeSectionState extends State<CommmentTreeSection> {
                   preferredSize: const Size.fromRadius(18),
                   child: CircleAvatar(
                     radius: 18,
-                    backgroundImage: NetworkImage(data.imageurl),
+                    backgroundImage: NetworkImage(data.user.imageurl),
                   ),
                 ),
                 avatarChild: (context, data) => PreferredSize(
                   preferredSize: const Size.fromRadius(18),
                   child: CircleAvatar(
                     radius: 18,
-                    backgroundImage: NetworkImage(data.imageurl),
+                    backgroundImage: NetworkImage(data.user.imageurl),
                   ),
                 ),
                 contentChild: (context, data) { //Replies
@@ -344,7 +305,7 @@ class _CommmentTreeSectionState extends State<CommmentTreeSection> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              data.username,
+                              data.user.name,
                               style: Theme.of(context).textTheme.labelLarge?.copyWith(
                                 fontWeight: FontWeight.w300)
                             ),
@@ -399,7 +360,7 @@ class _CommmentTreeSectionState extends State<CommmentTreeSection> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              data.username,
+                              data.user.name,
                               style: Theme.of(context).textTheme.labelLarge?.copyWith(
                                 fontWeight: FontWeight.w300)
                             ),
