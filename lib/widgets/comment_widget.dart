@@ -63,6 +63,42 @@ class _CommentSectionState extends State<CommentSection> {
         //         contentChild: (context, data) { //Replies
         //           return data;
         //         },
+        ListView.builder(
+          physics: const ClampingScrollPhysics(), 
+          shrinkWrap: true,
+          itemCount: widget.data.length,
+          itemBuilder: (context, index){
+            if(widget.data[index].reply.isEmpty){
+              hideTree = themeManager.themeMode==dark? lightdark:white;
+            } else {
+              hideTree = Colors.grey;
+            }
+            return Container(
+              padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 10),
+              child: CommentTreeWidget<Comment1, CommmentTreeSection>( 
+                widget.data[index],
+                [
+                  for(int i = 0; i <widget.data[index].reply.length; i+=1)
+                    CommmentTreeSection(list: widget.data[index].reply[i]),
+                ],
+                treeThemeData: TreeThemeData(
+                  lineColor: hideTree,
+                  lineWidth: 2,
+                ),
+                avatarRoot: (context, data) => PreferredSize(
+                  preferredSize: const Size.fromRadius(18),
+                  child: CircleAvatar(
+                    radius: 18,
+                    backgroundImage: NetworkImage(data.imageurl),
+                  ),
+                ),
+                avatarChild: (context, data) => const PreferredSize(
+                  preferredSize: Size.fromRadius(25),
+                  child: Row(),
+                ),
+                contentChild: (context, data) { //Replies
+                  return data;
+                },
 
         //         contentRoot: (context, data) { // Parent comment
         //           return Column(
@@ -265,7 +301,7 @@ class _CommmentTreeSectionState extends State<CommmentTreeSection> {
           itemCount: defalutReply,
           itemBuilder: (context, index){
             if(widget.list.reply.isEmpty){
-              hideTree = Colors.white;
+              hideTree = themeManager.themeMode==dark? lightdark : white;
             } else {
               hideTree = Colors.grey;
             }

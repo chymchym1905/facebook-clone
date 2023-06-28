@@ -1,4 +1,5 @@
 export './main.dart';
+export 'dart:convert';
 export './model/appdata.dart';
 export './model/post_class.dart';
 export './routesettings.dart';
@@ -17,6 +18,9 @@ export 'package:font_awesome_flutter/font_awesome_flutter.dart';
 export 'package:fluttericon/font_awesome5_icons.dart';
 export 'package:fluttericon/iconic_icons.dart';
 export 'package:fluttericon/elusive_icons.dart';
+export 'package:flutter/services.dart';
+export './config/pallete.dart';
+export 'package:flutter_animate/flutter_animate.dart';
 export 'package:flutter_application_1/widgets/share_button.dart';
 export 'package:flutter_application_1/widgets/fb_reaction.dart';
 export 'package:flutter_application_1/widgets/comment_button.dart';

@@ -19,7 +19,7 @@ class _PostsState extends State<Posts>{
             arguments: widget.data);
           }),
           child: Ink(
-            color: themeManager.themeMode == dark? const Color.fromARGB(255, 38, 38, 38) : const Color.fromARGB(255, 255, 255, 255),
+            color: themeManager.themeMode == dark? lightdark : white,
             child: Column(
               children:[
                 NameBar(imageUrl: widget.data.user.imageurl, username: widget.data.user.name),
@@ -99,12 +99,25 @@ class NameBar extends StatelessWidget {
   }
 }
 
-class Caption extends StatelessWidget {
+class Caption extends StatefulWidget {
   const Caption({
     Key? key,
     required this.caption,
   }) : super(key: key);
   final String caption;
+
+  @override
+  State<Caption> createState() => _Caption();
+}
+
+class _Caption extends State<Caption>{
+
+
+  themeListener(){
+    setState(() {
+      
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -114,9 +127,9 @@ class Caption extends StatelessWidget {
       child: InkWell(
         onTap: (){},
         child: Ink(
-          color: themeManager.themeMode == dark? const Color.fromARGB(255, 38, 38, 38) : const Color.fromARGB(255, 255, 255, 255),
+          color: themeManager.themeMode == dark? lightdark : white,
           child: Text(
-            caption,
+            widget.caption,
             textAlign: TextAlign.start,
             style: Theme.of(context).textTheme.labelLarge,
           ),

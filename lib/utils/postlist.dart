@@ -1,24 +1,21 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'dart:convert';
+import '../index.dart';
 
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-
-import 'package:flutter_application_1/model/post_class.dart';
-
-class PostList extends ValueNotifier<List<Post>> {
-  
-  List<dynamic> _post ;
-  PostList(this._post) : super([]);
+class PostList {
+  List<dynamic> _post;
+  PostList(this._post);
 
   List get post => _post;
 
-  Future<void> readPostJsonData() async{
+  Future<void> readPostJsonData(start, end) async {
     final jsondata = await rootBundle.loadString('assets/jsons/posts.json');
     _post = json.decode(jsondata) as List<dynamic>;
     // await Future<List<Post>?>.delayed(const Duration(seconds: 1));
-    _post = _post.map((e) => Post.fromJson(e)).toList();
+    _post = _post.getRange(start, end).map((e) => Post.fromJson(e)).toList();
+    // var _post1 = _post.map((e) => Post.fromJson(e)).toList();
+    // _post =[];
+    // for (int i =0; i<100; i++){
+    //   _post.addAll(_post1);
+    // }
     // print(_post);
-    notifyListeners();
   }
 }
