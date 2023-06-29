@@ -8,7 +8,7 @@ class LoadMorePost extends LoadingMoreBase<Post> {
   int _pageIndex = 1;
 
   @override
-  bool get hasMore => (_hasMore) || forceRefresh;
+  bool get hasMore => (_hasMore && length < 1000) || forceRefresh;
 
   @override
   Future<bool> refresh([bool clearBeforeRequest = false]) async {
@@ -29,7 +29,7 @@ class LoadMorePost extends LoadingMoreBase<Post> {
       List<dynamic>? posts;
       //to show loading more clearly, in your app,remove this
       await Future.delayed(const Duration(milliseconds: 500));
-      await postManager.readPostJsonData(length, length + 5);
+      await postManager.readPostJsonData(length, length + 100);
       posts = postManager.post;
       // print(fullPost);
       if (_pageIndex == 1) {
@@ -40,28 +40,13 @@ class LoadMorePost extends LoadingMoreBase<Post> {
       }
       _hasMore = posts.isNotEmpty;
       _pageIndex++;
-      // if (index + 5<fullPost.length){
-      //   posts = fullPost.sublist(index, index + 5);
-      //   index +=5;
-      //   for (int i = 0; i<posts.length; i++) {add(posts[i]);}
-      //   _hasMore = true;
-      //   print(index);
-      // }else if(index+5 >= fullPost.length && index != fullPost.length){
-      //   posts = fullPost.sublist(index, fullPost.length);
-      //   index = fullPost.length;
-      //   for (int i = 0; i<posts.length; i++) {add(posts[i]);}
-      //   _hasMore=false;
-      //   print(index);
-      // }else{
-      //   if (kDebugMode) {
-      //     // print(index);
-      //   }
-      // }
       isSuccess = true;
     } catch (exception, stack) {
       isSuccess = false;
-      print(exception);
-      print(stack);
+      if (kDebugMode) {
+        print(exception);
+        print(stack);
+      }
     }
     return isSuccess;
   }

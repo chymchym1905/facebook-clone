@@ -1,4 +1,5 @@
-import 'package:flutter_application_1/widgets/fb_reaction.dart';
+// ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:flutter_application_1/widgets/comment_Modal/comment_button_modal.dart';
 
 import '../index.dart';
 
@@ -27,6 +28,7 @@ class _PostsState extends State<Posts> {
                   imageUrl: widget.data.user.imageurl,
                   username: widget.data.user.name),
               Caption(caption: widget.data.caption),
+              Interactions(data: widget.data)
             ],
           ),
         ),
@@ -133,7 +135,11 @@ class _Caption extends State<Caption> {
 }
 
 class Interactions extends StatefulWidget {
-  const Interactions({super.key});
+  const Interactions({
+    Key? key,
+    required this.data,
+  }) : super(key: key);
+  final Post data;
 
   @override
   State<Interactions> createState() => _InteractionsState();
@@ -143,9 +149,14 @@ class _InteractionsState extends State<Interactions> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Row(children: [
-        FbReaction(),
-      ]),
+      child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            FbReaction(),
+            CommentButtonModal(data: widget.data),
+            ShareButton(data: widget.data)
+          ]),
     );
   }
 }
