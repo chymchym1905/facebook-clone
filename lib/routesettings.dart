@@ -3,7 +3,7 @@ import 'main.dart';
 import 'screens/friends_page.dart';
 import 'model/post_class.dart';
 import 'screens/watch_page.dart';
-import 'screens/post_page.dart';
+import 'screens/Post_page/post_page.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings){

@@ -1,7 +1,11 @@
 import '../index.dart';
 
 void main() {
-  runApp(AppDataProvider(AppData(postlist: [], notificationCount: 0),
+  runApp(AppDataProvider(
+      AppData(
+          commentPostPage: FocusNode(),
+          commentModal: FocusNode(),
+          notificationCount: 0),
       child: const Home()));
 }
 
@@ -9,8 +13,6 @@ void main() {
 int index = 0;
 ThemeProvider themeManager = ThemeProvider();
 PostList postManager = PostList([]);
-List totalPost = []; //current number of posts loaded
-List fullPost = []; //all posts here
 
 //APP
 class Home extends StatefulWidget {
@@ -56,80 +58,17 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
     }
   }
 
-  // scrollListener(){
-
-  // }
-
   postlistListener() {
     if (mounted) {
-      setState(() {
-        // print('asd');
-      });
+      setState(() {});
     }
   }
 
   themeListener() {
     if (mounted) {
-      setState(() {
-        // print(1);
-      });
+      setState(() {});
     }
   }
-
-  // scrollListener1(){
-  //   if(mounted){
-  //     // print(controller.offset);
-  //     // print(controller.position.maxScrollExtent);
-  //     print(controller1.offset);
-  //     if(controller1.position.maxScrollExtent == controller1.offset){
-
-  //       fetch(postManager.post);
-  //     }
-  //   }
-  // }
-
-  // scrollListener2(){
-  //   if(mounted){
-  //     print(controller2.offset);
-  //     if(controller2.position.maxScrollExtent == controller2.offset){
-
-  //     fetch(postManager.post);
-  //     }
-  //   }
-  // }
-
-  // scrollListener3(){
-  //   if(mounted){
-  //     print(controller3.offset);
-  //     if(controller3.position.maxScrollExtent == controller3.offset){
-
-  //     fetch(postManager.post);
-  //     }
-  //   }
-  // }
-
-  // Future<void> fetch(List fullpost) async {
-  //   await Future<List?>.delayed(const Duration(milliseconds: 500));
-  //   if (index + 5 < fullpost.length) {
-  //     setState(() {
-  //       posts = fullpost.sublist(index, index + 5);
-  //       index += 5;
-  //       totalPost += posts;
-  //       print(index);
-  //     });
-  //   } else if (index + 5 >= fullpost.length && index != fullpost.length) {
-  //     setState(() {
-  //       posts = fullpost.sublist(index, fullpost.length);
-  //       index = fullpost.length;
-  //       totalPost += posts;
-  //       print(index);
-  //     });
-  //   } else {
-  //     if (kDebugMode) {
-  //       print(Exception('???'));
-  //     }
-  //   }
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -190,37 +129,39 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
       theme: themeManager.themeMode,
       initialRoute: '/',
       onGenerateRoute: RouteGenerator.generateRoute,
-      home: Scaffold(
-        // drawer: NavBar(),
-        body: ExtendedNestedScrollView(
-          key: _key,
-          pinnedHeaderSliverHeightBuilder: () {
-            return pinnedHeaderHeight / 2;
-          },
-          onlyOneScrollInBody: true,
-          headerSliverBuilder: (context, bool innerBoxisScrolled) {
-            return [
-              sliverAppBar
+      home: GestureDetector(
+        onTap: () => FocusScope.of(context).unfocus(),
+        child: Scaffold(
+          body: ExtendedNestedScrollView(
+            key: _key,
+            pinnedHeaderSliverHeightBuilder: () {
+              return pinnedHeaderHeight / 2;
+            },
+            onlyOneScrollInBody: true,
+            headerSliverBuilder: (context, bool innerBoxisScrolled) {
+              return [
+                sliverAppBar
 
-              // SliverPersistentHeader(
-              //   pinned: true,
-              //   delegate: CommonSliverPersistentHeaderDelegate(
-              //       Container(
-              //         margin: EdgeInsets.only(top: statusBarHeight),
-              //         color: themeManager.themeMode == dark ? lightdark : white,
-              //         child: primaryTabBar,
-              //       ),
-              //       primaryTabBar.preferredSize.height),
-              // )
-            ];
-          },
-          body: TabBarView(
-            controller: _tabController,
-            children: [
-              PostListView(source: source1, pagekey: PageStorageKey('tab1')),
-              PostListView(source: source2, pagekey: PageStorageKey('tab2')),
-              PostListView(source: source3, pagekey: PageStorageKey('tab3'))
-            ],
+                // SliverPersistentHeader(
+                //   pinned: true,
+                //   delegate: CommonSliverPersistentHeaderDelegate(
+                //       Container(
+                //         margin: EdgeInsets.only(top: statusBarHeight),
+                //         color: themeManager.themeMode == dark ? lightdark : white,
+                //         child: primaryTabBar,
+                //       ),
+                //       primaryTabBar.preferredSize.height),
+                // )
+              ];
+            },
+            body: TabBarView(
+              controller: _tabController,
+              children: [
+                PostListView(source: source1, pagekey: PageStorageKey('tab1')),
+                PostListView(source: source2, pagekey: PageStorageKey('tab2')),
+                PostListView(source: source3, pagekey: PageStorageKey('tab3'))
+              ],
+            ),
           ),
         ),
       ),
