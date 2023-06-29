@@ -1,5 +1,4 @@
 import '../../index.dart';
-import 'comment_button.dart';
 
 const _blue = Facebook.blue();
 
@@ -169,15 +168,16 @@ class _PostPageState extends State<Postpage> {
                     buttonSection,
                     iconSection,
                     CommentSection(
+                      myfocusNode: AppDataProvider.of(context).commentPostPage,
                       data: widget.data.comment,
                       instantUser: instantUser,
                     ),
                   ],
                 ),
               ),
-              CommentAppBar(
+              WriteCommentBox(
                 data: widget.data.comment,
-                // myfocusNode: AppDataProvider.of(context).commentPostPage,
+                myfocusNode: AppDataProvider.of(context).commentPostPage,
                 isKeyboard: isKeyboard,
                 myController: textController,
                 instantUser: instantUser,

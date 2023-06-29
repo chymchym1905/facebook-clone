@@ -4,11 +4,11 @@ class CommentSection extends StatefulWidget {
   const CommentSection({
     super.key,
     required this.data,
-    // required this.myfocusNode,
+    required this.myfocusNode,
     required this.instantUser,
   });
   final List<Comment1> data;
-  // final FocusNode myfocusNode;
+  final FocusNode myfocusNode;
   final User instantUser;
 
   @override
@@ -113,9 +113,7 @@ class _CommentSectionState extends State<CommentSection> {
                                 // });
                                 IndexComment.flagReply = true;
                                 IndexComment.intdex = index;
-                                AppDataProvider.of(context)
-                                    .commentPostPage
-                                    .requestFocus();
+                                widget.myfocusNode.requestFocus();
                               },
                               child: const Text('Reply')),
                         ],

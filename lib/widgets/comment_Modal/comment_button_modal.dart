@@ -47,7 +47,9 @@ class _CommentButtonModalState extends State<CommentButtonModal>
                     themeManager.themeMode == dark ? lightdark : white,
                 context: context,
                 builder: (context) {
-                  return CommentModal(data: widget.data);
+                  return GestureDetector(
+                      onTap: () => FocusScope.of(context).unfocus(),
+                      child: CommentModal(data: widget.data));
                 });
           },
           icon: const Icon(

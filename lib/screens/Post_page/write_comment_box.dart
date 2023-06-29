@@ -1,27 +1,27 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import '../../index.dart';
 
-class CommentAppBar extends StatefulWidget {
-  const CommentAppBar({
+class WriteCommentBox extends StatefulWidget {
+  const WriteCommentBox({
     Key? key,
     required this.data,
     required this.myController,
     required this.isKeyboard,
-    // required this.myfocusNode,
+    required this.myfocusNode,
     required this.instantUser,
   }) : super(key: key);
 
   final List<Comment1> data;
   final TextEditingController myController;
   final bool isKeyboard;
-  // final FocusNode myfocusNode;
+  final FocusNode myfocusNode;
   final User instantUser;
 
   @override
-  State<CommentAppBar> createState() => _CommentAppBarState();
+  State<WriteCommentBox> createState() => _WriteCommentBoxState();
 }
 
-class _CommentAppBarState extends State<CommentAppBar> {
+class _WriteCommentBoxState extends State<WriteCommentBox> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -42,7 +42,7 @@ class _CommentAppBarState extends State<CommentAppBar> {
             child: TextField(
               controller: widget.myController,
               autocorrect: true,
-              focusNode: AppDataProvider.of(context).commentPostPage,
+              focusNode: widget.myfocusNode,
               decoration: InputDecoration(
                 hintText: 'Write a comment...',
                 border: OutlineInputBorder(
@@ -97,7 +97,7 @@ class _CommentAppBarState extends State<CommentAppBar> {
                       widget.data.add(newComment);
                     }
                     IndexComment.flagReply = false;
-                    AppDataProvider.of(context).commentPostPage.unfocus();
+                    widget.myfocusNode.unfocus();
                     widget.myController.clear();
                   },
                   icon: const Icon(Icons.send),
