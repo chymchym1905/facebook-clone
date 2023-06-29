@@ -4,9 +4,9 @@ import '../../index.dart';
 class CommentButton extends StatefulWidget {
   const CommentButton({
     Key? key,
-    required this.node,
+    // required this.node,
   }) : super(key: key);
-  final FocusNode node;
+  // final FocusNode node;
   @override
   State<CommentButton> createState() => _CommentButtonState();
 }
@@ -18,7 +18,7 @@ class _CommentButtonState extends State<CommentButton> {
       children: [
         TextButton.icon(
           onPressed: () {
-            widget.node.requestFocus();
+            AppDataProvider.of(context).commentPostPage.requestFocus();
           },
           icon: const Icon(
             FontAwesomeIcons.message,

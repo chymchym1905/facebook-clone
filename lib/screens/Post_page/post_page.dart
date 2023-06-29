@@ -105,7 +105,7 @@ class _PostPageState extends State<Postpage> {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           const FbReaction(),
-          CommentButton(node: AppDataProvider.of(context).commentPostPage),
+          CommentButton(),
           ShareButton(data: widget.data),
         ],
       ),

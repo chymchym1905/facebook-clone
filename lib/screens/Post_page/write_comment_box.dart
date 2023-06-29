@@ -88,7 +88,18 @@ class _CommentAppBarState extends State<CommentAppBar> {
                   ),
                 ),
                 IconButton(
-                  onPressed: () => {},
+                  onPressed: () {
+                    Comment1 newComment = Comment1(widget.instantUser, null,
+                        widget.myController.text.toString(), []);
+                    if (IndexComment.flagReply) {
+                      widget.data[IndexComment.intdex].reply.add(newComment);
+                    } else {
+                      widget.data.add(newComment);
+                    }
+                    IndexComment.flagReply = false;
+                    AppDataProvider.of(context).commentPostPage.unfocus();
+                    widget.myController.clear();
+                  },
                   icon: const Icon(Icons.send),
                   iconSize: 30,
                 ),
