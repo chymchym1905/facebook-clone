@@ -8,7 +8,7 @@ class LoadMorePost extends LoadingMoreBase<Post> {
   int _pageIndex = 1;
 
   @override
-  bool get hasMore => (_hasMore) || forceRefresh;
+  bool get hasMore => (_hasMore && length < 1000) || forceRefresh;
 
   @override
   Future<bool> refresh([bool clearBeforeRequest = false]) async {
@@ -28,7 +28,7 @@ class LoadMorePost extends LoadingMoreBase<Post> {
     try {
       List<dynamic>? posts;
       //to show loading more clearly, in your app,remove this
-      await Future.delayed(const Duration(milliseconds: 500));
+      // await Future.delayed(const Duration(milliseconds: 500));
       await postManager.readPostJsonData(length, length + 5);
       posts = postManager.post;
       // print(fullPost);

@@ -1,6 +1,13 @@
+
 import '../index.dart';
 
 const _blue = Facebook.blue();
+
+class IndexComment{
+  static int intdex = 0;
+  static bool flagReply = false;
+}
+
 class Postpage extends StatefulWidget{
   const Postpage({Key? key, required this.data}) : super(key:key);
   final Post data;
@@ -10,23 +17,22 @@ class Postpage extends StatefulWidget{
 }
 class _PostPageState extends State<Postpage>{
   final myfocusNode = FocusNode();
-  late TextEditingController myController;
-   int countCommentAdd = 0;
+  late TextEditingController textController;
+  User instantUser = User("2002", "Danny", "http://loremflickr.com/640/480");
 
   @override
   void initState() {
-    myController = TextEditingController()
-      ..addListener(() {
-        setState(() {
-          countCommentAdd++;
-        });
-      });
-    super.initState();
+     super.initState();
+    textController = TextEditingController();
+    //   ..addListener(() {
+    //     setState(() {
+    //   });
+    // });
   }
 
   @override
   void dispose() {
-    myController.dispose();
+    textController.dispose();
     super.dispose();
   }
   @override
@@ -161,11 +167,11 @@ class _PostPageState extends State<Postpage>{
                         textfeed,
                         buttonSection,
                         iconSection,
-                        CommentSection(data: widget.data.comment, myController: myController, countCommentAdd: countCommentAdd,),
+                        CommentSection(data: widget.data.comment, myfocusNode: myfocusNode, instantUser: instantUser,),
                       ],
                   ),
                 ),
-                CommentAppBar(myfocusNode: myfocusNode, isKeyboard: isKeyboard, myController: myController,),
+                CommentAppBar(data:widget.data.comment ,myfocusNode: myfocusNode, isKeyboard: isKeyboard, textController: textController, instantUser: instantUser,),
               ],
             ),
         ),

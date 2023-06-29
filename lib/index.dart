@@ -24,3 +24,5 @@ export 'package:flutter_animate/flutter_animate.dart';
 export 'package:flutter_application_1/widgets/share_button.dart';
 export 'package:flutter_application_1/widgets/fb_reaction.dart';
 export 'package:flutter_application_1/widgets/comment_button.dart';
+export './model/user_class.dart';
+export './screens/post_page.dart';

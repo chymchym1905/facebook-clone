@@ -3,13 +3,18 @@ import '../index.dart';
 class CommentAppBar extends StatefulWidget {
   const CommentAppBar({
     super.key,
+    required this.data,
     required this.myfocusNode, 
     required this.isKeyboard,
-    required this.myController
+    required this.textController,
+    required this.instantUser,
   });
-  final TextEditingController myController;
+  final List<Comment1> data;
+  final TextEditingController textController;
   final bool isKeyboard;
   final FocusNode myfocusNode;
+  final User instantUser;
+  
   @override
   State<CommentAppBar> createState() => _CommentAppBarState();
 }
@@ -34,7 +39,7 @@ class _CommentAppBarState extends State<CommentAppBar> {
           SizedBox(
             height: MediaQuery.of(context).size.height*0.05,
             child: TextField(
-            controller: widget.myController,
+              controller: widget.textController,
               autocorrect: true,
               focusNode: widget.myfocusNode,
               decoration: InputDecoration(
@@ -82,7 +87,23 @@ class _CommentAppBarState extends State<CommentAppBar> {
                   ),
                 ),
                 IconButton(
-                  onPressed: () => {},
+                  onPressed: () {
+                    Comment1 newComment = Comment1(
+                      widget.instantUser, 
+                      null, 
+                      widget.textController.text.toString(), 
+                      []
+                    );
+                    if(IndexComment.flagReply)
+                    {
+                      widget.data[IndexComment.intdex].reply.add(newComment);
+                    } else {
+                      widget.data.add(newComment);
+                    }
+                    IndexComment.flagReply = false;
+                    widget.myfocusNode.unfocus();
+                    widget.textController.clear();
+                  },
                   icon: const Icon(Icons.send),
                   iconSize: 30,
                 ),
