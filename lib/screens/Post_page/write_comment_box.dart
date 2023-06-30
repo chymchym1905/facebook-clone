@@ -99,10 +99,7 @@ class _WriteCommentBoxState extends State<WriteCommentBox> {
                       } else {
                         widget.data.add(newComment);
                       }
-                    }
-                   
-                    
-                    
+                    } 
                     IndexComment.flagReply = false;
                     IndexComment.flagReply2 = false;
                      widget.myController.clear();
