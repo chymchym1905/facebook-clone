@@ -5,11 +5,9 @@ class CommentSection extends StatefulWidget {
     super.key,
     required this.data,
     required this.myfocusNode,
-    required this.instantUser,
   });
   final List<Comment1> data;
   final FocusNode myfocusNode;
-  final User instantUser;
 
   @override
   State<CommentSection> createState() => _CommentSectionState();
@@ -35,7 +33,7 @@ class _CommentSectionState extends State<CommentSection> {
             widget.data[index],
             [
               for (int i = 0; i < widget.data[index].reply.length; i += 1)
-                CommmentTreeSection(list: widget.data[index].reply[i]),
+                CommmentTreeSection(list: widget.data[index].reply[i], myfocusNode: widget.myfocusNode),
             ],
             treeThemeData: TreeThemeData(
               lineColor: hideTree,
@@ -108,14 +106,13 @@ class _CommentSectionState extends State<CommentSection> {
                           const Text('Like'),
                           TextButton(
                               onPressed: () {
-                                // setState(() {
-
-                                // });
                                 IndexComment.flagReply = true;
+                                IndexComment.flagReply2 = false;
                                 IndexComment.intdex = index;
                                 widget.myfocusNode.requestFocus();
                               },
-                              child: const Text('Reply')),
+                              child: const Text('Reply')
+                          ),
                         ],
                       ),
                     ),
@@ -131,8 +128,15 @@ class _CommentSectionState extends State<CommentSection> {
 }
 
 class CommmentTreeSection extends StatefulWidget {
-  const CommmentTreeSection({super.key, required this.list});
+  const CommmentTreeSection({
+    super.key, 
+    required this.list, 
+    required this.myfocusNode,
+    
+  });
   final Comment1 list;
+  final FocusNode myfocusNode;
+  
   @override
   State<CommmentTreeSection> createState() => _CommmentTreeSectionState();
 }
@@ -220,22 +224,26 @@ class _CommmentTreeSectionState extends State<CommmentTreeSection> {
                         style: Theme.of(context).textTheme.bodySmall!.copyWith(
                             color: const Color.fromARGB(255, 109, 107, 107),
                             fontWeight: FontWeight.w300),
-                        child: const Padding(
-                          padding: EdgeInsets.only(top: 4),
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 4),
                           child: Row(
                             children: [
-                              SizedBox(
+                              const SizedBox(
                                 width: 8,
                               ),
                               // Text(data.timeAgo),
                               // const SizedBox(
                               //   width: 15,
                               // ),
-                              Text('Like'),
-                              SizedBox(
-                                width: 15,
+                              const Text('Like'),
+                              TextButton(
+                                onPressed: () {
+                                  IndexComment.flagReply = false;
+                                  IndexComment.flagReply2 = true;
+                                  widget.myfocusNode.requestFocus();
+                                },
+                                child: const Text('Reply')
                               ),
-                              Text('Reply'),
                             ],
                           ),
                         ),
@@ -281,22 +289,26 @@ class _CommmentTreeSectionState extends State<CommmentTreeSection> {
                         style: Theme.of(context).textTheme.bodySmall!.copyWith(
                             color: const Color.fromARGB(255, 109, 107, 107),
                             fontWeight: FontWeight.w300),
-                        child: const Padding(
-                          padding: EdgeInsets.only(top: 4),
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 4),
                           child: Row(
                             children: [
-                              SizedBox(
+                              const SizedBox(
                                 width: 8,
                               ),
                               // Text(data.timeAgo),
                               // const SizedBox(
                               //   width: 15,
                               // ),
-                              Text('Like'),
-                              SizedBox(
-                                width: 15,
+                              const Text('Like'),
+                              TextButton(
+                                onPressed: () {
+                                  IndexComment.flagReply = false;
+                                  IndexComment.flagReply2 = true;
+                                  widget.myfocusNode.requestFocus();
+                                },
+                                child: const Text('Reply')
                               ),
-                              Text('Reply'),
                             ],
                           ),
                         ),

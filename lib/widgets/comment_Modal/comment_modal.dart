@@ -38,7 +38,7 @@ class _CommentModalState extends State<CommentModal> {
           child: CommentSection(
               myfocusNode: AppDataProvider.of(context).commentModal,
               data: widget.data.comment,
-              instantUser: instantUser),
+          ),
         ),
         SingleChildScrollView(
           child: Container(

@@ -5,6 +5,7 @@ const _blue = Facebook.blue();
 class IndexComment {
   static int intdex = 0;
   static bool flagReply = false;
+  static bool flagReply2 = false;
 }
 
 class Postpage extends StatefulWidget {
@@ -170,7 +171,6 @@ class _PostPageState extends State<Postpage> {
                     CommentSection(
                       myfocusNode: AppDataProvider.of(context).commentPostPage,
                       data: widget.data.comment,
-                      instantUser: instantUser,
                     ),
                   ],
                 ),
