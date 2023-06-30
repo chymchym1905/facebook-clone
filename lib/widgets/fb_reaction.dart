@@ -29,37 +29,26 @@ class _FbReactionState extends State<FbReaction> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        setState(() {
-          _isLike = !_isLike;
-        });
-      },
-      onLongPress: () => {
-        // Stack(
-        //   alignment: Alignment.bottomCenter,
-        //   children: [
-        //     renderBox(),
-        //   ],
-        // ),
-      },
-      child: Row(
-        children: [
-          Icon(
+    return Row(
+      children: [
+        TextButton.icon(
+          onLongPress: () {},
+          onPressed: () {
+            setState(() {
+              _isLike = !_isLike;
+            });
+          },
+          icon: Icon(
             Icons.thumb_up_off_alt,
-            size: 26,
             color: _isLike ? const Facebook.blue().color : Colors.grey,
           ),
-          Container(
-            padding: const EdgeInsets.only(left: 5),
-            child: Text(
-              'Like',
-              style: Theme.of(context).textTheme.labelSmall?.merge(TextStyle(
-                  color: _isLike ? const Facebook.blue().color : Colors.grey)),
-            ),
+          label: Text(
+            'Like',
+            style: Theme.of(context).textTheme.labelSmall?.merge(TextStyle(
+                color: _isLike ? const Facebook.blue().color : Colors.grey)),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

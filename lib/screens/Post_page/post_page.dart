@@ -15,7 +15,7 @@ class Postpage extends StatefulWidget {
   State<Postpage> createState() => _PostPageState();
 }
 
-class _PostPageState extends State<Postpage> {
+class _PostPageState extends State<Postpage> with WidgetsBindingObserver {
   // final myfocusNode = FocusNode();
   late TextEditingController textController;
   User instantUser = User("2002", "Danny", "http://loremflickr.com/640/480");
@@ -23,6 +23,7 @@ class _PostPageState extends State<Postpage> {
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
     textController = TextEditingController();
     //   ..addListener(() {
     //     setState(() {
@@ -33,7 +34,18 @@ class _PostPageState extends State<Postpage> {
   @override
   void dispose() {
     textController.dispose();
+    WidgetsBinding.instance.removeObserver(this);
     super.dispose();
+  }
+
+  @override
+  void didChangeMetrics() {
+    super.didChangeMetrics();
+    final value = WidgetsBinding
+        .instance.platformDispatcher.views.first.viewInsets.bottom;
+    if (value == 0 && MediaQuery.of(context).viewInsets.bottom != 0) {
+      AppDataProvider.of(context).commentPostPage.unfocus();
+    }
   }
 
   @override
