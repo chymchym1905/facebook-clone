@@ -4,6 +4,7 @@ const _blue = Facebook.blue();
 
 class IndexComment {
   static int intdex = 0;
+  static int intdex2 = 0;
   static bool flagReply = false;
   static bool flagReply2 = false;
 }

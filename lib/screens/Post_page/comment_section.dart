@@ -33,7 +33,7 @@ class _CommentSectionState extends State<CommentSection> {
             widget.data[index],
             [
               for (int i = 0; i < widget.data[index].reply.length; i += 1)
-                CommmentTreeSection(list: widget.data[index].reply[i], myfocusNode: widget.myfocusNode),
+                CommmentTreeSection(list: widget.data[index].reply[i], myfocusNode: widget.myfocusNode,indexforreply1: index, indexforreply2: i),
             ],
             treeThemeData: TreeThemeData(
               lineColor: hideTree,
@@ -132,10 +132,13 @@ class CommmentTreeSection extends StatefulWidget {
     super.key, 
     required this.list, 
     required this.myfocusNode,
-    
+    required this.indexforreply1,
+    required this.indexforreply2,
   });
   final Comment1 list;
   final FocusNode myfocusNode;
+  final int indexforreply1;
+  final int indexforreply2;
   
   @override
   State<CommmentTreeSection> createState() => _CommmentTreeSectionState();
@@ -240,6 +243,8 @@ class _CommmentTreeSectionState extends State<CommmentTreeSection> {
                                 onPressed: () {
                                   IndexComment.flagReply = false;
                                   IndexComment.flagReply2 = true;
+                                  IndexComment.intdex = widget.indexforreply1;
+                                  IndexComment.intdex2 = widget.indexforreply2;
                                   widget.myfocusNode.requestFocus();
                                 },
                                 child: const Text('Reply')
@@ -305,6 +310,8 @@ class _CommmentTreeSectionState extends State<CommmentTreeSection> {
                                 onPressed: () {
                                   IndexComment.flagReply = false;
                                   IndexComment.flagReply2 = true;
+                                  IndexComment.intdex = widget.indexforreply1;
+                                  IndexComment.intdex2 = widget.indexforreply2;
                                   widget.myfocusNode.requestFocus();
                                 },
                                 child: const Text('Reply')
