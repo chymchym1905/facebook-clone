@@ -13,6 +13,7 @@ void main() {
 int index = 0;
 ThemeProvider themeManager = ThemeProvider();
 PostList postManager = PostList([]);
+AppBarManager appBarManager = AppBarManager();
 
 //APP
 class Home extends StatefulWidget {
@@ -26,6 +27,7 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> with TickerProviderStateMixin {
   late TabController _tabController;
+  // SliverAppBar currentAppBar = const SliverAppBar();
   late LoadMorePost source1;
   late LoadMorePost source2;
   late LoadMorePost source3;
@@ -54,7 +56,9 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
 
   void _handleTabChange() {
     if (mounted) {
-      setState(() {});
+      setState(() {
+        appBarManager.toggleAppBar(_tabController.index == 0);
+      });
     }
   }
 
@@ -88,41 +92,6 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
         ),
       ],
     );
-    Widget sliverAppBar = SliverAppBar(
-      pinned: true,
-      floating: true,
-      snap: true,
-      elevation: 0,
-      expandedHeight: _tabController.index != 0
-          ? statusBarHeight
-          : MediaQuery.of(context).padding.top * 2.8,
-      actions: [
-        Switch(
-            value: themeManager.themeMode == dark,
-            onChanged: (value) => themeManager.toggleTheme(value),
-            activeColor: white),
-        IconButton(
-            splashRadius: MediaQuery.of(context).size.width * 0.07,
-            onPressed: () {},
-            icon: const Icon(Icons.add)),
-        IconButton(
-            splashRadius: MediaQuery.of(context).size.width * 0.07,
-            onPressed: () {},
-            icon: const Icon(Icons.search)),
-      ],
-      // expandedHeight: statusBarHeight,
-      title: Text(
-        'fakebook',
-        style: TextStyle(
-          fontSize: 29,
-          fontFamily: 'Calibri',
-          fontWeight: FontWeight.bold,
-          letterSpacing: -0.5,
-          color: themeManager.themeMode == dark ? white : Palette.facebookBlue,
-        ),
-      ),
-      bottom: primaryTabBar,
-    );
     // AppData appdata = AppDataProvider.of(context);
 
     return MaterialApp(
@@ -140,18 +109,18 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
             onlyOneScrollInBody: true,
             headerSliverBuilder: (context, bool innerBoxisScrolled) {
               return [
-                sliverAppBar
-
-                // SliverPersistentHeader(
-                //   pinned: true,
-                //   delegate: CommonSliverPersistentHeaderDelegate(
-                //       Container(
-                //         margin: EdgeInsets.only(top: statusBarHeight),
-                //         color: themeManager.themeMode == dark ? lightdark : white,
-                //         child: primaryTabBar,
-                //       ),
-                //       primaryTabBar.preferredSize.height),
-                // )
+                appBarManager.currentAppBar,
+                SliverPersistentHeader(
+                  pinned: true,
+                  delegate: CommonSliverPersistentHeaderDelegate(
+                      Container(
+                        // margin: EdgeInsets.only(top: statusBarHeight),
+                        color:
+                            themeManager.themeMode == dark ? lightdark : white,
+                        child: primaryTabBar,
+                      ),
+                      primaryTabBar.preferredSize.height),
+                )
               ];
             },
             body: TabBarView(
