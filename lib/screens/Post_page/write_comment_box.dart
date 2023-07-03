@@ -91,20 +91,21 @@ class _WriteCommentBoxState extends State<WriteCommentBox> {
                   onPressed: () {
                     Comment1 newComment = Comment1(widget.instantUser, null,
                         widget.myController.text.toString(), []);
-                    if(IndexComment.flagReply2) {
-                      widget.data[IndexComment.intdex].reply[IndexComment.intdex2].reply.add(newComment);
+                    if (IndexComment.flagReply2) {
+                      widget.data[IndexComment.intdex]
+                          .reply[IndexComment.intdex2].reply
+                          .add(newComment);
                     } else {
                       if (IndexComment.flagReply) {
                         widget.data[IndexComment.intdex].reply.add(newComment);
                       } else {
                         widget.data.add(newComment);
                       }
-                    } 
+                    }
                     IndexComment.flagReply = false;
                     IndexComment.flagReply2 = false;
-                     widget.myController.clear();
+                    widget.myController.clear();
                     widget.myfocusNode.unfocus();
-                    
                   },
                   icon: const Icon(Icons.send),
                   iconSize: 30,

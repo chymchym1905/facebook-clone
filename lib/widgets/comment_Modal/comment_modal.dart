@@ -17,6 +17,7 @@ class CommentModal extends StatefulWidget {
 class _CommentModalState extends State<CommentModal>
     with WidgetsBindingObserver {
   late TextEditingController textController;
+  bool isLike = false;
 
   @override
   void initState() {
@@ -49,14 +50,21 @@ class _CommentModalState extends State<CommentModal>
       children: [
         Row(mainAxisAlignment: MainAxisAlignment.end, children: [
           Container(
-            padding: EdgeInsets.only(top: 10, bottom: 15, right: 20),
-            child: FbReaction(),
-          ),
+              padding: EdgeInsets.only(right: 20),
+              child: IconButton(
+                onPressed: () {
+                  setState(() {
+                    isLike = !isLike;
+                  });
+                },
+                icon: Icon(Icons.thumb_up_off_alt,
+                    color: isLike ? const Facebook.blue().color : Colors.grey),
+              )),
         ]),
         Expanded(
           child: CommentSection(
-              myfocusNode: AppDataProvider.of(context).commentModal,
-              data: widget.data.comment,
+            myfocusNode: AppDataProvider.of(context).commentModal,
+            data: widget.data.comment,
           ),
         ),
         SingleChildScrollView(

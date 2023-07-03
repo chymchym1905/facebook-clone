@@ -28,7 +28,7 @@ class _PostsState extends State<Posts> {
                   imageUrl: widget.data.user.imageurl,
                   username: widget.data.user.name),
               Caption(caption: widget.data.caption),
-              Interactions(data: widget.data)
+              Interactions(data: widget.data),
             ],
           ),
         ),
@@ -143,6 +143,24 @@ class Interactions extends StatefulWidget {
 
   @override
   State<Interactions> createState() => _InteractionsState();
+}
+
+class ImageContainer extends StatefulWidget {
+  const ImageContainer({
+    Key? key,
+    required this.images,
+  }) : super(key: key);
+  final List<String> images;
+
+  @override
+  State<ImageContainer> createState() => _ImageContainerState();
+}
+
+class _ImageContainerState extends State<ImageContainer> {
+  @override
+  Widget build(BuildContext context) {
+    return Container();
+  }
 }
 
 class _InteractionsState extends State<Interactions> {
