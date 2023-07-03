@@ -3,16 +3,17 @@
 // import 'package:flutter_slidable/flutter_slidable.dart';
 import '../index.dart';
 
-final a = MySliverAppBar();
-final b = SliverAppBar(toolbarHeight: 0);
+const a = MySliverAppBar();
+final b = AppBar(key: ValueKey('2'), toolbarHeight: 0, elevation: 0);
 
-class AppBarManager {
+class AppBarManager with ChangeNotifier {
   Widget _currentAppBar = a;
 
   Widget get currentAppBar => _currentAppBar;
 
   dynamic toggleAppBar(isTab0) {
     _currentAppBar = isTab0 ? a : b;
+    notifyListeners();
   }
 }
 
@@ -56,11 +57,8 @@ class _MySliverAppBarState extends State<MySliverAppBar> {
 
   @override
   Widget build(BuildContext context) {
-    return SliverAppBar(
-      // key: ValueKey('1'),
-      pinned: true,
-      floating: true,
-      snap: true,
+    return AppBar(
+      key: ValueKey('1'),
       elevation: 0,
       // expandedHeight: -MediaQuery.of(context).size.height,
       actions: [
@@ -134,3 +132,27 @@ class _MySliverAppBarState extends State<MySliverAppBar> {
 //   }
 // }
 
+class AppBarTransition extends StatelessWidget {
+  final Widget childWidget;
+  final Animation<double> animation;
+  const AppBarTransition({
+    Key? key,
+    required this.childWidget,
+    required this.animation,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedBuilder(
+      animation: animation,
+      builder: (context, child) {
+        return SizedBox(
+          height: kToolbarHeight * 2,
+          child: Stack(
+              alignment: Alignment.topCenter,
+              children: [Positioned(top: animation.value, child: childWidget)]),
+        );
+      },
+    );
+  }
+}

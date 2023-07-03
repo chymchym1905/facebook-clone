@@ -1,4 +1,5 @@
 export './main.dart';
+export 'dart:math';
 export 'dart:convert';
 export './model/appdata.dart';
 export './model/post_class.dart';
