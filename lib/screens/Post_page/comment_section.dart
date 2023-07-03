@@ -295,15 +295,41 @@ class _CommmentTreeSectionState extends State<CommmentTreeSection> {
                               // ),
                               const Text('Like'),
                               TextButton(
-                                  onPressed: () {
-                                    IndexComment.flagReply = false;
-                                    IndexComment.flagReply2 = true;
-                                    IndexComment.intdex = widget.indexforreply1;
-                                    IndexComment.intdex2 =
-                                        widget.indexforreply2;
-                                    widget.myfocusNode.requestFocus();
-                                  },
-                                  child: const Text('Reply')),
+                                onPressed: () {
+                                  IndexComment.flagReply = false;
+                                  IndexComment.flagReply2 = true;
+                                  IndexComment.intdex = widget.indexforreply1;
+                                  IndexComment.intdex2 =
+                                      widget.indexforreply2;
+                                  widget.myfocusNode.requestFocus();
+                                },
+                                style: ButtonStyle(
+                                  fixedSize: MaterialStateProperty.resolveWith(
+                                      (states) {
+                                    final textStyle = Theme.of(context)
+                                        .textTheme
+                                        .labelMedium!;
+                                    final textWidth = TextPainter(
+                                      text: TextSpan(
+                                          text: 'Reply', style: textStyle),
+                                      textDirection: TextDirection.ltr,
+                                    )..layout();
+                                    final textHeight = textWidth.size.height;
+
+                                    return Size(
+                                        textWidth.size.width, textHeight);
+                                  }),
+                                ),
+                                child: Text('Reply',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .labelMedium!
+                                        .copyWith(
+                                            fontWeight: FontWeight.bold,
+                                            color: const Color.fromARGB(
+                                                255, 99, 100, 105))
+                                ),
+                              ),
                             ],
                           ),
                         ),
@@ -390,9 +416,11 @@ class _CommmentTreeSectionState extends State<CommmentTreeSection> {
                               ),
                               TextButton(
                                 onPressed: () {
-                                  IndexComment.flagReply = true;
-                                  IndexComment.flagReply2 = false;
-                                  IndexComment.intdex = index;
+                                   IndexComment.flagReply = false;
+                                    IndexComment.flagReply2 = true;
+                                    IndexComment.intdex = widget.indexforreply1;
+                                    IndexComment.intdex2 =
+                                        widget.indexforreply2;
                                   widget.myfocusNode.requestFocus();
                                 },
                                 style: ButtonStyle(
@@ -419,7 +447,8 @@ class _CommmentTreeSectionState extends State<CommmentTreeSection> {
                                         .copyWith(
                                             fontWeight: FontWeight.bold,
                                             color: const Color.fromARGB(
-                                                255, 99, 100, 105))),
+                                                255, 99, 100, 105))
+                                    ),
                               ),
                             ],
                           ),

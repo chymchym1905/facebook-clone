@@ -1,6 +1,6 @@
 import '../../index.dart';
 
-const _blue = Facebook.blue();
+
 
 class IndexComment {
   static int intdex = 0;
@@ -27,10 +27,6 @@ class _PostPageState extends State<Postpage> with WidgetsBindingObserver {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
     textController = TextEditingController();
-    //   ..addListener(() {
-    //     setState(() {
-    //   });
-    // });
   }
 
   @override
@@ -130,8 +126,8 @@ class _PostPageState extends State<Postpage> with WidgetsBindingObserver {
           padding: const EdgeInsets.all(10),
           child: Container(
             padding: const EdgeInsets.all(4),
-            decoration: BoxDecoration(
-              color: _blue.color,
+            decoration: const BoxDecoration(
+              color: blue,
               shape: BoxShape.circle,
             ),
             child: const Icon(
