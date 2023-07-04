@@ -31,12 +31,18 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   late LoadMorePost source1;
   late LoadMorePost source2;
   late LoadMorePost source3;
+  // late AnimationController _animationController;
+  // late Animation<double> animation;
   final GlobalKey<ExtendedNestedScrollViewState> _key =
       GlobalKey<ExtendedNestedScrollViewState>();
+
+  // late AnimationController _animationController;
+  // late final Animation<Offset> _offsetAnimation;
 
   @override
   void dispose() {
     themeManager.removeListener(themeListener);
+    // _animationController.dispose();
     source1.dispose();
     source2.dispose();
     source3.dispose();
@@ -48,6 +54,9 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
     super.initState();
     _tabController = TabController(length: 3, vsync: this);
     _tabController.addListener(_handleTabChange);
+    // _animationController =
+    //     AnimationController(vsync: this, duration: Duration(milliseconds: 500));
+    // animation = Tween<double>(begin: 0, end: -1).animate(_animationController);
     themeManager.addListener(themeListener);
     source1 = LoadMorePost();
     source2 = LoadMorePost();
@@ -56,6 +65,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
 
   void _handleTabChange() {
     if (mounted) {
+      print(_tabController.index);
       setState(() {
         appBarManager.toggleAppBar(_tabController.index == 0);
       });
@@ -109,9 +119,22 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
             onlyOneScrollInBody: true,
             headerSliverBuilder: (context, bool innerBoxisScrolled) {
               return [
-                appBarManager.currentAppBar,
+                SliverToBoxAdapter(
+                    child: AnimatedSwitcher(
+                        reverseDuration: const Duration(milliseconds: 200),
+                        transitionBuilder: (child, animation) =>
+                            SlideTransition(
+                              position: Tween<Offset>(
+                                begin: Offset(0, -1),
+                                end: const Offset(0, 0),
+                              ).animate(animation),
+                              child: child,
+                            ),
+                        duration: const Duration(milliseconds: 200),
+                        child: appBarManager.currentAppBar)),
                 SliverPersistentHeader(
                   pinned: true,
+                  floating: true,
                   delegate: CommonSliverPersistentHeaderDelegate(
                       Container(
                         // margin: EdgeInsets.only(top: statusBarHeight),
