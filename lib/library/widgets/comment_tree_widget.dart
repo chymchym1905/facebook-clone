@@ -26,7 +26,7 @@ class CommentTreeWidget<R, C> extends StatefulWidget {
 
   const CommentTreeWidget(
     this.root,
-    this.replies, {
+    this.replies, {super.key, 
     this.treeThemeData = const TreeThemeData(lineWidth: 1),
     this.avatarRoot,
     this.contentRoot,

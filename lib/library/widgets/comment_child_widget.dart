@@ -1,4 +1,3 @@
-import 'dart:math';
 
 import './tree_theme_data.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +9,7 @@ class CommentChildWidget extends StatelessWidget {
   final bool? isLast;
   final Size? avatarRoot;
 
-  const CommentChildWidget({
+  const CommentChildWidget({super.key, 
     required this.isLast,
     required this.avatar,
     required this.content,

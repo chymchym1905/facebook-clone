@@ -50,7 +50,7 @@ class _CommentModalState extends State<CommentModal>
       children: [
         Row(mainAxisAlignment: MainAxisAlignment.end, children: [
           Container(
-              padding: EdgeInsets.only(right: 20),
+              padding: const EdgeInsets.only(right: 20),
               child: IconButton(
                 onPressed: () {
                   setState(() {

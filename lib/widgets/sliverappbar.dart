@@ -4,7 +4,7 @@
 import '../index.dart';
 
 const a = MySliverAppBar();
-final b = AppBar(key: ValueKey('2'), toolbarHeight: 0, elevation: 0);
+final b = AppBar(key: const ValueKey('2'), toolbarHeight: 0, elevation: 0);
 
 class AppBarManager with ChangeNotifier {
   Widget _currentAppBar = a;
@@ -58,7 +58,7 @@ class _MySliverAppBarState extends State<MySliverAppBar> {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      key: ValueKey('1'),
+      key: const ValueKey('1'),
       elevation: 0,
       // expandedHeight: -MediaQuery.of(context).size.height,
       actions: [

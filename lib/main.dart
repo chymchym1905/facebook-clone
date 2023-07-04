@@ -31,8 +31,10 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   late LoadMorePost source1;
   late LoadMorePost source2;
   late LoadMorePost source3;
-  // late AnimationController _animationController;
-  // late Animation<double> animation;
+  late AnimationController _animationController;
+  late final Animation<double> _animation =
+      Tween<double>(begin: 0, end: kToolbarHeight)
+          .animate(_animationController);
   final GlobalKey<ExtendedNestedScrollViewState> _key =
       GlobalKey<ExtendedNestedScrollViewState>();
 
@@ -54,9 +56,8 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
     super.initState();
     _tabController = TabController(length: 3, vsync: this);
     _tabController.addListener(_handleTabChange);
-    // _animationController =
-    //     AnimationController(vsync: this, duration: Duration(milliseconds: 500));
-    // animation = Tween<double>(begin: 0, end: -1).animate(_animationController);
+    _animationController =
+        AnimationController(vsync: this, duration: const Duration(milliseconds: 500));
     themeManager.addListener(themeListener);
     source1 = LoadMorePost();
     source2 = LoadMorePost();
@@ -65,9 +66,13 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
 
   void _handleTabChange() {
     if (mounted) {
-      print(_tabController.index);
+      // print(_tabController.index);
       setState(() {
-        appBarManager.toggleAppBar(_tabController.index == 0);
+        if (_tabController.index == 0) {
+          _animationController.forward();
+        } else if (_tabController.index != 0) {
+          _animationController.reverse();
+        }
       });
     }
   }
@@ -102,6 +107,47 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
         ),
       ],
     );
+    final Widget sliverAppBar = AnimatedBuilder(
+      animation: _animation,
+      builder: (context, child) {
+        return SliverAppBar(
+          key: const ValueKey('1'),
+          elevation: 0,
+          pinned: true,
+          floating: true,
+          snap: true,
+          toolbarHeight: _animation.value,
+          // expandedHeight: -MediaQuery.of(context).size.height,
+          actions: [
+            Switch(
+                value: themeManager.themeMode == dark,
+                onChanged: (value) => themeManager.toggleTheme(value),
+                activeColor: white),
+            IconButton(
+                splashRadius: MediaQuery.of(context).size.width * 0.07,
+                onPressed: () {},
+                icon: const Icon(Icons.add)),
+            IconButton(
+                splashRadius: MediaQuery.of(context).size.width * 0.07,
+                onPressed: () {},
+                icon: const Icon(Icons.search)),
+          ],
+          // expandedHeight: statusBarHeight,
+          title: Text(
+            'fakebook',
+            style: TextStyle(
+              fontSize: 29,
+              fontFamily: 'Calibri',
+              fontWeight: FontWeight.bold,
+              letterSpacing: -0.5,
+              color:
+                  themeManager.themeMode == dark ? white : Palette.facebookBlue,
+            ),
+          ),
+          bottom: primaryTabBar,
+        );
+      },
+    );
     // AppData appdata = AppDataProvider.of(context);
 
     return MaterialApp(
@@ -119,39 +165,40 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
             onlyOneScrollInBody: true,
             headerSliverBuilder: (context, bool innerBoxisScrolled) {
               return [
-                SliverToBoxAdapter(
-                    child: AnimatedSwitcher(
-                        reverseDuration: const Duration(milliseconds: 200),
-                        transitionBuilder: (child, animation) =>
-                            SlideTransition(
-                              position: Tween<Offset>(
-                                begin: Offset(0, -1),
-                                end: const Offset(0, 0),
-                              ).animate(animation),
-                              child: child,
-                            ),
-                        duration: const Duration(milliseconds: 200),
-                        child: appBarManager.currentAppBar)),
-                SliverPersistentHeader(
-                  pinned: true,
-                  floating: true,
-                  delegate: CommonSliverPersistentHeaderDelegate(
-                      Container(
-                        // margin: EdgeInsets.only(top: statusBarHeight),
-                        color:
-                            themeManager.themeMode == dark ? lightdark : white,
-                        child: primaryTabBar,
-                      ),
-                      primaryTabBar.preferredSize.height),
-                )
+                sliverAppBar
+                // SliverToBoxAdapter(
+                //     child: AnimatedSwitcher(
+                //         reverseDuration: const Duration(milliseconds: 200),
+                //         transitionBuilder: (child, animation) =>
+                //             SlideTransition(
+                //               position: Tween<Offset>(
+                //                 begin: Offset(0, -1),
+                //                 end: const Offset(0, 0),
+                //               ).animate(animation),
+                //               child: child,
+                //             ),
+                //         duration: const Duration(milliseconds: 200),
+                //         child: appBarManager.currentAppBar)),
+                // SliverPersistentHeader(
+                //   pinned: true,
+                //   floating: true,
+                //   delegate: CommonSliverPersistentHeaderDelegate(
+                //       Container(
+                //         // margin: EdgeInsets.only(top: statusBarHeight),
+                //         color:
+                //             themeManager.themeMode == dark ? lightdark : white,
+                //         child: primaryTabBar,
+                //       ),
+                //       primaryTabBar.preferredSize.height),
+                // )
               ];
             },
             body: TabBarView(
               controller: _tabController,
               children: [
-                PostListView(source: source1, pagekey: PageStorageKey('tab1')),
-                PostListView(source: source2, pagekey: PageStorageKey('tab2')),
-                PostListView(source: source3, pagekey: PageStorageKey('tab3'))
+                PostListView(source: source1, pagekey: const PageStorageKey('tab1')),
+                PostListView(source: source2, pagekey: const PageStorageKey('tab2')),
+                PostListView(source: source3, pagekey: const PageStorageKey('tab3'))
               ],
             ),
           ),

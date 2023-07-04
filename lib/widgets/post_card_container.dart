@@ -171,7 +171,7 @@ class _InteractionsState extends State<Interactions> {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            FbReaction(),
+            const FbReaction(),
             CommentButtonModal(data: widget.data),
             ShareButton(data: widget.data)
           ]),

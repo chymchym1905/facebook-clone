@@ -137,7 +137,7 @@ class _PostListViewState extends State<PostListView> {
               );
             case IndicatorStatus.fullScreenBusying:
               return Padding(
-                padding: EdgeInsets.all(8.0),
+                padding: const EdgeInsets.all(8.0),
                 child: Center(
                   child: Text('Fullscreen Busying...',
                       style: Theme.of(context).textTheme.titleMedium),

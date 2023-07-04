@@ -71,7 +71,7 @@ class _CommentSectionState extends State<CommentSection> {
                     decoration: BoxDecoration(
                         color: themeManager.themeMode == dark
                             ? const Color.fromARGB(255, 58, 59, 60)
-                            : Color.fromARGB(155, 180, 177, 177),
+                            : const Color.fromARGB(155, 180, 177, 177),
                         borderRadius: BorderRadius.circular(12)),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -216,7 +216,7 @@ class _CommmentTreeSectionState extends State<CommmentTreeSection> {
             } else {
               hideTree = themeManager.themeMode == dark
                   ? const Color.fromARGB(255, 58, 59, 60)
-                  : Color.fromARGB(255, 234, 236, 238);
+                  : const Color.fromARGB(255, 234, 236, 238);
             }
             return Container(
               padding: const EdgeInsets.symmetric(vertical: 12),
@@ -255,7 +255,7 @@ class _CommmentTreeSectionState extends State<CommmentTreeSection> {
                         decoration: BoxDecoration(
                             color: themeManager.themeMode == dark
                                 ? const Color.fromARGB(255, 58, 59, 60)
-                                : Color.fromARGB(155, 180, 177, 177),
+                                : const Color.fromARGB(155, 180, 177, 177),
                             borderRadius: BorderRadius.circular(12)),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -293,17 +293,68 @@ class _CommmentTreeSectionState extends State<CommmentTreeSection> {
                               // const SizedBox(
                               //   width: 15,
                               // ),
-                              const Text('Like'),
                               TextButton(
-                                  onPressed: () {
-                                    IndexComment.flagReply = false;
-                                    IndexComment.flagReply2 = true;
-                                    IndexComment.intdex = widget.indexforreply1;
-                                    IndexComment.intdex2 =
-                                        widget.indexforreply2;
-                                    widget.myfocusNode.requestFocus();
-                                  },
-                                  child: const Text('Reply')),
+                                onPressed: () {},
+                                style: ButtonStyle(
+                                  fixedSize: MaterialStateProperty.resolveWith(
+                                      (states) {
+                                    final textStyle = Theme.of(context)
+                                        .textTheme
+                                        .labelMedium!;
+                                    final textWidth = TextPainter(
+                                      text: TextSpan(
+                                          text: 'Like', style: textStyle),
+                                      textDirection: TextDirection.ltr,
+                                    )..layout();
+                                    final textHeight = textWidth.size.height;
+
+                                    return Size(
+                                        textWidth.size.width, textHeight);
+                                  }),
+                                ),
+                                child: Text('Like',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .labelMedium!
+                                        .copyWith(
+                                            fontWeight: FontWeight.bold,
+                                            color: const Color.fromARGB(
+                                                255, 99, 100, 105))),
+                              ),
+                              TextButton(
+                                onPressed: () {
+                                  IndexComment.flagReply = false;
+                                  IndexComment.flagReply2 = true;
+                                  IndexComment.intdex = widget.indexforreply1;
+                                  IndexComment.intdex2 = widget.indexforreply2;
+                                  widget.myfocusNode.requestFocus();
+                                },
+                                style: ButtonStyle(
+                                  fixedSize: MaterialStateProperty.resolveWith(
+                                      (states) {
+                                    final textStyle = Theme.of(context)
+                                        .textTheme
+                                        .labelMedium!;
+                                    final textWidth = TextPainter(
+                                      text: TextSpan(
+                                          text: 'Reply', style: textStyle),
+                                      textDirection: TextDirection.ltr,
+                                    )..layout();
+                                    final textHeight = textWidth.size.height;
+
+                                    return Size(
+                                        textWidth.size.width, textHeight);
+                                  }),
+                                ),
+                                child: Text('Reply',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .labelMedium!
+                                        .copyWith(
+                                            fontWeight: FontWeight.bold,
+                                            color: const Color.fromARGB(
+                                                255, 99, 100, 105))),
+                              ),
                             ],
                           ),
                         ),
@@ -390,9 +441,10 @@ class _CommmentTreeSectionState extends State<CommmentTreeSection> {
                               ),
                               TextButton(
                                 onPressed: () {
-                                  IndexComment.flagReply = true;
-                                  IndexComment.flagReply2 = false;
-                                  IndexComment.intdex = index;
+                                  IndexComment.flagReply = false;
+                                  IndexComment.flagReply2 = true;
+                                  IndexComment.intdex = widget.indexforreply1;
+                                  IndexComment.intdex2 = widget.indexforreply2;
                                   widget.myfocusNode.requestFocus();
                                 },
                                 style: ButtonStyle(

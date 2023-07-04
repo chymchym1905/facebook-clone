@@ -118,7 +118,7 @@ class _PostPageState extends State<Postpage> with WidgetsBindingObserver {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           const FbReaction(),
-          CommentButton(),
+          const CommentButton(),
           ShareButton(data: widget.data),
         ],
       ),

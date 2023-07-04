@@ -7,7 +7,7 @@ const Color lightdark = Color.fromARGB(255, 38, 38, 38);
 ThemeData light = ThemeData(
   fontFamily: 'HyWenHei',
   // brightness: Brightness.light,
-  scaffoldBackgroundColor: Color.fromARGB(235, 255, 255, 255),
+  scaffoldBackgroundColor: const Color.fromARGB(235, 255, 255, 255),
   textTheme: const TextTheme(
     titleLarge: TextStyle(
       //feed name
@@ -59,7 +59,7 @@ ThemeData light = ThemeData(
 ThemeData dark = ThemeData(
     fontFamily: 'HyWenHei',
     // brightness: Brightness.dark,
-    scaffoldBackgroundColor: Color.fromARGB(235, 0, 0, 0),
+    scaffoldBackgroundColor: const Color.fromARGB(235, 0, 0, 0),
     // colorScheme: ColorScheme.fromSeed(seedColor: const Color.fromARGB(161, 158, 158, 158)),
     textTheme: const TextTheme(
       // bodySmall: TextStyle(

@@ -6,7 +6,7 @@ class RootCommentWidget extends StatelessWidget {
   final PreferredSizeWidget avatar;
   final Widget content;
 
-  const RootCommentWidget(this.avatar, this.content);
+  const RootCommentWidget(this.avatar, this.content, {super.key});
 
   @override
   Widget build(BuildContext context) {
