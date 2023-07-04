@@ -20,6 +20,7 @@ class Post {
     this.comments,
     this.shares,
     this.comment,
+    this.isReact,
   );
   @JsonKey(required: true)
   String id;
@@ -27,6 +28,8 @@ class Post {
   User user;
   @JsonKey(required: true)
   String caption;
+  @JsonKey(required: true)
+  bool isReact;
   // TimeElement timeAgo;
   @JsonKey(required: false)
   // Visibility visibility;
