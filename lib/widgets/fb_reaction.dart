@@ -2,7 +2,8 @@ import '../index.dart';
 import 'comment_Modal/comment_button_modal.dart';
 
 class FBFullReaction extends StatefulWidget {
-  const FBFullReaction({Key? key, required this.data, required this.isPostcard}) : super(key: key);
+  const FBFullReaction({Key? key, required this.data, required this.isPostcard})
+      : super(key: key);
   final Post data;
   final bool isPostcard;
 
@@ -10,7 +11,8 @@ class FBFullReaction extends StatefulWidget {
   State<FBFullReaction> createState() => _FBFullReactionState();
 }
 
-class _FBFullReactionState extends State<FBFullReaction> with TickerProviderStateMixin {
+class _FBFullReactionState extends State<FBFullReaction>
+    with TickerProviderStateMixin {
   final double _reactSize = 32;
   final double _reactMargin = 2;
   final double _reactBarBotMargin = 44;
@@ -85,17 +87,17 @@ class _FBFullReactionState extends State<FBFullReaction> with TickerProviderStat
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        ListView.builder(
+    return Stack(children: [
+      SingleChildScrollView(
+        child: ListView.builder(
           physics: const ClampingScrollPhysics(),
           shrinkWrap: true,
           itemCount: _news.length,
           itemBuilder: _buildItem,
         ),
-         _buildReactAnimation(),
-      ]
-    );
+      ),
+      _buildReactAnimation(),
+    ]);
   }
 
   Widget _buildReactAnimation() {
@@ -236,7 +238,9 @@ class _FBFullReactionState extends State<FBFullReaction> with TickerProviderStat
   _buildNewItem(BuildContext context, int index) {
     return Column(
       children: [
-        NameBar(imageUrl: widget.data.user.imageurl, username: widget.data.user.name),
+        NameBar(
+            imageUrl: widget.data.user.imageurl,
+            username: widget.data.user.name),
         Caption(caption: widget.data.caption),
         _buildLikeButton(context, index),
       ],
@@ -258,52 +262,55 @@ class _FBFullReactionState extends State<FBFullReaction> with TickerProviderStat
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         GestureDetector(
-          onTap: () => setState(() => _news[index]["reaction"] = null),
-          onLongPressMoveUpdate: _updatePointer,
-          onLongPressStart: _savePointer,
-          onLongPressEnd: _clearPointer,
-          onLongPress: () => _showReacts(index),
-          onLongPressUp: _hideReacts,
-          child: Container(
-            color: Colors.transparent,
-            alignment: Alignment.center,
-            child: Material(
-              shape: const StadiumBorder(),
-              child: Padding(
-                padding: padding,
-                child: SizedBox(
-                  height: icSize,
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      if (reaction != null) ...[
-                        Image.asset(reaction.png, height: icSize, width: icSize),
-                        const SizedBox(width: 8),
-                      ],
-                      if(reaction == null) ...[
-                        const Icon(
-                          Icons.thumb_up_off_alt,
-                          color: Colors.grey,
+            onTap: () => setState(() => _news[index]["reaction"] = null),
+            onLongPressMoveUpdate: _updatePointer,
+            onLongPressStart: _savePointer,
+            onLongPressEnd: _clearPointer,
+            onLongPress: () => _showReacts(index),
+            onLongPressUp: _hideReacts,
+            child: Container(
+              color: Colors.transparent,
+              alignment: Alignment.center,
+              child: Material(
+                shape: const StadiumBorder(),
+                child: Padding(
+                  padding: padding,
+                  child: SizedBox(
+                    height: icSize,
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        if (reaction != null) ...[
+                          Image.asset(reaction.png,
+                              height: icSize, width: icSize),
+                          const SizedBox(width: 8),
+                        ],
+                        if (reaction == null) ...[
+                          const Icon(
+                            Icons.thumb_up_off_alt,
+                            color: Colors.grey,
+                          )
+                        ],
+                        Padding(
+                          padding: const EdgeInsets.only(left: 5),
+                          child: Text(
+                            text,
+                            style: Theme.of(context)
+                                .textTheme
+                                .labelSmall
+                                ?.merge(TextStyle(color: textColor)),
+                          ),
                         )
                       ],
-                      Padding(
-                        padding: const EdgeInsets.only(left: 5),
-                        child: Text(
-                          text, 
-                          style: Theme.of(context).textTheme.labelSmall?.merge(TextStyle(color: textColor)),
-                        ),
-                      )
-                    ],
+                    ),
                   ),
                 ),
               ),
-            ),
-          )
-        ),
-        if(widget.isPostcard) ...[
+            )),
+        if (widget.isPostcard) ...[
           CommentButtonModal(data: widget.data),
-        ] else ... [
-           const CommentButton(),
+        ] else ...[
+          const CommentButton(),
         ],
         ShareButton(data: widget.data),
       ],

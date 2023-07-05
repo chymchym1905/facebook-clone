@@ -32,11 +32,10 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   late LoadMorePost source2;
   late LoadMorePost source3;
   late AnimationController _animationController;
-  late final Animation<double> _animation =
-      Tween<double>(begin: 0, end: kToolbarHeight)
-          .animate(_animationController);
+  late Animation<double> _animation;
   final GlobalKey<ExtendedNestedScrollViewState> _key =
       GlobalKey<ExtendedNestedScrollViewState>();
+  bool isFirstLoad = true;
 
   // late AnimationController _animationController;
   // late final Animation<Offset> _offsetAnimation;
@@ -56,8 +55,10 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
     super.initState();
     _tabController = TabController(length: 3, vsync: this);
     _tabController.addListener(_handleTabChange);
-    _animationController =
-        AnimationController(vsync: this, duration: const Duration(milliseconds: 500));
+    _animationController = AnimationController(
+        vsync: this, duration: const Duration(milliseconds: 500));
+    _animation = Tween<double>(begin: kToolbarHeight, end: 0)
+        .animate(_animationController);
     themeManager.addListener(themeListener);
     source1 = LoadMorePost();
     source2 = LoadMorePost();
@@ -68,6 +69,11 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
     if (mounted) {
       // print(_tabController.index);
       setState(() {
+        if (isFirstLoad) {
+          _animation = Tween<double>(begin: 0, end: kToolbarHeight)
+              .animate(_animationController);
+          isFirstLoad = false;
+        }
         if (_tabController.index == 0) {
           _animationController.forward();
         } else if (_tabController.index != 0) {
@@ -196,9 +202,12 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
             body: TabBarView(
               controller: _tabController,
               children: [
-                PostListView(source: source1, pagekey: const PageStorageKey('tab1')),
-                PostListView(source: source2, pagekey: const PageStorageKey('tab2')),
-                PostListView(source: source3, pagekey: const PageStorageKey('tab3'))
+                PostListView(
+                    source: source1, pagekey: const PageStorageKey('tab1')),
+                PostListView(
+                    source: source2, pagekey: const PageStorageKey('tab2')),
+                PostListView(
+                    source: source3, pagekey: const PageStorageKey('tab3'))
               ],
             ),
           ),
