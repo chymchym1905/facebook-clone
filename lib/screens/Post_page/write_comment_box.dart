@@ -15,7 +15,7 @@ class WriteCommentBox extends StatefulWidget {
   final TextEditingController myController;
   final bool isKeyboard;
   final FocusNode myfocusNode;
-  final User instantUser;
+  final UserDummy instantUser;
 
   @override
   State<WriteCommentBox> createState() => _WriteCommentBoxState();

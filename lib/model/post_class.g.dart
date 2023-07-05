@@ -13,7 +13,7 @@ Post _$PostFromJson(Map<String, dynamic> json) {
   );
   return Post(
     json['id'] as String,
-    User.fromJson(json['user'] as Map<String, dynamic>),
+    UserDummy.fromJson(json['user'] as Map<String, dynamic>),
     json['caption'] as String,
     (json['imageurl'] as List<dynamic>).map((e) => e as String).toList(),
     json['likes'] as int?,

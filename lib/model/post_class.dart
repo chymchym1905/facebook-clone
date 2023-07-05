@@ -3,14 +3,13 @@ import 'package:json_annotation/json_annotation.dart';
 import 'comment_class.dart';
 part 'post_class.g.dart';
 
-
 // class Visibility{}
 // class Public extends Visibility{}
 // class Private extends Visibility{}
 
 @JsonSerializable()
 class Post {
-    Post(
+  Post(
     this.id,
     this.user,
     this.caption,
@@ -24,7 +23,7 @@ class Post {
   @JsonKey(required: true)
   String id;
   @JsonKey(required: true)
-  User user;
+  UserDummy user;
   @JsonKey(required: true)
   String caption;
   // TimeElement timeAgo;
@@ -45,13 +44,4 @@ class Post {
   /// to JSON. The implementation simply calls the private, generated
   /// helper method `_$UserToJson`.
   Map<String, dynamic> toJson() => _$PostToJson(this);
-
 }
-
-
-
-
-
-
-
-

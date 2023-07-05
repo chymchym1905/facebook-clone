@@ -20,7 +20,8 @@ class Postpage extends StatefulWidget {
 class _PostPageState extends State<Postpage> with WidgetsBindingObserver {
   // final myfocusNode = FocusNode();
   late TextEditingController textController;
-  User instantUser = User("2002", "Danny", "http://loremflickr.com/640/480");
+  UserDummy instantUser =
+      UserDummy("2002", "Danny", "http://loremflickr.com/640/480");
 
   @override
   void initState() {

@@ -12,7 +12,7 @@ Comment1 _$Comment1FromJson(Map<String, dynamic> json) {
     requiredKeys: const ['user', 'content'],
   );
   return Comment1(
-    User.fromJson(json['user'] as Map<String, dynamic>),
+    UserDummy.fromJson(json['user'] as Map<String, dynamic>),
     (json['react'] as num?)?.toDouble(),
     json['content'] as String,
     (json['reply'] as List<dynamic>)
