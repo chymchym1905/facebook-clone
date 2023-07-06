@@ -1,5 +1,5 @@
 import '../index.dart';
-import 'comment_Modal/comment_button_modal.dart';
+import '../screens/Home_page/comment_Modal/comment_button_modal.dart';
 
 class FBFullReaction extends StatefulWidget {
   const FBFullReaction({Key? key, required this.data, required this.isPostcard})
@@ -57,11 +57,11 @@ class _FBFullReactionState extends State<FBFullReaction>
     super.initState();
     _initReactions();
     _initNews();
-    var _itemDuration = const Duration(milliseconds: 300);
-    _newsCtr = AnimationController(vsync: this, duration: _itemDuration);
+    var itemDuration = const Duration(milliseconds: 300);
+    _newsCtr = AnimationController(vsync: this, duration: itemDuration);
     _newsAni = CurvedAnimation(parent: _newsCtr, curve: Curves.fastOutSlowIn);
-    var _reactDuration = const Duration(milliseconds: 1000);
-    _reactCtr = AnimationController(vsync: this, duration: _reactDuration);
+    var reactDuration = const Duration(milliseconds: 1000);
+    _reactCtr = AnimationController(vsync: this, duration: reactDuration);
     _reactAni = CurvedAnimation(parent: _reactCtr, curve: Curves.fastOutSlowIn);
   }
 
@@ -263,7 +263,7 @@ class _FBFullReactionState extends State<FBFullReaction>
         NameBar(
             imageUrl: widget.data.user.imageurl,
             username: widget.data.user.name),
-        Caption(caption: widget.data.caption),
+        Caption(caption: widget.data.caption, data: widget.data),
         _buildLikeButton(context, index),
       ],
     );

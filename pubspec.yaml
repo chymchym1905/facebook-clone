@@ -50,6 +50,7 @@ dependencies:
   page_transition: ^2.0.9
   sliver_tools: ^0.2.10
   firebase_auth: ^4.6.3
+  cloud_firestore: ^4.8.2
 
 dev_dependencies:
   flutter_test:

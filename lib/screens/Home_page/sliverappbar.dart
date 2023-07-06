@@ -1,7 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 // import 'package:sliver_tools/sliver_tools.dart';
 // import 'package:flutter_slidable/flutter_slidable.dart';
-import '../index.dart';
+import '../../index.dart';
 
 const a = MySliverAppBar();
 final b = AppBar(key: const ValueKey('2'), toolbarHeight: 0, elevation: 0);
@@ -131,28 +131,3 @@ class _MySliverAppBarState extends State<MySliverAppBar> {
 //     );
 //   }
 // }
-
-class AppBarTransition extends StatelessWidget {
-  final Widget childWidget;
-  final Animation<double> animation;
-  const AppBarTransition({
-    Key? key,
-    required this.childWidget,
-    required this.animation,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return AnimatedBuilder(
-      animation: animation,
-      builder: (context, child) {
-        return SizedBox(
-          height: kToolbarHeight * 2,
-          child: Stack(
-              alignment: Alignment.topCenter,
-              children: [Positioned(top: animation.value, child: childWidget)]),
-        );
-      },
-    );
-  }
-}

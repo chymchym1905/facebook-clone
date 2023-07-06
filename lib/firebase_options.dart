@@ -17,15 +17,24 @@ import 'package:flutter/foundation.dart'
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
-      return web;
+      throw UnsupportedError(
+        'DefaultFirebaseOptions have not been configured for web - '
+        'you can reconfigure this by running the FlutterFire CLI again.',
+      );
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
         return android;
       case TargetPlatform.iOS:
-        return ios;
+        throw UnsupportedError(
+          'DefaultFirebaseOptions have not been configured for ios - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
       case TargetPlatform.macOS:
-        return macos;
+        throw UnsupportedError(
+          'DefaultFirebaseOptions have not been configured for macos - '
+          'you can reconfigure this by running the FlutterFire CLI again.',
+        );
       case TargetPlatform.windows:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for windows - '
@@ -43,41 +52,11 @@ class DefaultFirebaseOptions {
     }
   }
 
-  static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyCw-2au9uTYtuBbTYyxYB4IGr8TrY0nJp0',
-    appId: '1:165743593043:web:547c25628587e4dd77a8a6',
-    messagingSenderId: '165743593043',
-    projectId: 'my-secret-stash-1905',
-    authDomain: 'my-secret-stash-1905.firebaseapp.com',
-    storageBucket: 'my-secret-stash-1905.appspot.com',
-    measurementId: 'G-J2WZTN1FM5',
-  );
-
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyC39ggImjS6zpkcO7mRiyyn8SbbMJc4R2E',
     appId: '1:165743593043:android:6ce3fa4c1e62573577a8a6',
     messagingSenderId: '165743593043',
     projectId: 'my-secret-stash-1905',
     storageBucket: 'my-secret-stash-1905.appspot.com',
-  );
-
-  static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyCs-8KYFiSgLCaB_I4wO3c3PkM1cDnAkCg',
-    appId: '1:165743593043:ios:2459226532ffc80d77a8a6',
-    messagingSenderId: '165743593043',
-    projectId: 'my-secret-stash-1905',
-    storageBucket: 'my-secret-stash-1905.appspot.com',
-    iosClientId: '165743593043-fc7qscelapo8veddl2egr9jjlaot3sgk.apps.googleusercontent.com',
-    iosBundleId: 'com.example.flutterApplication1',
-  );
-
-  static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyCs-8KYFiSgLCaB_I4wO3c3PkM1cDnAkCg',
-    appId: '1:165743593043:ios:0bd8048a72e0f1d877a8a6',
-    messagingSenderId: '165743593043',
-    projectId: 'my-secret-stash-1905',
-    storageBucket: 'my-secret-stash-1905.appspot.com',
-    iosClientId: '165743593043-790vot4norrl395ig3l8nsjrs4jqoirl.apps.googleusercontent.com',
-    iosBundleId: 'com.example.flutterApplication1.RunnerTests',
   );
 }

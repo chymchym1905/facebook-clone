@@ -1,21 +1,23 @@
-import 'package:flutter/material.dart';
-import 'main.dart';
+import 'index.dart';
 import 'screens/friends_page.dart';
 import 'screens/watch_page.dart';
-import 'screens/Post_page/post_page.dart';
 
 class RouteGenerator {
-  static Route<dynamic> generateRoute(RouteSettings settings){
+  static Route<dynamic> generateRoute(RouteSettings settings) {
     final args = settings.arguments;
-    switch (settings.name){
+    switch (settings.name) {
       case '/':
-        return MaterialPageRoute(builder: (_) => const Home());
+        return MaterialPageRoute(builder: (_) => const FakeBook());
+      // case '/login':
+      //   return MaterialPageRoute(builder: (_) => const LoginRegister());
+      // case '/home':
+      //   return MaterialPageRoute(builder: (_) => const Home());
       case '/friends':
-        if(args is String){
+        if (args is String) {
           return MaterialPageRoute(builder: (_) => Friends(data: args));
         }
       case '/watch':
-        if(args is String){
+        if (args is String) {
           return MaterialPageRoute(builder: (_) => Watch(data: args));
         }
       case '/posts':
@@ -26,6 +28,7 @@ class RouteGenerator {
     }
     return _errorRoute();
   }
+
   static Route<dynamic> _errorRoute() {
     return MaterialPageRoute(builder: (_) {
       return Scaffold(
