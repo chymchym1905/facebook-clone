@@ -1,4 +1,4 @@
-import '../index.dart';
+import '../../index.dart';
 import 'package:loading_more_list/loading_more_list.dart';
 
 class LoadMorePost extends LoadingMoreBase<Post> {

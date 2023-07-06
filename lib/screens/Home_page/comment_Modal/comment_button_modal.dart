@@ -1,5 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import '../../index.dart';
+import '../../../index.dart';
 import 'comment_modal.dart';
 
 class CommentButtonModal extends StatefulWidget {

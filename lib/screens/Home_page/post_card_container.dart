@@ -1,5 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import '../index.dart';
+import '../../index.dart';
 
 class Posts extends StatefulWidget {
   const Posts({Key? key, required this.data}) : super(key: key);
@@ -39,7 +39,7 @@ class NameBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(8, 0, 12, 8),
+      padding: const EdgeInsets.fromLTRB(8, 8, 12, 8),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -92,8 +92,10 @@ class Caption extends StatefulWidget {
   const Caption({
     Key? key,
     required this.caption,
+    required this.data,
   }) : super(key: key);
   final String caption;
+  final Post data;
 
   @override
   State<Caption> createState() => _Caption();
@@ -110,7 +112,9 @@ class _Caption extends State<Caption> {
       alignment: Alignment.topLeft,
       padding: const EdgeInsets.all(8.0),
       child: InkWell(
-        onTap: () {},
+        onTap: () => setState(() {
+          Navigator.of(context).pushNamed('/posts', arguments: widget.data);
+        }),
         child: Ink(
           color: themeManager.themeMode == dark ? lightdark : white,
           child: Text(
