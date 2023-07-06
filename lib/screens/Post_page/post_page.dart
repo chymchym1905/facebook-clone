@@ -8,8 +8,9 @@ class IndexComment {
 }
 
 class Postpage extends StatefulWidget {
-  const Postpage({Key? key, required this.data}) : super(key: key);
+  const Postpage({Key? key, required this.data, required this.reloadState}) : super(key: key);
   final Post data;
+  final Function(Post) reloadState;
 
   @override
   State<Postpage> createState() => _PostPageState();
@@ -91,7 +92,10 @@ class _PostPageState extends State<Postpage> with WidgetsBindingObserver {
             leading: IconButton(
                 splashRadius: MediaQuery.of(context).size.width * 0.07,
                 icon: const Icon(Icons.arrow_back),
-                onPressed: () => Navigator.pop(context, false)),
+                onPressed: () {
+                  widget.reloadState(widget.data);
+                  Navigator.pop(context, widget.data);
+                }),
             title: Text(widget.data.user.name,
                 style: Theme.of(context).textTheme.titleLarge),
             actions: [

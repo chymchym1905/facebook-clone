@@ -9,7 +9,7 @@ part of 'post_class.dart';
 Post _$PostFromJson(Map<String, dynamic> json) {
   $checkKeys(
     json,
-    requiredKeys: const ['id', 'user', 'caption'],
+    requiredKeys: const ['id', 'user', 'caption', 'reaction'],
   );
   return Post(
     json['id'] as String,
@@ -22,6 +22,7 @@ Post _$PostFromJson(Map<String, dynamic> json) {
     (json['comment'] as List<dynamic>)
         .map((e) => Comment1.fromJson(e as Map<String, dynamic>))
         .toList(),
+    json['reaction'] as int,
   );
 }
 
@@ -30,6 +31,7 @@ Map<String, dynamic> _$PostToJson(Post instance) => <String, dynamic>{
       'user': instance.user,
       'caption': instance.caption,
       'imageurl': instance.imageurl,
+      'reaction': instance.reaction,
       'likes': instance.likes,
       'comments': instance.comments,
       'shares': instance.shares,

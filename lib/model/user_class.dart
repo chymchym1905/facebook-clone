@@ -10,10 +10,10 @@ class UserDummy {
   String name;
   String imageurl;
 
-  factory UserDummy.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
+  factory UserDummy.fromJson(Map<String, dynamic> json) => _$UserDummyFromJson(json);
 
   /// `toJson` is the convention for a class to declare support for serialization
   /// to JSON. The implementation simply calls the private, generated
   /// helper method `_$UserToJson`.
-  Map<String, dynamic> toJson() => _$UserToJson(this);
+  Map<String, dynamic> toJson() => _$UserDummyToJson(this);
 }

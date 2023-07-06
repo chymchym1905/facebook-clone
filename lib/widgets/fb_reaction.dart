@@ -22,7 +22,7 @@ class _FBFullReactionState extends State<FBFullReaction>
   List<Map> _news = [];
   List<Reaction> _reactions = [];
   final Map<String, Color> _reactColors = {
-    "like": Colors.blueAccent,
+    "like": blue,
     "love": Colors.red,
     "haha": Colors.yellow,
     "wow": Colors.amber,
@@ -48,6 +48,8 @@ class _FBFullReactionState extends State<FBFullReaction>
   double get reactSize => _reactSize + _reactMargin * 2;
 
   double get reactScale => 1.5;
+
+  bool isLike = false;
 
   @override
   void initState() {
@@ -82,20 +84,40 @@ class _FBFullReactionState extends State<FBFullReaction>
       };
     });
     // to set init value of button
-    //  _news[_newsSelected]["reaction"] = _reactions[_reactSelected];
+  }
+
+  _setIcon(){
+    switch(widget.data.reaction){
+      case 0:
+      _news[0]["reaction"] = null;
+      break;
+      case 1:
+      _news[0]["reaction"] = _reactions[0];
+      isLike = true;
+      break;
+      case 2:
+      _news[0]["reaction"] = _reactions[1];
+      break;
+      case 3:
+      _news[0]["reaction"] = _reactions[2];
+      break;
+      case 4:
+      _news[0]["reaction"] = _reactions[3];
+      break;
+      case 5:
+      _news[0]["reaction"] = _reactions[4];
+      break;
+      case 6:
+      _news[0]["reaction"] = _reactions[5];
+      break;
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    _setIcon();
     return Stack(children: [
-      SingleChildScrollView(
-        child: ListView.builder(
-          physics: const ClampingScrollPhysics(),
-          shrinkWrap: true,
-          itemCount: _news.length,
-          itemBuilder: _buildItem,
-        ),
-      ),
+      _buildItem(context, 0),
       _buildReactAnimation(),
     ]);
   }
@@ -252,9 +274,14 @@ class _FBFullReactionState extends State<FBFullReaction>
     String text = "Like";
     Color textColor = Colors.grey;
     if (reaction != null) {
-      text = reaction.text;
       textColor = reaction.color;
-    }
+      text = reaction.text;
+    } 
+    // else {
+    //   if(isLike) {
+    //     textColor = blue;
+    //   }
+    // }
     var padding = const EdgeInsets.symmetric(vertical: 4, horizontal: 12);
     double icSize = 24;
 
@@ -262,7 +289,17 @@ class _FBFullReactionState extends State<FBFullReaction>
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         GestureDetector(
-            onTap: () => setState(() => _news[index]["reaction"] = null),
+            onTap: () => setState(() {
+              if(_news[index]["reaction"] != null) {
+                widget.data.reaction = 0; 
+                isLike = false;
+              } else {
+                 isLike = !isLike;
+                widget.data.reaction = 1;
+              }
+              // widget.data.reaction = 0;
+               _news[index]["reaction"] = null;
+            }),
             onLongPressMoveUpdate: _updatePointer,
             onLongPressStart: _savePointer,
             onLongPressEnd: _clearPointer,
@@ -272,6 +309,7 @@ class _FBFullReactionState extends State<FBFullReaction>
               color: Colors.transparent,
               alignment: Alignment.center,
               child: Material(
+                color: Colors.transparent,
                 shape: const StadiumBorder(),
                 child: Padding(
                   padding: padding,
@@ -281,16 +319,27 @@ class _FBFullReactionState extends State<FBFullReaction>
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         if (reaction != null) ...[
-                          Image.asset(reaction.png,
+                          if(!isLike) ...[
+                            Image.asset(reaction.png,
                               height: icSize, width: icSize),
-                          const SizedBox(width: 8),
+                            const SizedBox(width: 8),
+                          ]
+                          // Image.asset(reaction.png,
+                          //   height: icSize, width: icSize),
+                          // const SizedBox(width: 8),
                         ],
-                        if (reaction == null) ...[
-                          const Icon(
+                        if (reaction == null || isLike) ...[
+                          Icon(
                             Icons.thumb_up_off_alt,
-                            color: Colors.grey,
+                            color: isLike ?blue:Colors.grey,
                           )
                         ],
+                        // if (reaction == null) ...[
+                        //   const Icon(
+                        //     Icons.thumb_up_off_alt,
+                        //     color:Colors.grey,
+                        //   )
+                        // ],
                         Padding(
                           padding: const EdgeInsets.only(left: 5),
                           child: Text(
@@ -433,7 +482,28 @@ class _FBFullReactionState extends State<FBFullReaction>
       var milliseconds = (_reactCtr.duration!.inMilliseconds * 0.7).floor();
       Future.delayed(Duration(milliseconds: milliseconds)).then((_) {
         setState(() =>
-            _news[_newsSelected]["reaction"] = _reactions[_reactSelected]);
+          _news[_newsSelected]["reaction"] = _reactions[_reactSelected]);
+          switch(_reactSelected){
+            case 0:
+            isLike = true;
+            widget.data.reaction = 1;
+            break;
+            case 1:
+            widget.data.reaction = 2;
+            break;
+            case 2:
+            widget.data.reaction = 3;
+            break;
+            case 3:
+            widget.data.reaction = 4;
+            break;
+            case 4:
+            widget.data.reaction = 5;
+            break;
+            case 5:
+            widget.data.reaction = 6;
+            break;
+          }
       });
       _reactCtr.forward(from: 0).then((_) {
         //renew

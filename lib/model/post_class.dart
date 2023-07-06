@@ -19,6 +19,7 @@ class Post {
     this.comments,
     this.shares,
     this.comment,
+    this.reaction
   );
   @JsonKey(required: true)
   String id;
@@ -30,6 +31,9 @@ class Post {
   @JsonKey(required: false)
   // Visibility visibility;
   List<String> imageurl;
+  @JsonKey(required: true)
+  
+  int reaction;
 
   int? likes;
 
@@ -38,6 +42,7 @@ class Post {
   int? shares;
 
   List<Comment1> comment;
+  
   factory Post.fromJson(Map<String, dynamic> json) => _$PostFromJson(json);
 
   /// `toJson` is the convention for a class to declare support for serialization

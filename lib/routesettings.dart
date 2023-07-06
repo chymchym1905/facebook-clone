@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'main.dart';
 import 'screens/friends_page.dart';
-import 'model/post_class.dart';
 import 'screens/watch_page.dart';
 import 'screens/Post_page/post_page.dart';
 
@@ -20,9 +19,8 @@ class RouteGenerator {
           return MaterialPageRoute(builder: (_) => Watch(data: args));
         }
       case '/posts':
-        if(args is Post){
-          return MaterialPageRoute(builder: (_) => Postpage(data: args));
-        }
+        final args = settings.arguments as Postpage; 
+        return MaterialPageRoute(builder: (_) => Postpage(data: args.data, reloadState: args.reloadState,));
       default:
         return _errorRoute();
     }

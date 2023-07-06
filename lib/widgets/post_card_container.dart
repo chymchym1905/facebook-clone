@@ -10,13 +10,27 @@ class Posts extends StatefulWidget {
 }
 
 class _PostsState extends State<Posts> {
+  Post _data = Post("", UserDummy("","","") , "", [], 0, 0, 0, [], 0);
+
+   @override
+  void initState() {
+    super.initState();
+    _data = widget.data;
+  }
+
+  void reloadState(Post updatedData) {
+    setState(() {
+      _data = updatedData;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: InkWell(
         onTap: () => setState(() {
-          Navigator.of(context).pushNamed('/posts', arguments: widget.data);
+          Navigator.of(context).pushNamed('/posts', arguments: Postpage(data: _data, reloadState: reloadState,));
         }),
         child: Ink(
           color: themeManager.themeMode == dark ? lightdark : white,
@@ -39,7 +53,7 @@ class NameBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(8, 0, 12, 8),
+      padding: const EdgeInsets.fromLTRB(8, 8, 12, 8),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
