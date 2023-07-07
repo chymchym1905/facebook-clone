@@ -1,6 +1,8 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import '../../index.dart';
 
+Post _data = Post("", UserDummy("", "", ""), "", [], 0, 0, 0, [], 0);
+
 class Posts extends StatefulWidget {
   const Posts({Key? key, required this.data}) : super(key: key);
   final Post data;
@@ -10,9 +12,7 @@ class Posts extends StatefulWidget {
 }
 
 class _PostsState extends State<Posts> {
-  Post _data = Post("", UserDummy("","","") , "", [], 0, 0, 0, [], 0);
-
-   @override
+  @override
   void initState() {
     super.initState();
     _data = widget.data;
@@ -30,7 +30,11 @@ class _PostsState extends State<Posts> {
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: InkWell(
         onTap: () => setState(() {
-          Navigator.of(context).pushNamed('/posts', arguments: Postpage(data: _data, reloadState: reloadState,));
+          Navigator.of(context).pushNamed('/posts',
+              arguments: Postpage(
+                data: _data,
+                reloadState: reloadState,
+              ));
         }),
         child: Ink(
           color: themeManager.themeMode == dark ? lightdark : white,
@@ -107,17 +111,21 @@ class Caption extends StatefulWidget {
     Key? key,
     required this.caption,
     required this.data,
+    required this.isPostpage,
   }) : super(key: key);
   final String caption;
   final Post data;
+  final bool isPostpage;
 
   @override
   State<Caption> createState() => _Caption();
 }
 
 class _Caption extends State<Caption> {
-  themeListener() {
-    setState(() {});
+  void reloadState(Post updatedData) {
+    setState(() {
+      _data = updatedData;
+    });
   }
 
   @override
@@ -127,7 +135,13 @@ class _Caption extends State<Caption> {
       padding: const EdgeInsets.all(8.0),
       child: InkWell(
         onTap: () => setState(() {
-          Navigator.of(context).pushNamed('/posts', arguments: widget.data);
+          if (widget.isPostpage) {
+            Navigator.of(context).pushNamed('/posts',
+                arguments: Postpage(
+                  data: _data,
+                  reloadState: reloadState,
+                ));
+          }
         }),
         child: Ink(
           color: themeManager.themeMode == dark ? lightdark : white,

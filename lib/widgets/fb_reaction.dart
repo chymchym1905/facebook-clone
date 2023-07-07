@@ -86,30 +86,30 @@ class _FBFullReactionState extends State<FBFullReaction>
     // to set init value of button
   }
 
-  _setIcon(){
-    switch(widget.data.reaction){
+  _setIcon() {
+    switch (widget.data.reaction) {
       case 0:
-      _news[0]["reaction"] = null;
-      break;
+        _news[0]["reaction"] = null;
+        break;
       case 1:
-      _news[0]["reaction"] = _reactions[0];
-      isLike = true;
-      break;
+        _news[0]["reaction"] = _reactions[0];
+        isLike = true;
+        break;
       case 2:
-      _news[0]["reaction"] = _reactions[1];
-      break;
+        _news[0]["reaction"] = _reactions[1];
+        break;
       case 3:
-      _news[0]["reaction"] = _reactions[2];
-      break;
+        _news[0]["reaction"] = _reactions[2];
+        break;
       case 4:
-      _news[0]["reaction"] = _reactions[3];
-      break;
+        _news[0]["reaction"] = _reactions[3];
+        break;
       case 5:
-      _news[0]["reaction"] = _reactions[4];
-      break;
+        _news[0]["reaction"] = _reactions[4];
+        break;
       case 6:
-      _news[0]["reaction"] = _reactions[5];
-      break;
+        _news[0]["reaction"] = _reactions[5];
+        break;
     }
   }
 
@@ -263,7 +263,10 @@ class _FBFullReactionState extends State<FBFullReaction>
         NameBar(
             imageUrl: widget.data.user.imageurl,
             username: widget.data.user.name),
-        Caption(caption: widget.data.caption, data: widget.data),
+        Caption(
+            caption: widget.data.caption,
+            data: widget.data,
+            isPostpage: widget.isPostcard ? true : false),
         _buildLikeButton(context, index),
       ],
     );
@@ -276,7 +279,7 @@ class _FBFullReactionState extends State<FBFullReaction>
     if (reaction != null) {
       textColor = reaction.color;
       text = reaction.text;
-    } 
+    }
     // else {
     //   if(isLike) {
     //     textColor = blue;
@@ -290,16 +293,16 @@ class _FBFullReactionState extends State<FBFullReaction>
       children: [
         GestureDetector(
             onTap: () => setState(() {
-              if(_news[index]["reaction"] != null) {
-                widget.data.reaction = 0; 
-                isLike = false;
-              } else {
-                 isLike = !isLike;
-                widget.data.reaction = 1;
-              }
-              // widget.data.reaction = 0;
-               _news[index]["reaction"] = null;
-            }),
+                  if (_news[index]["reaction"] != null) {
+                    widget.data.reaction = 0;
+                    isLike = false;
+                  } else {
+                    isLike = !isLike;
+                    widget.data.reaction = 1;
+                  }
+                  // widget.data.reaction = 0;
+                  _news[index]["reaction"] = null;
+                }),
             onLongPressMoveUpdate: _updatePointer,
             onLongPressStart: _savePointer,
             onLongPressEnd: _clearPointer,
@@ -319,9 +322,9 @@ class _FBFullReactionState extends State<FBFullReaction>
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         if (reaction != null) ...[
-                          if(!isLike) ...[
+                          if (!isLike) ...[
                             Image.asset(reaction.png,
-                              height: icSize, width: icSize),
+                                height: icSize, width: icSize),
                             const SizedBox(width: 8),
                           ]
                           // Image.asset(reaction.png,
@@ -331,7 +334,7 @@ class _FBFullReactionState extends State<FBFullReaction>
                         if (reaction == null || isLike) ...[
                           Icon(
                             Icons.thumb_up_off_alt,
-                            color: isLike ?blue:Colors.grey,
+                            color: isLike ? blue : Colors.grey,
                           )
                         ],
                         // if (reaction == null) ...[
@@ -482,28 +485,28 @@ class _FBFullReactionState extends State<FBFullReaction>
       var milliseconds = (_reactCtr.duration!.inMilliseconds * 0.7).floor();
       Future.delayed(Duration(milliseconds: milliseconds)).then((_) {
         setState(() =>
-          _news[_newsSelected]["reaction"] = _reactions[_reactSelected]);
-          switch(_reactSelected){
-            case 0:
+            _news[_newsSelected]["reaction"] = _reactions[_reactSelected]);
+        switch (_reactSelected) {
+          case 0:
             isLike = true;
             widget.data.reaction = 1;
             break;
-            case 1:
+          case 1:
             widget.data.reaction = 2;
             break;
-            case 2:
+          case 2:
             widget.data.reaction = 3;
             break;
-            case 3:
+          case 3:
             widget.data.reaction = 4;
             break;
-            case 4:
+          case 4:
             widget.data.reaction = 5;
             break;
-            case 5:
+          case 5:
             widget.data.reaction = 6;
             break;
-          }
+        }
       });
       _reactCtr.forward(from: 0).then((_) {
         //renew
