@@ -18,12 +18,15 @@ class _CommentModalState extends State<CommentModal>
     with WidgetsBindingObserver {
   late TextEditingController textController;
   bool isLike = false;
-
+  List<bool> controlViewMoreComment = [];
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
     textController = TextEditingController();
+    for(int i = 0; i < widget.data.comment.length; i++){
+      controlViewMoreComment.add(true);
+    }
   }
 
   @override
@@ -41,6 +44,12 @@ class _CommentModalState extends State<CommentModal>
     if (value == 0 && MediaQuery.of(context).viewInsets.bottom != 0) {
       AppDataProvider.of(context).commentModal.unfocus();
     }
+  }
+
+  void setViewMoreComment(int index) {
+    setState(() {
+      controlViewMoreComment[index] = false;
+    });
   }
 
   @override
@@ -65,6 +74,8 @@ class _CommentModalState extends State<CommentModal>
           child: CommentSection(
             myfocusNode: AppDataProvider.of(context).commentModal,
             data: widget.data.comment,
+            controlViewMoreComment: controlViewMoreComment,
+            setViewMoreComment: setViewMoreComment,
           ),
         ),
         SingleChildScrollView(
@@ -77,6 +88,8 @@ class _CommentModalState extends State<CommentModal>
               isKeyboard: isKeyboard,
               myController: textController,
               instantUser: instantUser,
+              controlViewMoreComment: controlViewMoreComment,
+              setViewMoreComment: setViewMoreComment,
             ),
           ),
         )

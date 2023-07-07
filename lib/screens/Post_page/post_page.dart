@@ -2,8 +2,8 @@
 import '../../index.dart';
 
 class IndexComment {
-  static int intdex = 0;
-  static int intdex2 = 0;
+  static int intdex = -1;
+  static int intdex2 = -1;
   static bool flagReply = false;
   static bool flagReply2 = false;
 }
@@ -25,12 +25,16 @@ class _PostPageState extends State<Postpage> with WidgetsBindingObserver {
   late TextEditingController textController;
   UserDummy instantUser =
       UserDummy("2002", "Danny", "http://loremflickr.com/640/480");
+  List<bool> controlViewMoreComment = [];
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
     textController = TextEditingController();
+    for(int i = 0; i < widget.data.comment.length; i++){
+      controlViewMoreComment.add(true);
+    }
   }
 
   @override
@@ -48,6 +52,12 @@ class _PostPageState extends State<Postpage> with WidgetsBindingObserver {
     if (value == 0 && MediaQuery.of(context).viewInsets.bottom != 0) {
       AppDataProvider.of(context).commentPostPage.unfocus();
     }
+  }
+
+  void setViewMoreComment(int index) {
+    setState(() {
+      controlViewMoreComment[index] = false;
+    });
   }
 
   @override
@@ -117,7 +127,7 @@ class _PostPageState extends State<Postpage> with WidgetsBindingObserver {
               Expanded(
                 child: ListView(
                   children: [
-                    FBFullReaction(
+                    const FBFullReaction(
                       isPostcard: false,
                       // reloadState: widget.reloadState,
                     ),
@@ -125,6 +135,8 @@ class _PostPageState extends State<Postpage> with WidgetsBindingObserver {
                     CommentSection(
                       myfocusNode: AppDataProvider.of(context).commentPostPage,
                       data: widget.data.comment,
+                      controlViewMoreComment: controlViewMoreComment,
+                      setViewMoreComment: setViewMoreComment,
                     ),
                   ],
                 ),
@@ -135,6 +147,8 @@ class _PostPageState extends State<Postpage> with WidgetsBindingObserver {
                 isKeyboard: isKeyboard,
                 myController: textController,
                 instantUser: instantUser,
+                controlViewMoreComment: controlViewMoreComment,
+                setViewMoreComment: setViewMoreComment,
               ),
             ],
           ),
