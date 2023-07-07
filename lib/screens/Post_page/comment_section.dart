@@ -14,14 +14,6 @@ class CommentSection extends StatefulWidget {
 }
 
 class _CommentSectionState extends State<CommentSection> {
-  bool controlViewMoreComment = true;
-
-  void reloadState(bool updatedControlViewMoreComment) {
-    setState(() {
-      controlViewMoreComment = updatedControlViewMoreComment;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     Color hideTree;
@@ -30,6 +22,13 @@ class _CommentSectionState extends State<CommentSection> {
       shrinkWrap: true,
       itemCount: widget.data.length,
       itemBuilder: (context, index) {
+        // bool controlViewMoreComment = true;
+
+        // void reloadState(bool updatedControlViewMoreComment) {
+        //   setState(() {
+        //     controlViewMoreComment = updatedControlViewMoreComment;
+        //   });
+        // }
         if (widget.data[index].reply.isEmpty) {
           hideTree = Colors.white;
         } else {

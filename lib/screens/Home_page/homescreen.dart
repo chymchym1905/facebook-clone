@@ -1,7 +1,7 @@
 import '../../index.dart';
 
 //Variables
-ThemeProvider themeManager = ThemeProvider();
+
 PostList postManager = PostList([]);
 AppBarManager appBarManager = AppBarManager();
 
@@ -32,7 +32,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
 
   @override
   void dispose() {
-    themeManager.removeListener(themeListener);
+    
     // _animationController.dispose();
     source1.dispose();
     source2.dispose();
@@ -49,7 +49,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
         vsync: this, duration: const Duration(milliseconds: 500));
     _animation = Tween<double>(begin: kToolbarHeight, end: 0)
         .animate(_animationController);
-    themeManager.addListener(themeListener);
+    
     source1 = LoadMorePost();
     source2 = LoadMorePost();
     source3 = LoadMorePost();
@@ -79,11 +79,6 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
     }
   }
 
-  themeListener() {
-    if (mounted) {
-      setState(() {});
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
