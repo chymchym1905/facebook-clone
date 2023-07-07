@@ -1,7 +1,7 @@
 import '../../index.dart';
 
 //Variables
-ThemeProvider themeManager = ThemeProvider();
+
 PostList postManager = PostList([]);
 AppBarManager appBarManager = AppBarManager();
 
@@ -32,8 +32,8 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
 
   @override
   void dispose() {
-    themeManager.removeListener(themeListener);
     // _animationController.dispose();
+    themeManager.removeListener(themeListener);
     source1.dispose();
     source2.dispose();
     source3.dispose();
@@ -55,6 +55,12 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
     source3 = LoadMorePost();
   }
 
+  themeListener() {
+    if (mounted) {
+      setState(() {});
+    }
+  }
+
   void _handleTabChange() {
     if (mounted) {
       // print(_tabController.index);
@@ -74,12 +80,6 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   }
 
   postlistListener() {
-    if (mounted) {
-      setState(() {});
-    }
-  }
-
-  themeListener() {
     if (mounted) {
       setState(() {});
     }

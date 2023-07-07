@@ -11,8 +11,33 @@ void main() async {
       child: const FakeBook()));
 }
 
-class FakeBook extends StatelessWidget {
+ThemeProvider themeManager = ThemeProvider();
+
+class FakeBook extends StatefulWidget {
   const FakeBook({super.key});
+
+  @override
+  State<FakeBook> createState() => _FakeBookState();
+}
+
+class _FakeBookState extends State<FakeBook> {
+  @override
+  void initState() {
+    super.initState();
+    themeManager.addListener(themeListener);
+  }
+
+  @override
+  void dispose() {
+    themeManager.removeListener(themeListener);
+    super.dispose();
+  }
+
+  themeListener() {
+    if (mounted) {
+      setState(() {});
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
