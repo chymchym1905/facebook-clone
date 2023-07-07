@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import '../../index.dart';
 
 class IndexComment {
@@ -8,8 +9,11 @@ class IndexComment {
 }
 
 class Postpage extends StatefulWidget {
-  const Postpage({Key? key}) : super(key: key);
-  // final Post data;
+  const Postpage({
+    Key? key,
+    required this.data,
+  }) : super(key: key);
+  final Post data;
   // final Function(Post) reloadState;
 
   @override
@@ -120,13 +124,13 @@ class _PostPageState extends State<Postpage> with WidgetsBindingObserver {
                     iconSection,
                     CommentSection(
                       myfocusNode: AppDataProvider.of(context).commentPostPage,
-                      data: AppDataProvider.of(context).currentViewData.comment,
+                      data: widget.data.comment,
                     ),
                   ],
                 ),
               ),
               WriteCommentBox(
-                data: AppDataProvider.of(context).currentViewData.comment,
+                data: widget.data.comment,
                 myfocusNode: AppDataProvider.of(context).commentPostPage,
                 isKeyboard: isKeyboard,
                 myController: textController,

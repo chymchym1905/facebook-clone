@@ -16,7 +16,7 @@ class CommentSection extends StatefulWidget {
 class _CommentSectionState extends State<CommentSection> {
   List<bool> controlViewMoreComment = [];
 
-   @override
+  @override
   void initState() {
     super.initState();
     controlViewMoreComment = List.filled(widget.data.length, true);
@@ -27,6 +27,7 @@ class _CommentSectionState extends State<CommentSection> {
       controlViewMoreComment[index] = false;
     });
   }
+
   @override
   Widget build(BuildContext context) {
     Color hideTree;
@@ -42,44 +43,45 @@ class _CommentSectionState extends State<CommentSection> {
           hideTree = Colors.white;
         } else {
           hideTree = themeManager.themeMode == dark
-            ? const Color.fromARGB(255, 58, 59, 60)
-            : const Color.fromARGB(255, 234, 236, 238);
+              ? const Color.fromARGB(255, 58, 59, 60)
+              : const Color.fromARGB(255, 234, 236, 238);
         }
         return Container(
           padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 10),
           child: CommentTreeWidget<Comment1, ViewMoreComment>(
             widget.data[index],
             [
-              if(controlViewMoreComment[index] && widget.data[index].reply.isNotEmpty) ...[
+              if (controlViewMoreComment[index] &&
+                  widget.data[index].reply.isNotEmpty) ...[
                 ViewMoreComment(
-                  controlViewMoreComment: controlViewMoreComment[index], 
-                  list: widget.data[index], 
-                  myfocusNode: widget.myfocusNode, 
-                  indexforreply1: index, 
-                  indexforreply2: 0, 
+                  controlViewMoreComment: controlViewMoreComment[index],
+                  list: widget.data[index],
+                  myfocusNode: widget.myfocusNode,
+                  indexforreply1: index,
+                  indexforreply2: 0,
                   text: "Content",
                   reloadState: setViewMoreComment,
                 ),
-                 ViewMoreComment(
-                  controlViewMoreComment: controlViewMoreComment[index], 
-                  list: widget.data[index], 
-                  myfocusNode: widget.myfocusNode, 
-                  indexforreply1: index, 
-                  indexforreply2: 0, 
+                ViewMoreComment(
+                  controlViewMoreComment: controlViewMoreComment[index],
+                  list: widget.data[index],
+                  myfocusNode: widget.myfocusNode,
+                  indexforreply1: index,
+                  indexforreply2: 0,
                   text: "View $listLength more comment",
                   reloadState: setViewMoreComment,
                 )
-              ] else ... [
+              ] else ...[
                 for (int i = 0; i < widget.data[index].reply.length; i += 1)
-                ViewMoreComment(
-                  controlViewMoreComment: controlViewMoreComment[index], 
-                  list: widget.data[index].reply[i], 
-                  myfocusNode: widget.myfocusNode, 
-                  indexforreply1: index, 
-                  indexforreply2: i, 
-                  text: "",
-                  reloadState: setViewMoreComment,
-                )
+                  ViewMoreComment(
+                    controlViewMoreComment: controlViewMoreComment[index],
+                    list: widget.data[index].reply[i],
+                    myfocusNode: widget.myfocusNode,
+                    indexforreply1: index,
+                    indexforreply2: i,
+                    text: "",
+                    reloadState: setViewMoreComment,
+                  )
               ]
               // for (int i = 0; i < widget.data[index].reply.length; i += 1)
               // CommmentTreeSection(
@@ -229,16 +231,15 @@ class _CommentSectionState extends State<CommentSection> {
 }
 
 class ViewMoreComment extends StatefulWidget {
-  const ViewMoreComment({
-    super.key, 
-    required this.controlViewMoreComment,
-    required this.list,
-    required this.myfocusNode,
-    required this.indexforreply1,
-    required this.indexforreply2,
-    required this.text,
-    required this.reloadState
-  });
+  const ViewMoreComment(
+      {super.key,
+      required this.controlViewMoreComment,
+      required this.list,
+      required this.myfocusNode,
+      required this.indexforreply1,
+      required this.indexforreply2,
+      required this.text,
+      required this.reloadState});
   final bool controlViewMoreComment;
   final Comment1 list;
   final FocusNode myfocusNode;
@@ -253,7 +254,7 @@ class ViewMoreComment extends StatefulWidget {
 class _ViewMoreCommentState extends State<ViewMoreComment> {
   @override
   Widget build(BuildContext context) {
-    if(widget.controlViewMoreComment){
+    if (widget.controlViewMoreComment) {
       return GestureDetector(
         onTap: () {
           widget.reloadState(widget.indexforreply1);
@@ -262,11 +263,10 @@ class _ViewMoreCommentState extends State<ViewMoreComment> {
       );
     } else {
       return CommmentTreeSection(
-        list: widget.list,
-        myfocusNode: widget.myfocusNode,
-        indexforreply1: widget.indexforreply1,
-        indexforreply2: widget.indexforreply2
-      );
+          list: widget.list,
+          myfocusNode: widget.myfocusNode,
+          indexforreply1: widget.indexforreply1,
+          indexforreply2: widget.indexforreply2);
     }
   }
 }

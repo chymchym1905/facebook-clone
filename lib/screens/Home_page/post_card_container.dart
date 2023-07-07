@@ -38,7 +38,7 @@ class _PostsState extends State<Posts> {
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: InkWell(
         onTap: () => setState(() {
-          Navigator.of(context).pushNamed('/posts');
+          Navigator.of(context).pushNamed('/posts', arguments: widget.data);
         }),
         child: Ink(
           color: themeManager.themeMode == dark ? lightdark : white,
@@ -141,7 +141,7 @@ class _Caption extends State<Caption> {
       child: InkWell(
         onTap: () => setState(() {
           if (widget.isPostpage) {
-            Navigator.of(context).pushNamed('/posts');
+            Navigator.of(context).pushNamed('/posts', arguments: widget.data);
           }
         }),
         child: Ink(
