@@ -9,6 +9,9 @@ class WriteCommentBox extends StatefulWidget {
     required this.isKeyboard,
     required this.myfocusNode,
     required this.instantUser,
+    required this.controlViewMoreComment,
+    required this.setViewMoreComment
+
   }) : super(key: key);
 
   final List<Comment1> data;
@@ -16,6 +19,8 @@ class WriteCommentBox extends StatefulWidget {
   final bool isKeyboard;
   final FocusNode myfocusNode;
   final UserDummy instantUser;
+  final List<bool> controlViewMoreComment;
+  final Function(int) setViewMoreComment;
 
   @override
   State<WriteCommentBox> createState() => _WriteCommentBoxState();
@@ -101,6 +106,12 @@ class _WriteCommentBoxState extends State<WriteCommentBox> {
                       } else {
                         widget.data.add(newComment);
                       }
+                    }
+                    widget.controlViewMoreComment.add(true);
+                    if(IndexComment.intdex < 0){
+                      
+                    } else {
+                       widget.setViewMoreComment(IndexComment.intdex);
                     }
                     IndexComment.flagReply = false;
                     IndexComment.flagReply2 = false;

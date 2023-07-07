@@ -5,28 +5,20 @@ class CommentSection extends StatefulWidget {
     super.key,
     required this.data,
     required this.myfocusNode,
+    required this.controlViewMoreComment,
+    required this.setViewMoreComment
   });
   final List<Comment1> data;
   final FocusNode myfocusNode;
+  final List<bool> controlViewMoreComment;
+  final Function(int) setViewMoreComment;
 
   @override
   State<CommentSection> createState() => _CommentSectionState();
 }
 
 class _CommentSectionState extends State<CommentSection> {
-  List<bool> controlViewMoreComment = [];
-
-  @override
-  void initState() {
-    super.initState();
-    controlViewMoreComment = List.filled(widget.data.length, true);
-  }
-
-  void setViewMoreComment(int index) {
-    setState(() {
-      controlViewMoreComment[index] = false;
-    });
-  }
+  
 
   @override
   Widget build(BuildContext context) {
@@ -51,36 +43,35 @@ class _CommentSectionState extends State<CommentSection> {
           child: CommentTreeWidget<Comment1, ViewMoreComment>(
             widget.data[index],
             [
-              if (controlViewMoreComment[index] &&
+              if (widget.controlViewMoreComment[index] &&
                   widget.data[index].reply.isNotEmpty) ...[
                 ViewMoreComment(
-                  controlViewMoreComment: controlViewMoreComment[index],
-                  list: widget.data[index],
+                  controlViewMoreComment: widget.controlViewMoreComment[index],
+                  list: widget.data[index].reply[0],
                   myfocusNode: widget.myfocusNode,
                   indexforreply1: index,
                   indexforreply2: 0,
-                  text: "Content",
-                  reloadState: setViewMoreComment,
+                  setViewMoreComment: widget.setViewMoreComment,
                 ),
-                ViewMoreComment(
-                  controlViewMoreComment: controlViewMoreComment[index],
-                  list: widget.data[index],
-                  myfocusNode: widget.myfocusNode,
-                  indexforreply1: index,
-                  indexforreply2: 0,
-                  text: "View $listLength more comment",
-                  reloadState: setViewMoreComment,
-                )
+                if(listReply.length != 1) ...[
+                  ViewMoreComment(
+                    controlViewMoreComment: widget.controlViewMoreComment[index],
+                    list:Comment1(UserDummy("","",""),0,"View $listLength more comment",[]),
+                    myfocusNode: widget.myfocusNode,
+                    indexforreply1: index,
+                    indexforreply2: 0,
+                    setViewMoreComment: widget.setViewMoreComment,
+                  )
+                ]
               ] else ...[
                 for (int i = 0; i < widget.data[index].reply.length; i += 1)
                   ViewMoreComment(
-                    controlViewMoreComment: controlViewMoreComment[index],
+                    controlViewMoreComment: widget.controlViewMoreComment[index],
                     list: widget.data[index].reply[i],
                     myfocusNode: widget.myfocusNode,
                     indexforreply1: index,
                     indexforreply2: i,
-                    text: "",
-                    reloadState: setViewMoreComment,
+                    setViewMoreComment: widget.setViewMoreComment,
                   )
               ]
               // for (int i = 0; i < widget.data[index].reply.length; i += 1)
@@ -102,9 +93,9 @@ class _CommentSectionState extends State<CommentSection> {
                 backgroundImage: NetworkImage(data.user.imageurl),
               ),
             ),
-            avatarChild: (context, data) => const PreferredSize(
-              preferredSize: Size.fromRadius(42),
-              child: Row(),
+            avatarChild: (context, data) =>  PreferredSize(
+              preferredSize: widget.controlViewMoreComment[index]?const Size.fromRadius(30):const Size.fromRadius(42),
+              child: const Row(),
             ),
             contentChild: (context, data) {
               //Replies
@@ -238,15 +229,13 @@ class ViewMoreComment extends StatefulWidget {
       required this.myfocusNode,
       required this.indexforreply1,
       required this.indexforreply2,
-      required this.text,
-      required this.reloadState});
+      required this.setViewMoreComment});
   final bool controlViewMoreComment;
   final Comment1 list;
   final FocusNode myfocusNode;
   final int indexforreply1;
   final int indexforreply2;
-  final String text;
-  final Function(int) reloadState;
+  final Function(int) setViewMoreComment;
   @override
   State<ViewMoreComment> createState() => _ViewMoreCommentState();
 }
@@ -257,16 +246,26 @@ class _ViewMoreCommentState extends State<ViewMoreComment> {
     if (widget.controlViewMoreComment) {
       return GestureDetector(
         onTap: () {
-          widget.reloadState(widget.indexforreply1);
+          widget.setViewMoreComment(widget.indexforreply1);
         },
-        child: Text(widget.text),
+        child: Row(
+          children: [
+            Expanded(
+              child: Text(
+                widget.list.content,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+          ],
+        ),
       );
     } else {
       return CommmentTreeSection(
           list: widget.list,
           myfocusNode: widget.myfocusNode,
           indexforreply1: widget.indexforreply1,
-          indexforreply2: widget.indexforreply2);
+          indexforreply2: widget.indexforreply2
+      );
     }
   }
 }
