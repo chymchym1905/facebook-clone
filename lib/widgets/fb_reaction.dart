@@ -2,10 +2,11 @@ import '../index.dart';
 import '../screens/Home_page/comment_Modal/comment_button_modal.dart';
 
 class FBFullReaction extends StatefulWidget {
-  const FBFullReaction({Key? key, required this.data, required this.isPostcard})
+  const FBFullReaction({Key? key, required this.data, required this.isPostcard, required this.reloadState})
       : super(key: key);
   final Post data;
   final bool isPostcard;
+  final Function(Post) reloadState;
 
   @override
   State<FBFullReaction> createState() => _FBFullReactionState();
@@ -87,6 +88,7 @@ class _FBFullReactionState extends State<FBFullReaction>
   }
 
   _setIcon() {
+    
     switch (widget.data.reaction) {
       case 0:
         _news[0]["reaction"] = null;
@@ -266,7 +268,9 @@ class _FBFullReactionState extends State<FBFullReaction>
         Caption(
             caption: widget.data.caption,
             data: widget.data,
-            isPostpage: widget.isPostcard ? true : false),
+            isPostpage: widget.isPostcard ? true : false,
+            reloadState: widget.reloadState,
+        ),
         _buildLikeButton(context, index),
       ],
     );
@@ -302,6 +306,7 @@ class _FBFullReactionState extends State<FBFullReaction>
                   }
                   // widget.data.reaction = 0;
                   _news[index]["reaction"] = null;
+                  widget.reloadState(widget.data);
                 }),
             onLongPressMoveUpdate: _updatePointer,
             onLongPressStart: _savePointer,
@@ -464,6 +469,7 @@ class _FBFullReactionState extends State<FBFullReaction>
   }
 
   void _clearPointer(LongPressEndDetails details) {
+    
     Offset start = _reactRect.center;
     start = start - Offset(0, scaffoldKey.currentState?.appBarMaxHeight ?? 0);
 
@@ -516,6 +522,7 @@ class _FBFullReactionState extends State<FBFullReaction>
         _newsPosition = const LongPressStartDetails();
       });
     }
+    widget.reloadState(widget.data);
   }
 
   _initAnimationPathLeft(Offset s, Offset e) {

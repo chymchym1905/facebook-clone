@@ -39,7 +39,7 @@ class _PostsState extends State<Posts> {
         }),
         child: Ink(
           color: themeManager.themeMode == dark ? lightdark : white,
-          child: FBFullReaction(data: widget.data, isPostcard: true),
+          child: FBFullReaction(data: widget.data, isPostcard: true, reloadState: reloadState,),
         ),
       ),
     );
@@ -113,28 +113,18 @@ class Caption extends StatefulWidget {
     required this.caption,
     required this.data,
     required this.isPostpage,
+     required this.reloadState
   }) : super(key: key);
   final String caption;
   final Post data;
   final bool isPostpage;
+  final Function(Post) reloadState;
 
   @override
   State<Caption> createState() => _Caption();
 }
 
 class _Caption extends State<Caption> {
-  Post _data = Post("", UserDummy("", "", ""), "", [], 0, 0, 0, [], 0);
-  @override
-  void initState() {
-    super.initState();
-    _data = widget.data;
-  }
-  void reloadState(Post updatedData) {
-    setState(() {
-      _data = updatedData;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -145,8 +135,8 @@ class _Caption extends State<Caption> {
           if (widget.isPostpage) {
             Navigator.of(context).pushNamed('/posts',
               arguments: Postpage(
-                data: _data,
-                reloadState: reloadState,
+                data: widget.data,
+                reloadState: widget.reloadState,
               )
             );
           }

@@ -14,6 +14,19 @@ class CommentSection extends StatefulWidget {
 }
 
 class _CommentSectionState extends State<CommentSection> {
+  List<bool> controlViewMoreComment = [];
+
+   @override
+  void initState() {
+    super.initState();
+    controlViewMoreComment = List.filled(widget.data.length, true);
+  }
+
+  void setViewMoreComment(int index) {
+    setState(() {
+      controlViewMoreComment[index] = false;
+    });
+  }
   @override
   Widget build(BuildContext context) {
     Color hideTree;
@@ -22,63 +35,59 @@ class _CommentSectionState extends State<CommentSection> {
       shrinkWrap: true,
       itemCount: widget.data.length,
       itemBuilder: (context, index) {
-        // bool controlViewMoreComment = true;
-
-        // void reloadState(bool updatedControlViewMoreComment) {
-        //   setState(() {
-        //     controlViewMoreComment = updatedControlViewMoreComment;
-        //   });
-        // }
+        List<Comment1> listReply = [];
+        countReply(widget.data[index], listReply);
+        int listLength = listReply.length;
         if (widget.data[index].reply.isEmpty) {
           hideTree = Colors.white;
         } else {
           hideTree = themeManager.themeMode == dark
-              ? const Color.fromARGB(255, 58, 59, 60)
-              : const Color.fromARGB(255, 234, 236, 238);
+            ? const Color.fromARGB(255, 58, 59, 60)
+            : const Color.fromARGB(255, 234, 236, 238);
         }
         return Container(
           padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 10),
-          child: CommentTreeWidget<Comment1, CommmentTreeSection>(
+          child: CommentTreeWidget<Comment1, ViewMoreComment>(
             widget.data[index],
             [
-              // if(controlViewMoreComment) ...[
-              //   ViewMoreComment(
-              //     controlViewMoreComment: controlViewMoreComment, 
-              //     list: widget.data[index], 
-              //     myfocusNode: widget.myfocusNode, 
-              //     indexforreply1: 0, 
-              //     indexforreply2: 0, 
-              //     text: "Content",
-              //     reloadState: reloadState,
-              //   ),
-              //    ViewMoreComment(
-              //     controlViewMoreComment: controlViewMoreComment, 
-              //     list: widget.data[index], 
-              //     myfocusNode: widget.myfocusNode, 
-              //     indexforreply1: 0, 
-              //     indexforreply2: 0, 
-              //     text: "View number more comment",
-              //     reloadState: reloadState,
-              //   )
-              // ] else ... [
-              //   for (int i = 0; i < widget.data[index].reply.length; i += 1)
-              //   ViewMoreComment(
-              //     controlViewMoreComment: controlViewMoreComment, 
-              //     list: widget.data[index].reply[i], 
-              //     myfocusNode: widget.myfocusNode, 
-              //     indexforreply1: index, 
-              //     indexforreply2: i, 
-              //     text: "",
-              //     reloadState: reloadState,
-              //   )
-              // ]
-              for (int i = 0; i < widget.data[index].reply.length; i += 1)
-              CommmentTreeSection(
-                list: widget.data[index].reply[i],
-                myfocusNode: widget.myfocusNode,
-                indexforreply1: index,
-                indexforreply2: i
-              ),
+              if(controlViewMoreComment[index] && widget.data[index].reply.isNotEmpty) ...[
+                ViewMoreComment(
+                  controlViewMoreComment: controlViewMoreComment[index], 
+                  list: widget.data[index], 
+                  myfocusNode: widget.myfocusNode, 
+                  indexforreply1: index, 
+                  indexforreply2: 0, 
+                  text: "Content",
+                  reloadState: setViewMoreComment,
+                ),
+                 ViewMoreComment(
+                  controlViewMoreComment: controlViewMoreComment[index], 
+                  list: widget.data[index], 
+                  myfocusNode: widget.myfocusNode, 
+                  indexforreply1: index, 
+                  indexforreply2: 0, 
+                  text: "View $listLength more comment",
+                  reloadState: setViewMoreComment,
+                )
+              ] else ... [
+                for (int i = 0; i < widget.data[index].reply.length; i += 1)
+                ViewMoreComment(
+                  controlViewMoreComment: controlViewMoreComment[index], 
+                  list: widget.data[index].reply[i], 
+                  myfocusNode: widget.myfocusNode, 
+                  indexforreply1: index, 
+                  indexforreply2: i, 
+                  text: "",
+                  reloadState: setViewMoreComment,
+                )
+              ]
+              // for (int i = 0; i < widget.data[index].reply.length; i += 1)
+              // CommmentTreeSection(
+              //   list: widget.data[index].reply[i],
+              //   myfocusNode: widget.myfocusNode,
+              //   indexforreply1: index,
+              //   indexforreply2: i
+              // ),
             ],
             treeThemeData: TreeThemeData(
               lineColor: hideTree,
@@ -236,7 +245,7 @@ class ViewMoreComment extends StatefulWidget {
   final int indexforreply1;
   final int indexforreply2;
   final String text;
-  final Function(bool) reloadState;
+  final Function(int) reloadState;
   @override
   State<ViewMoreComment> createState() => _ViewMoreCommentState();
 }
@@ -247,7 +256,7 @@ class _ViewMoreCommentState extends State<ViewMoreComment> {
     if(widget.controlViewMoreComment){
       return GestureDetector(
         onTap: () {
-          widget.reloadState(false);
+          widget.reloadState(widget.indexforreply1);
         },
         child: Text(widget.text),
       );

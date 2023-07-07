@@ -12,7 +12,6 @@ void main() async {
 }
 
 ThemeProvider themeManager = ThemeProvider();
-
 class FakeBook extends StatefulWidget {
   const FakeBook({super.key});
 
@@ -21,6 +20,7 @@ class FakeBook extends StatefulWidget {
 }
 
 class _FakeBookState extends State<FakeBook> {
+
   @override
   void initState() {
     super.initState();
@@ -33,12 +33,14 @@ class _FakeBookState extends State<FakeBook> {
     super.dispose();
   }
 
+  
   themeListener() {
     if (mounted) {
       setState(() {});
     }
   }
 
+  
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
