@@ -1,8 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import '../../index.dart';
 
-Post _data = Post("", UserDummy("", "", ""), "", [], 0, 0, 0, [], 0);
-
 class Posts extends StatefulWidget {
   const Posts({Key? key, required this.data}) : super(key: key);
   final Post data;
@@ -12,6 +10,7 @@ class Posts extends StatefulWidget {
 }
 
 class _PostsState extends State<Posts> {
+  Post _data = Post("", UserDummy("", "", ""), "", [], 0, 0, 0, [], 0);
   @override
   void initState() {
     super.initState();
@@ -122,6 +121,14 @@ class Caption extends StatefulWidget {
 }
 
 class _Caption extends State<Caption> {
+  Post _data = Post("", UserDummy("", "", ""), "", [], 0, 0, 0, [], 0);
+
+  @override
+  void initState() {
+    super.initState();
+    _data = widget.data;
+  }
+
   void reloadState(Post updatedData) {
     setState(() {
       _data = updatedData;
