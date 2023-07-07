@@ -517,7 +517,7 @@ class _FBFullReactionState extends State<FBFullReaction>
         _newsPosition = const LongPressStartDetails();
       });
     }
-    widget.reloadState(widget.data);
+    // widget.reloadState(widget.data);
   }
 
   _initAnimationPathLeft(Offset s, Offset e) {
