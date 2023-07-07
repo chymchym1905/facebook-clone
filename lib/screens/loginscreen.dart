@@ -12,6 +12,7 @@ class _LoginRegisterState extends State<LoginRegister>
   final TextEditingController emailString = TextEditingController();
   final TextEditingController passwordString = TextEditingController();
   bool isLogin = true;
+  String errorMessage = '';
 
   Future<void> signInWithEmailAndPassword() async {
     try {
@@ -19,7 +20,9 @@ class _LoginRegisterState extends State<LoginRegister>
           email: emailString.text, password: passwordString.text);
     } on FirebaseAuthException catch (e) {
       setState(() {
+        errorMessage = e.message ?? errorMessage;
         print(e.message);
+        showError();
       });
     }
   }
@@ -30,9 +33,27 @@ class _LoginRegisterState extends State<LoginRegister>
           email: emailString.text, password: passwordString.text);
     } on FirebaseAuthException catch (e) {
       setState(() {
+        errorMessage = e.message ?? errorMessage;
         print(e.message);
+        showError();
       });
     }
+  }
+
+  showError() {
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text('Error'),
+            content: Text(errorMessage == '' ? "Unknown Error" : errorMessage),
+            actions: [
+              TextButton(
+                  onPressed: () => Navigator.of(context).pop(),
+                  child: Text('OK'))
+            ],
+          );
+        });
   }
 
   @override
@@ -95,21 +116,26 @@ class _LoginRegisterState extends State<LoginRegister>
             padding: const EdgeInsets.only(left: 20, right: 20, bottom: 40),
             child: TextFormField(
               keyboardType: TextInputType.emailAddress,
+              onTap: () {
+                emailString.selection = TextSelection(
+                    baseOffset: 0, extentOffset: emailString.value.text.length);
+              },
               onTapOutside: (event) => FocusScope.of(context).unfocus(),
               controller: emailString,
               decoration: InputDecoration(
                 filled: true,
                 fillColor: Colors.transparent,
-                labelStyle: const TextStyle(color: Color.fromARGB(255, 80, 75, 75)),
+                labelStyle:
+                    const TextStyle(color: Color.fromARGB(255, 80, 75, 75)),
                 labelText: "Email",
                 focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(15),
-                    borderSide:
-                        const BorderSide(color: Color.fromARGB(255, 80, 75, 75))),
+                    borderSide: const BorderSide(
+                        color: Color.fromARGB(255, 80, 75, 75))),
                 enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(15),
-                    borderSide:
-                        const BorderSide(color: Color.fromARGB(255, 80, 75, 75))),
+                    borderSide: const BorderSide(
+                        color: Color.fromARGB(255, 80, 75, 75))),
               ),
             ),
           ),
@@ -117,7 +143,15 @@ class _LoginRegisterState extends State<LoginRegister>
             padding: const EdgeInsets.only(left: 20, right: 20, bottom: 40),
             child: TextFormField(
               keyboardType: TextInputType.visiblePassword,
+              obscureText: true,
+              obscuringCharacter: '●',
+              // style: TextStyle(letterSpacing: 2),
               controller: passwordString,
+              onTap: () {
+                passwordString.selection = TextSelection(
+                    baseOffset: 0,
+                    extentOffset: passwordString.value.text.length);
+              },
               decoration: InputDecoration(
                 labelStyle:
                     const TextStyle(color: Color.fromARGB(255, 107, 103, 103)),
@@ -126,12 +160,12 @@ class _LoginRegisterState extends State<LoginRegister>
                 fillColor: Colors.transparent,
                 focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(15),
-                    borderSide:
-                        const BorderSide(color: Color.fromARGB(255, 80, 75, 75))),
+                    borderSide: const BorderSide(
+                        color: Color.fromARGB(255, 80, 75, 75))),
                 enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(15),
-                    borderSide:
-                        const BorderSide(color: Color.fromARGB(255, 80, 75, 75))),
+                    borderSide: const BorderSide(
+                        color: Color.fromARGB(255, 80, 75, 75))),
               ),
             ),
           ),
