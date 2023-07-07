@@ -8,9 +8,9 @@ class IndexComment {
 }
 
 class Postpage extends StatefulWidget {
-  const Postpage({Key? key, required this.data, required this.reloadState}) : super(key: key);
-  final Post data;
-  final Function(Post) reloadState;
+  const Postpage({Key? key}) : super(key: key);
+  // final Post data;
+  // final Function(Post) reloadState;
 
   @override
   State<Postpage> createState() => _PostPageState();
@@ -72,7 +72,7 @@ class _PostPageState extends State<Postpage> with WidgetsBindingObserver {
             ),
           ),
           Text(
-            widget.data.likes.toString(),
+            AppDataProvider.of(context).currentViewData.likes.toString(),
             style: Theme.of(context).textTheme.labelSmall,
           ),
         ],
@@ -93,10 +93,12 @@ class _PostPageState extends State<Postpage> with WidgetsBindingObserver {
                 splashRadius: MediaQuery.of(context).size.width * 0.07,
                 icon: const Icon(Icons.arrow_back),
                 onPressed: () {
-                  widget.reloadState(widget.data);
-                  Navigator.pop(context, widget.data);
+                  AppDataProvider.of(context).updateCallback(
+                      AppDataProvider.of(context).currentViewData);
+                  Navigator.pop(
+                      context, AppDataProvider.of(context).currentViewData);
                 }),
-            title: Text(widget.data.user.name,
+            title: Text(AppDataProvider.of(context).currentViewData.user.name,
                 style: Theme.of(context).textTheme.titleLarge),
             actions: [
               IconButton(
@@ -112,19 +114,18 @@ class _PostPageState extends State<Postpage> with WidgetsBindingObserver {
                 child: ListView(
                   children: [
                     FBFullReaction(
-                      data: widget.data,
                       isPostcard: false,
                     ),
                     iconSection,
                     CommentSection(
                       myfocusNode: AppDataProvider.of(context).commentPostPage,
-                      data: widget.data.comment,
+                      data: AppDataProvider.of(context).currentViewData.comment,
                     ),
                   ],
                 ),
               ),
               WriteCommentBox(
-                data: widget.data.comment,
+                data: AppDataProvider.of(context).currentViewData.comment,
                 myfocusNode: AppDataProvider.of(context).commentPostPage,
                 isKeyboard: isKeyboard,
                 myController: textController,
