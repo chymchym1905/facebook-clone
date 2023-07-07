@@ -5,6 +5,8 @@ void main() async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(AppDataProvider(
       AppData(
+          // navigateCallback: (p0) {},
+          updateCallback: (p0) {},
           commentPostPage: FocusNode(),
           commentModal: FocusNode(),
           notificationCount: 0),

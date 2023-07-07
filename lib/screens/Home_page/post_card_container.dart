@@ -1,8 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import '../../index.dart';
 
-
-
 class Posts extends StatefulWidget {
   const Posts({Key? key, required this.data}) : super(key: key);
   final Post data;
@@ -12,34 +10,39 @@ class Posts extends StatefulWidget {
 }
 
 class _PostsState extends State<Posts> {
-  Post _data = Post("", UserDummy("", "", ""), "", [], 0, 0, 0, [], 0);
+  // Post _data = Post("", UserDummy("", "", ""), "", [], 0, 0, 0, [], 0);
   @override
   void initState() {
     super.initState();
-    _data = widget.data;
+    // _data = widget.data;
   }
 
-  void reloadState(Post updatedData) {
+  void updateState(Post p) {
     setState(() {
-      _data = updatedData;
+      AppDataProvider.of(context).currentViewData = p;
     });
   }
 
+  // void navigate(BuildContext context) {
+  //   setState(() {
+  //     Navigator.of(context).pushNamed('/posts');
+  //   });
+  // }
+
   @override
   Widget build(BuildContext context) {
+    AppDataProvider.of(context).updateCallback = (Post p) => updateState(p);
+    // AppDataProvider.of(context).navigateCallback = (c) => navigate(c);
+    AppDataProvider.of(context).currentViewData = widget.data;
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: InkWell(
         onTap: () => setState(() {
-          Navigator.of(context).pushNamed('/posts',
-              arguments: Postpage(
-                data: _data,
-                reloadState: reloadState,
-              ));
+          Navigator.of(context).pushNamed('/posts');
         }),
         child: Ink(
           color: themeManager.themeMode == dark ? lightdark : white,
-          child: FBFullReaction(data: widget.data, isPostcard: true, reloadState: reloadState,),
+          child: FBFullReaction(isPostcard: true),
         ),
       ),
     );
@@ -110,41 +113,41 @@ class NameBar extends StatelessWidget {
 class Caption extends StatefulWidget {
   const Caption({
     Key? key,
-    required this.caption,
-    required this.data,
     required this.isPostpage,
-     required this.reloadState
+    required this.data,
   }) : super(key: key);
-  final String caption;
-  final Post data;
   final bool isPostpage;
-  final Function(Post) reloadState;
+  final Post data;
 
   @override
   State<Caption> createState() => _Caption();
 }
 
 class _Caption extends State<Caption> {
+  // Post _data = Post("", UserDummy("", "", ""), "", [], 0, 0, 0, [], 0);
+
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   // _data = widget.data;
+  // }
+
   @override
   Widget build(BuildContext context) {
+    AppDataProvider.of(context).currentViewData = widget.data;
     return Container(
       alignment: Alignment.topLeft,
       padding: const EdgeInsets.all(8.0),
       child: InkWell(
         onTap: () => setState(() {
           if (widget.isPostpage) {
-            Navigator.of(context).pushNamed('/posts',
-              arguments: Postpage(
-                data: widget.data,
-                reloadState: widget.reloadState,
-              )
-            );
+            Navigator.of(context).pushNamed('/posts');
           }
         }),
         child: Ink(
           color: themeManager.themeMode == dark ? lightdark : white,
           child: Text(
-            widget.caption,
+            widget.data.caption,
             textAlign: TextAlign.start,
             style: Theme.of(context).textTheme.labelLarge,
           ),

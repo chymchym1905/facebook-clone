@@ -2,11 +2,9 @@ import '../index.dart';
 import '../screens/Home_page/comment_Modal/comment_button_modal.dart';
 
 class FBFullReaction extends StatefulWidget {
-  const FBFullReaction({Key? key, required this.data, required this.isPostcard, required this.reloadState})
-      : super(key: key);
-  final Post data;
+  const FBFullReaction({Key? key, required this.isPostcard}) : super(key: key);
   final bool isPostcard;
-  final Function(Post) reloadState;
+  // final Function(Post) reloadState;
 
   @override
   State<FBFullReaction> createState() => _FBFullReactionState();
@@ -88,8 +86,7 @@ class _FBFullReactionState extends State<FBFullReaction>
   }
 
   _setIcon() {
-    
-    switch (widget.data.reaction) {
+    switch (AppDataProvider.of(context).currentViewData.reaction) {
       case 0:
         _news[0]["reaction"] = null;
         break;
@@ -263,13 +260,11 @@ class _FBFullReactionState extends State<FBFullReaction>
     return Column(
       children: [
         NameBar(
-            imageUrl: widget.data.user.imageurl,
-            username: widget.data.user.name),
+            imageUrl: AppDataProvider.of(context).currentViewData.user.imageurl,
+            username: AppDataProvider.of(context).currentViewData.user.name),
         Caption(
-            caption: widget.data.caption,
-            data: widget.data,
-            isPostpage: widget.isPostcard ? true : false,
-            reloadState: widget.reloadState,
+          data: AppDataProvider.of(context).currentViewData,
+          isPostpage: widget.isPostcard ? true : false,
         ),
         _buildLikeButton(context, index),
       ],
@@ -298,15 +293,15 @@ class _FBFullReactionState extends State<FBFullReaction>
         GestureDetector(
             onTap: () => setState(() {
                   if (_news[index]["reaction"] != null) {
-                    widget.data.reaction = 0;
+                    AppDataProvider.of(context).currentViewData.reaction = 0;
                     isLike = false;
                   } else {
                     isLike = !isLike;
-                    widget.data.reaction = 1;
+                    AppDataProvider.of(context).currentViewData.reaction = 1;
                   }
                   // widget.data.reaction = 0;
                   _news[index]["reaction"] = null;
-                  widget.reloadState(widget.data);
+                  // widget.reloadState(widget.data);
                 }),
             onLongPressMoveUpdate: _updatePointer,
             onLongPressStart: _savePointer,
@@ -365,11 +360,11 @@ class _FBFullReactionState extends State<FBFullReaction>
               ),
             )),
         if (widget.isPostcard) ...[
-          CommentButtonModal(data: widget.data),
+          CommentButtonModal(data: AppDataProvider.of(context).currentViewData),
         ] else ...[
           const CommentButton(),
         ],
-        ShareButton(data: widget.data),
+        ShareButton(data: AppDataProvider.of(context).currentViewData),
       ],
     );
   }
@@ -495,22 +490,22 @@ class _FBFullReactionState extends State<FBFullReaction>
         switch (_reactSelected) {
           case 0:
             isLike = true;
-            widget.data.reaction = 1;
+            AppDataProvider.of(context).currentViewData.reaction = 1;
             break;
           case 1:
-            widget.data.reaction = 2;
+            AppDataProvider.of(context).currentViewData.reaction = 2;
             break;
           case 2:
-            widget.data.reaction = 3;
+            AppDataProvider.of(context).currentViewData.reaction = 3;
             break;
           case 3:
-            widget.data.reaction = 4;
+            AppDataProvider.of(context).currentViewData.reaction = 4;
             break;
           case 4:
-            widget.data.reaction = 5;
+            AppDataProvider.of(context).currentViewData.reaction = 5;
             break;
           case 5:
-            widget.data.reaction = 6;
+            AppDataProvider.of(context).currentViewData.reaction = 6;
             break;
         }
       });
