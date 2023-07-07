@@ -22,6 +22,13 @@ class _CommentSectionState extends State<CommentSection> {
       shrinkWrap: true,
       itemCount: widget.data.length,
       itemBuilder: (context, index) {
+        // bool controlViewMoreComment = true;
+
+        // void reloadState(bool updatedControlViewMoreComment) {
+        //   setState(() {
+        //     controlViewMoreComment = updatedControlViewMoreComment;
+        //   });
+        // }
         if (widget.data[index].reply.isEmpty) {
           hideTree = Colors.white;
         } else {
@@ -34,12 +41,44 @@ class _CommentSectionState extends State<CommentSection> {
           child: CommentTreeWidget<Comment1, CommmentTreeSection>(
             widget.data[index],
             [
+              // if(controlViewMoreComment) ...[
+              //   ViewMoreComment(
+              //     controlViewMoreComment: controlViewMoreComment, 
+              //     list: widget.data[index], 
+              //     myfocusNode: widget.myfocusNode, 
+              //     indexforreply1: 0, 
+              //     indexforreply2: 0, 
+              //     text: "Content",
+              //     reloadState: reloadState,
+              //   ),
+              //    ViewMoreComment(
+              //     controlViewMoreComment: controlViewMoreComment, 
+              //     list: widget.data[index], 
+              //     myfocusNode: widget.myfocusNode, 
+              //     indexforreply1: 0, 
+              //     indexforreply2: 0, 
+              //     text: "View number more comment",
+              //     reloadState: reloadState,
+              //   )
+              // ] else ... [
+              //   for (int i = 0; i < widget.data[index].reply.length; i += 1)
+              //   ViewMoreComment(
+              //     controlViewMoreComment: controlViewMoreComment, 
+              //     list: widget.data[index].reply[i], 
+              //     myfocusNode: widget.myfocusNode, 
+              //     indexforreply1: index, 
+              //     indexforreply2: i, 
+              //     text: "",
+              //     reloadState: reloadState,
+              //   )
+              // ]
               for (int i = 0; i < widget.data[index].reply.length; i += 1)
-                CommmentTreeSection(
-                    list: widget.data[index].reply[i],
-                    myfocusNode: widget.myfocusNode,
-                    indexforreply1: index,
-                    indexforreply2: i),
+              CommmentTreeSection(
+                list: widget.data[index].reply[i],
+                myfocusNode: widget.myfocusNode,
+                indexforreply1: index,
+                indexforreply2: i
+              ),
             ],
             treeThemeData: TreeThemeData(
               lineColor: hideTree,
@@ -177,6 +216,49 @@ class _CommentSectionState extends State<CommentSection> {
         );
       },
     );
+  }
+}
+
+class ViewMoreComment extends StatefulWidget {
+  const ViewMoreComment({
+    super.key, 
+    required this.controlViewMoreComment,
+    required this.list,
+    required this.myfocusNode,
+    required this.indexforreply1,
+    required this.indexforreply2,
+    required this.text,
+    required this.reloadState
+  });
+  final bool controlViewMoreComment;
+  final Comment1 list;
+  final FocusNode myfocusNode;
+  final int indexforreply1;
+  final int indexforreply2;
+  final String text;
+  final Function(bool) reloadState;
+  @override
+  State<ViewMoreComment> createState() => _ViewMoreCommentState();
+}
+
+class _ViewMoreCommentState extends State<ViewMoreComment> {
+  @override
+  Widget build(BuildContext context) {
+    if(widget.controlViewMoreComment){
+      return GestureDetector(
+        onTap: () {
+          widget.reloadState(false);
+        },
+        child: Text(widget.text),
+      );
+    } else {
+      return CommmentTreeSection(
+        list: widget.list,
+        myfocusNode: widget.myfocusNode,
+        indexforreply1: widget.indexforreply1,
+        indexforreply2: widget.indexforreply2
+      );
+    }
   }
 }
 
