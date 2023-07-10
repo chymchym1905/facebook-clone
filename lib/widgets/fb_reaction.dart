@@ -2,8 +2,10 @@ import '../index.dart';
 import '../screens/Home_page/comment_Modal/comment_button_modal.dart';
 
 class FBFullReaction extends StatefulWidget {
-  const FBFullReaction({Key? key, required this.isPostcard}) : super(key: key);
+  const FBFullReaction({Key? key, required this.isPostcard, required this.data})
+      : super(key: key);
   final bool isPostcard;
+  final Post data;
   // final Function(Post) reloadState;
 
   @override
@@ -86,7 +88,7 @@ class _FBFullReactionState extends State<FBFullReaction>
   }
 
   _setIcon() {
-    switch (AppDataProvider.of(context).currentViewData.reaction) {
+    switch (widget.data.reaction) {
       case 0:
         _news[0]["reaction"] = null;
         break;
@@ -260,10 +262,10 @@ class _FBFullReactionState extends State<FBFullReaction>
     return Column(
       children: [
         NameBar(
-            imageUrl: AppDataProvider.of(context).currentViewData.user.imageurl,
-            username: AppDataProvider.of(context).currentViewData.user.name),
+            imageUrl: widget.data.user.imageurl,
+            username: widget.data.user.name),
         Caption(
-          data: AppDataProvider.of(context).currentViewData,
+          data: widget.data,
           isPostpage: widget.isPostcard ? true : false,
         ),
         _buildLikeButton(context, index),
@@ -293,11 +295,11 @@ class _FBFullReactionState extends State<FBFullReaction>
         GestureDetector(
             onTap: () => setState(() {
                   if (_news[index]["reaction"] != null) {
-                    AppDataProvider.of(context).currentViewData.reaction = 0;
+                    widget.data.reaction = 0;
                     isLike = false;
                   } else {
                     isLike = !isLike;
-                    AppDataProvider.of(context).currentViewData.reaction = 1;
+                    widget.data.reaction = 1;
                   }
                   // widget.data.reaction = 0;
                   _news[index]["reaction"] = null;
@@ -360,11 +362,11 @@ class _FBFullReactionState extends State<FBFullReaction>
               ),
             )),
         if (widget.isPostcard) ...[
-          CommentButtonModal(data: AppDataProvider.of(context).currentViewData),
+          CommentButtonModal(data: widget.data),
         ] else ...[
           const CommentButton(),
         ],
-        ShareButton(data: AppDataProvider.of(context).currentViewData),
+        ShareButton(data: widget.data),
       ],
     );
   }
@@ -464,7 +466,6 @@ class _FBFullReactionState extends State<FBFullReaction>
   }
 
   void _clearPointer(LongPressEndDetails details) {
-    
     Offset start = _reactRect.center;
     start = start - Offset(0, scaffoldKey.currentState?.appBarMaxHeight ?? 0);
 
@@ -491,22 +492,22 @@ class _FBFullReactionState extends State<FBFullReaction>
         switch (_reactSelected) {
           case 0:
             isLike = true;
-            AppDataProvider.of(context).currentViewData.reaction = 1;
+            widget.data.reaction = 1;
             break;
           case 1:
-            AppDataProvider.of(context).currentViewData.reaction = 2;
+            widget.data.reaction = 2;
             break;
           case 2:
-            AppDataProvider.of(context).currentViewData.reaction = 3;
+            widget.data.reaction = 3;
             break;
           case 3:
-            AppDataProvider.of(context).currentViewData.reaction = 4;
+            widget.data.reaction = 4;
             break;
           case 4:
-            AppDataProvider.of(context).currentViewData.reaction = 5;
+            widget.data.reaction = 5;
             break;
           case 5:
-            AppDataProvider.of(context).currentViewData.reaction = 6;
+            widget.data.reaction = 6;
             break;
         }
       });
