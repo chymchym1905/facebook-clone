@@ -18,6 +18,8 @@ class _CommentButtonState extends State<CommentButton> {
       children: [
         TextButton.icon(
           onPressed: () {
+            IndexComment.flagReply = false;
+            IndexComment.flagReply2 = false;
             AppDataProvider.of(context).commentPostPage.requestFocus();
           },
           icon: const Icon(

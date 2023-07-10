@@ -97,7 +97,11 @@ class _PostPageState extends State<Postpage> with WidgetsBindingObserver {
     return MaterialApp(
       theme: themeManager.themeMode,
       home: GestureDetector(
-        onTap: () => FocusScope.of(context).unfocus(),
+        onTap: (){
+          FocusScope.of(context).unfocus();
+          IndexComment.flagReply = false;
+          IndexComment.flagReply2 = false;
+        },
         child: Scaffold(
           backgroundColor: themeManager.themeMode == dark
               ? const Color.fromARGB(255, 38, 38, 38)
@@ -133,7 +137,7 @@ class _PostPageState extends State<Postpage> with WidgetsBindingObserver {
                       reloadState: widget.reloadState,
                       data: widget.data,
                       isPostcard: false,
-                      // reloadState: widget.reloadState,
+                      isComment: false,
                     ),
                     iconSection,
                     CommentSection(

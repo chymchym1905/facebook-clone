@@ -6,9 +6,11 @@ class FBFullReaction extends StatefulWidget {
       {Key? key,
       required this.isPostcard,
       required this.data,
-      required this.reloadState})
+      required this.reloadState, 
+      required this.isComment})
       : super(key: key);
   final bool isPostcard;
+  final bool isComment;
   final Post data;
   final Function(Post) reloadState;
 
@@ -298,43 +300,41 @@ class _FBFullReactionState extends State<FBFullReaction>
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         GestureDetector(
-            onTap: () => setState(() {
-                  if (_news[index]["reaction"] != null) {
-                    widget.data.reaction = 0;
-                  } else {
-                    widget.data.reaction = 1;
-                  }
-                  // widget.data.reaction = 0;
-                  _news[index]["reaction"] = null;
-                  widget.reloadState(widget.data);
-                }),
-            onLongPressMoveUpdate: _updatePointer,
-            onLongPressStart: _savePointer,
-            onLongPressEnd: _clearPointer,
-            onLongPress: () => _showReacts(index),
-            onLongPressUp: _hideReacts,
-            child: Container(
+          onTap: () => setState(() {
+                if (_news[index]["reaction"] != null) {
+                  widget.data.reaction = 0;
+                } else {
+                  widget.data.reaction = 1;
+                }
+                // widget.data.reaction = 0;
+                _news[index]["reaction"] = null;
+                widget.reloadState(widget.data);
+              }),
+          onLongPressMoveUpdate: _updatePointer,
+          onLongPressStart: _savePointer,
+          onLongPressEnd: _clearPointer,
+          onLongPress: () => _showReacts(index),
+          onLongPressUp: _hideReacts,
+          child: Container(
+            color: Colors.transparent,
+            alignment: Alignment.center,
+            child: Material(
               color: Colors.transparent,
-              alignment: Alignment.center,
-              child: Material(
-                color: Colors.transparent,
-                shape: const StadiumBorder(),
-                child: Padding(
-                  padding: padding,
-                  child: SizedBox(
-                    height: icSize,
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
+              shape: const StadiumBorder(),
+              child: Padding(
+                padding: padding,
+                child: SizedBox(
+                  height: icSize,
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      if(!widget.isComment) ...[
                         if (reaction != null) ...[
                           if (!isLike) ...[
                             Image.asset(reaction.png,
                                 height: icSize, width: icSize),
                             const SizedBox(width: 8),
                           ]
-                          // Image.asset(reaction.png,
-                          //   height: icSize, width: icSize),
-                          // const SizedBox(width: 8),
                         ],
                         if (reaction == null || isLike) ...[
                           Icon(
@@ -342,28 +342,24 @@ class _FBFullReactionState extends State<FBFullReaction>
                             color: isLike ? blue : Colors.grey,
                           )
                         ],
-                        // if (reaction == null) ...[
-                        //   const Icon(
-                        //     Icons.thumb_up_off_alt,
-                        //     color:Colors.grey,
-                        //   )
-                        // ],
-                        Padding(
-                          padding: const EdgeInsets.only(left: 5),
-                          child: Text(
-                            text,
-                            style: Theme.of(context)
-                                .textTheme
-                                .labelSmall
-                                ?.merge(TextStyle(color: textColor)),
-                          ),
-                        )
                       ],
-                    ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 5),
+                        child: Text(
+                          text,
+                          style: Theme.of(context)
+                              .textTheme
+                              .labelSmall
+                              ?.merge(TextStyle(color: textColor)),
+                        ),
+                      )
+                    ],
                   ),
                 ),
               ),
-            )),
+            ),
+          )
+        ),
         if (widget.isPostcard) ...[
           CommentButtonModal(data: widget.data),
         ] else ...[

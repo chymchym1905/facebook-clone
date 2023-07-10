@@ -30,7 +30,7 @@ class _CommentSectionState extends State<CommentSection> {
       itemBuilder: (context, index) {
         List<Comment1> listReply = [];
         countReply(widget.data[index], listReply);
-        int listLength = listReply.length;
+        int listLength = listReply.length-1;
         if (widget.data[index].reply.isEmpty) {
           hideTree = Colors.white;
         } else {
@@ -56,7 +56,7 @@ class _CommentSectionState extends State<CommentSection> {
                 if(listReply.length != 1) ...[
                   ViewMoreComment(
                     controlViewMoreComment: widget.controlViewMoreComment[index],
-                    list:Comment1(UserDummy("","",""),0,"View $listLength more comment",[]),
+                    list:Comment1(UserDummy("","",""),0,"View $listLength more comment...",[]),
                     myfocusNode: widget.myfocusNode,
                     indexforreply1: index,
                     indexforreply2: 0,
@@ -74,13 +74,6 @@ class _CommentSectionState extends State<CommentSection> {
                     setViewMoreComment: widget.setViewMoreComment,
                   )
               ]
-              // for (int i = 0; i < widget.data[index].reply.length; i += 1)
-              // CommmentTreeSection(
-              //   list: widget.data[index].reply[i],
-              //   myfocusNode: widget.myfocusNode,
-              //   indexforreply1: index,
-              //   indexforreply2: i
-              // ),
             ],
             treeThemeData: TreeThemeData(
               lineColor: hideTree,
@@ -248,15 +241,31 @@ class _ViewMoreCommentState extends State<ViewMoreComment> {
         onTap: () {
           widget.setViewMoreComment(widget.indexforreply1);
         },
-        child: Row(
-          children: [
-            Expanded(
-              child: Text(
-                widget.list.content,
-                overflow: TextOverflow.ellipsis,
+        child: Padding(
+          padding: const EdgeInsets.only(top: 10),
+          child: Row(
+            children: [
+              if(widget.list.user.imageurl.isNotEmpty) ...[
+                Padding(
+                  padding: const EdgeInsets.only(right: 10),
+                  child: CircleAvatar(
+                    radius: 15,
+                    backgroundImage: NetworkImage(widget.list.user.imageurl),
+                  ),
+                ),
+              ],
+              Expanded(
+                child: Text(
+                  widget.list.content,
+                  overflow: TextOverflow.ellipsis,
+                  style: Theme.of(context)
+                                  .textTheme
+                                  .bodySmall
+                                  ?.copyWith(fontStyle: FontStyle.normal)
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       );
     } else {

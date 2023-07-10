@@ -31,7 +31,7 @@ export 'firebase_options.dart';
 export 'package:page_transition/page_transition.dart';
 export './model/user_class.dart';
 export './screens/Post_page/comment_button.dart';
-export './screens/Post_page/like_reply_text_button.dart';
+export 'screens/Post_page/reply_button.dart';
 export 'screens/Home_page/sliverappbar.dart';
 export 'package:firebase_auth/firebase_auth.dart';
 export './auth.dart';
