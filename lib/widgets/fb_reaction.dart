@@ -487,6 +487,7 @@ class _FBFullReactionState extends State<FBFullReaction>
       Future.delayed(Duration(milliseconds: milliseconds)).then((_) {
         setState(() =>
             _news[_newsSelected]["reaction"] = _reactions[_reactSelected]);
+             isLike = false;
         switch (_reactSelected) {
           case 0:
             isLike = true;
