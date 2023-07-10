@@ -113,7 +113,6 @@ class _PostPageState extends State<Postpage> with WidgetsBindingObserver {
                       context,
                       Postpage(
                           data: widget.data, reloadState: widget.reloadState));
-                  widget.reloadState(widget.data);
                 }),
             title: Text(widget.data.user.name,
                 style: Theme.of(context).textTheme.titleLarge),
