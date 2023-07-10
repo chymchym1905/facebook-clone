@@ -12,9 +12,10 @@ class Postpage extends StatefulWidget {
   const Postpage({
     Key? key,
     required this.data,
+    required this.reloadState,
   }) : super(key: key);
   final Post data;
-  // final Function(Post) reloadState;
+  final Function(Post) reloadState;
 
   @override
   State<Postpage> createState() => _PostPageState();
@@ -108,7 +109,10 @@ class _PostPageState extends State<Postpage> with WidgetsBindingObserver {
                 icon: const Icon(Icons.arrow_back),
                 onPressed: () {
                   AppDataProvider.of(context).updateCallback(widget.data);
-                  Navigator.pop(context, widget.data);
+                  Navigator.pop(
+                      context,
+                      Postpage(
+                          data: widget.data, reloadState: widget.reloadState));
                 }),
             title: Text(widget.data.user.name,
                 style: Theme.of(context).textTheme.titleLarge),
@@ -126,6 +130,7 @@ class _PostPageState extends State<Postpage> with WidgetsBindingObserver {
                 child: ListView(
                   children: [
                     FBFullReaction(
+                      reloadState: widget.reloadState,
                       data: widget.data,
                       isPostcard: false,
                       // reloadState: widget.reloadState,
