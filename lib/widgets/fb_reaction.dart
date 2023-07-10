@@ -282,15 +282,15 @@ class _FBFullReactionState extends State<FBFullReaction>
     Reaction? reaction = _news[index]["reaction"];
     String text = "Like";
     Color textColor = Colors.grey;
+    if(widget.data.reaction == 1){
+      isLike = true;
+    } else{
+      isLike = false;
+    }
     if (reaction != null) {
       textColor = reaction.color;
       text = reaction.text;
     }
-    // else {
-    //   if(isLike) {
-    //     textColor = blue;
-    //   }
-    // }
     var padding = const EdgeInsets.symmetric(vertical: 4, horizontal: 12);
     double icSize = 24;
 
@@ -301,9 +301,7 @@ class _FBFullReactionState extends State<FBFullReaction>
             onTap: () => setState(() {
                   if (_news[index]["reaction"] != null) {
                     widget.data.reaction = 0;
-                    isLike = false;
                   } else {
-                    isLike = !isLike;
                     widget.data.reaction = 1;
                   }
                   // widget.data.reaction = 0;
@@ -491,31 +489,32 @@ class _FBFullReactionState extends State<FBFullReaction>
       //animate
       var milliseconds = (_reactCtr.duration!.inMilliseconds * 0.7).floor();
       Future.delayed(Duration(milliseconds: milliseconds)).then((_) {
-        setState(() =>
-            _news[_newsSelected]["reaction"] = _reactions[_reactSelected]);
-             isLike = false;
-        switch (_reactSelected) {
-          case 0:
-            isLike = true;
-            widget.data.reaction = 1;
-            break;
-          case 1:
-            widget.data.reaction = 2;
-            break;
-          case 2:
-            widget.data.reaction = 3;
-            break;
-          case 3:
-            widget.data.reaction = 4;
-            break;
-          case 4:
-            widget.data.reaction = 5;
-            break;
-          case 5:
-            widget.data.reaction = 6;
-            break;
-        }
+        setState(() {
+          _news[_newsSelected]["reaction"] = _reactions[_reactSelected];
+        });
       });
+      isLike = false;
+      switch (_reactSelected) {
+        case 0:
+          isLike = true;
+          widget.data.reaction = 1;
+          break;
+        case 1:
+          widget.data.reaction = 2;
+          break;
+        case 2:
+          widget.data.reaction = 3;
+          break;
+        case 3:
+          widget.data.reaction = 4;
+          break;
+        case 4:
+          widget.data.reaction = 5;
+          break;
+        case 5:
+          widget.data.reaction = 6;
+          break;
+      }
       _reactCtr.forward(from: 0).then((_) {
         //renew
         _newsSelected = -1;
