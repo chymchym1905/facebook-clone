@@ -39,11 +39,13 @@ class _PostsState extends State<Posts> {
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: InkWell(
         onTap: () => setState(() {
-          Navigator.of(context).pushNamed('/posts', arguments: widget.data);
+          Navigator.of(context).pushNamed('/posts',
+              arguments: Postpage(data: widget.data, reloadState: updateState));
         }),
         child: Ink(
           color: themeManager.themeMode == dark ? lightdark : white,
-          child: FBFullReaction(data: widget.data, isPostcard: true),
+          child: FBFullReaction(
+              reloadState: updateState, data: widget.data, isPostcard: true),
         ),
       ),
     );
@@ -116,9 +118,11 @@ class Caption extends StatefulWidget {
     Key? key,
     required this.isPostpage,
     required this.data,
+    required this.reloadState,
   }) : super(key: key);
   final bool isPostpage;
   final Post data;
+  final Function(Post) reloadState;
 
   @override
   State<Caption> createState() => _Caption();
@@ -142,7 +146,9 @@ class _Caption extends State<Caption> {
       child: InkWell(
         onTap: () => setState(() {
           if (widget.isPostpage) {
-            Navigator.of(context).pushNamed('/posts', arguments: widget.data);
+            Navigator.of(context).pushNamed('/posts',
+                arguments: Postpage(
+                    data: widget.data, reloadState: widget.reloadState));
           }
         }),
         child: Ink(

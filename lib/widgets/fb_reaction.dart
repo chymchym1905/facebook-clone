@@ -2,11 +2,15 @@ import '../index.dart';
 import '../screens/Home_page/comment_Modal/comment_button_modal.dart';
 
 class FBFullReaction extends StatefulWidget {
-  const FBFullReaction({Key? key, required this.isPostcard, required this.data})
+  const FBFullReaction(
+      {Key? key,
+      required this.isPostcard,
+      required this.data,
+      required this.reloadState})
       : super(key: key);
   final bool isPostcard;
   final Post data;
-  // final Function(Post) reloadState;
+  final Function(Post) reloadState;
 
   @override
   State<FBFullReaction> createState() => _FBFullReactionState();
@@ -265,6 +269,7 @@ class _FBFullReactionState extends State<FBFullReaction>
             imageUrl: widget.data.user.imageurl,
             username: widget.data.user.name),
         Caption(
+          reloadState: widget.reloadState,
           data: widget.data,
           isPostpage: widget.isPostcard ? true : false,
         ),
@@ -303,7 +308,7 @@ class _FBFullReactionState extends State<FBFullReaction>
                   }
                   // widget.data.reaction = 0;
                   _news[index]["reaction"] = null;
-                  // widget.reloadState(widget.data);
+                  widget.reloadState(widget.data);
                 }),
             onLongPressMoveUpdate: _updatePointer,
             onLongPressStart: _savePointer,
@@ -519,7 +524,7 @@ class _FBFullReactionState extends State<FBFullReaction>
         _newsPosition = const LongPressStartDetails();
       });
     }
-    // widget.reloadState(widget.data);
+    widget.reloadState(widget.data);
   }
 
   _initAnimationPathLeft(Offset s, Offset e) {
