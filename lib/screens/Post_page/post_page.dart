@@ -32,7 +32,7 @@ class _PostPageState extends State<Postpage> with WidgetsBindingObserver {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
     textController = TextEditingController();
-    for(int i = 0; i < widget.data.comment.length; i++){
+    for (int i = 0; i < widget.data.comment.length; i++) {
       controlViewMoreComment.add(true);
     }
   }
@@ -86,7 +86,7 @@ class _PostPageState extends State<Postpage> with WidgetsBindingObserver {
             ),
           ),
           Text(
-            AppDataProvider.of(context).currentViewData.likes.toString(),
+            widget.data.likes.toString(),
             style: Theme.of(context).textTheme.labelSmall,
           ),
         ],
@@ -107,12 +107,10 @@ class _PostPageState extends State<Postpage> with WidgetsBindingObserver {
                 splashRadius: MediaQuery.of(context).size.width * 0.07,
                 icon: const Icon(Icons.arrow_back),
                 onPressed: () {
-                  AppDataProvider.of(context).updateCallback(
-                      AppDataProvider.of(context).currentViewData);
-                  Navigator.pop(
-                      context, AppDataProvider.of(context).currentViewData);
+                  AppDataProvider.of(context).updateCallback(widget.data);
+                  Navigator.pop(context, widget.data);
                 }),
-            title: Text(AppDataProvider.of(context).currentViewData.user.name,
+            title: Text(widget.data.user.name,
                 style: Theme.of(context).textTheme.titleLarge),
             actions: [
               IconButton(
@@ -127,7 +125,8 @@ class _PostPageState extends State<Postpage> with WidgetsBindingObserver {
               Expanded(
                 child: ListView(
                   children: [
-                    const FBFullReaction(
+                    FBFullReaction(
+                      data: widget.data,
                       isPostcard: false,
                       // reloadState: widget.reloadState,
                     ),

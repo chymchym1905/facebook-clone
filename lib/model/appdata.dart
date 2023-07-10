@@ -7,8 +7,8 @@ class AppData {
   final FocusNode commentModal;
   Function(Post) updateCallback;
   // Function(BuildContext) navigateCallback;
-  Post currentViewData =
-      Post("", UserDummy("", "", ""), "", [], 0, 0, 0, [], 0);
+  // Post currentViewData =
+  //     Post("", UserDummy("", "", ""), "", [], 0, 0, 0, [], 0);
 
   AppData({
     required this.notificationCount,

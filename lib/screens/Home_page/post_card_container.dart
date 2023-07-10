@@ -19,7 +19,7 @@ class _PostsState extends State<Posts> {
 
   void updateState(Post p) {
     setState(() {
-      AppDataProvider.of(context).currentViewData = p;
+      // AppDataProvider.of(context).currentViewData = p;
     });
   }
 
@@ -31,9 +31,10 @@ class _PostsState extends State<Posts> {
 
   @override
   Widget build(BuildContext context) {
+    // AppDataProvider.of(context).currentViewData = widget.data;
     AppDataProvider.of(context).updateCallback = (Post p) => updateState(p);
     // AppDataProvider.of(context).navigateCallback = (c) => navigate(c);
-    AppDataProvider.of(context).currentViewData = widget.data;
+
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: InkWell(
@@ -42,7 +43,7 @@ class _PostsState extends State<Posts> {
         }),
         child: Ink(
           color: themeManager.themeMode == dark ? lightdark : white,
-          child: FBFullReaction(isPostcard: true),
+          child: FBFullReaction(data: widget.data, isPostcard: true),
         ),
       ),
     );
@@ -134,7 +135,7 @@ class _Caption extends State<Caption> {
 
   @override
   Widget build(BuildContext context) {
-    AppDataProvider.of(context).currentViewData = widget.data;
+    // AppDataProvider.of(context).currentViewData = widget.data;
     return Container(
       alignment: Alignment.topLeft,
       padding: const EdgeInsets.all(8.0),
