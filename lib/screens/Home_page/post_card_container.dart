@@ -49,7 +49,7 @@ class _PostsState extends State<Posts> {
           }),
           child: Ink(
             child: FBFullReaction(
-                reloadState: updateState, data: widget.data, isPostcard: true),
+                reloadState: updateState, data: widget.data, controlContent: 0),
           ),
         ),
       ),

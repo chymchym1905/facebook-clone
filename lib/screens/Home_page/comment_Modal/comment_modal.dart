@@ -43,6 +43,8 @@ class _CommentModalState extends State<CommentModal>
         .instance.platformDispatcher.views.first.viewInsets.bottom;
     if (value == 0 && MediaQuery.of(context).viewInsets.bottom != 0) {
       AppDataProvider.of(context).commentModal.unfocus();
+      IndexComment.flagReply = false;
+      IndexComment.flagReply2 = false;
     }
   }
 
