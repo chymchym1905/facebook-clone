@@ -1,4 +1,4 @@
-import '../index.dart';
+import '../../index.dart';
 
 class LoginRegister extends StatefulWidget {
   const LoginRegister({super.key});
@@ -113,6 +113,7 @@ class _LoginRegisterState extends State<LoginRegister>
         systemBrightness == Brightness.dark ? darkBackground : lightBackground,
         Column(mainAxisAlignment: MainAxisAlignment.center, children: [
           Padding(
+            //email field
             padding: const EdgeInsets.only(left: 20, right: 20, bottom: 40),
             child: TextFormField(
               keyboardType: TextInputType.emailAddress,
@@ -140,6 +141,7 @@ class _LoginRegisterState extends State<LoginRegister>
             ),
           ),
           Padding(
+            //password field
             padding: const EdgeInsets.only(left: 20, right: 20, bottom: 40),
             child: TextFormField(
               keyboardType: TextInputType.visiblePassword,
@@ -201,7 +203,10 @@ class _LoginRegisterState extends State<LoginRegister>
             ),
           ),
           TextButton(
-            onPressed: () => setState(() {}),
+            onPressed: () => setState(() {
+              Navigator.of(context)
+                  .pushNamed('/forgotpassword', arguments: emailString.text);
+            }),
             child: const Text('Forgot Password',
                 style: TextStyle(color: Color.fromARGB(255, 107, 103, 103))),
           )

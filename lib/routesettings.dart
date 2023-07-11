@@ -1,3 +1,5 @@
+import 'package:flutter_application_1/screens/Authentication_pages/forgotpasswordscreen.dart';
+
 import 'index.dart';
 import 'screens/friends_page.dart';
 import 'screens/watch_page.dart';
@@ -12,6 +14,11 @@ class RouteGenerator {
       //   return MaterialPageRoute(builder: (_) => const LoginRegister());
       // case '/home':
       //   return MaterialPageRoute(builder: (_) => const Home());
+      case '/forgotpassword':
+        if (args is String) {
+          return MaterialPageRoute(
+              builder: (_) => ForgotPasswordPage(email: args));
+        }
       case '/friends':
         if (args is String) {
           return MaterialPageRoute(builder: (_) => Friends(data: args));

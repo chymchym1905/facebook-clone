@@ -37,15 +37,20 @@ class _PostsState extends State<Posts> {
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
-      child: InkWell(
-        onTap: () => setState(() {
-          Navigator.of(context).pushNamed('/posts',
-              arguments: Postpage(data: widget.data, reloadState: updateState));
-        }),
-        child: Ink(
-          color: themeManager.themeMode == dark ? lightdark : white,
-          child: FBFullReaction(
-              reloadState: updateState, data: widget.data, isPostcard: true),
+      child: Card(
+        elevation: 0,
+        margin: EdgeInsets.zero,
+        color: themeManager.themeMode == dark ? lightdark : white,
+        child: InkWell(
+          onTap: () => setState(() {
+            Navigator.of(context).pushNamed('/posts',
+                arguments:
+                    Postpage(data: widget.data, reloadState: updateState));
+          }),
+          child: Ink(
+            child: FBFullReaction(
+                reloadState: updateState, data: widget.data, isPostcard: true),
+          ),
         ),
       ),
     );
