@@ -4,15 +4,14 @@ import '../screens/Home_page/comment_Modal/comment_button_modal.dart';
 class FBFullReaction extends StatefulWidget {
   const FBFullReaction(
       {Key? key,
-      required this.isPostcard,
       required this.data,
       required this.reloadState, 
-      required this.isComment})
+      required this.controlContent
+  })
       : super(key: key);
-  final bool isPostcard;
-  final bool isComment;
   final Post data;
   final Function(Post) reloadState;
+  final int controlContent;
 
   @override
   State<FBFullReaction> createState() => _FBFullReactionState();
@@ -267,14 +266,18 @@ class _FBFullReactionState extends State<FBFullReaction>
   _buildNewItem(BuildContext context, int index) {
     return Column(
       children: [
-        NameBar(
+        if(widget.controlContent == 0 || widget.controlContent == 1) ...[
+           NameBar(
             imageUrl: widget.data.user.imageurl,
             username: widget.data.user.name),
-        Caption(
-          reloadState: widget.reloadState,
-          data: widget.data,
-          isPostpage: widget.isPostcard ? true : false,
-        ),
+          Caption(
+            reloadState: widget.reloadState,
+            data: widget.data,
+            isPostpage: widget.controlContent == 0 ? true : false,
+          ),
+        ] else ...[
+
+        ],
         _buildLikeButton(context, index),
       ],
     );
@@ -328,7 +331,7 @@ class _FBFullReactionState extends State<FBFullReaction>
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      if(!widget.isComment) ...[
+                      if(widget.controlContent == 0 || widget.controlContent == 1) ...[
                         if (reaction != null) ...[
                           if (!isLike) ...[
                             Image.asset(reaction.png,
@@ -360,12 +363,13 @@ class _FBFullReactionState extends State<FBFullReaction>
             ),
           )
         ),
-        if (widget.isPostcard) ...[
+        if(widget.controlContent == 0) ...[
           CommentButtonModal(data: widget.data),
-        ] else ...[
+          ShareButton(data: widget.data),
+        ] else if(widget.controlContent == 1) ...[
           const CommentButton(),
-        ],
-        ShareButton(data: widget.data),
+          ShareButton(data: widget.data),
+        ],   
       ],
     );
   }

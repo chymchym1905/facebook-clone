@@ -191,6 +191,21 @@ class _CommentSectionState extends State<CommentSection> {
                                 return Size(textWidth.size.width, textHeight);
                               }),
                             ),
+                            // style: TextButton.styleFrom(
+                            //      fixedSize:
+                            //       MaterialStateProperty.resolveWith((states) {
+                            //     final textStyle =
+                            //         Theme.of(context).textTheme.labelMedium!;
+                            //     final textWidth = TextPainter(
+                            //       text:
+                            //           TextSpan(text: 'Reply', style: textStyle),
+                            //       textDirection: TextDirection.ltr,
+                            //     )..layout();
+                            //     final textHeight = textWidth.size.height;
+
+                            //     return Size(textWidth.size.width, textHeight);
+                            //   }),
+                            // ),
                             child: Text('Reply',
                                 style: Theme.of(context)
                                     .textTheme
@@ -394,23 +409,23 @@ class _CommmentTreeSectionState extends State<CommmentTreeSection> {
                               // ),
                               TextButton(
                                 onPressed: () {},
-                                style: ButtonStyle(
-                                  fixedSize: MaterialStateProperty.resolveWith(
-                                      (states) {
-                                    final textStyle = Theme.of(context)
-                                        .textTheme
-                                        .labelMedium!;
-                                    final textWidth = TextPainter(
-                                      text: TextSpan(
-                                          text: 'Like', style: textStyle),
-                                      textDirection: TextDirection.ltr,
-                                    )..layout();
-                                    final textHeight = textWidth.size.height;
+                                // style: ButtonStyle(
+                                //   fixedSize: MaterialStateProperty.resolveWith(
+                                //       (states) {
+                                //     final textStyle = Theme.of(context)
+                                //         .textTheme
+                                //         .labelMedium!;
+                                //     final textWidth = TextPainter(
+                                //       text: TextSpan(
+                                //           text: 'Like', style: textStyle),
+                                //       textDirection: TextDirection.ltr,
+                                //     )..layout();
+                                //     final textHeight = textWidth.size.height;
 
-                                    return Size(
-                                        textWidth.size.width, textHeight);
-                                  }),
-                                ),
+                                //     return Size(
+                                //         textWidth.size.width, textHeight);
+                                //   }),
+                                // ),
                                 child: Text('Like',
                                     style: Theme.of(context)
                                         .textTheme
@@ -420,40 +435,7 @@ class _CommmentTreeSectionState extends State<CommmentTreeSection> {
                                             color: const Color.fromARGB(
                                                 255, 99, 100, 105))),
                               ),
-                              TextButton(
-                                onPressed: () {
-                                  IndexComment.flagReply = false;
-                                  IndexComment.flagReply2 = true;
-                                  IndexComment.intdex = widget.indexforreply1;
-                                  IndexComment.intdex2 = widget.indexforreply2;
-                                  widget.myfocusNode.requestFocus();
-                                },
-                                style: ButtonStyle(
-                                  fixedSize: MaterialStateProperty.resolveWith(
-                                      (states) {
-                                    final textStyle = Theme.of(context)
-                                        .textTheme
-                                        .labelMedium!;
-                                    final textWidth = TextPainter(
-                                      text: TextSpan(
-                                          text: 'Reply', style: textStyle),
-                                      textDirection: TextDirection.ltr,
-                                    )..layout();
-                                    final textHeight = textWidth.size.height;
-
-                                    return Size(
-                                        textWidth.size.width, textHeight);
-                                  }),
-                                ),
-                                child: Text('Reply',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .labelMedium!
-                                        .copyWith(
-                                            fontWeight: FontWeight.bold,
-                                            color: const Color.fromARGB(
-                                                255, 99, 100, 105))),
-                              ),
+                              ReplyButton(indexforreply1: widget.indexforreply1, indexforreply2: widget.indexforreply2, myfocusNode: widget.myfocusNode)
                             ],
                           ),
                         ),

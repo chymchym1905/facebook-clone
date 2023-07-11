@@ -45,7 +45,7 @@ class _PostsState extends State<Posts> {
         child: Ink(
           color: themeManager.themeMode == dark ? lightdark : white,
           child: FBFullReaction(
-              reloadState: updateState, data: widget.data, isPostcard: true, isComment: false,),
+              reloadState: updateState, data: widget.data, controlContent: 0,),
         ),
       ),
     );

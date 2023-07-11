@@ -136,8 +136,7 @@ class _PostPageState extends State<Postpage> with WidgetsBindingObserver {
                     FBFullReaction(
                       reloadState: widget.reloadState,
                       data: widget.data,
-                      isPostcard: false,
-                      isComment: false,
+                      controlContent: 1,
                     ),
                     iconSection,
                     CommentSection(
