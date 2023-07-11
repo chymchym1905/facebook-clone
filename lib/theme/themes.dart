@@ -105,6 +105,12 @@ ThemeData dark = ThemeData(
       dividerColor: Palette.facebookBlue,
       labelColor: Palette.facebookBlue,
     ),
+    // iconTheme: IconThemeData(color: const Color.fromARGB(255, 176, 179, 184)),
+    // listTileTheme: ListTileThemeData(
+    //     leadingAndTrailingTextStyle:
+    //         TextStyle(color: const Color.fromARGB(255, 176, 179, 184)),
+    //     contentPadding: EdgeInsets.all(4),
+    //     style: ListTileStyle.list),
     inputDecorationTheme: const InputDecorationTheme(
         border: InputBorder.none,
         fillColor: Color.fromARGB(255, 58, 59, 60),

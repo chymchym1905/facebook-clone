@@ -1,3 +1,7 @@
+import 'package:flutter/gestures.dart';
+import 'package:flutter_application_1/screens/Home_page/listviews/friendlistview.dart';
+import 'package:flutter_application_1/screens/Home_page/listviews/watchlistview.dart';
+
 import '../../index.dart';
 
 //Variables
@@ -46,9 +50,10 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
     _tabController = TabController(length: 4, vsync: this);
     _tabController.addListener(_handleTabChange);
     _animationController = AnimationController(
-        vsync: this, duration: const Duration(milliseconds: 500));
+        vsync: this, duration: const Duration(milliseconds: 200));
     _animation = Tween<double>(begin: kToolbarHeight, end: 0)
-        .animate(_animationController);
+        .animate(_animationController)
+      ..addStatusListener(_handleAnimationChange);
     themeManager.addListener(themeListener);
     source1 = LoadMorePost();
     source2 = LoadMorePost();
@@ -58,6 +63,15 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   themeListener() {
     if (mounted) {
       setState(() {});
+    }
+  }
+
+  void _handleAnimationChange(AnimationStatus status) async {
+    if (status == AnimationStatus.completed ||
+        status == AnimationStatus.dismissed) {
+      setState(() {
+        AppDataProvider.of(context).updateCallback;
+      });
     }
   }
 
@@ -72,7 +86,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
         }
         if (_tabController.index == 0) {
           _animationController.forward();
-        } else if (_tabController.index != 0) {
+        } else if (_tabController.index > 0) {
           _animationController.reverse();
         }
       });
@@ -90,6 +104,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
     final double statusBarHeight = MediaQuery.of(context).padding.top;
     final double pinnedHeaderHeight = statusBarHeight + kToolbarHeight;
     final TabBar primaryTabBar = TabBar(
+      dragStartBehavior: DragStartBehavior.start,
       controller: _tabController,
       tabs: const [
         Tab(icon: Icon(Icons.home)),
@@ -98,100 +113,117 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
         Tab(icon: Icon(Octicons.three_bars))
       ],
     );
-    final Widget sliverAppBar = AnimatedBuilder(
-      animation: _animation,
-      builder: (context, child) {
-        return SliverAppBar(
-          key: const ValueKey('1'),
-          elevation: 0,
-          pinned: true,
-          floating: true,
-          snap: true,
-          toolbarHeight: _animation.value,
-          // expandedHeight: -MediaQuery.of(context).size.height,
-          actions: [
-            Switch(
-                value: themeManager.themeMode == dark,
-                onChanged: (value) => themeManager.toggleTheme(value),
-                activeColor: white),
-            IconButton(
-                splashRadius: MediaQuery.of(context).size.width * 0.07,
-                onPressed: () {},
-                icon: const Icon(Icons.add)),
-            IconButton(
-                splashRadius: MediaQuery.of(context).size.width * 0.07,
-                onPressed: () {},
-                icon: const Icon(Icons.search)),
-          ],
-          // expandedHeight: statusBarHeight,
-          title: Text(
-            'fakebook',
-            style: TextStyle(
-              fontSize: 29,
-              fontFamily: 'Calibri',
-              fontWeight: FontWeight.bold,
-              letterSpacing: -0.5,
-              color:
-                  themeManager.themeMode == dark ? white : Palette.facebookBlue,
-            ),
-          ),
-          bottom: primaryTabBar,
-        );
-      },
-    );
+    // final Widget sliverAppBar = AnimatedBuilder(
+    //   animation: _animation,
+    //   builder: (context, child) {
+    //     return SliverAppBar(
+    //       key: const ValueKey('1'),
+    //       elevation: 0,
+    //       pinned: true,
+    //       floating: true,
+    //       snap: true,
+    //       // stretch: true,
+    //       toolbarHeight: _animation.value,
+    //       // expandedHeight: -MediaQuery.of(context).size.height,
+    //       actions: [
+    //         Switch(
+    //             value: themeManager.themeMode == dark,
+    //             onChanged: (value) => themeManager.toggleTheme(value),
+    //             activeColor: white),
+    //         IconButton(
+    //             splashRadius: MediaQuery.of(context).size.width * 0.07,
+    //             onPressed: () {},
+    //             icon: const Icon(Icons.add)),
+    //         IconButton(
+    //             splashRadius: MediaQuery.of(context).size.width * 0.07,
+    //             onPressed: () {},
+    //             icon: const Icon(Icons.search)),
+    //       ],
+    //       // expandedHeight: statusBarHeight,
+    //       title: Text(
+    //         'fakebook',
+    //         style: TextStyle(
+    //           fontSize: 29,
+    //           fontFamily: 'Calibri',
+    //           fontWeight: FontWeight.bold,
+    //           letterSpacing: -0.5,
+    //           color:
+    //               themeManager.themeMode == dark ? white : Palette.facebookBlue,
+    //         ),
+    //       ),
+    //       bottom: primaryTabBar,
+    //     );
+    //   },
+    // );
     // AppData appdata = AppDataProvider.of(context);
 
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
-        body: ExtendedNestedScrollView(
-          key: _key,
-          pinnedHeaderSliverHeightBuilder: () {
-            return pinnedHeaderHeight / 2;
-          },
-          onlyOneScrollInBody: true,
-          headerSliverBuilder: (context, bool innerBoxisScrolled) {
-            return [
-              sliverAppBar
-              // SliverToBoxAdapter(
-              //     child: AnimatedSwitcher(
-              //         reverseDuration: const Duration(milliseconds: 200),
-              //         transitionBuilder: (child, animation) =>
-              //             SlideTransition(
-              //               position: Tween<Offset>(
-              //                 begin: Offset(0, -1),
-              //                 end: const Offset(0, 0),
-              //               ).animate(animation),
-              //               child: child,
-              //             ),
-              //         duration: const Duration(milliseconds: 200),
-              //         child: appBarManager.currentAppBar)),
-              // SliverPersistentHeader(
-              //   pinned: true,
-              //   floating: true,
-              //   delegate: CommonSliverPersistentHeaderDelegate(
-              //       Container(
-              //         // margin: EdgeInsets.only(top: statusBarHeight),
-              //         color:
-              //             themeManager.themeMode == dark ? lightdark : white,
-              //         child: primaryTabBar,
-              //       ),
-              //       primaryTabBar.preferredSize.height),
-              // )
-            ];
-          },
-          body: TabBarView(
-            controller: _tabController,
-            children: [
-              PostListView(
-                  source: source1, pagekey: const PageStorageKey('tab1')),
-              PostListView(
-                  source: source2, pagekey: const PageStorageKey('tab2')),
-              PostListView(
-                  source: source3, pagekey: const PageStorageKey('tab3')),
-              SettingListView()
+        body: AnimatedBuilder(
+          animation: _animation,
+          child: SliverAppBar(
+            key: const ValueKey('1'),
+            elevation: 0,
+            pinned: true,
+            floating: true,
+            snap: true,
+            // stretch: true,
+            toolbarHeight: _animation.value,
+            // expandedHeight: -MediaQuery.of(context).size.height,
+            actions: [
+              Switch(
+                  value: themeManager.themeMode == dark,
+                  onChanged: (value) => themeManager.toggleTheme(value),
+                  activeColor: white),
+              IconButton(
+                  splashRadius: MediaQuery.of(context).size.width * 0.07,
+                  onPressed: () {},
+                  icon: const Icon(Icons.add)),
+              IconButton(
+                  splashRadius: MediaQuery.of(context).size.width * 0.07,
+                  onPressed: () {},
+                  icon: const Icon(Icons.search)),
             ],
+            // expandedHeight: statusBarHeight,
+            title: Text(
+              'fakebook',
+              style: TextStyle(
+                fontSize: 29,
+                fontFamily: 'Calibri',
+                fontWeight: FontWeight.bold,
+                letterSpacing: -0.5,
+                color: themeManager.themeMode == dark
+                    ? white
+                    : Palette.facebookBlue,
+              ),
+            ),
+            bottom: primaryTabBar,
           ),
+          builder: (context, child) {
+            return ExtendedNestedScrollView(
+              key: _key,
+              pinnedHeaderSliverHeightBuilder: () {
+                return pinnedHeaderHeight / 2;
+              },
+              onlyOneScrollInBody: true,
+              headerSliverBuilder: (context, bool innerBoxisScrolled) {
+                return [child!];
+              },
+              body: TabBarView(
+                controller: _tabController,
+                children: [
+                  FriendListView(
+                      source: source1, pagekey: const PageStorageKey('tab1')),
+                  PostListView(
+                      source: source2, pagekey: const PageStorageKey('tab2')),
+                  WatchListView(
+                      source: source3, pagekey: const PageStorageKey('tab3')),
+                  SettingListView()
+                ],
+              ),
+            );
+          },
         ),
       ),
     );
