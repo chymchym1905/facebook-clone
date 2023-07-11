@@ -5,11 +5,13 @@ class FBFullReaction extends StatefulWidget {
   const FBFullReaction(
       {Key? key,
       required this.data,
+      this.comment,
       required this.reloadState, 
       required this.controlContent
   })
       : super(key: key);
   final Post data;
+  final Comment1? comment;
   final Function(Post) reloadState;
   final int controlContent;
 
@@ -275,8 +277,36 @@ class _FBFullReactionState extends State<FBFullReaction>
             data: widget.data,
             isPostpage: widget.controlContent == 0 ? true : false,
           ),
-        ] else ...[
-
+        ] else if(widget.controlContent == 2)...[
+          // Container(
+          //   padding: const EdgeInsets.symmetric(
+          //       vertical: 8, horizontal: 8),
+          //   decoration: BoxDecoration(
+          //       color: themeManager.themeMode == dark
+          //           ? const Color.fromARGB(255, 58, 59, 60)
+          //           : const Color.fromARGB(155, 180, 177, 177),
+          //       borderRadius: BorderRadius.circular(12)),
+          //   child: Column(
+          //     crossAxisAlignment: CrossAxisAlignment.start,
+          //     children: [
+          //       Text(data.user.name,
+          //           style: Theme.of(context)
+          //               .textTheme
+          //               .labelLarge
+          //               ?.copyWith(fontWeight: FontWeight.w300)),
+          //       const SizedBox(
+          //         height: 4,
+          //       ),
+          //       Text(
+          //         data.content,
+          //         style: Theme.of(context)
+          //             .textTheme
+          //             .bodySmall
+          //             ?.copyWith(fontStyle: FontStyle.normal),
+          //       ),
+          //     ],
+          //   ),
+          // ),
         ],
         _buildLikeButton(context, index),
       ],
