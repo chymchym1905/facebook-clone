@@ -266,7 +266,10 @@ class _FBFullReactionState extends State<FBFullReaction>
     return Column(
       children: [
         if (widget.controlContent == 0 || widget.controlContent == 1) ...[
-          NameBar(data: widget.data, reloadState: widget.reloadState),
+          NameBar(
+              data: widget.data,
+              reloadState: widget.reloadState,
+              isPostpage: widget.controlContent == 0 ? true : false),
           Caption(
             reloadState: widget.reloadState,
             data: widget.data,

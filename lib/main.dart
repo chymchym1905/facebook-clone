@@ -3,6 +3,7 @@ import '../index.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  await initialize();
   runApp(AppDataProvider(
       AppData(
           commentPostPage: FocusNode(),
@@ -43,8 +44,9 @@ class _FakeBookState extends State<FakeBook> {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: themeManager.themeMode,
-      initialRoute: '/',
-      onGenerateRoute: RouteGenerator.generateRoute,
+      navigatorKey: navigatorKey,
+      // initialRoute: '/',
+      // onGenerateRoute: RouteGenerator.generateRoute,
       home: StreamBuilder(
           stream: Auth().authStateChanges,
           builder: (context, snapshot) {

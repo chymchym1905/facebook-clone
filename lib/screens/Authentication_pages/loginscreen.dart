@@ -1,4 +1,5 @@
 import '../../index.dart';
+import 'forgotpasswordscreen.dart';
 
 class LoginRegister extends StatefulWidget {
   const LoginRegister({super.key});
@@ -204,8 +205,7 @@ class _LoginRegisterState extends State<LoginRegister>
           ),
           TextButton(
             onPressed: () => setState(() {
-              Navigator.of(context)
-                  .pushNamed('/forgotpassword', arguments: emailString.text);
+              ForgotPasswordPage(email: emailString.text).launch(context);
             }),
             child: const Text('Forgot Password',
                 style: TextStyle(color: Color.fromARGB(255, 107, 103, 103))),

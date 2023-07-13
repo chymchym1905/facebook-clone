@@ -2,6 +2,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import '../index.dart';
 import 'package:collection/collection.dart';
 
+import '../screens/Gallery_view_pages/galleryview.dart';
+
 Widget oneItem(Post data) => StaggeredGrid.count(
         crossAxisCount: 1,
         mainAxisSpacing: 4,
@@ -10,7 +12,12 @@ Widget oneItem(Post data) => StaggeredGrid.count(
           StaggeredGridTile.count(
               crossAxisCellCount: 1,
               mainAxisCellCount: 1,
-              child: ImageTile(src: data.imageurl[0], height: 100, width: 100))
+              child: ImageTile(
+                  src: data.imageurl[0],
+                  height: 100,
+                  width: 100,
+                  index: 0,
+                  data: data))
         ]);
 
 Widget twoItem(Post data) => StaggeredGrid.count(
@@ -18,10 +25,11 @@ Widget twoItem(Post data) => StaggeredGrid.count(
         mainAxisSpacing: 4,
         crossAxisSpacing: 4,
         children: [
-          ...data.imageurl.map((e) => StaggeredGridTile.count(
+          ...data.imageurl.mapIndexed((index, e) => StaggeredGridTile.count(
               crossAxisCellCount: 2,
               mainAxisCellCount: 2,
-              child: ImageTile(src: e, height: 200, width: 200))),
+              child: ImageTile(
+                  src: e, height: 200, width: 200, index: index, data: data))),
         ]);
 
 Widget twoItemRevert(Post data) => StaggeredGrid.count(
@@ -30,10 +38,11 @@ Widget twoItemRevert(Post data) => StaggeredGrid.count(
         mainAxisSpacing: 4,
         crossAxisSpacing: 4,
         children: [
-          ...data.imageurl.map((e) => StaggeredGridTile.count(
+          ...data.imageurl.mapIndexed((index, e) => StaggeredGridTile.count(
               crossAxisCellCount: 1,
               mainAxisCellCount: 2,
-              child: ImageTile(src: e, height: 200, width: 100))),
+              child: ImageTile(
+                  src: e, height: 200, width: 100, index: index, data: data))),
         ]);
 
 Widget threeItem(Post data) => StaggeredGrid.count(
@@ -45,7 +54,12 @@ Widget threeItem(Post data) => StaggeredGrid.count(
             return StaggeredGridTile.count(
                 crossAxisCellCount: 2,
                 mainAxisCellCount: 2,
-                child: ImageTile(height: 200, width: 200, src: element));
+                child: ImageTile(
+                    height: 200,
+                    width: 200,
+                    src: element,
+                    index: index,
+                    data: data));
           })
         ]);
 
@@ -54,11 +68,12 @@ Widget fourItem(Post data) => StaggeredGrid.count(
         mainAxisSpacing: 4,
         crossAxisSpacing: 4,
         children: [
-          ...data.imageurl.map((e) {
+          ...data.imageurl.mapIndexed((index, e) {
             return StaggeredGridTile.count(
                 crossAxisCellCount: 2,
                 mainAxisCellCount: 2,
-                child: ImageTile(height: 100, width: 100, src: e));
+                child: ImageTile(
+                    height: 100, width: 100, src: e, index: index, data: data));
           })
         ]);
 
@@ -72,12 +87,22 @@ Widget fourItem2(Post data) => StaggeredGrid.count(
               return StaggeredGridTile.count(
                   crossAxisCellCount: 1,
                   mainAxisCellCount: 3,
-                  child: ImageTile(height: 200, width: 100, src: e));
+                  child: ImageTile(
+                      height: 200,
+                      width: 100,
+                      src: e,
+                      index: index,
+                      data: data));
             } else {
               return StaggeredGridTile.count(
                   crossAxisCellCount: 1,
                   mainAxisCellCount: 1,
-                  child: ImageTile(height: 100, width: 100, src: e));
+                  child: ImageTile(
+                      height: 100,
+                      width: 100,
+                      src: e,
+                      index: index,
+                      data: data));
             }
           })
         ]);
@@ -85,28 +110,34 @@ Widget fourItem2(Post data) => StaggeredGrid.count(
 class ImageTile extends StatelessWidget {
   const ImageTile({
     Key? key,
-    // required this.data,
-    // required this.index,
+    required this.data,
+    required this.index,
     required this.width,
     required this.height,
     required this.src,
   }) : super(key: key);
-  // final Post data;
-  // final int index;
+  final Post data;
+  final int index;
   final String src;
   final int width;
   final int height;
 
   @override
   Widget build(BuildContext context) {
-    return CachedNetworkImage(
-      fit: BoxFit.cover,
-      imageUrl: src,
-      fadeOutDuration: const Duration(milliseconds: 500),
-      fadeInDuration: const Duration(milliseconds: 500),
-      progressIndicatorBuilder: (context, url, downloadProgress) => Center(
-          child: CircularProgressIndicator(value: downloadProgress.progress)),
-      errorWidget: (context, url, error) => const Icon(Icons.error),
+    return GestureDetector(
+      onTap: () {
+        // print(ModalRoute.of(context)!.settings.name);
+        GalleryViewPage(data: data, initialIndex: index).launch(context);
+      },
+      child: CachedNetworkImage(
+        fit: BoxFit.cover,
+        imageUrl: src,
+        fadeOutDuration: const Duration(milliseconds: 500),
+        fadeInDuration: const Duration(milliseconds: 500),
+        // progressIndicatorBuilder: (context, url, downloadProgress) => Center(
+        //     child: CircularProgressIndicator(value: downloadProgress.progress)),
+        errorWidget: (context, url, error) => const Icon(Icons.error),
+      ),
     );
   }
 }
