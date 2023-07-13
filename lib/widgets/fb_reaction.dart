@@ -15,6 +15,7 @@ class FBFullReaction extends StatefulWidget {
   final Function(Post) reloadState;
   final int controlContent;
 
+
   @override
   State<FBFullReaction> createState() => _FBFullReactionState();
 }
@@ -25,6 +26,7 @@ class _FBFullReactionState extends State<FBFullReaction>
   final double _reactMargin = 2;
   final double _reactBarBotMargin = 44;
   final double _reactBarPadding = 4;
+  Offset tapPosition = const Offset(0, 0);
 
   //resouce
   List<Map> _news = [];
@@ -157,26 +159,69 @@ class _FBFullReactionState extends State<FBFullReaction>
               ));
         });
   }
+  
+  ///////
+  OverlayEntry? overlayEntry;
 
+  void removeOverlay() {
+    overlayEntry?.remove();
+    overlayEntry = null;
+  }
+  
+  createReactArea(BuildContext context){
+    var globalOrigin = _newsPosition.globalPosition;
+    var localOrigin = _newsPosition.localPosition;
+    double width = MediaQuery.of(context).size.width;
+
+    var dy = globalOrigin.dy - localOrigin.dy - _reactBarBotMargin;
+    dy = dy - _reactBarPadding;
+    dy = dy - _reactMargin;
+    var wBar = reactSize * _reactions.length;
+    var x = (width - wBar) / 2.0;
+    tapPosition = Offset(x, dy);
+
+    removeOverlay();
+
+    assert(overlayEntry == null);
+
+    overlayEntry = OverlayEntry(builder: (context) => Positioned(
+      left: tapPosition.dx,
+      top: tapPosition.dy-20,
+      child: ScaleTransition(
+        scale: _newsAni,
+        child: Stack(
+          alignment: Alignment.bottomCenter,
+          children: [
+            _buildReactBar(),
+            _buildAnimatedReactBar(),
+          ],
+        ),
+      ),
+    ),
+    );
+
+    Overlay.of(context, debugRequiredFor: widget).insert(overlayEntry!);
+  }
   Widget _buildItem(BuildContext context, int index) {
-    return Stack(
-      alignment: Alignment.bottomCenter,
+    return Column(
+      // alignment: Alignment.bottomCenter,
       children: [
         _buildNewItem(context, index),
-        Visibility(
-            visible: _newsSelected == index,
-            child: ScaleTransition(
-              scale: _newsAni,
-              child: Center(
-                child: Stack(
-                  alignment: Alignment.bottomCenter,
-                  children: [
-                    _buildReactBar(),
-                    _buildAnimatedReactBar(),
-                  ],
-                ),
-              ),
-            )),
+        // Visibility(
+        //   visible: _newsSelected == index,
+        //   child: ScaleTransition(
+        //     scale: _newsAni,
+        //     child: Center(
+        //       child: Stack(
+        //         alignment: Alignment.bottomCenter,
+        //         children: [
+        //           _buildReactBar(),
+        //           _buildAnimatedReactBar(),
+        //         ],
+        //       ),
+        //     ),
+        //   )
+        // ),
       ],
     );
   }
@@ -199,20 +244,23 @@ class _FBFullReactionState extends State<FBFullReaction>
         color: Colors.white,
         boxShadow: shadow,
       ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: List.generate(_reactions.length, (index) {
-          return Padding(
-            padding: EdgeInsets.all(_reactMargin),
-            child: AnimatedBuilder(
-                animation: _reactions[index].animation,
-                builder: (context, _) {
-                  double scale = reactScale * _reactions[index].animation.value;
-                  double bigSize = _reactSize + _reactSize * scale;
-                  return SizedBox(height: _reactSize, width: bigSize);
-                }),
-          );
-        }),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 10),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: List.generate(_reactions.length, (index) {
+            return Padding(
+              padding: EdgeInsets.all(_reactMargin),
+              child: AnimatedBuilder(
+                  animation: _reactions[index].animation,
+                  builder: (context, _) {
+                    double scale = reactScale * _reactions[index].animation.value;
+                    double bigSize = _reactSize + _reactSize * scale;
+                    return SizedBox(height: _reactSize, width: bigSize);
+                  }),
+            );
+          }),
+        ),
       ),
     );
   }
@@ -222,43 +270,45 @@ class _FBFullReactionState extends State<FBFullReaction>
       margin: EdgeInsets.only(bottom: _reactBarBotMargin),
       padding: EdgeInsets.all(_reactBarPadding),
       child: Row(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.end,
+        // mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: List.generate(_reactions.length, (index) {
           return Padding(
             padding: EdgeInsets.all(_reactMargin),
             child: AnimatedBuilder(
-                animation: _reactions[index].animation,
-                builder: (context, _) {
-                  var gif = _reactions[index].gif;
-                  var text = _reactions[index].text;
-                  double animation = _reactions[index].animation.value;
-                  double scale = reactScale * animation;
-                  double bigSize = _reactSize + _reactSize * scale;
-                  return Column(
-                    children: [
-                      ScaleTransition(
-                          scale: _reactions[index].animation,
+              animation: _reactions[index].animation,
+              builder: (context, _) {
+                var gif = _reactions[index].gif;
+                var text = _reactions[index].text;
+                double animation = _reactions[index].animation.value;
+                double scale = reactScale * animation;
+                double bigSize = _reactSize + _reactSize * scale;
+                return Column(
+                  children: [
+                    ScaleTransition(
+                      scale: _reactions[index].animation,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 4),
+                        child: Material(
+                          color: Colors.black54,
+                          shape: const StadiumBorder(),
                           child: Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 4),
-                            child: Material(
-                              color: Colors.black54,
-                              shape: const StadiumBorder(),
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 2, horizontal: 5),
-                                child: Text(
-                                  text,
-                                  style: const TextStyle(
-                                      color: Colors.white, fontSize: 10),
-                                ),
-                              ),
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 2, horizontal: 5),
+                            child: Text(
+                              text,
+                              style: const TextStyle(
+                                  color: Colors.white, fontSize: 10),
                             ),
-                          )),
-                      Image.asset(gif, width: bigSize, height: bigSize)
-                    ],
-                  );
-                }),
+                          ),
+                        ),
+                      )
+                    ),
+                    Image.asset(gif, width: bigSize, height: bigSize)
+                  ],
+                );
+              }
+            ),
           );
         }),
       ),
@@ -278,35 +328,35 @@ class _FBFullReactionState extends State<FBFullReaction>
             isPostpage: widget.controlContent == 0 ? true : false,
           ),
         ] else if(widget.controlContent == 2)...[
-          // Container(
-          //   padding: const EdgeInsets.symmetric(
-          //       vertical: 8, horizontal: 8),
-          //   decoration: BoxDecoration(
-          //       color: themeManager.themeMode == dark
-          //           ? const Color.fromARGB(255, 58, 59, 60)
-          //           : const Color.fromARGB(155, 180, 177, 177),
-          //       borderRadius: BorderRadius.circular(12)),
-          //   child: Column(
-          //     crossAxisAlignment: CrossAxisAlignment.start,
-          //     children: [
-          //       Text(data.user.name,
-          //           style: Theme.of(context)
-          //               .textTheme
-          //               .labelLarge
-          //               ?.copyWith(fontWeight: FontWeight.w300)),
-          //       const SizedBox(
-          //         height: 4,
-          //       ),
-          //       Text(
-          //         data.content,
-          //         style: Theme.of(context)
-          //             .textTheme
-          //             .bodySmall
-          //             ?.copyWith(fontStyle: FontStyle.normal),
-          //       ),
-          //     ],
-          //   ),
-          // ),
+          Container(
+            padding: const EdgeInsets.symmetric(
+                vertical: 8, horizontal: 8),
+            decoration: BoxDecoration(
+                color: themeManager.themeMode == dark
+                    ? const Color.fromARGB(255, 58, 59, 60)
+                    : const Color.fromARGB(155, 180, 177, 177),
+                borderRadius: BorderRadius.circular(12)),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(widget.comment!.user.name,
+                    style: Theme.of(context)
+                        .textTheme
+                        .labelLarge
+                        ?.copyWith(fontWeight: FontWeight.w300)),
+                const SizedBox(
+                  height: 4,
+                ),
+                Text(
+                  widget.comment!.content,
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodySmall
+                      ?.copyWith(fontStyle: FontStyle.normal),
+                ),
+              ],
+            ),
+          ),
         ],
         _buildLikeButton(context, index),
       ],
@@ -346,7 +396,10 @@ class _FBFullReactionState extends State<FBFullReaction>
           onLongPressMoveUpdate: _updatePointer,
           onLongPressStart: _savePointer,
           onLongPressEnd: _clearPointer,
-          onLongPress: () => _showReacts(index),
+          onLongPress: () => {
+            _showReacts(index),
+            createReactArea(context),
+          },
           onLongPressUp: _hideReacts,
           child: Container(
             color: Colors.transparent,
@@ -394,12 +447,14 @@ class _FBFullReactionState extends State<FBFullReaction>
           )
         ),
         if(widget.controlContent == 0) ...[
-          CommentButtonModal(data: widget.data),
+          CommentButtonModal(data: widget.data, reloadState: widget.reloadState,),
           ShareButton(data: widget.data),
         ] else if(widget.controlContent == 1) ...[
           const CommentButton(),
           ShareButton(data: widget.data),
-        ],   
+        ] else if(widget.controlContent == 2) ... [
+          
+        ],
       ],
     );
   }
@@ -521,6 +576,7 @@ class _FBFullReactionState extends State<FBFullReaction>
       Future.delayed(Duration(milliseconds: milliseconds)).then((_) {
         setState(() {
           _news[_newsSelected]["reaction"] = _reactions[_reactSelected];
+          removeOverlay();
         });
       });
       isLike = false;
@@ -553,6 +609,8 @@ class _FBFullReactionState extends State<FBFullReaction>
         _newsPosition = const LongPressStartDetails();
       });
     }
+    // Future.delayed(Duration:)
+    
     widget.reloadState(widget.data);
   }
 

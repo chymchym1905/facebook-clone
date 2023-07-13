@@ -40,7 +40,6 @@ dependencies:
   audioplayers: ^4.1.0
   comment_tree: ^0.3.0
   fluttericon: ^2.0.0
-  indexed: ^0.0.8
   pagination_view: ^2.0.0
   shared_preferences: ^2.1.2
   extended_nested_scroll_view: ^6.1.1
@@ -51,6 +50,7 @@ dependencies:
   sliver_tools: ^0.2.10
   firebase_auth: ^4.6.3
   cloud_firestore: ^4.8.2
+  custom_pop_up_menu: ^1.2.4
 
 dev_dependencies:
   flutter_test:

@@ -1,3 +1,4 @@
+
 import '../../index.dart';
 
 class CommentSection extends StatefulWidget {
@@ -6,12 +7,14 @@ class CommentSection extends StatefulWidget {
     required this.data,
     required this.myfocusNode,
     required this.controlViewMoreComment,
-    required this.setViewMoreComment
+    required this.setViewMoreComment, 
+    required this.reloadState
   });
   final List<Comment1> data;
   final FocusNode myfocusNode;
   final List<bool> controlViewMoreComment;
   final Function(int) setViewMoreComment;
+  final Function(Post) reloadState; 
 
   @override
   State<CommentSection> createState() => _CommentSectionState();
@@ -95,130 +98,132 @@ class _CommentSectionState extends State<CommentSection> {
               return data;
             },
             contentRoot: (context, data) {
+              Post fakedata = Post("", UserDummy("", "", ""), "", [], 0, 0, 0, [], 0);
               // Parent comment
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Container(
-                    padding:
-                        const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
-                    decoration: BoxDecoration(
-                        color: themeManager.themeMode == dark
-                            ? const Color.fromARGB(255, 58, 59, 60)
-                            : const Color.fromARGB(155, 180, 177, 177),
-                        borderRadius: BorderRadius.circular(12)),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(data.user.name,
-                            style: Theme.of(context)
-                                .textTheme
-                                .labelLarge
-                                ?.copyWith(fontWeight: FontWeight.w300)),
-                        const SizedBox(
-                          height: 4,
-                        ),
-                        Text(
-                          data.content,
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodySmall
-                              ?.copyWith(fontStyle: FontStyle.normal),
-                        ),
-                      ],
-                    ),
-                  ),
-                  DefaultTextStyle(
-                    style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                        color: const Color.fromARGB(255, 109, 107, 107),
-                        fontWeight: FontWeight.w300),
-                    child: Padding(
-                      padding: const EdgeInsets.only(top: 4),
-                      child: Row(
-                        children: [
-                          const SizedBox(
-                            width: 8,
-                          ),
-                          // Text(data.timeAgo),
-                          // const SizedBox(
-                          //   width: 15,
-                          // ),
-                          TextButton(
-                            onPressed: () {},
-                            style: ButtonStyle(
-                              fixedSize:
-                                  MaterialStateProperty.resolveWith((states) {
-                                final textStyle =
-                                    Theme.of(context).textTheme.labelMedium!;
-                                final textWidth = TextPainter(
-                                  text:
-                                      TextSpan(text: 'Like', style: textStyle),
-                                  textDirection: TextDirection.ltr,
-                                )..layout();
-                                final textHeight = textWidth.size.height;
-
-                                return Size(textWidth.size.width, textHeight);
-                              }),
-                            ),
-                            child: Text('Like',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .labelMedium!
-                                    .copyWith(
-                                        fontWeight: FontWeight.bold,
-                                        color: const Color.fromARGB(
-                                            255, 99, 100, 105))),
-                          ),
-                          TextButton(
-                            onPressed: () {
-                              IndexComment.flagReply = true;
-                              IndexComment.flagReply2 = false;
-                              IndexComment.intdex = index;
-                              widget.myfocusNode.requestFocus();
-                            },
-                            style: ButtonStyle(
-                              fixedSize:
-                                  MaterialStateProperty.resolveWith((states) {
-                                final textStyle =
-                                    Theme.of(context).textTheme.labelMedium!;
-                                final textWidth = TextPainter(
-                                  text:
-                                      TextSpan(text: 'Reply', style: textStyle),
-                                  textDirection: TextDirection.ltr,
-                                )..layout();
-                                final textHeight = textWidth.size.height;
-
-                                return Size(textWidth.size.width, textHeight);
-                              }),
-                            ),
-                            // style: TextButton.styleFrom(
-                            //      fixedSize:
-                            //       MaterialStateProperty.resolveWith((states) {
-                            //     final textStyle =
-                            //         Theme.of(context).textTheme.labelMedium!;
-                            //     final textWidth = TextPainter(
-                            //       text:
-                            //           TextSpan(text: 'Reply', style: textStyle),
-                            //       textDirection: TextDirection.ltr,
-                            //     )..layout();
-                            //     final textHeight = textWidth.size.height;
-
-                            //     return Size(textWidth.size.width, textHeight);
-                            //   }),
-                            // ),
-                            child: Text('Reply',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .labelMedium!
-                                    .copyWith(
-                                        fontWeight: FontWeight.bold,
-                                        color: const Color.fromARGB(
-                                            255, 99, 100, 105))),
-                          ),
-                        ],
-                      ),
-                    ),
-                  )
+                  FBFullReaction(data: fakedata,reloadState: widget.reloadState ,comment: widget.data[index], controlContent: 2)
+                  // Container(
+                  //   padding:
+                  //       const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
+                  //   decoration: BoxDecoration(
+                  //       color: themeManager.themeMode == dark
+                  //           ? const Color.fromARGB(255, 58, 59, 60)
+                  //           : const Color.fromARGB(155, 180, 177, 177),
+                  //       borderRadius: BorderRadius.circular(12)),
+                  //   child: Column(
+                  //     crossAxisAlignment: CrossAxisAlignment.start,
+                  //     children: [
+                  //       Text(data.user.name,
+                  //           style: Theme.of(context)
+                  //               .textTheme
+                  //               .labelLarge
+                  //               ?.copyWith(fontWeight: FontWeight.w300)),
+                  //       const SizedBox(
+                  //         height: 4,
+                  //       ),
+                  //       Text(
+                  //         data.content,
+                  //         style: Theme.of(context)
+                  //             .textTheme
+                  //             .bodySmall
+                  //             ?.copyWith(fontStyle: FontStyle.normal),
+                  //       ),
+                  //     ],
+                  //   ),
+                  // ),
+                  // DefaultTextStyle(
+                  //   style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                  //       color: const Color.fromARGB(255, 109, 107, 107),
+                  //       fontWeight: FontWeight.w300),
+                  //   child: Padding(
+                  //     padding: const EdgeInsets.only(top: 4),
+                  //     child: Row(
+                  //       children: [
+                  //         const SizedBox(
+                  //           width: 8,
+                  //         ),
+                  //         // Text(data.timeAgo),
+                  //         // const SizedBox(
+                  //         //   width: 15,
+                  //         // ),
+                  //         TextButton(
+                  //           onPressed: () {},
+                  //           style: ButtonStyle(
+                  //             fixedSize:
+                  //                 MaterialStateProperty.resolveWith((states) {
+                  //               final textStyle =
+                  //                   Theme.of(context).textTheme.labelMedium!;
+                  //               final textWidth = TextPainter(
+                  //                 text:
+                  //                     TextSpan(text: 'Like', style: textStyle),
+                  //                 textDirection: TextDirection.ltr,
+                  //               )..layout();
+                  //               final textHeight = textWidth.size.height;
+                
+                  //               return Size(textWidth.size.width, textHeight);
+                  //             }),
+                  //           ),
+                  //           child: Text('Like',
+                  //               style: Theme.of(context)
+                  //                   .textTheme
+                  //                   .labelMedium!
+                  //                   .copyWith(
+                  //                       fontWeight: FontWeight.bold,
+                  //                       color: const Color.fromARGB(
+                  //                           255, 99, 100, 105))),
+                  //         ),
+                  //         TextButton(
+                  //           onPressed: () {
+                  //             IndexComment.flagReply = true;
+                  //             IndexComment.flagReply2 = false;
+                  //             IndexComment.intdex = index;
+                  //             widget.myfocusNode.requestFocus();
+                  //           },
+                  //           style: ButtonStyle(
+                  //             fixedSize:
+                  //                 MaterialStateProperty.resolveWith((states) {
+                  //               final textStyle =
+                  //                   Theme.of(context).textTheme.labelMedium!;
+                  //               final textWidth = TextPainter(
+                  //                 text:
+                  //                     TextSpan(text: 'Reply', style: textStyle),
+                  //                 textDirection: TextDirection.ltr,
+                  //               )..layout();
+                  //               final textHeight = textWidth.size.height;
+                
+                  //               return Size(textWidth.size.width, textHeight);
+                  //             }),
+                  //           ),
+                  //           // style: TextButton.styleFrom(
+                  //           //      fixedSize:
+                  //           //       MaterialStateProperty.resolveWith((states) {
+                  //           //     final textStyle =
+                  //           //         Theme.of(context).textTheme.labelMedium!;
+                  //           //     final textWidth = TextPainter(
+                  //           //       text:
+                  //           //           TextSpan(text: 'Reply', style: textStyle),
+                  //           //       textDirection: TextDirection.ltr,
+                  //           //     )..layout();
+                  //           //     final textHeight = textWidth.size.height;
+                
+                  //           //     return Size(textWidth.size.width, textHeight);
+                  //           //   }),
+                  //           // ),
+                  //           child: Text('Reply',
+                  //               style: Theme.of(context)
+                  //                   .textTheme
+                  //                   .labelMedium!
+                  //                   .copyWith(
+                  //                       fontWeight: FontWeight.bold,
+                  //                       color: const Color.fromARGB(
+                  //                           255, 99, 100, 105))),
+                  //         ),
+                  //       ],
+                  //     ),
+                  //   ),
+                  // )
                 ],
               );
             },

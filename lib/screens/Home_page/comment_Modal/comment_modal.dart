@@ -7,9 +7,11 @@ UserDummy instantUser = UserDummy("1905", "chymchym",
 class CommentModal extends StatefulWidget {
   const CommentModal({
     Key? key,
-    required this.data,
+    required this.data, 
+    required this.reloadState,
   }) : super(key: key);
   final Post data;
+  final Function(Post) reloadState;
   @override
   State<CommentModal> createState() => _CommentModalState();
 }
@@ -78,6 +80,7 @@ class _CommentModalState extends State<CommentModal>
             data: widget.data.comment,
             controlViewMoreComment: controlViewMoreComment,
             setViewMoreComment: setViewMoreComment,
+            reloadState: widget.reloadState,
           ),
         ),
         SingleChildScrollView(

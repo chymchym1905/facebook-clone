@@ -1,4 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+
 import '../../index.dart';
 
 class IndexComment {
@@ -144,6 +145,7 @@ class _PostPageState extends State<Postpage> with WidgetsBindingObserver {
                       data: widget.data.comment,
                       controlViewMoreComment: controlViewMoreComment,
                       setViewMoreComment: setViewMoreComment,
+                      reloadState: widget.reloadState,
                     ),
                   ],
                 ),
