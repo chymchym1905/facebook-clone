@@ -1,13 +1,12 @@
 import '../../index.dart';
 
 class CommentSection extends StatefulWidget {
-  const CommentSection({
-    super.key,
-    required this.data,
-    required this.myfocusNode,
-    required this.controlViewMoreComment,
-    required this.setViewMoreComment
-  });
+  const CommentSection(
+      {super.key,
+      required this.data,
+      required this.myfocusNode,
+      required this.controlViewMoreComment,
+      required this.setViewMoreComment});
   final List<Comment1> data;
   final FocusNode myfocusNode;
   final List<bool> controlViewMoreComment;
@@ -18,8 +17,6 @@ class CommentSection extends StatefulWidget {
 }
 
 class _CommentSectionState extends State<CommentSection> {
-  
-
   @override
   Widget build(BuildContext context) {
     Color hideTree;
@@ -30,7 +27,7 @@ class _CommentSectionState extends State<CommentSection> {
       itemBuilder: (context, index) {
         List<Comment1> listReply = [];
         countReply(widget.data[index], listReply);
-        int listLength = listReply.length-1;
+        int listLength = listReply.length - 1;
         if (widget.data[index].reply.isEmpty) {
           hideTree = Colors.white;
         } else {
@@ -53,10 +50,12 @@ class _CommentSectionState extends State<CommentSection> {
                   indexforreply2: 0,
                   setViewMoreComment: widget.setViewMoreComment,
                 ),
-                if(listReply.length != 1) ...[
+                if (listReply.length != 1) ...[
                   ViewMoreComment(
-                    controlViewMoreComment: widget.controlViewMoreComment[index],
-                    list:Comment1(UserDummy("","",""),0,"View $listLength more comment...",[]),
+                    controlViewMoreComment:
+                        widget.controlViewMoreComment[index],
+                    list: Comment1(UserDummy("", "", ""), 0,
+                        "View $listLength more comment...", []),
                     myfocusNode: widget.myfocusNode,
                     indexforreply1: index,
                     indexforreply2: 0,
@@ -66,7 +65,8 @@ class _CommentSectionState extends State<CommentSection> {
               ] else ...[
                 for (int i = 0; i < widget.data[index].reply.length; i += 1)
                   ViewMoreComment(
-                    controlViewMoreComment: widget.controlViewMoreComment[index],
+                    controlViewMoreComment:
+                        widget.controlViewMoreComment[index],
                     list: widget.data[index].reply[i],
                     myfocusNode: widget.myfocusNode,
                     indexforreply1: index,
@@ -86,8 +86,10 @@ class _CommentSectionState extends State<CommentSection> {
                 backgroundImage: NetworkImage(data.user.imageurl),
               ),
             ),
-            avatarChild: (context, data) =>  PreferredSize(
-              preferredSize: widget.controlViewMoreComment[index]?const Size.fromRadius(30):const Size.fromRadius(42),
+            avatarChild: (context, data) => PreferredSize(
+              preferredSize: widget.controlViewMoreComment[index]
+                  ? const Size.fromRadius(30)
+                  : const Size.fromRadius(42),
               child: const Row(),
             ),
             contentChild: (context, data) {
@@ -252,34 +254,39 @@ class _ViewMoreCommentState extends State<ViewMoreComment> {
   @override
   Widget build(BuildContext context) {
     if (widget.controlViewMoreComment) {
-      return GestureDetector(
+      return InkWell(
         onTap: () {
           widget.setViewMoreComment(widget.indexforreply1);
         },
+        splashColor: Colors.transparent,
         child: Padding(
-          padding: const EdgeInsets.only(top: 10),
-          child: Row(
-            children: [
-              if(widget.list.user.imageurl.isNotEmpty) ...[
-                Padding(
-                  padding: const EdgeInsets.only(right: 10),
-                  child: CircleAvatar(
-                    radius: 15,
-                    backgroundImage: NetworkImage(widget.list.user.imageurl),
+          padding: const EdgeInsets.only(top: 8, bottom: 10),
+          child: SizedBox(
+            width: MediaQuery.of(context).size.width,
+            child: Row(
+              children: [
+                if (widget.list.user.imageurl.isNotEmpty) ...[
+                  Padding(
+                    padding: const EdgeInsets.only(right: 10),
+                    child: CircleAvatar(
+                      radius: 15,
+                      backgroundImage: NetworkImage(widget.list.user.imageurl),
+                    ),
+                  ),
+                ],
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 4),
+                    child: Text(widget.list.content,
+                        overflow: TextOverflow.ellipsis,
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodySmall
+                            ?.copyWith(fontStyle: FontStyle.normal)),
                   ),
                 ),
               ],
-              Expanded(
-                child: Text(
-                  widget.list.content,
-                  overflow: TextOverflow.ellipsis,
-                  style: Theme.of(context)
-                                  .textTheme
-                                  .bodySmall
-                                  ?.copyWith(fontStyle: FontStyle.normal)
-                ),
-              ),
-            ],
+            ),
           ),
         ),
       );
@@ -288,8 +295,7 @@ class _ViewMoreCommentState extends State<ViewMoreComment> {
           list: widget.list,
           myfocusNode: widget.myfocusNode,
           indexforreply1: widget.indexforreply1,
-          indexforreply2: widget.indexforreply2
-      );
+          indexforreply2: widget.indexforreply2);
     }
   }
 }
@@ -435,7 +441,10 @@ class _CommmentTreeSectionState extends State<CommmentTreeSection> {
                                             color: const Color.fromARGB(
                                                 255, 99, 100, 105))),
                               ),
-                              ReplyButton(indexforreply1: widget.indexforreply1, indexforreply2: widget.indexforreply2, myfocusNode: widget.myfocusNode)
+                              ReplyButton(
+                                  indexforreply1: widget.indexforreply1,
+                                  indexforreply2: widget.indexforreply2,
+                                  myfocusNode: widget.myfocusNode)
                             ],
                           ),
                         ),

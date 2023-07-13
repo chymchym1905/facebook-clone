@@ -97,7 +97,7 @@ class _PostPageState extends State<Postpage> with WidgetsBindingObserver {
     return MaterialApp(
       theme: themeManager.themeMode,
       home: GestureDetector(
-        onTap: (){
+        onTap: () {
           FocusScope.of(context).unfocus();
           IndexComment.flagReply = false;
           IndexComment.flagReply2 = false;
@@ -112,7 +112,7 @@ class _PostPageState extends State<Postpage> with WidgetsBindingObserver {
                 splashRadius: MediaQuery.of(context).size.width * 0.07,
                 icon: const Icon(Icons.arrow_back),
                 onPressed: () {
-                  AppDataProvider.of(context).updateCallback(widget.data);
+                  widget.reloadState;
                   Navigator.pop(
                       context,
                       Postpage(

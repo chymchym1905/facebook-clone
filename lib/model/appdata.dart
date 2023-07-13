@@ -5,7 +5,7 @@ class AppData {
   int notificationCount;
   final FocusNode commentPostPage;
   final FocusNode commentModal;
-  Function(Post) updateCallback;
+  // Function(Post) updateCallback;
   // Function(BuildContext) navigateCallback;
   // Post currentViewData =
   //     Post("", UserDummy("", "", ""), "", [], 0, 0, 0, [], 0);
@@ -14,7 +14,7 @@ class AppData {
     required this.notificationCount,
     required this.commentPostPage,
     required this.commentModal,
-    required this.updateCallback,
+    // required this.updateCallback,
     // required this.navigateCallback,
   });
 

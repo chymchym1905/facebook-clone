@@ -40,12 +40,12 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage>
         context: context,
         builder: (context) {
           return AlertDialog(
-            title: Text('Info'),
+            title: const Text('Info'),
             content: Text('Password reset mail sent to ${emailString.text}'),
             actions: [
               TextButton(
                   onPressed: () => Navigator.of(context).pop(),
-                  child: Text('OK'))
+                  child: const Text('OK'))
             ],
           );
         });

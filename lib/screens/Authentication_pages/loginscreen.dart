@@ -45,12 +45,12 @@ class _LoginRegisterState extends State<LoginRegister>
         context: context,
         builder: (context) {
           return AlertDialog(
-            title: Text('Error'),
+            title: const Text('Error'),
             content: Text(errorMessage == '' ? "Unknown Error" : errorMessage),
             actions: [
               TextButton(
                   onPressed: () => Navigator.of(context).pop(),
-                  child: Text('OK'))
+                  child: const Text('OK'))
             ],
           );
         });

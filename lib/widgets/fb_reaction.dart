@@ -5,9 +5,8 @@ class FBFullReaction extends StatefulWidget {
   const FBFullReaction(
       {Key? key,
       required this.data,
-      required this.reloadState, 
-      required this.controlContent
-  })
+      required this.reloadState,
+      required this.controlContent})
       : super(key: key);
   final Post data;
   final Function(Post) reloadState;
@@ -266,18 +265,16 @@ class _FBFullReactionState extends State<FBFullReaction>
   _buildNewItem(BuildContext context, int index) {
     return Column(
       children: [
-        if(widget.controlContent == 0 || widget.controlContent == 1) ...[
-           NameBar(
-            imageUrl: widget.data.user.imageurl,
-            username: widget.data.user.name),
+        if (widget.controlContent == 0 || widget.controlContent == 1) ...[
+          NameBar(data: widget.data, reloadState: widget.reloadState),
           Caption(
             reloadState: widget.reloadState,
             data: widget.data,
             isPostpage: widget.controlContent == 0 ? true : false,
           ),
-        ] else ...[
-
-        ],
+          if (widget.data.imageurl != []) ImageBox(data: widget.data)
+        ] else
+          ...[],
         _buildLikeButton(context, index),
       ],
     );
@@ -287,9 +284,9 @@ class _FBFullReactionState extends State<FBFullReaction>
     Reaction? reaction = _news[index]["reaction"];
     String text = "Like";
     Color textColor = Colors.grey;
-    if(widget.data.reaction == 1){
+    if (widget.data.reaction == 1) {
       isLike = true;
-    } else{
+    } else {
       isLike = false;
     }
     if (reaction != null) {
@@ -303,73 +300,73 @@ class _FBFullReactionState extends State<FBFullReaction>
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         GestureDetector(
-          onTap: () => setState(() {
-                if (_news[index]["reaction"] != null) {
-                  widget.data.reaction = 0;
-                } else {
-                  widget.data.reaction = 1;
-                }
-                // widget.data.reaction = 0;
-                _news[index]["reaction"] = null;
-                widget.reloadState(widget.data);
-              }),
-          onLongPressMoveUpdate: _updatePointer,
-          onLongPressStart: _savePointer,
-          onLongPressEnd: _clearPointer,
-          onLongPress: () => _showReacts(index),
-          onLongPressUp: _hideReacts,
-          child: Container(
-            color: Colors.transparent,
-            alignment: Alignment.center,
-            child: Material(
+            onTap: () => setState(() {
+                  if (_news[index]["reaction"] != null) {
+                    widget.data.reaction = 0;
+                  } else {
+                    widget.data.reaction = 1;
+                  }
+                  // widget.data.reaction = 0;
+                  _news[index]["reaction"] = null;
+                  widget.reloadState(widget.data);
+                }),
+            onLongPressMoveUpdate: _updatePointer,
+            onLongPressStart: _savePointer,
+            onLongPressEnd: _clearPointer,
+            onLongPress: () => _showReacts(index),
+            onLongPressUp: _hideReacts,
+            child: Container(
               color: Colors.transparent,
-              shape: const StadiumBorder(),
-              child: Padding(
-                padding: padding,
-                child: SizedBox(
-                  height: icSize,
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      if(widget.controlContent == 0 || widget.controlContent == 1) ...[
-                        if (reaction != null) ...[
-                          if (!isLike) ...[
-                            Image.asset(reaction.png,
-                                height: icSize, width: icSize),
-                            const SizedBox(width: 8),
-                          ]
+              alignment: Alignment.center,
+              child: Material(
+                color: Colors.transparent,
+                shape: const StadiumBorder(),
+                child: Padding(
+                  padding: padding,
+                  child: SizedBox(
+                    height: icSize,
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        if (widget.controlContent == 0 ||
+                            widget.controlContent == 1) ...[
+                          if (reaction != null) ...[
+                            if (!isLike) ...[
+                              Image.asset(reaction.png,
+                                  height: icSize, width: icSize),
+                              const SizedBox(width: 8),
+                            ]
+                          ],
+                          if (reaction == null || isLike) ...[
+                            Icon(
+                              Icons.thumb_up_off_alt,
+                              color: isLike ? blue : Colors.grey,
+                            )
+                          ],
                         ],
-                        if (reaction == null || isLike) ...[
-                          Icon(
-                            Icons.thumb_up_off_alt,
-                            color: isLike ? blue : Colors.grey,
-                          )
-                        ],
+                        Padding(
+                          padding: const EdgeInsets.only(left: 5),
+                          child: Text(
+                            text,
+                            style: Theme.of(context)
+                                .textTheme
+                                .labelSmall
+                                ?.merge(TextStyle(color: textColor)),
+                          ),
+                        )
                       ],
-                      Padding(
-                        padding: const EdgeInsets.only(left: 5),
-                        child: Text(
-                          text,
-                          style: Theme.of(context)
-                              .textTheme
-                              .labelSmall
-                              ?.merge(TextStyle(color: textColor)),
-                        ),
-                      )
-                    ],
+                    ),
                   ),
                 ),
               ),
-            ),
-          )
-        ),
-        if(widget.controlContent == 0) ...[
+            )),
+        if (widget.controlContent == 0) ...[
           CommentButtonModal(data: widget.data),
           ShareButton(data: widget.data),
-        ] else if(widget.controlContent == 1) ...[
+        ] else if (widget.controlContent == 1) ...[
           const CommentButton(),
           ShareButton(data: widget.data),
-        ],   
+        ],
       ],
     );
   }

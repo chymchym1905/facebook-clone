@@ -5,8 +5,6 @@ void main() async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(AppDataProvider(
       AppData(
-          // navigateCallback: (p0) {},
-          updateCallback: (p0) {},
           commentPostPage: FocusNode(),
           commentModal: FocusNode(),
           notificationCount: 0),
@@ -14,6 +12,7 @@ void main() async {
 }
 
 ThemeProvider themeManager = ThemeProvider();
+
 class FakeBook extends StatefulWidget {
   const FakeBook({super.key});
 
@@ -22,7 +21,6 @@ class FakeBook extends StatefulWidget {
 }
 
 class _FakeBookState extends State<FakeBook> {
-
   @override
   void initState() {
     super.initState();
@@ -35,14 +33,12 @@ class _FakeBookState extends State<FakeBook> {
     super.dispose();
   }
 
-  
   themeListener() {
     if (mounted) {
       setState(() {});
     }
   }
 
-  
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

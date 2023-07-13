@@ -1,6 +1,6 @@
-import './tree_theme_data.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import './tree_theme_data.dart';
 
 class RootCommentWidget extends StatelessWidget {
   final PreferredSizeWidget avatar;
