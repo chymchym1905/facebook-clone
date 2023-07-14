@@ -1,5 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-
+// import 'package:get/get.dart';
 import '../../index.dart';
 
 class IndexComment {
@@ -107,75 +107,71 @@ class _PostPageState extends State<Postpage>
         ShareButton(data: widget.data),
       ],
     );
-    return MaterialApp(
-      theme: themeManager.themeMode,
-      home: GestureDetector(
-        onTap: () {
-          FocusScope.of(context).unfocus();
-          IndexComment.flagReply = false;
-          IndexComment.flagReply2 = false;
-        },
-        child: Scaffold(
-          backgroundColor: themeManager.themeMode == dark
-              ? const Color.fromARGB(255, 38, 38, 38)
-              : Colors.white,
-          appBar: AppBar(
-            elevation: 0,
-            leading: IconButton(
-                splashRadius: MediaQuery.of(context).size.width * 0.07,
-                icon: const Icon(Icons.arrow_back),
-                onPressed: () {
-                  widget.reloadState;
-                  finish(context);
-                }),
-            title: Text(widget.data.user.name,
-                style: Theme.of(context).textTheme.titleLarge),
-            actions: [
-              IconButton(
-                  onPressed: () {},
-                  icon: const Icon(Icons.search),
-                  splashRadius: MediaQuery.of(context).size.width * 0.07),
-            ],
-            // bottom: ,
-          ),
-          body: Column(
-            children: [
-              Expanded(
-                child: ListView(
-                  children: [
-                    NameBar(
+    return GestureDetector(
+      onTap: () {
+        FocusScope.of(context).unfocus();
+        IndexComment.flagReply = false;
+        IndexComment.flagReply2 = false;
+      },
+      child: Scaffold(
+        backgroundColor: themeManager.themeMode == dark
+            ? const Color.fromARGB(255, 38, 38, 38)
+            : Colors.white,
+        appBar: AppBar(
+          elevation: 0,
+          leading: IconButton(
+              splashRadius: MediaQuery.of(context).size.width * 0.07,
+              icon: const Icon(Icons.arrow_back),
+              onPressed: () {
+                widget.reloadState;
+                Navigator.of(context).pop(false);
+              }),
+          title: Text(widget.data.user.name,
+              style: Theme.of(context).textTheme.titleLarge),
+          actions: [
+            IconButton(
+                onPressed: () {},
+                icon: const Icon(Icons.search),
+                splashRadius: MediaQuery.of(context).size.width * 0.07),
+          ],
+          // bottom: ,
+        ),
+        body: Column(
+          children: [
+            Expanded(
+              child: ListView(
+                children: [
+                  NameBar(
                       data: widget.data,
                       reloadState: widget.reloadState,
-                      isPostpage: false
-                    ),
-                    Caption(
-                      reloadState: widget.reloadState,
-                      data: widget.data,
-                      isPostpage: false,
-                    ),
-                    if (widget.data.imageurl != []) ImageBox(data: widget.data),
-                    buttonSection,
-                    iconSection,
-                    CommentSection(
-                      myfocusNode: AppDataProvider.of(context).commentPostPage,
-                      data: widget.data.comment,
-                      controlViewMoreComment: controlViewMoreComment,
-                      setViewMoreComment: setViewMoreComment,
-                    ),
-                  ],
-                ),
+                      isPostpage: false),
+                  Caption(
+                    reloadState: widget.reloadState,
+                    data: widget.data,
+                    isPostpage: false,
+                  ),
+                  if (widget.data.imageurl != []) ImageBox(data: widget.data),
+                  buttonSection,
+                  iconSection,
+                  CommentSection(
+                    myfocusNode: AppDataProvider.of(context).commentPostPage,
+                    data: widget.data.comment,
+                    controlViewMoreComment: controlViewMoreComment,
+                    setViewMoreComment: setViewMoreComment,
+                  ),
+                ],
               ),
-              WriteCommentBox(
-                data: widget.data.comment,
-                myfocusNode: AppDataProvider.of(context).commentPostPage,
-                isKeyboard: isKeyboard,
-                myController: textController,
-                instantUser: instantUser,
-                controlViewMoreComment: controlViewMoreComment,
-                setViewMoreComment: setViewMoreComment,
-              ),
-            ],
-          ),
+            ),
+            WriteCommentBox(
+              data: widget.data.comment,
+              myfocusNode: AppDataProvider.of(context).commentPostPage,
+              isKeyboard: isKeyboard,
+              myController: textController,
+              instantUser: instantUser,
+              controlViewMoreComment: controlViewMoreComment,
+              setViewMoreComment: setViewMoreComment,
+            ),
+          ],
         ),
       ),
     );

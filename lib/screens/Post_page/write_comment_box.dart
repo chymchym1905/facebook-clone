@@ -2,17 +2,16 @@
 import '../../index.dart';
 
 class WriteCommentBox extends StatefulWidget {
-  const WriteCommentBox({
-    Key? key,
-    required this.data,
-    required this.myController,
-    required this.isKeyboard,
-    required this.myfocusNode,
-    required this.instantUser,
-    required this.controlViewMoreComment,
-    required this.setViewMoreComment
-
-  }) : super(key: key);
+  const WriteCommentBox(
+      {Key? key,
+      required this.data,
+      required this.myController,
+      required this.isKeyboard,
+      required this.myfocusNode,
+      required this.instantUser,
+      required this.controlViewMoreComment,
+      required this.setViewMoreComment})
+      : super(key: key);
 
   final List<Comment1> data;
   final TextEditingController myController;
@@ -31,7 +30,7 @@ class _WriteCommentBoxState extends State<WriteCommentBox> {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: themeManager.themeMode == dark ? lightdark : white,
+        color: themeManager.themeMode == dark ? lightdark : whitee,
         border: const Border(top: BorderSide(color: Colors.grey, width: 0.2)),
       ),
       padding: EdgeInsets.only(
@@ -103,13 +102,14 @@ class _WriteCommentBoxState extends State<WriteCommentBox> {
                             .add(newComment);
                       } else {
                         if (IndexComment.flagReply) {
-                          widget.data[IndexComment.intdex].reply.add(newComment);
+                          widget.data[IndexComment.intdex].reply
+                              .add(newComment);
                         } else {
                           widget.data.add(newComment);
                         }
                       }
                       widget.controlViewMoreComment.add(true);
-                      if(IndexComment.flagReply || IndexComment.flagReply2){
+                      if (IndexComment.flagReply || IndexComment.flagReply2) {
                         widget.setViewMoreComment(IndexComment.intdex);
                       }
                     }

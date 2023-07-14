@@ -172,7 +172,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
               Switch(
                   value: themeManager.themeMode == dark,
                   onChanged: (value) => themeManager.toggleTheme(value),
-                  activeColor: white),
+                  activeColor: whitee),
               IconButton(
                   splashRadius: MediaQuery.of(context).size.width * 0.07,
                   onPressed: () {},
@@ -191,7 +191,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                 fontWeight: FontWeight.bold,
                 letterSpacing: -0.5,
                 color: themeManager.themeMode == dark
-                    ? white
+                    ? whitee
                     : Palette.facebookBlue,
               ),
             ),
