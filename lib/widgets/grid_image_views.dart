@@ -126,8 +126,10 @@ class ImageTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        // print(ModalRoute.of(context)!.settings.name);
-        GalleryViewPage(data: data, initialIndex: index).launch(context);
+        print(ModalRoute.of(context)!.currentResult);
+        // Navigator.of(context).p;
+        GalleryViewPage(data: data, initialIndex: index, isPostpage: false)
+            .launch(context);
       },
       child: CachedNetworkImage(
         fit: BoxFit.cover,

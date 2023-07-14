@@ -4,8 +4,12 @@ import '../../index.dart';
 
 class GalleryViewPage extends StatefulWidget {
   const GalleryViewPage(
-      {super.key, required this.initialIndex, required this.data});
+      {super.key,
+      required this.initialIndex,
+      required this.data,
+      required this.isPostpage});
   final int initialIndex;
+  final bool isPostpage;
   final Post data;
   @override
   State<GalleryViewPage> createState() => _GalleryViewPageState();
@@ -14,6 +18,7 @@ class GalleryViewPage extends StatefulWidget {
 class _GalleryViewPageState extends State<GalleryViewPage>
     with SingleTickerProviderStateMixin {
   late int currentIndex;
+
   late final AnimationController _animationController;
   late AutoScrollController autoScrollController;
 
