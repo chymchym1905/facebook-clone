@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
 import '../../index.dart';
+import 'comment_Modal/comment_button_modal.dart';
 // import 'package:image_size_getter/image_size_getter.dart';
 // import 'package:image_size_getter_http_input/image_size_getter_http_input.dart';
 
@@ -36,9 +37,33 @@ class _PostsState extends State<Posts> {
         elevation: 0,
         margin: EdgeInsets.zero,
         color: themeManager.themeMode == dark ? lightdark : white,
-        child: FBFullReaction(
-            reloadState: updateState, data: widget.data, controlContent: 0),
-      ),
+        child: Column(
+          children: [
+            // FBFullReaction(
+            //     reloadState: updateState, data: widget.data, controlContent: 0),
+            NameBar(
+              data: widget.data,
+              reloadState: updateState,
+              isPostpage: true
+            ),
+            Caption(
+              reloadState: updateState,
+              data: widget.data,
+              isPostpage: true,
+            ),
+            if (widget.data.imageurl != []) ImageBox(data: widget.data),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                FBFullReaction(data: widget.data, reloadState: updateState),
+                CommentButtonModal(data: widget.data),
+                ShareButton(data: widget.data),
+              ],
+            ),
+
+          ],
+        ),
+      )
     );
   }
 }

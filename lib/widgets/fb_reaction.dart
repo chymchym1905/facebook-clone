@@ -5,15 +5,11 @@ class FBFullReaction extends StatefulWidget {
   const FBFullReaction(
       {Key? key,
       required this.data,
-      this.comment,
       required this.reloadState, 
-      required this.controlContent
   })
       : super(key: key);
   final Post data;
-  final Comment1? comment;
   final Function(Post) reloadState;
-  final int controlContent;
 
 
   @override
@@ -318,49 +314,6 @@ class _FBFullReactionState extends State<FBFullReaction>
   _buildNewItem(BuildContext context, int index) {
     return Column(
       children: [
-        if (widget.controlContent == 0 || widget.controlContent == 1) ...[
-          NameBar(
-              data: widget.data,
-              reloadState: widget.reloadState,
-              isPostpage: widget.controlContent == 0 ? true : false),
-          Caption(
-            reloadState: widget.reloadState,
-            data: widget.data,
-            isPostpage: widget.controlContent == 0 ? true : false,
-          ),
-          if (widget.data.imageurl != []) ImageBox(data: widget.data)
-        ] 
-          else if(widget.controlContent == 2)...[
-          Container(
-            padding: const EdgeInsets.symmetric(
-                vertical: 8, horizontal: 8),
-            decoration: BoxDecoration(
-                color: themeManager.themeMode == dark
-                    ? const Color.fromARGB(255, 58, 59, 60)
-                    : const Color.fromARGB(155, 180, 177, 177),
-                borderRadius: BorderRadius.circular(12)),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(widget.comment!.user.name,
-                    style: Theme.of(context)
-                        .textTheme
-                        .labelLarge
-                        ?.copyWith(fontWeight: FontWeight.w300)),
-                const SizedBox(
-                  height: 4,
-                ),
-                Text(
-                  widget.comment!.content,
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodySmall
-                      ?.copyWith(fontStyle: FontStyle.normal),
-                ),
-              ],
-            ),
-          ),
-        ],
         _buildLikeButton(context, index),
       ],
     );
@@ -383,7 +336,6 @@ class _FBFullReactionState extends State<FBFullReaction>
     double icSize = 24;
 
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         GestureDetector(
           onTap: () => setState(() {
@@ -417,20 +369,18 @@ class _FBFullReactionState extends State<FBFullReaction>
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      if(widget.controlContent == 0 || widget.controlContent == 1) ...[
-                        if (reaction != null) ...[
-                          if (!isLike) ...[
-                            Image.asset(reaction.png,
-                                height: icSize, width: icSize),
-                            const SizedBox(width: 8),
-                          ]
-                        ],
-                        if (reaction == null || isLike) ...[
-                          Icon(
-                            Icons.thumb_up_off_alt,
-                            color: isLike ? blue : Colors.grey,
-                          )
-                        ],
+                      if (reaction != null) ...[
+                        if (!isLike) ...[
+                          Image.asset(reaction.png,
+                              height: icSize, width: icSize),
+                          const SizedBox(width: 8),
+                        ]
+                      ],
+                      if (reaction == null || isLike) ...[
+                        Icon(
+                          Icons.thumb_up_off_alt,
+                          color: isLike ? blue : Colors.grey,
+                        )
                       ],
                       Padding(
                         padding: const EdgeInsets.only(left: 5),
@@ -449,15 +399,6 @@ class _FBFullReactionState extends State<FBFullReaction>
             ),
           )
         ),
-        if(widget.controlContent == 0) ...[
-          CommentButtonModal(data: widget.data, reloadState: widget.reloadState,),
-          ShareButton(data: widget.data),
-        ] else if (widget.controlContent == 1) ...[
-          const CommentButton(),
-          ShareButton(data: widget.data),
-        ] else if(widget.controlContent == 2) ... [
-          
-        ],
       ],
     );
   }

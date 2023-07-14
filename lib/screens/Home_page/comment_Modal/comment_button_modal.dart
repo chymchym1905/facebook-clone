@@ -6,10 +6,8 @@ class CommentButtonModal extends StatefulWidget {
   const CommentButtonModal({
     Key? key,
     required this.data, 
-    required this.reloadState,
   }) : super(key: key);
   final Post data;
-  final Function(Post) reloadState;
   @override
   State<CommentButtonModal> createState() => _CommentButtonModalState();
 }
@@ -51,7 +49,7 @@ class _CommentButtonModalState extends State<CommentButtonModal>
                 builder: (context) {
                   return GestureDetector(
                       onTap: () => FocusScope.of(context).unfocus(),
-                      child: CommentModal(data: widget.data, reloadState: widget.reloadState,));
+                      child: CommentModal(data: widget.data));
                 });
           },
           icon: const Icon(
