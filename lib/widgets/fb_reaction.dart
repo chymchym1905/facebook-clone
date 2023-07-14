@@ -318,16 +318,19 @@ class _FBFullReactionState extends State<FBFullReaction>
   _buildNewItem(BuildContext context, int index) {
     return Column(
       children: [
-        if(widget.controlContent == 0 || widget.controlContent == 1) ...[
-           NameBar(
-            imageUrl: widget.data.user.imageurl,
-            username: widget.data.user.name),
+        if (widget.controlContent == 0 || widget.controlContent == 1) ...[
+          NameBar(
+              data: widget.data,
+              reloadState: widget.reloadState,
+              isPostpage: widget.controlContent == 0 ? true : false),
           Caption(
             reloadState: widget.reloadState,
             data: widget.data,
             isPostpage: widget.controlContent == 0 ? true : false,
           ),
-        ] else if(widget.controlContent == 2)...[
+          if (widget.data.imageurl != []) ImageBox(data: widget.data)
+        ] 
+          else if(widget.controlContent == 2)...[
           Container(
             padding: const EdgeInsets.symmetric(
                 vertical: 8, horizontal: 8),
@@ -367,9 +370,9 @@ class _FBFullReactionState extends State<FBFullReaction>
     Reaction? reaction = _news[index]["reaction"];
     String text = "Like";
     Color textColor = Colors.grey;
-    if(widget.data.reaction == 1){
+    if (widget.data.reaction == 1) {
       isLike = true;
-    } else{
+    } else {
       isLike = false;
     }
     if (reaction != null) {
@@ -449,7 +452,7 @@ class _FBFullReactionState extends State<FBFullReaction>
         if(widget.controlContent == 0) ...[
           CommentButtonModal(data: widget.data, reloadState: widget.reloadState,),
           ShareButton(data: widget.data),
-        ] else if(widget.controlContent == 1) ...[
+        ] else if (widget.controlContent == 1) ...[
           const CommentButton(),
           ShareButton(data: widget.data),
         ] else if(widget.controlContent == 2) ... [

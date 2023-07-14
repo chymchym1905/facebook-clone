@@ -7,7 +7,6 @@ import '../../index.dart';
 //Variables
 
 PostList postManager = PostList([]);
-AppBarManager appBarManager = AppBarManager();
 
 //APP
 class Home extends StatefulWidget {
@@ -69,9 +68,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   void _handleAnimationChange(AnimationStatus status) async {
     if (status == AnimationStatus.completed ||
         status == AnimationStatus.dismissed) {
-      setState(() {
-        AppDataProvider.of(context).updateCallback;
-      });
+      setState(() {});
     }
   }
 

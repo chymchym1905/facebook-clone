@@ -22,13 +22,16 @@ class Postpage extends StatefulWidget {
   State<Postpage> createState() => _PostPageState();
 }
 
-class _PostPageState extends State<Postpage> with WidgetsBindingObserver {
+class _PostPageState extends State<Postpage>
+    with WidgetsBindingObserver, AutomaticKeepAliveClientMixin {
   // final myfocusNode = FocusNode();
   late TextEditingController textController;
   UserDummy instantUser =
       UserDummy("2002", "Danny", "http://loremflickr.com/640/480");
   List<bool> controlViewMoreComment = [];
 
+  @override
+  bool get wantKeepAlive => true;
   @override
   void initState() {
     super.initState();
@@ -64,6 +67,7 @@ class _PostPageState extends State<Postpage> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     final isKeyboard = MediaQuery.of(context).viewInsets.bottom != 0;
 
     Widget iconSection = Container(
@@ -98,7 +102,7 @@ class _PostPageState extends State<Postpage> with WidgetsBindingObserver {
     return MaterialApp(
       theme: themeManager.themeMode,
       home: GestureDetector(
-        onTap: (){
+        onTap: () {
           FocusScope.of(context).unfocus();
           IndexComment.flagReply = false;
           IndexComment.flagReply2 = false;
@@ -113,11 +117,8 @@ class _PostPageState extends State<Postpage> with WidgetsBindingObserver {
                 splashRadius: MediaQuery.of(context).size.width * 0.07,
                 icon: const Icon(Icons.arrow_back),
                 onPressed: () {
-                  AppDataProvider.of(context).updateCallback(widget.data);
-                  Navigator.pop(
-                      context,
-                      Postpage(
-                          data: widget.data, reloadState: widget.reloadState));
+                  widget.reloadState;
+                  finish(context);
                 }),
             title: Text(widget.data.user.name,
                 style: Theme.of(context).textTheme.titleLarge),

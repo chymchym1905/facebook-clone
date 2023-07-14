@@ -1,5 +1,8 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+
 import '../../index.dart';
+// import 'package:image_size_getter/image_size_getter.dart';
+// import 'package:image_size_getter_http_input/image_size_getter_http_input.dart';
 
 class Posts extends StatefulWidget {
   const Posts({Key? key, required this.data}) : super(key: key);
@@ -10,7 +13,6 @@ class Posts extends StatefulWidget {
 }
 
 class _PostsState extends State<Posts> {
-  // Post _data = Post("", UserDummy("", "", ""), "", [], 0, 0, 0, [], 0);
   @override
   void initState() {
     super.initState();
@@ -23,96 +25,102 @@ class _PostsState extends State<Posts> {
     });
   }
 
-  // void navigate(BuildContext context) {
-  //   setState(() {
-  //     Navigator.of(context).pushNamed('/posts');
-  //   });
-  // }
-
   @override
   Widget build(BuildContext context) {
     // AppDataProvider.of(context).currentViewData = widget.data;
-    AppDataProvider.of(context).updateCallback = (Post p) => updateState(p);
-    // AppDataProvider.of(context).navigateCallback = (c) => navigate(c);
+    // AppDataProvider.of(context).updateCallback = (Post p) => updateState(p);
 
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      padding: const EdgeInsets.only(top: 8.0),
       child: Card(
         elevation: 0,
         margin: EdgeInsets.zero,
         color: themeManager.themeMode == dark ? lightdark : white,
-        child: InkWell(
-          onTap: () => setState(() {
-            Navigator.of(context).pushNamed('/posts',
-                arguments:
-                    Postpage(data: widget.data, reloadState: updateState));
-          }),
-          child: Ink(
-            child: FBFullReaction(
-                reloadState: updateState, data: widget.data, controlContent: 0),
-          ),
-        ),
+        child: FBFullReaction(
+            reloadState: updateState, data: widget.data, controlContent: 0),
       ),
     );
   }
 }
 
-class NameBar extends StatelessWidget {
+class NameBar extends StatefulWidget {
   const NameBar({
     Key? key,
-    required this.imageUrl,
-    required this.username,
+    required this.data,
+    required this.reloadState,
+    required this.isPostpage,
   }) : super(key: key);
+  final Post data;
+  final bool isPostpage;
+  final Function(Post) reloadState;
 
-  final String imageUrl;
-  final String username;
+  @override
+  State<NameBar> createState() => _NameBarState();
+}
+
+class _NameBarState extends State<NameBar> {
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(8, 8, 12, 8),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          CircleAvatar(
-              radius: 20,
-              backgroundColor: Colors.grey,
-              backgroundImage: NetworkImage(imageUrl)),
-          const SizedBox(
-            width: 8.0,
-          ),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(username, style: Theme.of(context).textTheme.titleMedium),
-                Wrap(
-                  direction: Axis.horizontal,
+    return InkWell(
+      splashColor: Colors.transparent,
+      highlightColor: themeManager.themeMode == dark
+          ? const Color.fromARGB(255, 80, 82, 81)
+          : const Color.fromARGB(255, 228, 228, 228),
+      onTap: () => setState(() {
+        if (widget.isPostpage) {
+          Postpage(data: widget.data, reloadState: widget.reloadState)
+              .launch(context);
+        }
+      }),
+      child: Ink(
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(8, 8, 12, 8),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              CircleAvatar(
+                  radius: 20,
+                  backgroundColor: Colors.grey,
+                  backgroundImage: NetworkImage(widget.data.user.imageurl)),
+              const SizedBox(
+                width: 8.0,
+              ),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('Time ·',
-                        style: Theme.of(context).textTheme.labelSmall),
-                    const Icon(
-                      Icons.public,
-                      size: 10,
-                      color: Colors.grey,
+                    Text(widget.data.user.name,
+                        style: Theme.of(context).textTheme.titleMedium),
+                    Wrap(
+                      direction: Axis.horizontal,
+                      children: [
+                        Text('Time ·',
+                            style: Theme.of(context).textTheme.labelSmall),
+                        const Icon(
+                          Icons.public,
+                          size: 10,
+                          color: Colors.grey,
+                        ),
+                      ],
                     ),
                   ],
                 ),
-              ],
-            ),
+              ),
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 0.1,
+                height: MediaQuery.of(context).size.width * 0.1,
+                child: IconButton(
+                  padding: EdgeInsets.zero,
+                  splashRadius: MediaQuery.of(context).size.width * 0.07,
+                  icon: const Icon(Icons.more_horiz),
+                  iconSize: 20,
+                  color: Colors.grey,
+                  onPressed: () {},
+                ),
+              )
+            ],
           ),
-          SizedBox(
-            width: MediaQuery.of(context).size.width * 0.1,
-            height: MediaQuery.of(context).size.width * 0.1,
-            child: IconButton(
-              padding: EdgeInsets.zero,
-              splashRadius: MediaQuery.of(context).size.width * 0.07,
-              icon: const Icon(Icons.more_horiz),
-              iconSize: 20,
-              color: Colors.grey,
-              onPressed: () {},
-            ),
-          )
-        ],
+        ),
       ),
     );
   }
@@ -151,9 +159,8 @@ class _Caption extends State<Caption> {
       child: InkWell(
         onTap: () => setState(() {
           if (widget.isPostpage) {
-            Navigator.of(context).pushNamed('/posts',
-                arguments: Postpage(
-                    data: widget.data, reloadState: widget.reloadState));
+            Postpage(data: widget.data, reloadState: widget.reloadState)
+                .launch(context);
           }
         }),
         child: Ink(
@@ -169,23 +176,8 @@ class _Caption extends State<Caption> {
   }
 }
 
-class ImageContainer extends StatefulWidget {
-  const ImageContainer({
-    Key? key,
-    required this.images,
-  }) : super(key: key);
-  final List<String> images;
 
-  @override
-  State<ImageContainer> createState() => _ImageContainerState();
-}
 
-class _ImageContainerState extends State<ImageContainer> {
-  @override
-  Widget build(BuildContext context) {
-    return Container();
-  }
-}
 
 // class Interactions extends StatefulWidget {
 //   const Interactions({

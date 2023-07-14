@@ -34,23 +34,23 @@ dependencies:
   material_design_icons_flutter: 7.0.7296
   flutter_brand_palettes: ^0.5.1
   font_awesome_flutter: ^10.4.0
-  lorem_ipsum_generator: ^0.0.1
   path_provider: ^2.0.11
-  cupertino_icons: ^1.0.2
   audioplayers: ^4.1.0
   comment_tree: ^0.3.0
   fluttericon: ^2.0.0
-  pagination_view: ^2.0.0
   shared_preferences: ^2.1.2
   extended_nested_scroll_view: ^6.1.1
   loading_more_list: ^5.0.3
-  flutter_animate: ^4.2.0
   firebase_core: ^2.14.0
   page_transition: ^2.0.9
-  sliver_tools: ^0.2.10
   firebase_auth: ^4.6.3
   cloud_firestore: ^4.8.2
-  custom_pop_up_menu: ^1.2.4
+  flutter_staggered_grid_view: ^0.6.2
+  collection: ^1.17.1
+  cached_network_image: ^3.2.3
+  scroll_to_index: ^3.0.1
+  photo_view: ^0.14.0
+  nb_utils: ^6.0.0
 
 dev_dependencies:
   flutter_test:
