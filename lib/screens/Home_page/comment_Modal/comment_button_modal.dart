@@ -5,7 +5,7 @@ import 'comment_modal.dart';
 class CommentButtonModal extends StatefulWidget {
   const CommentButtonModal({
     Key? key,
-    required this.data,
+    required this.data, 
   }) : super(key: key);
   final Post data;
   @override

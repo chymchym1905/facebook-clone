@@ -7,7 +7,7 @@ UserDummy instantUser = UserDummy("1905", "chymchym",
 class CommentModal extends StatefulWidget {
   const CommentModal({
     Key? key,
-    required this.data,
+    required this.data, 
   }) : super(key: key);
   final Post data;
   @override

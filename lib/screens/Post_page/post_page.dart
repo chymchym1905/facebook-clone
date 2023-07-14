@@ -1,4 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+
 import '../../index.dart';
 
 class IndexComment {
@@ -97,7 +98,15 @@ class _PostPageState extends State<Postpage>
         ],
       ),
     );
-    // Widget comment = CommentSection(data: commentLi);
+
+    Widget buttonSection = Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        FBFullReaction(data: widget.data, reloadState: widget.reloadState),
+        const CommentButton(),
+        ShareButton(data: widget.data),
+      ],
+    );
     return MaterialApp(
       theme: themeManager.themeMode,
       home: GestureDetector(
@@ -134,11 +143,18 @@ class _PostPageState extends State<Postpage>
               Expanded(
                 child: ListView(
                   children: [
-                    FBFullReaction(
+                    NameBar(
+                      data: widget.data,
+                      reloadState: widget.reloadState,
+                      isPostpage: false
+                    ),
+                    Caption(
                       reloadState: widget.reloadState,
                       data: widget.data,
-                      controlContent: 1,
+                      isPostpage: false,
                     ),
+                    if (widget.data.imageurl != []) ImageBox(data: widget.data),
+                    buttonSection,
                     iconSection,
                     CommentSection(
                       myfocusNode: AppDataProvider.of(context).commentPostPage,

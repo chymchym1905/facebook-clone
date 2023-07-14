@@ -1,12 +1,14 @@
+
 import '../../index.dart';
 
 class CommentSection extends StatefulWidget {
-  const CommentSection(
-      {super.key,
-      required this.data,
-      required this.myfocusNode,
-      required this.controlViewMoreComment,
-      required this.setViewMoreComment});
+  const CommentSection({
+    super.key,
+    required this.data,
+    required this.myfocusNode,
+    required this.controlViewMoreComment,
+    required this.setViewMoreComment, 
+  });
   final List<Comment1> data;
   final FocusNode myfocusNode;
   final List<bool> controlViewMoreComment;
@@ -97,6 +99,7 @@ class _CommentSectionState extends State<CommentSection> {
               return data;
             },
             contentRoot: (context, data) {
+              Post fakedata = Post("", UserDummy("", "", ""), "", [], 0, 0, 0, [], 0);
               // Parent comment
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -158,7 +161,7 @@ class _CommentSectionState extends State<CommentSection> {
                                   textDirection: TextDirection.ltr,
                                 )..layout();
                                 final textHeight = textWidth.size.height;
-
+                
                                 return Size(textWidth.size.width, textHeight);
                               }),
                             ),
@@ -189,7 +192,7 @@ class _CommentSectionState extends State<CommentSection> {
                                   textDirection: TextDirection.ltr,
                                 )..layout();
                                 final textHeight = textWidth.size.height;
-
+                
                                 return Size(textWidth.size.width, textHeight);
                               }),
                             ),
@@ -204,7 +207,7 @@ class _CommentSectionState extends State<CommentSection> {
                             //       textDirection: TextDirection.ltr,
                             //     )..layout();
                             //     final textHeight = textWidth.size.height;
-
+                
                             //     return Size(textWidth.size.width, textHeight);
                             //   }),
                             // ),
@@ -332,7 +335,7 @@ class _CommmentTreeSectionState extends State<CommmentTreeSection> {
           itemCount: defalutReply,
           itemBuilder: (context, index) {
             if (widget.list.reply.isEmpty) {
-              hideTree = themeManager.themeMode == dark ? lightdark : white;
+              hideTree = themeManager.themeMode == dark ? lightdark : whitee;
             } else {
               hideTree = themeManager.themeMode == dark
                   ? const Color.fromARGB(255, 58, 59, 60)
