@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import '../index.dart';
 import 'package:collection/collection.dart';
-
+// import 'package:get/get.dart';
 import '../screens/Gallery_view_pages/galleryview.dart';
 
 Widget oneItem(Post data) => StaggeredGrid.count(
@@ -124,23 +124,32 @@ class ImageTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        print(ModalRoute.of(context)!.currentResult);
-        // Navigator.of(context).p;
-        GalleryViewPage(data: data, initialIndex: index, isPostpage: false)
-            .launch(context);
-      },
-      child: CachedNetworkImage(
-        fit: BoxFit.cover,
-        imageUrl: src,
-        fadeOutDuration: const Duration(milliseconds: 500),
-        fadeInDuration: const Duration(milliseconds: 500),
-        // progressIndicatorBuilder: (context, url, downloadProgress) => Center(
-        //     child: CircularProgressIndicator(value: downloadProgress.progress)),
-        errorWidget: (context, url, error) => const Icon(Icons.error),
-      ),
-    );
+    return Builder(builder: (context) {
+      return GestureDetector(
+        onTap: () {
+          // print(ModalRoute.of(context)!.currentResult);
+          Navigator.of(context).pushNamed('/gallery',
+              arguments: GalleryViewPage(
+                  data: data, initialIndex: index, isPostpage: false));
+          // Get.to(GalleryViewPage(
+          //     data: data, initialIndex: index, isPostpage: false));
+          // GalleryViewPage(data: data, initialIndex: index, isPostpage: false)
+          //     .launch(context)
+          //     .then((value) {
+          //   if (value != null) print(value);
+          // });
+        },
+        child: CachedNetworkImage(
+          fit: BoxFit.cover,
+          imageUrl: src,
+          fadeOutDuration: const Duration(milliseconds: 500),
+          fadeInDuration: const Duration(milliseconds: 500),
+          // progressIndicatorBuilder: (context, url, downloadProgress) => Center(
+          //     child: CircularProgressIndicator(value: downloadProgress.progress)),
+          errorWidget: (context, url, error) => const Icon(Icons.error),
+        ),
+      );
+    });
   }
 }
 

@@ -5,7 +5,7 @@ import 'comment_modal.dart';
 class CommentButtonModal extends StatefulWidget {
   const CommentButtonModal({
     Key? key,
-    required this.data, 
+    required this.data,
   }) : super(key: key);
   final Post data;
   @override
@@ -44,7 +44,7 @@ class _CommentButtonModalState extends State<CommentButtonModal>
                 useRootNavigator: true,
                 isScrollControlled: true,
                 backgroundColor:
-                    themeManager.themeMode == dark ? lightdark : white,
+                    themeManager.themeMode == dark ? lightdark : whitee,
                 context: context,
                 builder: (context) {
                   return GestureDetector(

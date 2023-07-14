@@ -1,5 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-
+// import 'package:get/get.dart';
 import '../../index.dart';
 import 'comment_Modal/comment_button_modal.dart';
 // import 'package:image_size_getter/image_size_getter.dart';
@@ -32,39 +32,36 @@ class _PostsState extends State<Posts> {
     // AppDataProvider.of(context).updateCallback = (Post p) => updateState(p);
 
     return Padding(
-      padding: const EdgeInsets.only(top: 8.0),
-      child: Card(
-        elevation: 0,
-        margin: EdgeInsets.zero,
-        color: themeManager.themeMode == dark ? lightdark : white,
-        child: Column(
-          children: [
-            // FBFullReaction(
-            //     reloadState: updateState, data: widget.data, controlContent: 0),
-            NameBar(
-              data: widget.data,
-              reloadState: updateState,
-              isPostpage: true
-            ),
-            Caption(
-              reloadState: updateState,
-              data: widget.data,
-              isPostpage: true,
-            ),
-            if (widget.data.imageurl != []) ImageBox(data: widget.data),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                FBFullReaction(data: widget.data, reloadState: updateState),
-                CommentButtonModal(data: widget.data),
-                ShareButton(data: widget.data),
-              ],
-            ),
-
-          ],
-        ),
-      )
-    );
+        padding: const EdgeInsets.only(top: 8.0),
+        child: Card(
+          elevation: 0,
+          margin: EdgeInsets.zero,
+          color: themeManager.themeMode == dark ? lightdark : whitee,
+          child: Column(
+            children: [
+              // FBFullReaction(
+              //     reloadState: updateState, data: widget.data, controlContent: 0),
+              NameBar(
+                  data: widget.data,
+                  reloadState: updateState,
+                  isPostpage: true),
+              Caption(
+                reloadState: updateState,
+                data: widget.data,
+                isPostpage: true,
+              ),
+              if (widget.data.imageurl != []) ImageBox(data: widget.data),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  FBFullReaction(data: widget.data, reloadState: updateState),
+                  CommentButtonModal(data: widget.data),
+                  ShareButton(data: widget.data),
+                ],
+              ),
+            ],
+          ),
+        ));
   }
 }
 
@@ -93,8 +90,9 @@ class _NameBarState extends State<NameBar> {
           : const Color.fromARGB(255, 228, 228, 228),
       onTap: () => setState(() {
         if (widget.isPostpage) {
-          Postpage(data: widget.data, reloadState: widget.reloadState)
-              .launch(context);
+          Navigator.of(context).pushNamed('/posts',
+              arguments:
+                  Postpage(data: widget.data, reloadState: widget.reloadState));
         }
       }),
       child: Ink(
@@ -184,12 +182,13 @@ class _Caption extends State<Caption> {
       child: InkWell(
         onTap: () => setState(() {
           if (widget.isPostpage) {
-            Postpage(data: widget.data, reloadState: widget.reloadState)
-                .launch(context);
+            Navigator.of(context).pushNamed('/posts',
+                arguments: Postpage(
+                    data: widget.data, reloadState: widget.reloadState));
           }
         }),
         child: Ink(
-          color: themeManager.themeMode == dark ? lightdark : white,
+          color: themeManager.themeMode == dark ? lightdark : whitee,
           child: Text(
             widget.data.caption,
             textAlign: TextAlign.start,
