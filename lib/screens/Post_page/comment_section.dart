@@ -144,36 +144,7 @@ class _CommentSectionState extends State<CommentSection> {
                           const SizedBox(
                             width: 8,
                           ),
-                          // Text(data.timeAgo),
-                          // const SizedBox(
-                          //   width: 15,
-                          // ),
-                          TextButton(
-                            onPressed: () {},
-                            style: ButtonStyle(
-                              fixedSize:
-                                  MaterialStateProperty.resolveWith((states) {
-                                final textStyle =
-                                    Theme.of(context).textTheme.labelMedium!;
-                                final textWidth = TextPainter(
-                                  text:
-                                      TextSpan(text: 'Like', style: textStyle),
-                                  textDirection: TextDirection.ltr,
-                                )..layout();
-                                final textHeight = textWidth.size.height;
-                
-                                return Size(textWidth.size.width, textHeight);
-                              }),
-                            ),
-                            child: Text('Like',
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .labelMedium!
-                                    .copyWith(
-                                        fontWeight: FontWeight.bold,
-                                        color: const Color.fromARGB(
-                                            255, 99, 100, 105))),
-                          ),
+                          FBFullReaction(data: fakedata),
                           TextButton(
                             onPressed: () {
                               IndexComment.flagReply = true;
@@ -181,23 +152,8 @@ class _CommentSectionState extends State<CommentSection> {
                               IndexComment.intdex = index;
                               widget.myfocusNode.requestFocus();
                             },
-                            style: ButtonStyle(
-                              fixedSize:
-                                  MaterialStateProperty.resolveWith((states) {
-                                final textStyle =
-                                    Theme.of(context).textTheme.labelMedium!;
-                                final textWidth = TextPainter(
-                                  text:
-                                      TextSpan(text: 'Reply', style: textStyle),
-                                  textDirection: TextDirection.ltr,
-                                )..layout();
-                                final textHeight = textWidth.size.height;
-                
-                                return Size(textWidth.size.width, textHeight);
-                              }),
-                            ),
-                            // style: TextButton.styleFrom(
-                            //      fixedSize:
+                            // style: ButtonStyle(
+                            //   fixedSize:
                             //       MaterialStateProperty.resolveWith((states) {
                             //     final textStyle =
                             //         Theme.of(context).textTheme.labelMedium!;
@@ -211,6 +167,11 @@ class _CommentSectionState extends State<CommentSection> {
                             //     return Size(textWidth.size.width, textHeight);
                             //   }),
                             // ),
+                            style: TextButton.styleFrom(
+                                padding: const EdgeInsets.only(left: 10),
+                                minimumSize: Size.zero,
+                                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                            ),
                             child: Text('Reply',
                                 style: Theme.of(context)
                                     .textTheme

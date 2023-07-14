@@ -1,15 +1,14 @@
 import '../index.dart';
-import '../screens/Home_page/comment_Modal/comment_button_modal.dart';
 
 class FBFullReaction extends StatefulWidget {
   const FBFullReaction(
       {Key? key,
       required this.data,
-      required this.reloadState, 
+      this.reloadState, 
   })
       : super(key: key);
   final Post data;
-  final Function(Post) reloadState;
+  final Function(Post)? reloadState;
 
 
   @override
@@ -73,7 +72,7 @@ class _FBFullReactionState extends State<FBFullReaction>
 
   _initReactions() {
     _reactions = List.generate(_reactColors.length, (index) {
-      var duration = const Duration(milliseconds: 300);
+      var duration = const Duration(milliseconds: 100);
       var ctrl = AnimationController(vsync: this, duration: duration);
       var ani = CurvedAnimation(parent: ctrl, curve: Curves.fastOutSlowIn);
       return Reaction(_reactColors.keys.toList()[index],
@@ -163,7 +162,6 @@ class _FBFullReactionState extends State<FBFullReaction>
     overlayEntry?.remove();
     overlayEntry = null;
   }
-  
   createReactArea(BuildContext context){
     var globalOrigin = _newsPosition.globalPosition;
     var localOrigin = _newsPosition.localPosition;
@@ -181,14 +179,17 @@ class _FBFullReactionState extends State<FBFullReaction>
     assert(overlayEntry == null);
 
     overlayEntry = OverlayEntry(builder: (context) => Positioned(
+      top: tapPosition.dy - 20,
       left: tapPosition.dx,
-      top: tapPosition.dy-20,
       child: ScaleTransition(
         scale: _newsAni,
         child: Stack(
-          alignment: Alignment.bottomCenter,
+          alignment: Alignment.topCenter,
           children: [
-            _buildReactBar(),
+            Positioned(
+              top: 22,
+              child: _buildReactBar(),
+            ),
             _buildAnimatedReactBar(),
           ],
         ),
@@ -203,21 +204,6 @@ class _FBFullReactionState extends State<FBFullReaction>
       // alignment: Alignment.bottomCenter,
       children: [
         _buildNewItem(context, index),
-        // Visibility(
-        //   visible: _newsSelected == index,
-        //   child: ScaleTransition(
-        //     scale: _newsAni,
-        //     child: Center(
-        //       child: Stack(
-        //         alignment: Alignment.bottomCenter,
-        //         children: [
-        //           _buildReactBar(),
-        //           _buildAnimatedReactBar(),
-        //         ],
-        //       ),
-        //     ),
-        //   )
-        // ),
       ],
     );
   }
@@ -266,7 +252,8 @@ class _FBFullReactionState extends State<FBFullReaction>
       margin: EdgeInsets.only(bottom: _reactBarBotMargin),
       padding: EdgeInsets.all(_reactBarPadding),
       child: Row(
-        // mainAxisSize: MainAxisSize.min,
+        // textDirection: ,
+        mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: List.generate(_reactions.length, (index) {
           return Padding(
@@ -300,16 +287,46 @@ class _FBFullReactionState extends State<FBFullReaction>
                         ),
                       )
                     ),
-                    Image.asset(gif, width: bigSize, height: bigSize)
+                    Image.asset(gif, width: bigSize, height: bigSize),
                   ],
                 );
               }
             ),
+            // child: Column(
+            //   children: [
+            //     ScaleTransition(
+            //       scale: _reactions[index].animation,
+            //       child: Padding(
+            //         padding: const EdgeInsets.symmetric(vertical: 4),
+            //         child: Material(
+            //           color: Colors.black54,
+            //           shape: const StadiumBorder(),
+            //           child: Padding(
+            //             padding: const EdgeInsets.symmetric(
+            //                 vertical: 2, horizontal: 5),
+            //             child: Text(
+            //               text,
+            //               style: const TextStyle(
+            //                   color: Colors.white, fontSize: 10),
+            //             ),
+            //           ),
+            //         ),
+            //       )
+            //     ),
+            //     AnimatedSize(
+            //       duration:  const Duration(milliseconds: 300),
+            //       curve: Curves.fastOutSlowIn,
+            //       child: Image.asset(gif, width: bigSize, height: bigSize)
+            //     )
+            //  ],
+            // ),
           );
         }),
       ),
     );
   }
+ 
+
 
   _buildNewItem(BuildContext context, int index) {
     return Column(
@@ -346,7 +363,9 @@ class _FBFullReactionState extends State<FBFullReaction>
                 }
                 // widget.data.reaction = 0;
                 _news[index]["reaction"] = null;
-                widget.reloadState(widget.data);
+                if(widget.reloadState != null){
+                  widget.reloadState!(widget.data);
+                }
               }),
           onLongPressMoveUpdate: _updatePointer,
           onLongPressStart: _savePointer,
@@ -369,18 +388,20 @@ class _FBFullReactionState extends State<FBFullReaction>
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      if (reaction != null) ...[
-                        if (!isLike) ...[
-                          Image.asset(reaction.png,
-                              height: icSize, width: icSize),
-                          const SizedBox(width: 8),
-                        ]
-                      ],
-                      if (reaction == null || isLike) ...[
-                        Icon(
-                          Icons.thumb_up_off_alt,
-                          color: isLike ? blue : Colors.grey,
-                        )
+                      if(widget.reloadState != null) ...[
+                        if (reaction != null) ...[
+                          if (!isLike) ...[
+                            Image.asset(reaction.png,
+                                height: icSize, width: icSize),
+                            const SizedBox(width: 8),
+                          ]
+                        ],
+                        if (reaction == null || isLike) ...[
+                          Icon(
+                            Icons.thumb_up_off_alt,
+                            color: isLike ? blue : Colors.grey,
+                          )
+                        ],
                       ],
                       Padding(
                         padding: const EdgeInsets.only(left: 5),
@@ -523,6 +544,7 @@ class _FBFullReactionState extends State<FBFullReaction>
           removeOverlay();
         });
       });
+      removeOverlay();
       isLike = false;
       switch (_reactSelected) {
         case 0:
@@ -554,8 +576,9 @@ class _FBFullReactionState extends State<FBFullReaction>
       });
     }
     // Future.delayed(Duration:)
-    
-    widget.reloadState(widget.data);
+    if(widget.reloadState != null){
+      widget.reloadState!(widget.data);
+    }
   }
 
   _initAnimationPathLeft(Offset s, Offset e) {
