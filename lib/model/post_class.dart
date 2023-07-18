@@ -19,7 +19,8 @@ class Post {
     this.comments,
     this.shares,
     this.comment,
-    this.reaction
+    this.reaction,
+    this.reactions
   );
   @JsonKey(required: true)
   String id;
@@ -34,6 +35,8 @@ class Post {
   @JsonKey(required: true)
   
   int reaction;
+
+  List<int> reactions;
 
   int? likes;
 

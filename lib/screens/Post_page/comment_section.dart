@@ -1,7 +1,7 @@
 
 import '../../index.dart';
 
-Post fakedata = Post("", UserDummy("", "", ""), "", [], 0, 0, 0, [], 0);
+Post fakedata = Post("", UserDummy("", "", ""), "", [], 0, 0, 0, [], 0, []);
 
 void countReply(Comment1 data, List<Comment1> listdata) {
   int count = 0;
