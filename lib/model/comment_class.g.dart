@@ -18,6 +18,9 @@ Comment1 _$Comment1FromJson(Map<String, dynamic> json) {
     (json['reply'] as List<dynamic>)
         .map((e) => Comment1.fromJson(e as Map<String, dynamic>))
         .toList(),
+    (json['reactions'] as List<dynamic>)
+        .map((e) => Reaction.fromJson(e as Map<String, dynamic>))
+        .toList(),
   );
 }
 
@@ -26,4 +29,5 @@ Map<String, dynamic> _$Comment1ToJson(Comment1 instance) => <String, dynamic>{
       'react': instance.react,
       'content': instance.content,
       'reply': instance.reply,
+      'reactions': instance.reactions,
     };

@@ -1,22 +1,27 @@
-import 'package:flutter/animation.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter_application_1/model/user_class.dart';
+import 'package:json_annotation/json_annotation.dart';
+part 'reaction_class.g.dart';
 
+// 0 : like
+// 1 : love
+// 2 : haha
+// 3 : wow
+// 4 : sad
+// 5 : angry
+
+@JsonSerializable()
 class Reaction {
-  final String key;
-  final AnimationController controller;
-  final Color color;
-  final Animation<double> animation;
+  Reaction(
+    this.user,
+    this.reaction
+  );
+  @JsonKey(required: true)
+  UserDummy user;
 
-  Reaction(this.key,
-      {required this.animation, required this.controller, required this.color});
+  @JsonKey(required: true)
+  int reaction;
+  
+  factory Reaction.fromJson(Map<String, dynamic> json) => _$ReactionFromJson(json);
 
-  String get gif => "assets/images/$key.gif";
-
-  String get png => "assets/images/$key.png";
-
-  String get text => key.substring(0, 1).toUpperCase() + key.substring(1);
-
-  TickerFuture reverse({double? from}) => controller.reverse(from: from);
-
-  TickerFuture forward({double? from}) => controller.forward(from: from);
+  Map<String, dynamic> toJson() => _$ReactionToJson(this);
 }

@@ -12,7 +12,7 @@ export './theme/themes.dart';
 export './utils/postlist.dart';
 export 'dart:convert';
 export 'firebase_options.dart';
-export 'model/reaction_class.dart';
+export 'model/buttonReaction_class.dart';
 export 'package:extended_nested_scroll_view/extended_nested_scroll_view.dart';
 export 'package:firebase_auth/firebase_auth.dart';
 export 'package:firebase_core/firebase_core.dart';

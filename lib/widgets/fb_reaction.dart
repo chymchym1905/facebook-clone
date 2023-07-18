@@ -25,7 +25,7 @@ class _FBFullReactionState extends State<FBFullReaction>
 
   //resouce
   List<Map> _news = [];
-  List<Reaction> _reactions = [];
+  List<ButtonReaction> _reactions = [];
   final Map<String, Color> _reactColors = {
     "like": blue,
     "love": Colors.red,
@@ -68,6 +68,7 @@ class _FBFullReactionState extends State<FBFullReaction>
     var reactDuration = const Duration(milliseconds: 1000);
     _reactCtr = AnimationController(vsync: this, duration: reactDuration);
     _reactAni = CurvedAnimation(parent: _reactCtr, curve: Curves.fastOutSlowIn);
+    
   }
 
   _initReactions() {
@@ -75,7 +76,7 @@ class _FBFullReactionState extends State<FBFullReaction>
       var duration = const Duration(milliseconds: 100);
       var ctrl = AnimationController(vsync: this, duration: duration);
       var ani = CurvedAnimation(parent: ctrl, curve: Curves.fastOutSlowIn);
-      return Reaction(_reactColors.keys.toList()[index],
+      return ButtonReaction(_reactColors.keys.toList()[index],
           color: _reactColors.values.toList()[index],
           controller: ctrl,
           animation: ani);
@@ -118,6 +119,7 @@ class _FBFullReactionState extends State<FBFullReaction>
     }
   }
 
+  
   @override
   Widget build(BuildContext context) {
     _setIcon();
@@ -165,13 +167,11 @@ class _FBFullReactionState extends State<FBFullReaction>
   createReactArea(BuildContext context){
     var globalOrigin = _newsPosition.globalPosition;
     var localOrigin = _newsPosition.localPosition;
-    double width = MediaQuery.of(context).size.width;
 
     var dy = globalOrigin.dy - localOrigin.dy - _reactBarBotMargin;
     dy = dy - _reactBarPadding;
     dy = dy - _reactMargin;
-    var wBar = reactSize * _reactions.length;
-    var x = (width - wBar) / 2.0;
+    double x = 10;
     tapPosition = Offset(x, dy);
 
     removeOverlay();
@@ -179,18 +179,15 @@ class _FBFullReactionState extends State<FBFullReaction>
     assert(overlayEntry == null);
 
     overlayEntry = OverlayEntry(builder: (context) => Positioned(
-      top: tapPosition.dy - 20,
+      top: tapPosition.dy-30,
       left: tapPosition.dx,
       child: ScaleTransition(
         scale: _newsAni,
         child: Stack(
           alignment: Alignment.topCenter,
           children: [
-            Positioned(
-              top: 22,
-              child: _buildReactBar(),
-            ),
-            _buildAnimatedReactBar(),
+            _buildReactBar(),
+            _buildAnimatedReactBar()
           ],
         ),
       ),
@@ -218,30 +215,34 @@ class _FBFullReactionState extends State<FBFullReaction>
           blurRadius: 24,
           spreadRadius: -12)
     ];
-    return Container(
-      margin: EdgeInsets.only(bottom: _reactBarBotMargin),
-      padding: EdgeInsets.all(_reactBarPadding),
-      decoration: BoxDecoration(
-        borderRadius: radius,
-        color: Colors.white,
-        boxShadow: shadow,
-      ),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 10),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: List.generate(_reactions.length, (index) {
-            return Padding(
-              padding: EdgeInsets.all(_reactMargin),
-              child: AnimatedBuilder(
-                  animation: _reactions[index].animation,
-                  builder: (context, _) {
-                    double scale = reactScale * _reactions[index].animation.value;
-                    double bigSize = _reactSize + _reactSize * scale;
-                    return SizedBox(height: _reactSize, width: bigSize);
-                  }),
-            );
-          }),
+
+    return Transform.translate(
+      offset: const Offset(0, 22),
+      child: Container(
+        margin: EdgeInsets.only(bottom: _reactBarBotMargin),
+        padding: EdgeInsets.all(_reactBarPadding),
+        decoration: BoxDecoration(
+          borderRadius: radius,
+          color: Colors.white,
+          boxShadow: shadow,
+        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: List.generate(_reactions.length, (index) {
+              return Padding(
+                padding: EdgeInsets.all(_reactMargin),
+                child: AnimatedBuilder(
+                    animation: _reactions[index].animation,
+                    builder: (context, _) {
+                      double scale = reactScale * _reactions[index].animation.value;
+                      double bigSize = _reactSize + _reactSize * scale;
+                      return SizedBox(height: _reactSize, width: bigSize);
+                    }),
+              );
+            }),
+          ),
         ),
       ),
     );
@@ -249,11 +250,8 @@ class _FBFullReactionState extends State<FBFullReaction>
 
   _buildAnimatedReactBar() {
     return Container(
-      margin: EdgeInsets.only(bottom: _reactBarBotMargin),
       padding: EdgeInsets.all(_reactBarPadding),
       child: Row(
-        // textDirection: ,
-        mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: List.generate(_reactions.length, (index) {
           return Padding(
@@ -266,60 +264,35 @@ class _FBFullReactionState extends State<FBFullReaction>
                 double animation = _reactions[index].animation.value;
                 double scale = reactScale * animation;
                 double bigSize = _reactSize + _reactSize * scale;
-                return Column(
-                  children: [
-                    ScaleTransition(
-                      scale: _reactions[index].animation,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 4),
-                        child: Material(
-                          color: Colors.black54,
-                          shape: const StadiumBorder(),
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 2, horizontal: 5),
-                            child: Text(
-                              text,
-                              style: const TextStyle(
-                                  color: Colors.white, fontSize: 10),
+                return Transform.translate(
+                  offset: Offset(0, bigSize > 32 ? -50 : 0),
+                  child: Column(
+                    children: [
+                      ScaleTransition(
+                        scale: _reactions[index].animation,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 4),
+                          child: Material(
+                            color: Colors.black54,
+                            shape: const StadiumBorder(),
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 2, horizontal: 5),
+                              child: Text(
+                                text,
+                                style: const TextStyle(
+                                    color: Colors.white, fontSize: 10),
+                              ),
                             ),
                           ),
-                        ),
-                      )
-                    ),
-                    Image.asset(gif, width: bigSize, height: bigSize),
-                  ],
+                        )
+                      ),
+                      Image.asset(gif, width: bigSize, height: bigSize),
+                    ],
+                  ),
                 );
               }
             ),
-            // child: Column(
-            //   children: [
-            //     ScaleTransition(
-            //       scale: _reactions[index].animation,
-            //       child: Padding(
-            //         padding: const EdgeInsets.symmetric(vertical: 4),
-            //         child: Material(
-            //           color: Colors.black54,
-            //           shape: const StadiumBorder(),
-            //           child: Padding(
-            //             padding: const EdgeInsets.symmetric(
-            //                 vertical: 2, horizontal: 5),
-            //             child: Text(
-            //               text,
-            //               style: const TextStyle(
-            //                   color: Colors.white, fontSize: 10),
-            //             ),
-            //           ),
-            //         ),
-            //       )
-            //     ),
-            //     AnimatedSize(
-            //       duration:  const Duration(milliseconds: 300),
-            //       curve: Curves.fastOutSlowIn,
-            //       child: Image.asset(gif, width: bigSize, height: bigSize)
-            //     )
-            //  ],
-            // ),
           );
         }),
       ),
@@ -337,7 +310,7 @@ class _FBFullReactionState extends State<FBFullReaction>
   }
 
   Widget _buildLikeButton(BuildContext context, int index) {
-    Reaction? reaction = _news[index]["reaction"];
+    ButtonReaction? reaction = _news[index]["reaction"];
     String text = "Like";
     Color textColor = Colors.grey;
     if (widget.data.reaction == 1) {
@@ -482,16 +455,16 @@ class _FBFullReactionState extends State<FBFullReaction>
   List<Rect> _generateRects(LongPressMoveUpdateDetails details) {
     var globalOrigin = _newsPosition.globalPosition;
     var localOrigin = _newsPosition.localPosition;
-    double width = MediaQuery.of(context).size.width;
+    // double width = MediaQuery.of(context).size.width;
 
     var dy = globalOrigin.dy - localOrigin.dy - _reactBarBotMargin;
     dy = dy - _reactBarPadding;
     dy = dy - _reactMargin;
 
     if (_reactSelected == -1) {
-      var wBar = reactSize * _reactions.length;
-      var x = (width - wBar) / 2.0;
-      Offset cursor = Offset(x, dy);
+      // var wBar = reactSize * _reactions.length;
+      // var x = (width - wBar) / 2.0;
+      Offset cursor = Offset(10, dy);
       return List.generate(_reactions.length, (index) {
         double size = reactSize;
 
@@ -502,9 +475,9 @@ class _FBFullReactionState extends State<FBFullReaction>
         return Rect.fromPoints(start, end);
       });
     } else {
-      var wBar = reactSize * _reactions.length + reactScale * reactSize;
-      var x = (width - wBar) / 2.0;
-      Offset cursor = Offset(x, dy);
+      // var wBar = reactSize * _reactions.length + reactScale * reactSize;
+      // var x = (width - wBar) / 2.0;
+      Offset cursor = Offset(10, dy);
       return List.generate(_reactions.length, (index) {
         double bigSize = (reactScale + 1) * reactSize;
         double size = index == _reactSelected ? bigSize : reactSize;

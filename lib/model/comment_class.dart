@@ -1,4 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:flutter_application_1/model/reaction_class.dart';
 import 'package:flutter_application_1/model/user_class.dart';
 import 'package:json_annotation/json_annotation.dart';
 part 'comment_class.g.dart';
@@ -13,7 +14,16 @@ class Comment1 {
   String content;
 
   List<Comment1> reply;
-  Comment1(this.user, this.react, this.content, this.reply);
+
+  List<Reaction> reactions;
+  
+  Comment1(
+    this.user, 
+    this.react, 
+    this.content, 
+    this.reply, 
+    this.reactions
+  );
 
   factory Comment1.fromJson(Map<String, dynamic> json) =>
       _$Comment1FromJson(json);

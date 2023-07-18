@@ -2,14 +2,18 @@
 import '../../index.dart';
 
 class ReplyButton extends StatelessWidget {
-  const ReplyButton({
+  const   ReplyButton({
     super.key, 
     required this.indexforreply1, 
     required this.indexforreply2, 
-    required this.myfocusNode
+    required this.myfocusNode, 
+    required this.flagReply, 
+    required this.flagReply2
   });
   final int indexforreply1;
   final int indexforreply2;
+  final bool flagReply;
+  final bool flagReply2;
   final FocusNode myfocusNode;
   @override
   Widget build(BuildContext context) {
@@ -17,26 +21,31 @@ class ReplyButton extends StatelessWidget {
       onPressed: () {
         IndexComment.flagReply = false;
         IndexComment.flagReply2 = true;
+         IndexComment.flagReply = flagReply;
+        IndexComment.flagReply2 = flagReply2;
         IndexComment.intdex = indexforreply1;
         IndexComment.intdex2 = indexforreply2;
         myfocusNode.requestFocus();
       },
-      style: ButtonStyle(
-        fixedSize: MaterialStateProperty.resolveWith(
-            (states) {
-          final textStyle = Theme.of(context)
-              .textTheme
-              .labelMedium!;
-          final textWidth = TextPainter(
-            text: TextSpan(
-                text: 'Reply', style: textStyle),
-            textDirection: TextDirection.ltr,
-          )..layout();
-          final textHeight = textWidth.size.height;
+      // style: ButtonStyle(
+      //   fixedSize:
+      //       MaterialStateProperty.resolveWith((states) {
+      //     final textStyle =
+      //         Theme.of(context).textTheme.labelMedium!;
+      //     final textWidth = TextPainter(
+      //       text:
+      //           TextSpan(text: 'Reply', style: textStyle),
+      //       textDirection: TextDirection.ltr,
+      //     )..layout();
+      //     final textHeight = textWidth.size.height;
 
-          return Size(
-              textWidth.size.width, textHeight);
-        }),
+      //     return Size(textWidth.size.width, textHeight);
+      //   }),
+      // ),
+      style: TextButton.styleFrom(
+        padding: const EdgeInsets.only(left: 10),
+        minimumSize: Size.zero,
+        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
       ),
       child: Text('Reply',
           style: Theme.of(context)
