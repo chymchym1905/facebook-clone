@@ -1,3 +1,4 @@
+import 'package:flutter_application_1/model/reaction_class.dart';
 import 'package:flutter_application_1/screens/Authentication_pages/forgotpasswordscreen.dart';
 import 'package:flutter_application_1/screens/Gallery_view_pages/galleryview.dart';
 
@@ -42,6 +43,10 @@ class RouteGenerator {
                 initialIndex: arg.initialIndex,
                 data: arg.data,
                 isPostpage: arg.isPostpage));
+      case '/viewreaction':
+        if (args is List<Reaction>) {
+          return MaterialPageRoute(builder: (_) =>  ReactionPage(reactions: args,));
+        }
       default:
         return _errorRoute();
     }

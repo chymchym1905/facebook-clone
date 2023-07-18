@@ -5,10 +5,12 @@ class FBFullReaction extends StatefulWidget {
       {Key? key,
       required this.data,
       this.reloadState, 
+      this.comment, 
   })
       : super(key: key);
   final Post data;
   final Function(Post)? reloadState;
+  final Comment1? comment;
 
 
   @override
@@ -22,7 +24,6 @@ class _FBFullReactionState extends State<FBFullReaction>
   final double _reactBarBotMargin = 44;
   final double _reactBarPadding = 4;
   Offset tapPosition = const Offset(0, 0);
-
   //resouce
   List<Map> _news = [];
   List<ButtonReaction> _reactions = [];

@@ -1,17 +1,21 @@
-import '../../index.dart';
+import 'package:flutter_application_1/model/reaction_class.dart';
+
+import '../index.dart';
 
 class ReactionPage extends StatefulWidget {
-  const ReactionPage({super.key, required this.data});
-  final Post data;
+  const ReactionPage({super.key, required this.reactions});
+  final List<Reaction> reactions;
 
   @override
   State<ReactionPage> createState() => _ReactionPageState();
 }
 
+
+
 class _ReactionPageState extends State<ReactionPage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+   return Scaffold(
       backgroundColor: themeManager.themeMode == dark
           ? const Color.fromARGB(255, 38, 38, 38)
           : Colors.white,

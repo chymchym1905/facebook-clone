@@ -32,36 +32,35 @@ class _PostsState extends State<Posts> {
     // AppDataProvider.of(context).updateCallback = (Post p) => updateState(p);
 
     return Padding(
-        padding: const EdgeInsets.only(top: 8.0),
-        child: Card(
-          elevation: 0,
-          margin: EdgeInsets.zero,
-          color: themeManager.themeMode == dark ? lightdark : whitee,
-          child: Column(
-            children: [
-              // FBFullReaction(
-              //     reloadState: updateState, data: widget.data, controlContent: 0),
-              NameBar(
-                  data: widget.data,
-                  reloadState: updateState,
-                  isPostpage: true),
-              Caption(
-                reloadState: updateState,
+      padding: const EdgeInsets.only(top: 8.0),
+      child: Card(
+        elevation: 0,
+        margin: EdgeInsets.zero,
+        color: themeManager.themeMode == dark ? lightdark : whitee,
+        child: Column(
+          children: [
+            NameBar(
                 data: widget.data,
-                isPostpage: true,
-              ),
-              if (widget.data.imageurl != []) ImageBox(data: widget.data),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  FBFullReaction(data: widget.data, reloadState: updateState),
-                  CommentButtonModal(data: widget.data),
-                  ShareButton(data: widget.data),
-                ],
-              ),
-            ],
-          ),
-        ));
+                reloadState: updateState,
+                isPostpage: true),
+            Caption(
+              reloadState: updateState,
+              data: widget.data,
+              isPostpage: true,
+            ),
+            if (widget.data.imageurl != []) ImageBox(data: widget.data),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                FBFullReaction(data: widget.data, reloadState: updateState),
+                CommentButtonModal(data: widget.data),
+                ShareButton(data: widget.data),
+              ],
+            ),
+          ],
+        ),
+      )
+    );
   }
 }
 

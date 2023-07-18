@@ -42,3 +42,4 @@ export 'widgets/grid_image_views.dart';
 export './widgets/imagebox.dart';
 export 'package:get/get.dart';
 export 'routesettings.dart';
+export './utils/view_reaction_page.dart';
