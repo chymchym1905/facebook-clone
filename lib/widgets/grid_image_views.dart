@@ -144,8 +144,9 @@ class ImageTile extends StatelessWidget {
           imageUrl: src,
           fadeOutDuration: const Duration(milliseconds: 500),
           fadeInDuration: const Duration(milliseconds: 500),
-          // progressIndicatorBuilder: (context, url, downloadProgress) => Center(
-          //     child: CircularProgressIndicator(value: downloadProgress.progress)),
+          progressIndicatorBuilder: (context, url, downloadProgress) => Center(
+              child:
+                  CircularProgressIndicator(value: downloadProgress.progress)),
           errorWidget: (context, url, error) => const Icon(Icons.error),
         ),
       );
