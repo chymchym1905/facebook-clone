@@ -1,6 +1,7 @@
 import 'package:flutter_application_1/model/user_class.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'comment_class.dart';
+import 'reaction_class.dart';
 part 'post_class.g.dart';
 
 // class Visibility{}
@@ -10,18 +11,17 @@ part 'post_class.g.dart';
 @JsonSerializable()
 class Post {
   Post(
-    this.id,
-    this.user,
-    this.caption,
-    // this.visibility,
-    this.imageurl,
-    this.likes,
-    this.comments,
-    this.shares,
-    this.comment,
-    this.reaction,
-    this.reactions
-  );
+      this.id,
+      this.user,
+      this.caption,
+      // this.visibility,
+      this.imageurl,
+      this.likes,
+      this.comments,
+      this.shares,
+      this.comment,
+      this.reaction,
+      this.reactions);
   @JsonKey(required: true)
   String id;
   @JsonKey(required: true)
@@ -33,10 +33,9 @@ class Post {
   // Visibility visibility;
   List<String> imageurl;
   @JsonKey(required: true)
-  
   int reaction;
 
-  List<int> reactions;
+  List<Reaction> reactions;
 
   int? likes;
 
@@ -45,7 +44,7 @@ class Post {
   int? shares;
 
   List<Comment1> comment;
-  
+
   factory Post.fromJson(Map<String, dynamic> json) => _$PostFromJson(json);
 
   /// `toJson` is the convention for a class to declare support for serialization
