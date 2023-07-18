@@ -23,7 +23,7 @@ class GalleryViewPage extends StatefulWidget {
 class _GalleryViewPageState extends State<GalleryViewPage>
     with SingleTickerProviderStateMixin {
   late int currentIndex;
-  bool _visible = true;
+  bool _visible = false;
   late AutoScrollController autoScrollController;
   bool notClickBelow = true;
   @override
@@ -103,33 +103,46 @@ class _GalleryViewPageState extends State<GalleryViewPage>
             duration: Duration(milliseconds: 300),
             opacity: _visible ? 1 : 0,
             child: Container(
+              padding: EdgeInsets.only(bottom: 5),
               height: 100,
               width: double.infinity,
-              child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  controller: autoScrollController,
-                  itemCount: widget.data.imageurl.length,
-                  itemBuilder: (context, index) {
-                    return AutoScrollTag(
-                      key: ValueKey(index),
-                      controller: autoScrollController,
-                      index: index,
-                      child: GestureDetector(
-                        onTap: () async {
-                          notClickBelow = false;
-                          await autoScrollController.scrollToIndex(index,
-                              preferPosition: AutoScrollPosition.middle);
-                          await widget.pageController.animateToPage(index,
-                              duration: const Duration(milliseconds: 100),
-                              curve: Curves.easeInOut);
-                          notClickBelow = true;
-                        },
-                        child: Card(
-                            child: CachedNetworkImage(
-                                imageUrl: widget.data.imageurl[index])),
-                      ),
-                    );
-                  }),
+              child: AbsorbPointer(
+                absorbing: _visible,
+                child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    controller: autoScrollController,
+                    itemCount: widget.data.imageurl.length,
+                    itemBuilder: (context, index) {
+                      return AutoScrollTag(
+                        key: ValueKey(index),
+                        controller: autoScrollController,
+                        index: index,
+                        child: GestureDetector(
+                          onTap: () async {
+                            notClickBelow = false;
+                            await autoScrollController.scrollToIndex(index,
+                                preferPosition: AutoScrollPosition.middle);
+                            await widget.pageController.animateToPage(index,
+                                duration: const Duration(milliseconds: 100),
+                                curve: Curves.easeInOut);
+                            notClickBelow = true;
+                          },
+                          child: Card(
+                              clipBehavior: Clip.hardEdge,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(
+                                    10.0), // Set the border radius
+                                side: const BorderSide(
+                                    width: 2,
+                                    color: Colors
+                                        .white), // Set the border width and color
+                              ),
+                              child: CachedNetworkImage(
+                                  imageUrl: widget.data.imageurl[index])),
+                        ),
+                      );
+                    }),
+              ),
             ),
           )
         ],
