@@ -23,6 +23,7 @@ Post _$PostFromJson(Map<String, dynamic> json) {
         .map((e) => Comment1.fromJson(e as Map<String, dynamic>))
         .toList(),
     json['reaction'] as int,
+    (json['reactions'] as List<dynamic>).map((e) => e as int).toList(),
   );
 }
 
@@ -32,6 +33,7 @@ Map<String, dynamic> _$PostToJson(Post instance) => <String, dynamic>{
       'caption': instance.caption,
       'imageurl': instance.imageurl,
       'reaction': instance.reaction,
+      'reactions': instance.reactions,
       'likes': instance.likes,
       'comments': instance.comments,
       'shares': instance.shares,
