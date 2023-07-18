@@ -42,14 +42,24 @@ class _ImageBoxState extends State<ImageBox>
               if (snapshot.data!.width >= snapshot.data!.height) {
                 return twoItem(widget.data);
               }
-              return twoItemRevert(widget.data);
+              return twoItemVertical(widget.data);
             } else if (widget.data.imageurl.length == 3) {
               return threeItem(widget.data);
-            } else {
+            } else if (widget.data.imageurl.length == 4) {
               if (snapshot.data!.width >= snapshot.data!.height) {
                 return fourItem(widget.data);
               }
               return fourItem2(widget.data);
+            } else if (widget.data.imageurl.length == 5) {
+              if (snapshot.data!.width >= snapshot.data!.height) {
+                return fiveItemVertical(widget.data);
+              }
+              return fiveItemHorizontal(widget.data);
+            } else {
+              if (snapshot.data!.width >= snapshot.data!.height) {
+                return batchImages(widget.data, context);
+              }
+              return batchImagesHorizontal(widget.data, context);
             }
           } else {
             return const LoadingIndicator();

@@ -32,7 +32,7 @@ Widget twoItem(Post data) => StaggeredGrid.count(
                   src: e, height: 200, width: 200, index: index, data: data))),
         ]);
 
-Widget twoItemRevert(Post data) => StaggeredGrid.count(
+Widget twoItemVertical(Post data) => StaggeredGrid.count(
         crossAxisCount: 2,
         axisDirection: AxisDirection.down,
         mainAxisSpacing: 4,
@@ -107,6 +107,196 @@ Widget fourItem2(Post data) => StaggeredGrid.count(
           })
         ]);
 
+Widget fiveItemHorizontal(Post data) => StaggeredGrid.count(
+      crossAxisCount: 6,
+      mainAxisSpacing: 4,
+      crossAxisSpacing: 4,
+      children: [
+        ...data.imageurl.mapIndexed((index, element) {
+          if (index == 1 || index == 2) {
+            return StaggeredGridTile.count(
+                crossAxisCellCount: 3,
+                mainAxisCellCount: 1.5,
+                child: ImageTile(
+                  data: data,
+                  src: element,
+                  index: index,
+                  width: 100,
+                  height: 100,
+                ));
+          } else {
+            return StaggeredGridTile.count(
+                crossAxisCellCount: 2,
+                mainAxisCellCount: 1,
+                child: ImageTile(
+                  data: data,
+                  src: element,
+                  index: index,
+                  width: 100,
+                  height: 100,
+                ));
+          }
+        })
+      ],
+    );
+
+Widget fiveItemVertical(Post data) => StaggeredGrid.count(
+      axisDirection: AxisDirection.down,
+      crossAxisCount: 6,
+      mainAxisSpacing: 4,
+      crossAxisSpacing: 4,
+      children: [
+        ...data.imageurl.mapIndexed((index, element) {
+          if (index == 1 || index == 2) {
+            return StaggeredGridTile.count(
+                crossAxisCellCount: 3,
+                mainAxisCellCount: 1.5,
+                child: ImageTile(
+                  data: data,
+                  src: element,
+                  index: index,
+                  width: 100,
+                  height: 100,
+                ));
+          } else {
+            return StaggeredGridTile.count(
+                crossAxisCellCount: 2,
+                mainAxisCellCount: 1,
+                child: ImageTile(
+                  data: data,
+                  src: element,
+                  index: index,
+                  width: 100,
+                  height: 100,
+                ));
+          }
+        })
+      ],
+    );
+
+Widget batchImages(Post data, BuildContext context) => StaggeredGrid.count(
+        // axisDirection: AxisDirection.down,
+        crossAxisCount: 2,
+        mainAxisSpacing: 4,
+        crossAxisSpacing: 4,
+        children: [
+          ...data.imageurl.mapIndexed((index, element) {
+            if (index == 0 || index == 3) {
+              return StaggeredGridTile.count(
+                  crossAxisCellCount: 1,
+                  mainAxisCellCount: 1.5,
+                  child: ImageTile(
+                      data: data,
+                      src: element,
+                      index: index,
+                      width: 100,
+                      height: 100));
+            } else if (index == 1 || index == 2) {
+              return StaggeredGridTile.count(
+                  crossAxisCellCount: 1,
+                  mainAxisCellCount: 1,
+                  child: ImageTile(
+                      data: data,
+                      src: element,
+                      index: index,
+                      width: 100,
+                      height: 100));
+            } else if (index == 4) {
+              return StaggeredGridTile.count(
+                  crossAxisCellCount: 1,
+                  mainAxisCellCount: 1,
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).pushNamed('/gallery',
+                          arguments: GalleryViewPage(
+                              data: data,
+                              initialIndex: index,
+                              isPostpage: false));
+                    },
+                    child: Stack(fit: StackFit.expand, children: [
+                      ImageTile(
+                          data: data,
+                          index: index,
+                          width: 100,
+                          height: 100,
+                          src: element),
+                      Container(
+                        alignment: Alignment.center,
+                        color: Color.fromRGBO(0, 0, 0, 0.214),
+                        child: Text('+ ${data.imageurl.length - 5}',
+                            style: TextStyle(
+                                fontSize: 40,
+                                color: Color.fromARGB(194, 255, 255, 255))),
+                      )
+                    ]),
+                  ));
+            }
+            return const SizedBox(height: 0, width: 0);
+          })
+        ]);
+
+Widget batchImagesHorizontal(Post data, BuildContext context) =>
+    StaggeredGrid.count(
+        // axisDirection: AxisDirection.down,
+        crossAxisCount: 6,
+        mainAxisSpacing: 4,
+        crossAxisSpacing: 4,
+        children: [
+          ...data.imageurl.mapIndexed((index, element) {
+            if (index == 0 || index == 1) {
+              return StaggeredGridTile.count(
+                  crossAxisCellCount: 3,
+                  mainAxisCellCount: 2,
+                  child: ImageTile(
+                      data: data,
+                      src: element,
+                      index: index,
+                      width: 100,
+                      height: 100));
+            } else if (index == 2 || index == 3) {
+              return StaggeredGridTile.count(
+                  crossAxisCellCount: 2,
+                  mainAxisCellCount: 2,
+                  child: ImageTile(
+                      data: data,
+                      src: element,
+                      index: index,
+                      width: 100,
+                      height: 100));
+            } else if (index == 4) {
+              return StaggeredGridTile.count(
+                  crossAxisCellCount: 2,
+                  mainAxisCellCount: 2,
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).pushNamed('/gallery',
+                          arguments: GalleryViewPage(
+                              data: data,
+                              initialIndex: index,
+                              isPostpage: false));
+                    },
+                    child: Stack(fit: StackFit.expand, children: [
+                      ImageTile(
+                          data: data,
+                          index: index,
+                          width: 100,
+                          height: 100,
+                          src: element),
+                      Container(
+                        alignment: Alignment.center,
+                        color: Color.fromRGBO(0, 0, 0, 0.214),
+                        child: Text('+ ${data.imageurl.length - 5}',
+                            style: TextStyle(
+                                fontSize: 40,
+                                color: Color.fromARGB(194, 255, 255, 255))),
+                      )
+                    ]),
+                  ));
+            }
+            return const SizedBox(height: 0, width: 0);
+          })
+        ]);
+
 class ImageTile extends StatelessWidget {
   const ImageTile({
     Key? key,
@@ -124,33 +314,30 @@ class ImageTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Builder(builder: (context) {
-      return GestureDetector(
-        onTap: () {
-          // print(ModalRoute.of(context)!.currentResult);
-          Navigator.of(context).pushNamed('/gallery',
-              arguments: GalleryViewPage(
-                  data: data, initialIndex: index, isPostpage: false));
-          // Get.to(GalleryViewPage(
-          //     data: data, initialIndex: index, isPostpage: false));
-          // GalleryViewPage(data: data, initialIndex: index, isPostpage: false)
-          //     .launch(context)
-          //     .then((value) {
-          //   if (value != null) print(value);
-          // });
-        },
-        child: CachedNetworkImage(
-          fit: BoxFit.cover,
-          imageUrl: src,
-          fadeOutDuration: const Duration(milliseconds: 500),
-          fadeInDuration: const Duration(milliseconds: 500),
-          progressIndicatorBuilder: (context, url, downloadProgress) => Center(
-              child:
-                  CircularProgressIndicator(value: downloadProgress.progress)),
-          errorWidget: (context, url, error) => const Icon(Icons.error),
-        ),
-      );
-    });
+    return GestureDetector(
+      onTap: () {
+        // print(ModalRoute.of(context)!.currentResult);
+        Navigator.of(context).pushNamed('/gallery',
+            arguments: GalleryViewPage(
+                data: data, initialIndex: index, isPostpage: false));
+        // Get.to(GalleryViewPage(
+        //     data: data, initialIndex: index, isPostpage: false));
+        // GalleryViewPage(data: data, initialIndex: index, isPostpage: false)
+        //     .launch(context)
+        //     .then((value) {
+        //   if (value != null) print(value);
+        // });
+      },
+      child: CachedNetworkImage(
+        fit: BoxFit.cover,
+        imageUrl: src,
+        fadeOutDuration: const Duration(milliseconds: 500),
+        fadeInDuration: const Duration(milliseconds: 500),
+        progressIndicatorBuilder: (context, url, downloadProgress) => Center(
+            child: CircularProgressIndicator(value: downloadProgress.progress)),
+        errorWidget: (context, url, error) => const Icon(Icons.error),
+      ),
+    );
   }
 }
 
