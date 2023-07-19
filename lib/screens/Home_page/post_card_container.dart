@@ -39,8 +39,6 @@ class _PostsState extends State<Posts> {
           color: themeManager.themeMode == dark ? lightdark : whitee,
           child: Column(
             children: [
-              // FBFullReaction(
-              //     reloadState: updateState, data: widget.data, controlContent: 0),
               NameBar(
                   data: widget.data,
                   reloadState: updateState,
@@ -50,7 +48,13 @@ class _PostsState extends State<Posts> {
                 data: widget.data,
                 isPostpage: true,
               ),
-              if (widget.data.imageurl != []) ImageBox(data: widget.data),
+              if (widget.data.imageurl.isNotEmpty) ImageBox(data: widget.data),
+              Container(
+                  decoration: const BoxDecoration(
+                      border: Border(
+                          bottom: BorderSide(color: Colors.grey, width: 0.2))),
+                  height: 1,
+                  width: MediaQuery.of(context).size.width * 0.9),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [

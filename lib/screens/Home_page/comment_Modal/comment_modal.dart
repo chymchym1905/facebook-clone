@@ -1,5 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import '../../../index.dart';
+import 'display_react.dart';
 
 UserDummy? instantUser = UserDummy(
     "1905",
@@ -62,8 +63,13 @@ class _CommentModalState extends State<CommentModal>
     final isKeyboard = MediaQuery.of(context).viewInsets.bottom != 0;
     return Column(
       children: [
-        Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-          Container(
+        Row(
+          // mainAxisAlignment: MainAxisAlignment.end, 
+          children: [
+            Expanded(
+              child: DisplayReact(data: widget.data.reactions)
+            ),
+            Container(
               padding: const EdgeInsets.only(right: 20),
               child: IconButton(
                 onPressed: () {
@@ -73,7 +79,8 @@ class _CommentModalState extends State<CommentModal>
                 },
                 icon: Icon(Icons.thumb_up_off_alt,
                     color: isLike ? const Facebook.blue().color : Colors.grey),
-              )),
+              )
+            ),
         ]),
         Expanded(
           child: CommentSection(

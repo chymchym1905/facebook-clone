@@ -150,7 +150,15 @@ class _PostPageState extends State<Postpage>
                     data: widget.data,
                     isPostpage: false,
                   ),
-                  if (widget.data.imageurl != []) ImageBox(data: widget.data),
+                  if (widget.data.imageurl.isNotEmpty)
+                    ImageBox(data: widget.data),
+                  Container(
+                      decoration: const BoxDecoration(
+                          border: Border(
+                              bottom:
+                                  BorderSide(color: Colors.grey, width: 0.2))),
+                      height: 1,
+                      width: MediaQuery.of(context).size.width * 0.9),
                   buttonSection,
                   iconSection,
                   CommentSection(

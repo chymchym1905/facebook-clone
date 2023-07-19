@@ -5,9 +5,11 @@ class FBFullReaction extends StatefulWidget {
     Key? key,
     required this.data,
     this.reloadState,
+    this.comment,
   }) : super(key: key);
   final Post data;
   final Function(Post)? reloadState;
+  final Comment1? comment;
 
   @override
   State<FBFullReaction> createState() => _FBFullReactionState();
@@ -20,7 +22,6 @@ class _FBFullReactionState extends State<FBFullReaction>
   final double _reactBarBotMargin = 44;
   final double _reactBarPadding = 4;
   Offset tapPosition = const Offset(0, 0);
-
   //resouce
   List<Map> _news = [];
   List<ButtonReaction> _reactions = [];
@@ -462,7 +463,7 @@ class _FBFullReactionState extends State<FBFullReaction>
     if (_reactSelected == -1) {
       // var wBar = reactSize * _reactions.length;
       // var x = (width - wBar) / 2.0;
-      Offset cursor = Offset(10, dy);
+      Offset cursor = Offset(10, dy - 60);
       return List.generate(_reactions.length, (index) {
         double size = reactSize;
 
@@ -475,7 +476,7 @@ class _FBFullReactionState extends State<FBFullReaction>
     } else {
       // var wBar = reactSize * _reactions.length + reactScale * reactSize;
       // var x = (width - wBar) / 2.0;
-      Offset cursor = Offset(10, dy);
+      Offset cursor = Offset(10, dy - 30);
       return List.generate(_reactions.length, (index) {
         double bigSize = (reactScale + 1) * reactSize;
         double size = index == _reactSelected ? bigSize : reactSize;

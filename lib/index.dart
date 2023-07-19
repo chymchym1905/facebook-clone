@@ -43,6 +43,7 @@ export './widgets/imagebox.dart';
 export 'package:get/get.dart';
 export 'package:cloud_firestore/cloud_firestore.dart';
 export 'routesettings.dart';
+export './utils/view_reaction_page.dart';
 export 'database.dart';
 export 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 export 'utils/commons.dart';
