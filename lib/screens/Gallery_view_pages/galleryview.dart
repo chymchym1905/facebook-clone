@@ -107,7 +107,7 @@ class _GalleryViewPageState extends State<GalleryViewPage>
               height: 100,
               width: double.infinity,
               child: AbsorbPointer(
-                absorbing: _visible,
+                absorbing: !_visible,
                 child: ListView.builder(
                     scrollDirection: Axis.horizontal,
                     controller: autoScrollController,

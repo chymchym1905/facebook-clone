@@ -465,12 +465,12 @@ class _FBFullReactionState extends State<FBFullReaction>
     if (_reactSelected == -1) {
       // var wBar = reactSize * _reactions.length;
       // var x = (width - wBar) / 2.0;
-      Offset cursor = Offset(10, dy);
+      Offset cursor = Offset(10, dy-60);
       return List.generate(_reactions.length, (index) {
         double size = reactSize;
 
         Offset start = cursor;
-        Offset end = start + Offset(size, size);
+        Offset end = start + Offset(size, size+200);
         cursor = cursor + Offset(size, 0);
 
         return Rect.fromPoints(start, end);
@@ -478,13 +478,13 @@ class _FBFullReactionState extends State<FBFullReaction>
     } else {
       // var wBar = reactSize * _reactions.length + reactScale * reactSize;
       // var x = (width - wBar) / 2.0;
-      Offset cursor = Offset(10, dy);
+      Offset cursor = Offset(10, dy-30);
       return List.generate(_reactions.length, (index) {
         double bigSize = (reactScale + 1) * reactSize;
         double size = index == _reactSelected ? bigSize : reactSize;
 
         Offset start = cursor - Offset(0, size - reactSize);
-        Offset end = start + Offset(size, size);
+        Offset end = start + Offset(size, size+100);
         cursor = cursor + Offset(size, 0);
 
         return Rect.fromPoints(start, end);

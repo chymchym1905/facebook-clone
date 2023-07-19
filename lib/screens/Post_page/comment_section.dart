@@ -1,4 +1,6 @@
 
+import 'package:flutter_application_1/screens/Home_page/comment_Modal/display_react.dart';
+
 import '../../index.dart';
 
 Post fakedata = Post("", UserDummy("", "", ""), "", [], 0, 0, 0, [], 0, []);
@@ -155,17 +157,24 @@ class _CommentSectionState extends State<CommentSection> {
                       padding: const EdgeInsets.only(top: 4),
                       child: Row(
                         children: [
-                          const SizedBox(
-                            width: 8,
+                          Expanded(
+                            child: Row(
+                              children: [
+                                const SizedBox(
+                                  width: 8,
+                                ),
+                                FBFullReaction(data: fakedata),
+                                ReplyButton(
+                                  indexforreply1: index, 
+                                  indexforreply2: -1, 
+                                  myfocusNode: widget.myfocusNode, 
+                                  flagReply: true, 
+                                  flagReply2: false
+                                ),
+                              ],
+                            ),
                           ),
-                          FBFullReaction(data: fakedata),
-                          ReplyButton(
-                            indexforreply1: index, 
-                            indexforreply2: -1, 
-                            myfocusNode: widget.myfocusNode, 
-                            flagReply: true, 
-                            flagReply2: false
-                          )
+                          DisplayReact(data: widget.data[index].reactions)
                         ],
                       ),
                     ),

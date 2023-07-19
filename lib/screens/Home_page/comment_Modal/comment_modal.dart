@@ -1,8 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:fluttericon/mfg_labs_icons.dart';
-
 import '../../../index.dart';
-import '../../../utils/count_react.dart';
+import 'display_react.dart';
 
 UserDummy instantUser = UserDummy("1905", "chymchym",
     "https://images-ext-1.discordapp.net/external/83wYKef0YpM6goED9-quM6SXFOKhWDKy80KMmlQcSxI/https/pbs.twimg.com/media/FzSxbZfaUAAVGeu.jpg?width=376&height=670");
@@ -60,74 +58,13 @@ class _CommentModalState extends State<CommentModal>
   @override
   Widget build(BuildContext context) {
     final isKeyboard = MediaQuery.of(context).viewInsets.bottom != 0;
-    List<int> listreact = List.filled(6, 0);
-    countReact(widget.data.reactions, listreact);
-    int totalReact = 0;
-    int firsticon = 0;
-    int secondicon = 0;
-    for(int i = 0; i < listreact.length; i++){
-      totalReact += listreact[i];
-      if(listreact[i] > firsticon){
-        secondicon = firsticon;
-        firsticon = i;
-      }
-    }
-    List<String> iconlist = [
-      "like", ///0
-      "love", ///1
-      "haha", ///2
-      "wow",  ///3
-      "sad",  ///4
-      "angry" ///5
-    ];
-    
     return Column(
       children: [
         Row(
           // mainAxisAlignment: MainAxisAlignment.end, 
           children: [
             Expanded(
-              child: TextButton(
-                onPressed: () {
-                  Navigator.of(context).pushNamed('/viewreaction',arguments: widget.data.reactions);
-                },
-                child: Row(
-                  children: [
-                    Stack(
-                      children: [
-                        if(firsticon == 0)...[
-                          Image.asset(
-                            "assets/images/${iconlist[secondicon]}.png",
-                            
-                          )
-                        ] else if (secondicon == 0) ...[
-                           Image.asset("assets/images/${iconlist[firsticon]}.png")
-                        ] else ...[
-                          Image.asset("assets/images/${iconlist[secondicon]}.png"),
-                          Image.asset("assets/images/${iconlist[firsticon]}.png")
-                        ]
-                      ],
-                    ),
-                    Text(
-                      '$totalReact',
-                       style: Theme.of(context)
-                                .textTheme
-                                .titleMedium
-                                ?.copyWith(fontWeight: FontWeight.w300)
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 5),
-                      child: Icon(
-                        size: MediaQuery.of(context).size.width * 0.05,
-                        MfgLabs.right_open,
-                        color: themeManager.themeMode == dark
-                          ? const Color.fromARGB(255, 234, 236, 238)
-                          : const Color.fromARGB(255, 58, 59, 60),
-                      ),
-                    ),
-                  ],
-                )
-              )
+              child: DisplayReact(data: widget.data.reactions)
             ),
             Container(
               padding: const EdgeInsets.only(right: 20),
