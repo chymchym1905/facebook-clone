@@ -1,9 +1,10 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:audioplayers/audioplayers.dart';
+// import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_sound/flutter_sound.dart';
 import 'package:path_provider/path_provider.dart';
 
 class FbReactionBox extends StatelessWidget {
@@ -28,7 +29,7 @@ class FbReaction extends StatefulWidget {
 }
 
 class FbReactionState extends State<FbReaction> with TickerProviderStateMixin {
-  late AudioPlayer audioPlayer;
+  late FlutterSoundPlayer audioPlayer;
 
   int durationAnimationBox = 500;
   int durationAnimationBtnLongPress = 150;
@@ -98,7 +99,7 @@ class FbReactionState extends State<FbReaction> with TickerProviderStateMixin {
   void initState() {
     super.initState();
 
-    audioPlayer = AudioPlayer();
+    audioPlayer = FlutterSoundPlayer();
 
     // Button Like
     initAnimationBtnLike();
@@ -1293,10 +1294,10 @@ class FbReactionState extends State<FbReaction> with TickerProviderStateMixin {
 
   Future playSound(String nameSound) async {
     // Sometimes multiple sound will play the same time, so we'll stop all before play the newest
-    await audioPlayer.stop();
+    await audioPlayer.closePlayer();
     final file = File('${(await getTemporaryDirectory()).path}/$nameSound');
     await file.writeAsBytes((await loadAsset(nameSound)).buffer.asUint8List());
-    await audioPlayer.play(file.path, isLocal: true);
+    await audioPlayer.startPlayer();
   }
 
   Future loadAsset(String nameSound) async {

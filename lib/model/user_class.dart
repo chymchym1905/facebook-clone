@@ -9,8 +9,10 @@ class UserDummy {
   String id;
   String name;
   String imageurl;
+  DateTime createAt = DateTime.now();
 
-  factory UserDummy.fromJson(Map<String, dynamic> json) => _$UserDummyFromJson(json);
+  factory UserDummy.fromJson(Map<String, dynamic> json) =>
+      _$UserDummyFromJson(json);
 
   /// `toJson` is the convention for a class to declare support for serialization
   /// to JSON. The implementation simply calls the private, generated
