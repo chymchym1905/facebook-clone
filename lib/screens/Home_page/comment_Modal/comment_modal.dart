@@ -2,13 +2,16 @@
 import '../../../index.dart';
 import 'display_react.dart';
 
-UserDummy instantUser = UserDummy("1905", "chymchym",
-    "https://images-ext-1.discordapp.net/external/83wYKef0YpM6goED9-quM6SXFOKhWDKy80KMmlQcSxI/https/pbs.twimg.com/media/FzSxbZfaUAAVGeu.jpg?width=376&height=670");
+UserDummy? instantUser = UserDummy(
+    "1905",
+    "chymchym",
+    "https://images-ext-1.discordapp.net/external/83wYKef0YpM6goED9-quM6SXFOKhWDKy80KMmlQcSxI/https/pbs.twimg.com/media/FzSxbZfaUAAVGeu.jpg?width=376&height=670",
+    DateTime.timestamp());
 
 class CommentModal extends StatefulWidget {
   const CommentModal({
     Key? key,
-    required this.data, 
+    required this.data,
   }) : super(key: key);
   final Post data;
   @override
@@ -25,7 +28,7 @@ class _CommentModalState extends State<CommentModal>
     super.initState();
     WidgetsBinding.instance.addObserver(this);
     textController = TextEditingController();
-    for(int i = 0; i < widget.data.comment.length; i++){
+    for (int i = 0; i < widget.data.comment.length; i++) {
       controlViewMoreComment.add(true);
     }
   }
@@ -96,7 +99,7 @@ class _CommentModalState extends State<CommentModal>
               myfocusNode: AppDataProvider.of(context).commentModal,
               isKeyboard: isKeyboard,
               myController: textController,
-              instantUser: instantUser,
+              instantUser: currUser!,
               controlViewMoreComment: controlViewMoreComment,
               setViewMoreComment: setViewMoreComment,
             ),

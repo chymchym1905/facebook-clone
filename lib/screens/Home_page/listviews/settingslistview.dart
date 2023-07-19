@@ -20,6 +20,14 @@ class SettingListView extends StatelessWidget {
           height: 8,
         ),
         InkWell(
+            onTap: () {},
+            child: Ink(
+              color: themeManager.themeMode == dark
+                  ? lightdark
+                  : const Color.fromARGB(235, 255, 255, 255),
+              child: const ListElement(icon: Iconic.user, text: 'Profile'),
+            )),
+        InkWell(
             onTap: () => signOut(),
             child: Ink(
               color: themeManager.themeMode == dark

@@ -35,7 +35,6 @@ dependencies:
   flutter_brand_palettes: ^0.5.1
   font_awesome_flutter: ^10.4.0
   path_provider: ^2.0.11
-  audioplayers: ^4.1.0
   comment_tree: ^0.3.0
   fluttericon: ^2.0.0
   shared_preferences: ^2.1.2
@@ -53,6 +52,8 @@ dependencies:
   nb_utils: ^6.0.0
   get: ^4.6.5
   indexed: ^0.0.8
+  flutter_sound: ^9.2.13
+  flutter_keyboard_visibility: ^5.4.1
 
 dev_dependencies:
   flutter_test:

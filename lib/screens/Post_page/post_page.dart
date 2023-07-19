@@ -26,8 +26,8 @@ class _PostPageState extends State<Postpage>
     with WidgetsBindingObserver, AutomaticKeepAliveClientMixin {
   // final myfocusNode = FocusNode();
   late TextEditingController textController;
-  UserDummy instantUser =
-      UserDummy("2002", "Danny", "http://loremflickr.com/640/480");
+  UserDummy instantUser = UserDummy(
+      "2002", "Danny", "http://loremflickr.com/640/480", DateTime.timestamp());
   List<bool> controlViewMoreComment = [];
 
   @override
@@ -150,7 +150,15 @@ class _PostPageState extends State<Postpage>
                     data: widget.data,
                     isPostpage: false,
                   ),
-                  if (widget.data.imageurl != []) ImageBox(data: widget.data),
+                  if (widget.data.imageurl.isNotEmpty)
+                    ImageBox(data: widget.data),
+                  Container(
+                      decoration: const BoxDecoration(
+                          border: Border(
+                              bottom:
+                                  BorderSide(color: Colors.grey, width: 0.2))),
+                      height: 1,
+                      width: MediaQuery.of(context).size.width * 0.9),
                   buttonSection,
                   iconSection,
                   CommentSection(
@@ -167,7 +175,7 @@ class _PostPageState extends State<Postpage>
               myfocusNode: AppDataProvider.of(context).commentPostPage,
               isKeyboard: isKeyboard,
               myController: textController,
-              instantUser: instantUser,
+              instantUser: currUser!,
               controlViewMoreComment: controlViewMoreComment,
               setViewMoreComment: setViewMoreComment,
             ),

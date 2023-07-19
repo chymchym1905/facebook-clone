@@ -1,17 +1,15 @@
 import '../index.dart';
 
 class FBFullReaction extends StatefulWidget {
-  const FBFullReaction(
-      {Key? key,
-      required this.data,
-      this.reloadState, 
-      this.comment, 
-  })
-      : super(key: key);
+  const FBFullReaction({
+    Key? key,
+    required this.data,
+    this.reloadState,
+    this.comment,
+  }) : super(key: key);
   final Post data;
   final Function(Post)? reloadState;
   final Comment1? comment;
-
 
   @override
   State<FBFullReaction> createState() => _FBFullReactionState();
@@ -69,10 +67,61 @@ class _FBFullReactionState extends State<FBFullReaction>
     var reactDuration = const Duration(milliseconds: 1000);
     _reactCtr = AnimationController(vsync: this, duration: reactDuration);
     _reactAni = CurvedAnimation(parent: _reactCtr, curve: Curves.fastOutSlowIn);
-    
+  }
+
+  @override
+  void dispose() {
+    for (var element in _reactions) {
+      element.controller.dispose();
+    }
+    _reactCtr.dispose();
+    _newsCtr.dispose();
+    super.dispose();
+  }
+
+  ///////OVERLAY
+  OverlayEntry? overlayEntry;
+
+  void removeOverlay() {
+    //function
+    overlayEntry?.remove();
+    overlayEntry = null;
+  }
+
+  createReactArea(BuildContext context) {
+    //function
+    var globalOrigin = _newsPosition.globalPosition;
+    var localOrigin = _newsPosition.localPosition;
+
+    var dy = globalOrigin.dy - localOrigin.dy - _reactBarBotMargin;
+    dy = dy - _reactBarPadding;
+    dy = dy - _reactMargin;
+    double x = 10;
+    tapPosition = Offset(x, dy);
+
+    removeOverlay();
+
+    assert(overlayEntry == null);
+
+    overlayEntry = OverlayEntry(
+      builder: (context) => Positioned(
+        top: tapPosition.dy - 30,
+        left: tapPosition.dx,
+        child: ScaleTransition(
+          scale: _newsAni,
+          child: Stack(
+            alignment: Alignment.topCenter,
+            children: [_buildReactBar(), _buildAnimatedReactBar()],
+          ),
+        ),
+      ),
+    );
+
+    Overlay.of(context, debugRequiredFor: widget).insert(overlayEntry!);
   }
 
   _initReactions() {
+    //init
     _reactions = List.generate(_reactColors.length, (index) {
       var duration = const Duration(milliseconds: 100);
       var ctrl = AnimationController(vsync: this, duration: duration);
@@ -94,6 +143,7 @@ class _FBFullReactionState extends State<FBFullReaction>
   }
 
   _setIcon() {
+    //utils
     switch (widget.data.reaction) {
       case 0:
         _news[0]["reaction"] = null;
@@ -120,17 +170,8 @@ class _FBFullReactionState extends State<FBFullReaction>
     }
   }
 
-  
-  @override
-  Widget build(BuildContext context) {
-    _setIcon();
-    return Stack(children: [
-      _buildItem(context, 0),
-      _buildReactAnimation(),
-    ]);
-  }
-
   Widget _buildReactAnimation() {
+    //Emotes pathway
     return AnimatedBuilder(
         animation: _reactAni,
         builder: (context, _) {
@@ -157,46 +198,7 @@ class _FBFullReactionState extends State<FBFullReaction>
               ));
         });
   }
-  
-  ///////
-  OverlayEntry? overlayEntry;
 
-  void removeOverlay() {
-    overlayEntry?.remove();
-    overlayEntry = null;
-  }
-  createReactArea(BuildContext context){
-    var globalOrigin = _newsPosition.globalPosition;
-    var localOrigin = _newsPosition.localPosition;
-
-    var dy = globalOrigin.dy - localOrigin.dy - _reactBarBotMargin;
-    dy = dy - _reactBarPadding;
-    dy = dy - _reactMargin;
-    double x = 10;
-    tapPosition = Offset(x, dy);
-
-    removeOverlay();
-
-    assert(overlayEntry == null);
-
-    overlayEntry = OverlayEntry(builder: (context) => Positioned(
-      top: tapPosition.dy-30,
-      left: tapPosition.dx,
-      child: ScaleTransition(
-        scale: _newsAni,
-        child: Stack(
-          alignment: Alignment.topCenter,
-          children: [
-            _buildReactBar(),
-            _buildAnimatedReactBar()
-          ],
-        ),
-      ),
-    ),
-    );
-
-    Overlay.of(context, debugRequiredFor: widget).insert(overlayEntry!);
-  }
   Widget _buildItem(BuildContext context, int index) {
     return Column(
       // alignment: Alignment.bottomCenter,
@@ -237,7 +239,8 @@ class _FBFullReactionState extends State<FBFullReaction>
                 child: AnimatedBuilder(
                     animation: _reactions[index].animation,
                     builder: (context, _) {
-                      double scale = reactScale * _reactions[index].animation.value;
+                      double scale =
+                          reactScale * _reactions[index].animation.value;
                       double bigSize = _reactSize + _reactSize * scale;
                       return SizedBox(height: _reactSize, width: bigSize);
                     }),
@@ -258,49 +261,45 @@ class _FBFullReactionState extends State<FBFullReaction>
           return Padding(
             padding: EdgeInsets.all(_reactMargin),
             child: AnimatedBuilder(
-              animation: _reactions[index].animation,
-              builder: (context, _) {
-                var gif = _reactions[index].gif;
-                var text = _reactions[index].text;
-                double animation = _reactions[index].animation.value;
-                double scale = reactScale * animation;
-                double bigSize = _reactSize + _reactSize * scale;
-                return Transform.translate(
-                  offset: Offset(0, bigSize > 32 ? -50 : 0),
-                  child: Column(
-                    children: [
-                      ScaleTransition(
-                        scale: _reactions[index].animation,
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 4),
-                          child: Material(
-                            color: Colors.black54,
-                            shape: const StadiumBorder(),
+                animation: _reactions[index].animation,
+                builder: (context, _) {
+                  var gif = _reactions[index].gif;
+                  var text = _reactions[index].text;
+                  double animation = _reactions[index].animation.value;
+                  double scale = reactScale * animation;
+                  double bigSize = _reactSize + _reactSize * scale;
+                  return Transform.translate(
+                    offset: Offset(0, bigSize > 32 ? -50 : 0),
+                    child: Column(
+                      children: [
+                        ScaleTransition(
+                            scale: _reactions[index].animation,
                             child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 2, horizontal: 5),
-                              child: Text(
-                                text,
-                                style: const TextStyle(
-                                    color: Colors.white, fontSize: 10),
+                              padding: const EdgeInsets.symmetric(vertical: 4),
+                              child: Material(
+                                color: Colors.black54,
+                                shape: const StadiumBorder(),
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 2, horizontal: 5),
+                                  child: Text(
+                                    text,
+                                    style: const TextStyle(
+                                        color: Colors.white, fontSize: 10),
+                                  ),
+                                ),
                               ),
-                            ),
-                          ),
-                        )
-                      ),
-                      Image.asset(gif, width: bigSize, height: bigSize),
-                    ],
-                  ),
-                );
-              }
-            ),
+                            )),
+                        Image.asset(gif, width: bigSize, height: bigSize),
+                      ],
+                    ),
+                  );
+                }),
           );
         }),
       ),
     );
   }
- 
-
 
   _buildNewItem(BuildContext context, int index) {
     return Column(
@@ -329,71 +328,70 @@ class _FBFullReactionState extends State<FBFullReaction>
     return Row(
       children: [
         GestureDetector(
-          onTap: () => setState(() {
-                if (_news[index]["reaction"] != null) {
-                  widget.data.reaction = 0;
-                } else {
-                  widget.data.reaction = 1;
-                }
-                // widget.data.reaction = 0;
-                _news[index]["reaction"] = null;
-                if(widget.reloadState != null){
-                  widget.reloadState!(widget.data);
-                }
-              }),
-          onLongPressMoveUpdate: _updatePointer,
-          onLongPressStart: _savePointer,
-          onLongPressEnd: _clearPointer,
-          onLongPress: () => {
-            _showReacts(index),
-            createReactArea(context),
-          },
-          onLongPressUp: _hideReacts,
-          child: Container(
-            color: Colors.transparent,
-            alignment: Alignment.center,
-            child: Material(
+            onTap: () => setState(() {
+                  if (_news[index]["reaction"] != null) {
+                    widget.data.reaction = 0;
+                  } else {
+                    widget.data.reaction = 1;
+                  }
+                  // widget.data.reaction = 0;
+                  _news[index]["reaction"] = null;
+                  if (widget.reloadState != null) {
+                    widget.reloadState!(widget.data);
+                  }
+                }),
+            onLongPressMoveUpdate: _updatePointer,
+            onLongPressStart: _savePointer,
+            onLongPressEnd: _clearPointer,
+            onLongPress: () => {
+                  _showReacts(index),
+                  createReactArea(context),
+                },
+            onLongPressUp: _hideReacts,
+            child: Container(
               color: Colors.transparent,
-              shape: const StadiumBorder(),
-              child: Padding(
-                padding: padding,
-                child: SizedBox(
-                  height: icSize,
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      if(widget.reloadState != null) ...[
-                        if (reaction != null) ...[
-                          if (!isLike) ...[
-                            Image.asset(reaction.png,
-                                height: icSize, width: icSize),
-                            const SizedBox(width: 8),
-                          ]
+              alignment: Alignment.center,
+              child: Material(
+                color: Colors.transparent,
+                shape: const StadiumBorder(),
+                child: Padding(
+                  padding: padding,
+                  child: SizedBox(
+                    height: icSize,
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        if (widget.reloadState != null) ...[
+                          if (reaction != null) ...[
+                            if (!isLike) ...[
+                              Image.asset(reaction.png,
+                                  height: icSize, width: icSize),
+                              const SizedBox(width: 8),
+                            ]
+                          ],
+                          if (reaction == null || isLike) ...[
+                            Icon(
+                              Icons.thumb_up_off_alt,
+                              color: isLike ? blue : Colors.grey,
+                            )
+                          ],
                         ],
-                        if (reaction == null || isLike) ...[
-                          Icon(
-                            Icons.thumb_up_off_alt,
-                            color: isLike ? blue : Colors.grey,
-                          )
-                        ],
+                        Padding(
+                          padding: const EdgeInsets.only(left: 5),
+                          child: Text(
+                            text,
+                            style: Theme.of(context)
+                                .textTheme
+                                .labelSmall
+                                ?.merge(TextStyle(color: textColor)),
+                          ),
+                        )
                       ],
-                      Padding(
-                        padding: const EdgeInsets.only(left: 5),
-                        child: Text(
-                          text,
-                          style: Theme.of(context)
-                              .textTheme
-                              .labelSmall
-                              ?.merge(TextStyle(color: textColor)),
-                        ),
-                      )
-                    ],
+                    ),
                   ),
                 ),
               ),
-            ),
-          )
-        ),
+            )),
       ],
     );
   }
@@ -408,13 +406,13 @@ class _FBFullReactionState extends State<FBFullReaction>
   }
 
   @override
-  void dispose() {
-    for (var element in _reactions) {
-      element.controller.dispose();
-    }
-    _reactCtr.dispose();
-    _newsCtr.dispose();
-    super.dispose();
+  Widget build(BuildContext context) {
+    //main build function
+    _setIcon();
+    return Stack(children: [
+      _buildItem(context, 0),
+      _buildReactAnimation(),
+    ]);
   }
 
   void _savePointer(LongPressStartDetails details) {
@@ -465,12 +463,12 @@ class _FBFullReactionState extends State<FBFullReaction>
     if (_reactSelected == -1) {
       // var wBar = reactSize * _reactions.length;
       // var x = (width - wBar) / 2.0;
-      Offset cursor = Offset(10, dy-60);
+      Offset cursor = Offset(10, dy - 60);
       return List.generate(_reactions.length, (index) {
         double size = reactSize;
 
         Offset start = cursor;
-        Offset end = start + Offset(size, size+200);
+        Offset end = start + Offset(size, size * 3);
         cursor = cursor + Offset(size, 0);
 
         return Rect.fromPoints(start, end);
@@ -478,13 +476,13 @@ class _FBFullReactionState extends State<FBFullReaction>
     } else {
       // var wBar = reactSize * _reactions.length + reactScale * reactSize;
       // var x = (width - wBar) / 2.0;
-      Offset cursor = Offset(10, dy-30);
+      Offset cursor = Offset(10, dy - 30);
       return List.generate(_reactions.length, (index) {
         double bigSize = (reactScale + 1) * reactSize;
         double size = index == _reactSelected ? bigSize : reactSize;
 
-        Offset start = cursor - Offset(0, size - reactSize);
-        Offset end = start + Offset(size, size+100);
+        Offset start = cursor - Offset(10, (size - reactSize));
+        Offset end = start + Offset(size, size * 3);
         cursor = cursor + Offset(size, 0);
 
         return Rect.fromPoints(start, end);
@@ -550,7 +548,7 @@ class _FBFullReactionState extends State<FBFullReaction>
       });
     }
     // Future.delayed(Duration:)
-    if(widget.reloadState != null){
+    if (widget.reloadState != null) {
       widget.reloadState!(widget.data);
     }
   }

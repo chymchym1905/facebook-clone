@@ -33,7 +33,7 @@ class _shareModalState extends State<shareModal> {
                     height: 50,
                     child: CircleAvatar(
                       radius: 120,
-                      backgroundImage: NetworkImage(widget.data.user.imageurl),
+                      backgroundImage: imageAvatar(widget.data.user.imageurl),
                     ),
                   ),
                 ),

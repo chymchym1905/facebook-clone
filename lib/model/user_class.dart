@@ -4,13 +4,15 @@ part 'user_class.g.dart';
 
 @JsonSerializable()
 class UserDummy {
-  UserDummy(this.id, this.name, this.imageurl);
+  UserDummy(this.id, this.name, this.imageurl, this.createDate);
 
   String id;
   String name;
   String imageurl;
+  DateTime createDate;
 
-  factory UserDummy.fromJson(Map<String, dynamic> json) => _$UserDummyFromJson(json);
+  factory UserDummy.fromJson(Map<String, dynamic> json) =>
+      _$UserDummyFromJson(json);
 
   /// `toJson` is the convention for a class to declare support for serialization
   /// to JSON. The implementation simply calls the private, generated

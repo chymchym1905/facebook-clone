@@ -4,6 +4,7 @@ import '../index.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
   // await initialize();
   runApp(AppDataProvider(
       AppData(
@@ -13,6 +14,7 @@ void main() async {
       child: const FakeBook()));
 }
 
+UserDummy? currUser;
 ThemeProvider themeManager = ThemeProvider();
 
 class FakeBook extends StatefulWidget {
@@ -35,6 +37,11 @@ class _FakeBookState extends State<FakeBook> {
     super.dispose();
   }
 
+  retrieveUser() async {
+    // print(Auth().currentUser);
+    currUser = await Database().getUser(Auth().currentUser!.uid);
+  }
+
   themeListener() {
     if (mounted) {
       setState(() {});
@@ -52,6 +59,8 @@ class _FakeBookState extends State<FakeBook> {
           stream: Auth().authStateChanges,
           builder: (context, snapshot) {
             if (snapshot.hasData) {
+              retrieveUser();
+              // print(currUser);
               return const Home();
             } else {
               return const LoginRegister();

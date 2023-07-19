@@ -32,35 +32,40 @@ class _PostsState extends State<Posts> {
     // AppDataProvider.of(context).updateCallback = (Post p) => updateState(p);
 
     return Padding(
-      padding: const EdgeInsets.only(top: 8.0),
-      child: Card(
-        elevation: 0,
-        margin: EdgeInsets.zero,
-        color: themeManager.themeMode == dark ? lightdark : whitee,
-        child: Column(
-          children: [
-            NameBar(
-                data: widget.data,
+        padding: const EdgeInsets.only(top: 8.0),
+        child: Card(
+          elevation: 0,
+          margin: EdgeInsets.zero,
+          color: themeManager.themeMode == dark ? lightdark : whitee,
+          child: Column(
+            children: [
+              NameBar(
+                  data: widget.data,
+                  reloadState: updateState,
+                  isPostpage: true),
+              Caption(
                 reloadState: updateState,
-                isPostpage: true),
-            Caption(
-              reloadState: updateState,
-              data: widget.data,
-              isPostpage: true,
-            ),
-            if (widget.data.imageurl != []) ImageBox(data: widget.data),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                FBFullReaction(data: widget.data, reloadState: updateState),
-                CommentButtonModal(data: widget.data),
-                ShareButton(data: widget.data),
-              ],
-            ),
-          ],
-        ),
-      )
-    );
+                data: widget.data,
+                isPostpage: true,
+              ),
+              if (widget.data.imageurl.isNotEmpty) ImageBox(data: widget.data),
+              Container(
+                  decoration: const BoxDecoration(
+                      border: Border(
+                          bottom: BorderSide(color: Colors.grey, width: 0.2))),
+                  height: 1,
+                  width: MediaQuery.of(context).size.width * 0.9),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  FBFullReaction(data: widget.data, reloadState: updateState),
+                  CommentButtonModal(data: widget.data),
+                  ShareButton(data: widget.data),
+                ],
+              ),
+            ],
+          ),
+        ));
   }
 }
 
@@ -103,7 +108,7 @@ class _NameBarState extends State<NameBar> {
               CircleAvatar(
                   radius: 20,
                   backgroundColor: Colors.grey,
-                  backgroundImage: NetworkImage(widget.data.user.imageurl)),
+                  backgroundImage: imageAvatar(widget.data.user.imageurl)),
               const SizedBox(
                 width: 8.0,
               ),
