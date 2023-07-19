@@ -1,7 +1,7 @@
-
 import '../../index.dart';
 
-Post fakedata = Post("", UserDummy("", "", ""), "", [], 0, 0, 0, [], 0, []);
+Post fakedata = Post("", UserDummy("", "", "", DateTime.timestamp()), "", [], 0,
+    0, 0, [], 0, []);
 
 void countReply(Comment1 data, List<Comment1> listdata) {
   int count = 0;
@@ -22,7 +22,7 @@ class CommentSection extends StatefulWidget {
     required this.data,
     required this.myfocusNode,
     required this.controlViewMoreComment,
-    required this.setViewMoreComment, 
+    required this.setViewMoreComment,
   });
   final List<Comment1> data;
   final FocusNode myfocusNode;
@@ -71,8 +71,8 @@ class _CommentSectionState extends State<CommentSection> {
                   ViewMoreComment(
                     controlViewMoreComment:
                         widget.controlViewMoreComment[index],
-                    list: Comment1(UserDummy("", "", ""), 0,
-                        "View $listLength more comment...", [], []),
+                    list: Comment1(UserDummy("", "", "", DateTime.timestamp()),
+                        0, "View $listLength more comment...", [], []),
                     myfocusNode: widget.myfocusNode,
                     indexforreply1: index,
                     indexforreply2: 0,
@@ -100,7 +100,7 @@ class _CommentSectionState extends State<CommentSection> {
               preferredSize: const Size.fromRadius(18),
               child: CircleAvatar(
                 radius: 22,
-                backgroundImage: NetworkImage(data.user.imageurl),
+                backgroundImage: imageAvatar(data.user.imageurl),
               ),
             ),
             avatarChild: (context, data) => PreferredSize(
@@ -160,12 +160,11 @@ class _CommentSectionState extends State<CommentSection> {
                           ),
                           FBFullReaction(data: fakedata),
                           ReplyButton(
-                            indexforreply1: index, 
-                            indexforreply2: -1, 
-                            myfocusNode: widget.myfocusNode, 
-                            flagReply: true, 
-                            flagReply2: false
-                          )
+                              indexforreply1: index,
+                              indexforreply2: -1,
+                              myfocusNode: widget.myfocusNode,
+                              flagReply: true,
+                              flagReply2: false)
                         ],
                       ),
                     ),
@@ -214,15 +213,13 @@ class _ViewMoreCommentState extends State<ViewMoreComment> {
             width: MediaQuery.of(context).size.width,
             child: Row(
               children: [
-                if (widget.list.user.imageurl.isNotEmpty) ...[
-                  Padding(
-                    padding: const EdgeInsets.only(right: 10),
-                    child: CircleAvatar(
-                      radius: 15,
-                      backgroundImage: NetworkImage(widget.list.user.imageurl),
-                    ),
+                Padding(
+                  padding: const EdgeInsets.only(right: 10),
+                  child: CircleAvatar(
+                    radius: 15,
+                    backgroundImage: imageAvatar(widget.list.user.imageurl),
                   ),
-                ],
+                ),
                 Expanded(
                   child: Padding(
                     padding: const EdgeInsets.only(top: 4),
@@ -303,14 +300,14 @@ class _CommmentTreeSectionState extends State<CommmentTreeSection> {
                   preferredSize: const Size.fromRadius(18),
                   child: CircleAvatar(
                     radius: 22,
-                    backgroundImage: NetworkImage(data.user.imageurl),
+                    backgroundImage: imageAvatar(data.user.imageurl),
                   ),
                 ),
                 avatarChild: (context, data) => PreferredSize(
                   preferredSize: const Size.fromRadius(30),
                   child: CircleAvatar(
                     radius: 22,
-                    backgroundImage: NetworkImage(data.user.imageurl),
+                    backgroundImage: imageAvatar(data.user.imageurl),
                   ),
                 ),
                 contentChild: (context, data) {
@@ -364,12 +361,11 @@ class _CommmentTreeSectionState extends State<CommmentTreeSection> {
                               // ),
                               FBFullReaction(data: fakedata),
                               ReplyButton(
-                                indexforreply1: widget.indexforreply1, 
-                                indexforreply2: widget.indexforreply2, 
-                                myfocusNode: widget.myfocusNode, 
-                                flagReply: false, 
-                                flagReply2: true
-                              )
+                                  indexforreply1: widget.indexforreply1,
+                                  indexforreply2: widget.indexforreply2,
+                                  myfocusNode: widget.myfocusNode,
+                                  flagReply: false,
+                                  flagReply2: true)
                             ],
                           ),
                         ),
@@ -427,13 +423,12 @@ class _CommmentTreeSectionState extends State<CommmentTreeSection> {
                               //   width: 15,
                               // ),
                               FBFullReaction(data: fakedata),
-                               ReplyButton(
-                                indexforreply1: widget.indexforreply1, 
-                                indexforreply2: widget.indexforreply2, 
-                                myfocusNode: widget.myfocusNode, 
-                                flagReply: false, 
-                                flagReply2: true
-                              )
+                              ReplyButton(
+                                  indexforreply1: widget.indexforreply1,
+                                  indexforreply2: widget.indexforreply2,
+                                  myfocusNode: widget.myfocusNode,
+                                  flagReply: false,
+                                  flagReply2: true)
                             ],
                           ),
                         ),

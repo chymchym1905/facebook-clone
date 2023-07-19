@@ -104,7 +104,7 @@ class _NameBarState extends State<NameBar> {
               CircleAvatar(
                   radius: 20,
                   backgroundColor: Colors.grey,
-                  backgroundImage: NetworkImage(widget.data.user.imageurl)),
+                  backgroundImage: imageAvatar(widget.data.user.imageurl)),
               const SizedBox(
                 width: 8.0,
               ),

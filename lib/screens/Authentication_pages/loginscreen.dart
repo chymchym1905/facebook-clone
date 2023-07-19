@@ -33,8 +33,9 @@ class _LoginRegisterState extends State<LoginRegister>
 
   Future<void> createUserWithEmailAndPassword() async {
     try {
-      await Auth().createUserWithEmailandPassword(
+      User? user = await Auth().createUserWithEmailandPassword(
           email: emailString.text, password: passwordString.text);
+      Database().createUser(user);
     } on FirebaseAuthException catch (e) {
       setState(() {
         errorMessage = e.message ?? errorMessage;

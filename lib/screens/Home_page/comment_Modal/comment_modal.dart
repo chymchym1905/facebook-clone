@@ -1,8 +1,11 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import '../../../index.dart';
 
-UserDummy instantUser = UserDummy("1905", "chymchym",
-    "https://images-ext-1.discordapp.net/external/83wYKef0YpM6goED9-quM6SXFOKhWDKy80KMmlQcSxI/https/pbs.twimg.com/media/FzSxbZfaUAAVGeu.jpg?width=376&height=670");
+UserDummy? instantUser = UserDummy(
+    "1905",
+    "chymchym",
+    "https://images-ext-1.discordapp.net/external/83wYKef0YpM6goED9-quM6SXFOKhWDKy80KMmlQcSxI/https/pbs.twimg.com/media/FzSxbZfaUAAVGeu.jpg?width=376&height=670",
+    DateTime.timestamp());
 
 class CommentModal extends StatefulWidget {
   const CommentModal({
@@ -89,7 +92,7 @@ class _CommentModalState extends State<CommentModal>
               myfocusNode: AppDataProvider.of(context).commentModal,
               isKeyboard: isKeyboard,
               myController: textController,
-              instantUser: instantUser,
+              instantUser: currUser!,
               controlViewMoreComment: controlViewMoreComment,
               setViewMoreComment: setViewMoreComment,
             ),

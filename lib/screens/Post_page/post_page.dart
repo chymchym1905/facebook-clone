@@ -26,8 +26,8 @@ class _PostPageState extends State<Postpage>
     with WidgetsBindingObserver, AutomaticKeepAliveClientMixin {
   // final myfocusNode = FocusNode();
   late TextEditingController textController;
-  UserDummy instantUser =
-      UserDummy("2002", "Danny", "http://loremflickr.com/640/480");
+  UserDummy instantUser = UserDummy(
+      "2002", "Danny", "http://loremflickr.com/640/480", DateTime.timestamp());
   List<bool> controlViewMoreComment = [];
 
   @override
@@ -167,7 +167,7 @@ class _PostPageState extends State<Postpage>
               myfocusNode: AppDataProvider.of(context).commentPostPage,
               isKeyboard: isKeyboard,
               myController: textController,
-              instantUser: instantUser,
+              instantUser: currUser!,
               controlViewMoreComment: controlViewMoreComment,
               setViewMoreComment: setViewMoreComment,
             ),
