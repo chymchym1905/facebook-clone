@@ -142,14 +142,14 @@ Widget fiveItemHorizontal(Post data) => StaggeredGrid.count(
 
 Widget fiveItemVertical(Post data) => StaggeredGrid.count(
       axisDirection: AxisDirection.down,
-      crossAxisCount: 6,
+      crossAxisCount: 2,
       mainAxisSpacing: 4,
       crossAxisSpacing: 4,
       children: [
         ...data.imageurl.mapIndexed((index, element) {
-          if (index == 1 || index == 2) {
+          if (index == 0 || index == 3) {
             return StaggeredGridTile.count(
-                crossAxisCellCount: 3,
+                crossAxisCellCount: 1,
                 mainAxisCellCount: 1.5,
                 child: ImageTile(
                   data: data,
@@ -160,7 +160,7 @@ Widget fiveItemVertical(Post data) => StaggeredGrid.count(
                 ));
           } else {
             return StaggeredGridTile.count(
-                crossAxisCellCount: 2,
+                crossAxisCellCount: 1,
                 mainAxisCellCount: 1,
                 child: ImageTile(
                   data: data,

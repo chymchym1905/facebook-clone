@@ -2,12 +2,6 @@
 import '../../../index.dart';
 import 'display_react.dart';
 
-UserDummy? instantUser = UserDummy(
-    "1905",
-    "chymchym",
-    "https://images-ext-1.discordapp.net/external/83wYKef0YpM6goED9-quM6SXFOKhWDKy80KMmlQcSxI/https/pbs.twimg.com/media/FzSxbZfaUAAVGeu.jpg?width=376&height=670",
-    DateTime.timestamp());
-
 class CommentModal extends StatefulWidget {
   const CommentModal({
     Key? key,
@@ -64,24 +58,22 @@ class _CommentModalState extends State<CommentModal>
     return Column(
       children: [
         Row(
-          // mainAxisAlignment: MainAxisAlignment.end, 
-          children: [
-            Expanded(
-              child: DisplayReact(data: widget.data.reactions)
-            ),
-            Container(
-              padding: const EdgeInsets.only(right: 20),
-              child: IconButton(
-                onPressed: () {
-                  setState(() {
-                    isLike = !isLike;
-                  });
-                },
-                icon: Icon(Icons.thumb_up_off_alt,
-                    color: isLike ? const Facebook.blue().color : Colors.grey),
-              )
-            ),
-        ]),
+            // mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Expanded(child: DisplayReact(data: widget.data.reactions)),
+              Container(
+                  padding: const EdgeInsets.only(right: 20),
+                  child: IconButton(
+                    onPressed: () {
+                      setState(() {
+                        isLike = !isLike;
+                      });
+                    },
+                    icon: Icon(Icons.thumb_up_off_alt,
+                        color:
+                            isLike ? const Facebook.blue().color : Colors.grey),
+                  )),
+            ]),
         Expanded(
           child: CommentSection(
             myfocusNode: AppDataProvider.of(context).commentModal,

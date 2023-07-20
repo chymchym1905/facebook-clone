@@ -26,8 +26,7 @@ class _PostPageState extends State<Postpage>
     with WidgetsBindingObserver, AutomaticKeepAliveClientMixin {
   // final myfocusNode = FocusNode();
   late TextEditingController textController;
-  UserDummy instantUser = UserDummy(
-      "2002", "Danny", "http://loremflickr.com/640/480", DateTime.timestamp());
+
   List<bool> controlViewMoreComment = [];
 
   @override

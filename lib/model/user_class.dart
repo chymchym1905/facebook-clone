@@ -4,12 +4,20 @@ part 'user_class.g.dart';
 
 @JsonSerializable()
 class UserDummy {
-  UserDummy(this.id, this.name, this.imageurl, this.createDate);
+  UserDummy(this.id, this.name, this.gender, this.imageurl, this.email,
+      this.createDate);
 
   String id;
   String name;
+  String gender;
   String imageurl;
+  String email;
+  @JsonKey(toJson: _dateTimeToJson)
   DateTime createDate;
+
+  static DateTime _dateTimeToJson(DateTime dateTime) {
+    return dateTime.toUtc();
+  }
 
   factory UserDummy.fromJson(Map<String, dynamic> json) =>
       _$UserDummyFromJson(json);

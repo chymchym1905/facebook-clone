@@ -1,7 +1,7 @@
 import '../../index.dart';
 
-Post fakedata = Post("", UserDummy("", "", "", DateTime.timestamp()), "", [], 0,
-    0, 0, [], 0, []);
+Post fakedata = Post("", UserDummy("", "", "", "", "", DateTime.timestamp()),
+    "", [], 0, 0, 0, [], 0, []);
 
 void countReply(Comment1 data, List<Comment1> listdata) {
   int count = 0;
@@ -71,8 +71,10 @@ class _CommentSectionState extends State<CommentSection> {
                   ViewMoreComment(
                     controlViewMoreComment:
                         widget.controlViewMoreComment[index],
-                    list: Comment1(UserDummy("", "", "", DateTime.timestamp()),
-                        0, "View $listLength more comment...", [], []),
+                    list: Comment1(
+                        UserDummy("", "", "", "", "", DateTime.timestamp()),
+                        0,
+                        "View $listLength more comment...", [], []),
                     myfocusNode: widget.myfocusNode,
                     indexforreply1: index,
                     indexforreply2: 0,
@@ -213,13 +215,14 @@ class _ViewMoreCommentState extends State<ViewMoreComment> {
             width: MediaQuery.of(context).size.width,
             child: Row(
               children: [
-                Padding(
-                  padding: const EdgeInsets.only(right: 10),
-                  child: CircleAvatar(
-                    radius: 15,
-                    backgroundImage: imageAvatar(widget.list.user.imageurl),
+                if (widget.list.user.imageurl.isNotEmpty)
+                  Padding(
+                    padding: const EdgeInsets.only(right: 10),
+                    child: CircleAvatar(
+                      radius: 15,
+                      backgroundImage: imageAvatar(widget.list.user.imageurl),
+                    ),
                   ),
-                ),
                 Expanded(
                   child: Padding(
                     padding: const EdgeInsets.only(top: 4),
