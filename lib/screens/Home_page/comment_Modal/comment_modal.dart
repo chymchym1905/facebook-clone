@@ -1,6 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import '../../../index.dart';
-import 'display_react.dart';
+import '../../../utils/display_react.dart';
 
 UserDummy? instantUser = UserDummy(
     "1905",
@@ -67,7 +67,7 @@ class _CommentModalState extends State<CommentModal>
           // mainAxisAlignment: MainAxisAlignment.end, 
           children: [
             Expanded(
-              child: DisplayReact(data: widget.data.reactions)
+              child: DisplayReact(data: widget.data.reactions, isRevert: false,)
             ),
             Container(
               padding: const EdgeInsets.only(right: 20),

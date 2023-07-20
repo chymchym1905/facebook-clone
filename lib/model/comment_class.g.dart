@@ -21,6 +21,7 @@ Comment1 _$Comment1FromJson(Map<String, dynamic> json) {
     (json['reactions'] as List<dynamic>)
         .map((e) => Reaction.fromJson(e as Map<String, dynamic>))
         .toList(),
+    json['reaction'] as int,
   );
 }
 
@@ -29,5 +30,6 @@ Map<String, dynamic> _$Comment1ToJson(Comment1 instance) => <String, dynamic>{
       'react': instance.react,
       'content': instance.content,
       'reply': instance.reply,
+      'reaction': instance.reaction,
       'reactions': instance.reactions,
     };

@@ -1,3 +1,5 @@
+import 'package:flutter_application_1/utils/display_react.dart';
+
 import '../../index.dart';
 
 Post fakedata = Post("", UserDummy("", "", "", DateTime.timestamp()), "", [], 0,
@@ -72,7 +74,7 @@ class _CommentSectionState extends State<CommentSection> {
                     controlViewMoreComment:
                         widget.controlViewMoreComment[index],
                     list: Comment1(UserDummy("", "", "", DateTime.timestamp()),
-                        0, "View $listLength more comment...", [], []),
+                        0, "View $listLength more comment...", [], [],0),
                     myfocusNode: widget.myfocusNode,
                     indexforreply1: index,
                     indexforreply2: 0,
@@ -155,16 +157,23 @@ class _CommentSectionState extends State<CommentSection> {
                       padding: const EdgeInsets.only(top: 4),
                       child: Row(
                         children: [
-                          const SizedBox(
-                            width: 8,
+                          Expanded(
+                            child: Row(
+                              children: [
+                                const SizedBox(
+                                  width: 8,
+                                ),
+                                FBFullReaction(data: fakedata),
+                                ReplyButton(
+                                    indexforreply1: index,
+                                    indexforreply2: -1,
+                                    myfocusNode: widget.myfocusNode,
+                                    flagReply: true,
+                                    flagReply2: false)
+                              ],
+                            ),
                           ),
-                          FBFullReaction(data: fakedata),
-                          ReplyButton(
-                              indexforreply1: index,
-                              indexforreply2: -1,
-                              myfocusNode: widget.myfocusNode,
-                              flagReply: true,
-                              flagReply2: false)
+                          DisplayReact(data: data.reactions, isRevert: true)
                         ],
                       ),
                     ),
@@ -352,20 +361,27 @@ class _CommmentTreeSectionState extends State<CommmentTreeSection> {
                           padding: const EdgeInsets.only(top: 4),
                           child: Row(
                             children: [
-                              const SizedBox(
-                                width: 8,
+                              Expanded(
+                                child: Row(
+                                  children: [
+                                    const SizedBox(
+                                      width: 8,
+                                    ),
+                                    // Text(data.timeAgo),
+                                    // const SizedBox(
+                                    //   width: 15,
+                                    // ),
+                                    FBFullReaction(data: fakedata),
+                                    ReplyButton(
+                                        indexforreply1: widget.indexforreply1,
+                                        indexforreply2: widget.indexforreply2,
+                                        myfocusNode: widget.myfocusNode,
+                                        flagReply: false,
+                                        flagReply2: true)
+                                  ],
+                                ),
                               ),
-                              // Text(data.timeAgo),
-                              // const SizedBox(
-                              //   width: 15,
-                              // ),
-                              FBFullReaction(data: fakedata),
-                              ReplyButton(
-                                  indexforreply1: widget.indexforreply1,
-                                  indexforreply2: widget.indexforreply2,
-                                  myfocusNode: widget.myfocusNode,
-                                  flagReply: false,
-                                  flagReply2: true)
+                              DisplayReact(data: data.reactions, isRevert: true)
                             ],
                           ),
                         ),
@@ -415,20 +431,27 @@ class _CommmentTreeSectionState extends State<CommmentTreeSection> {
                           padding: const EdgeInsets.only(top: 4),
                           child: Row(
                             children: [
-                              const SizedBox(
-                                width: 8,
+                              Expanded(
+                                child: Row(
+                                  children: [
+                                    const SizedBox(
+                                      width: 8,
+                                    ),
+                                    // Text(data.timeAgo),
+                                    // const SizedBox(
+                                    //   width: 15,
+                                    // ),
+                                    FBFullReaction(data: fakedata),
+                                    ReplyButton(
+                                        indexforreply1: widget.indexforreply1,
+                                        indexforreply2: widget.indexforreply2,
+                                        myfocusNode: widget.myfocusNode,
+                                        flagReply: false,
+                                        flagReply2: true)
+                                  ],
+                                ),
                               ),
-                              // Text(data.timeAgo),
-                              // const SizedBox(
-                              //   width: 15,
-                              // ),
-                              FBFullReaction(data: fakedata),
-                              ReplyButton(
-                                  indexforreply1: widget.indexforreply1,
-                                  indexforreply2: widget.indexforreply2,
-                                  myfocusNode: widget.myfocusNode,
-                                  flagReply: false,
-                                  flagReply2: true)
+                              DisplayReact(data: data.reactions, isRevert: true)
                             ],
                           ),
                         ),

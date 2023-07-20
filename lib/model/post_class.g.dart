@@ -9,7 +9,7 @@ part of 'post_class.dart';
 Post _$PostFromJson(Map<String, dynamic> json) {
   $checkKeys(
     json,
-    requiredKeys: const ['id', 'user', 'caption', 'reaction'],
+    requiredKeys: const ['id', 'user', 'caption'],
   );
   return Post(
     json['id'] as String,
