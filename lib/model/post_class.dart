@@ -32,7 +32,7 @@ class Post {
   @JsonKey(required: false)
   // Visibility visibility;
   List<String> imageurl;
-  @JsonKey(required: true)
+  
   int reaction;
 
   List<Reaction> reactions;
