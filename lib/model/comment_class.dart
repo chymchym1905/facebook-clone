@@ -15,6 +15,8 @@ class Comment1 {
 
   List<Comment1> reply;
 
+  int reaction;
+
   List<Reaction> reactions;
   
   Comment1(
@@ -22,7 +24,8 @@ class Comment1 {
     this.react, 
     this.content, 
     this.reply, 
-    this.reactions
+    this.reactions,
+    this.reaction
   );
 
   factory Comment1.fromJson(Map<String, dynamic> json) =>

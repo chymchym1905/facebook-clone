@@ -142,9 +142,9 @@ class _FBFullReactionState extends State<FBFullReaction>
     // to set init value of button
   }
 
-  _setIcon() {
+  _setIcon(int reaction) {
     //utils
-    switch (widget.data.reaction) {
+    switch (reaction) {
       case 0:
         _news[0]["reaction"] = null;
         break;
@@ -167,6 +167,9 @@ class _FBFullReactionState extends State<FBFullReaction>
       case 6:
         _news[0]["reaction"] = _reactions[5];
         break;
+    }
+    if(widget.data.reaction != 0){
+      // for(int i = )
     }
   }
 
@@ -313,6 +316,9 @@ class _FBFullReactionState extends State<FBFullReaction>
     ButtonReaction? reaction = _news[index]["reaction"];
     String text = "Like";
     Color textColor = Colors.grey;
+    if(widget.reloadState == null){
+      textColor = const Color.fromARGB(255, 109, 107, 107);
+    }
     if (widget.data.reaction == 1) {
       isLike = true;
     } else {
@@ -375,17 +381,27 @@ class _FBFullReactionState extends State<FBFullReaction>
                               color: isLike ? blue : Colors.grey,
                             )
                           ],
-                        ],
-                        Padding(
-                          padding: const EdgeInsets.only(left: 5),
-                          child: Text(
+                          Padding(
+                            padding: const EdgeInsets.only(left: 5),
+                            child: Text(
+                              text,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .labelSmall
+                                  ?.merge(TextStyle(color: textColor)),
+                            ),
+                          )
+                        ] else ...[
+                          Text(
                             text,
-                            style: Theme.of(context)
-                                .textTheme
-                                .labelSmall
-                                ?.merge(TextStyle(color: textColor)),
-                          ),
-                        )
+                           style: Theme.of(context)
+                                  .textTheme
+                                  .labelMedium!
+                                  .copyWith(
+                                      // fontWeight: FontWeight.bold,
+                                      color: const Color.fromARGB(255, 109, 107, 107))
+                          )
+                        ]
                       ],
                     ),
                   ),
@@ -408,7 +424,7 @@ class _FBFullReactionState extends State<FBFullReaction>
   @override
   Widget build(BuildContext context) {
     //main build function
-    _setIcon();
+    _setIcon(widget.data.reaction);
     return Stack(children: [
       _buildItem(context, 0),
       _buildReactAnimation(),

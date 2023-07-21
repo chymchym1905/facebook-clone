@@ -52,9 +52,8 @@ class ReplyButton extends StatelessWidget {
               .textTheme
               .labelMedium!
               .copyWith(
-                  fontWeight: FontWeight.bold,
-                  color: const Color.fromARGB(
-                      255, 99, 100, 105))),
+                  // fontWeight: FontWeight.bold,
+                  color: const Color.fromARGB(255, 109, 107, 107))),
     );
   }
 }
