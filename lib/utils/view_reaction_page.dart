@@ -202,7 +202,7 @@ class ReactionPageView extends StatelessWidget {
                 padding: const EdgeInsets.only(top: 10, bottom: 10,right: 15, left: 10),
                 child: CircleAvatar(
                   radius: 22,
-                  backgroundImage: NetworkImage(reactions[index].user.imageurl),
+                  backgroundImage: imageAvatar(reactions[index].user.imageurl),
                 ),
               ),
             ),

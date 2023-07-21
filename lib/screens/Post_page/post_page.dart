@@ -13,7 +13,7 @@ class Postpage extends StatefulWidget {
   const Postpage({
     Key? key,
     required this.data,
-    required this.reloadState,
+    required this.reloadState, 
   }) : super(key: key);
   final Post data;
   final Function(Post) reloadState;
@@ -143,7 +143,8 @@ class _PostPageState extends State<Postpage>
                   NameBar(
                       data: widget.data,
                       reloadState: widget.reloadState,
-                      isPostpage: false),
+                      isPostpage: false,
+                  ),
                   Caption(
                     reloadState: widget.reloadState,
                     data: widget.data,
