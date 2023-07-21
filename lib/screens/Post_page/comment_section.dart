@@ -1,9 +1,10 @@
 import 'package:flutter_application_1/utils/display_react.dart';
+import 'package:flutter_application_1/utils/find_user_reaction.dart';
 
 import '../../index.dart';
 
-Post fakedata = Post("", UserDummy("", "", "", DateTime.timestamp()), "", [], 0,
-    0, 0, [], 0, []);
+Post fakedata = Post("", UserDummy("", "", "", "", "", DateTime.timestamp()),
+    "", [], 0, 0, 0, [], 0, []);
 
 void countReply(Comment1 data, List<Comment1> listdata) {
   int count = 0;
@@ -73,8 +74,10 @@ class _CommentSectionState extends State<CommentSection> {
                   ViewMoreComment(
                     controlViewMoreComment:
                         widget.controlViewMoreComment[index],
-                    list: Comment1(UserDummy("", "", "", DateTime.timestamp()),
-                        0, "View $listLength more comment...", [], [],0),
+                    list: Comment1(
+                        UserDummy("", "", "", "", "", DateTime.timestamp()),
+                        0,
+                        "View $listLength more comment...", [], [],0),
                     myfocusNode: widget.myfocusNode,
                     indexforreply1: index,
                     indexforreply2: 0,
@@ -117,6 +120,9 @@ class _CommentSectionState extends State<CommentSection> {
             },
             contentRoot: (context, data) {
               // Parent comment
+              if(currUser != null){
+                findUserReact(currUser!.name, data.reactions, data.reaction);
+              }
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -163,7 +169,7 @@ class _CommentSectionState extends State<CommentSection> {
                                 const SizedBox(
                                   width: 8,
                                 ),
-                                FBFullReaction(data: fakedata),
+                                FBFullReaction(data: fakedata, comment: data,),
                                 ReplyButton(
                                     indexforreply1: index,
                                     indexforreply2: -1,
@@ -222,13 +228,14 @@ class _ViewMoreCommentState extends State<ViewMoreComment> {
             width: MediaQuery.of(context).size.width,
             child: Row(
               children: [
-                Padding(
-                  padding: const EdgeInsets.only(right: 10),
-                  child: CircleAvatar(
-                    radius: 15,
-                    backgroundImage: imageAvatar(widget.list.user.imageurl),
+                if (widget.list.user.imageurl.isNotEmpty)
+                  Padding(
+                    padding: const EdgeInsets.only(right: 10),
+                    child: CircleAvatar(
+                      radius: 15,
+                      backgroundImage: imageAvatar(widget.list.user.imageurl),
+                    ),
                   ),
-                ),
                 Expanded(
                   child: Padding(
                     padding: const EdgeInsets.only(top: 4),
@@ -321,6 +328,9 @@ class _CommmentTreeSectionState extends State<CommmentTreeSection> {
                 ),
                 contentChild: (context, data) {
                   //Replies
+                  if(currUser != null){
+                    findUserReact(currUser!.name, data.reactions, data.reaction);
+                  }
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -371,7 +381,7 @@ class _CommmentTreeSectionState extends State<CommmentTreeSection> {
                                     // const SizedBox(
                                     //   width: 15,
                                     // ),
-                                    FBFullReaction(data: fakedata),
+                                    FBFullReaction(data: fakedata, comment: data,),
                                     ReplyButton(
                                         indexforreply1: widget.indexforreply1,
                                         indexforreply2: widget.indexforreply2,
@@ -390,6 +400,9 @@ class _CommmentTreeSectionState extends State<CommmentTreeSection> {
                   );
                 },
                 contentRoot: (context, data) {
+                  if(currUser != null){
+                    findUserReact(currUser!.name, data.reactions, data.reaction);
+                  }
                   // Parent comment
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -441,7 +454,7 @@ class _CommmentTreeSectionState extends State<CommmentTreeSection> {
                                     // const SizedBox(
                                     //   width: 15,
                                     // ),
-                                    FBFullReaction(data: fakedata),
+                                    FBFullReaction(data: fakedata, comment: data,),
                                     ReplyButton(
                                         indexforreply1: widget.indexforreply1,
                                         indexforreply2: widget.indexforreply2,
@@ -451,6 +464,7 @@ class _CommmentTreeSectionState extends State<CommmentTreeSection> {
                                   ],
                                 ),
                               ),
+                              
                               DisplayReact(data: data.reactions, isRevert: true)
                             ],
                           ),

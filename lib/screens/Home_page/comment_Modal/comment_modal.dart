@@ -2,12 +2,6 @@
 import '../../../index.dart';
 import '../../../utils/display_react.dart';
 
-UserDummy? instantUser = UserDummy(
-    "1905",
-    "chymchym",
-    "https://images-ext-1.discordapp.net/external/83wYKef0YpM6goED9-quM6SXFOKhWDKy80KMmlQcSxI/https/pbs.twimg.com/media/FzSxbZfaUAAVGeu.jpg?width=376&height=670",
-    DateTime.timestamp());
-
 class CommentModal extends StatefulWidget {
   const CommentModal({
     Key? key,
@@ -67,7 +61,7 @@ class _CommentModalState extends State<CommentModal>
           // mainAxisAlignment: MainAxisAlignment.end, 
           children: [
             Expanded(
-              child: DisplayReact(data: widget.data.reactions, isRevert: false,)
+              child: DisplayReact(data: widget.data.reactions, isRevert: false)
             ),
             Container(
               padding: const EdgeInsets.only(right: 20),

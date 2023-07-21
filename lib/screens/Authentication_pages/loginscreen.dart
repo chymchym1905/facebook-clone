@@ -1,5 +1,4 @@
 import 'dart:math';
-
 import '../../index.dart';
 // import 'forgotpasswordscreen.dart';
 
@@ -15,6 +14,9 @@ class _LoginRegisterState extends State<LoginRegister>
   final TextEditingController emailString = TextEditingController();
   final TextEditingController passwordString = TextEditingController();
   final TextEditingController usernameString = TextEditingController();
+  final TextEditingController genderDropdown = TextEditingController();
+  final List<String> genderItems = ['Male', 'Female', 'Other'];
+  String? selectedValue;
   bool isLogin = true;
   String errorMessage = '';
 
@@ -35,7 +37,7 @@ class _LoginRegisterState extends State<LoginRegister>
     try {
       User? user = await Auth().createUserWithEmailandPassword(
           email: emailString.text, password: passwordString.text);
-      Database().createUser(user);
+      Database().createUser(user, usernameString.text, genderDropdown.text);
     } on FirebaseAuthException catch (e) {
       setState(() {
         errorMessage = e.message ?? errorMessage;
@@ -129,9 +131,8 @@ class _LoginRegisterState extends State<LoginRegister>
               Visibility(
                   visible: !isLogin,
                   child: Padding(
-                    //password field
-                    padding:
-                        const EdgeInsets.only(left: 20, right: 20, bottom: 40),
+                    //username field
+                    padding: EdgeInsets.only(left: 20, right: 20, bottom: 20),
                     child: TextFormField(
                       keyboardType: TextInputType.text,
                       // style: TextStyle(letterSpacing: 2),
@@ -160,7 +161,7 @@ class _LoginRegisterState extends State<LoginRegister>
                   )),
               Padding(
                 //email field
-                padding: const EdgeInsets.only(left: 20, right: 20, bottom: 40),
+                padding: EdgeInsets.only(left: 20, right: 20, bottom: 20),
                 child: TextFormField(
                   keyboardType: TextInputType.emailAddress,
                   onTap: () {
@@ -189,7 +190,7 @@ class _LoginRegisterState extends State<LoginRegister>
               ),
               Padding(
                 //password field
-                padding: const EdgeInsets.only(left: 20, right: 20, bottom: 40),
+                padding: EdgeInsets.only(left: 20, right: 20, bottom: 20),
                 child: TextFormField(
                   keyboardType: TextInputType.visiblePassword,
                   obscureText: true,
@@ -218,6 +219,32 @@ class _LoginRegisterState extends State<LoginRegister>
                   ),
                 ),
               ),
+              isLogin //Select gender
+                  ? const SizedBox(height: 0)
+                  : Container(
+                      padding: const EdgeInsets.only(bottom: 20),
+                      child: DropdownMenu(
+                          controller: genderDropdown,
+                          menuStyle: const MenuStyle(
+                            alignment: Alignment(-1, 1.2),
+                            padding: MaterialStatePropertyAll(EdgeInsets.zero),
+                            shape: MaterialStatePropertyAll(
+                                RoundedRectangleBorder(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(15)))),
+                          ),
+                          label: const Text('Gender'),
+                          inputDecorationTheme: InputDecorationTheme(
+                            enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(15),
+                                borderSide: const BorderSide(
+                                    color: Color.fromARGB(255, 80, 75, 75))),
+                          ),
+                          dropdownMenuEntries: genderItems
+                              .map((e) => DropdownMenuEntry(
+                                  value: e.toLowerCase(), label: e))
+                              .toList()),
+                    ),
               Material(
                 color: Colors.transparent,
                 child: InkWell(
@@ -263,8 +290,8 @@ class _LoginRegisterState extends State<LoginRegister>
             ]),
           ),
         ),
-        _isKeyboard
-            ? SizedBox(height: 0)
+        _isKeyboard //register or login
+            ? const SizedBox(height: 0)
             : Align(
                 alignment: Alignment.bottomCenter,
                 child: Padding(

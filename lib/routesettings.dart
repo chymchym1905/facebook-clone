@@ -1,5 +1,6 @@
 import 'package:flutter_application_1/screens/Authentication_pages/forgotpasswordscreen.dart';
 import 'package:flutter_application_1/screens/Gallery_view_pages/galleryview.dart';
+import 'package:flutter_application_1/screens/Home_page/profile_page/profile.dart';
 
 import 'index.dart';
 import 'screens/friends_page.dart';
@@ -31,25 +32,28 @@ class RouteGenerator {
       case '/posts':
         final arg = args as Postpage;
         return MaterialPageRoute(
-          builder: (_) => Postpage(
-                data: arg.data,
-                reloadState: arg.reloadState,
-              ));
+            builder: (_) => Postpage(
+                  data: arg.data,
+                  reloadState: arg.reloadState,
+                ));
       case '/gallery':
         final arg = args as GalleryViewPage;
         return MaterialPageRoute(
-          builder: (_) => GalleryViewPage(
-              initialIndex: arg.initialIndex,
-              data: arg.data,
-              isPostpage: arg.isPostpage));
+            builder: (_) => GalleryViewPage(
+                initialIndex: arg.initialIndex,
+                data: arg.data,
+                isPostpage: arg.isPostpage));
       case '/viewreaction':
         final arg = args as ReactionPage;
         return MaterialPageRoute(
-          builder: (_) => ReactionPage(
-            reactions: arg.reactions, 
-            sortedList: args.sortedList,
-            totalReact: args.totalReact,
-          ));
+            builder: (_) => ReactionPage(
+                  reactions: arg.reactions,
+                  sortedList: args.sortedList,
+                  totalReact: args.totalReact,
+                ));
+      case '/profile':
+        // final arg = args as ProfilePage;
+        return MaterialPageRoute(builder: (_) => const ProfilePage());
       default:
         return _errorRoute();
     }

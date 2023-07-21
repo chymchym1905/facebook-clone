@@ -47,3 +47,4 @@ export './utils/view_reaction_page.dart';
 export 'database.dart';
 export 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 export 'utils/commons.dart';
+export 'screens/Home_page/profile_page/profile.dart';

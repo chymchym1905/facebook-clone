@@ -40,6 +40,7 @@ class _FakeBookState extends State<FakeBook> {
   retrieveUser() async {
     // print(Auth().currentUser);
     currUser = await Database().getUser(Auth().currentUser!.uid);
+    // print(currUser);
   }
 
   themeListener() {

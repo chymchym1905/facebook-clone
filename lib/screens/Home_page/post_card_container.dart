@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 // import 'package:get/get.dart';
 import '../../index.dart';
+import '../../utils/find_user_reaction.dart';
 import 'comment_Modal/comment_button_modal.dart';
 // import 'package:image_size_getter/image_size_getter.dart';
 // import 'package:image_size_getter_http_input/image_size_getter_http_input.dart';
@@ -30,7 +31,9 @@ class _PostsState extends State<Posts> {
   Widget build(BuildContext context) {
     // AppDataProvider.of(context).currentViewData = widget.data;
     // AppDataProvider.of(context).updateCallback = (Post p) => updateState(p);
-
+    if(currUser != null){
+      findUserReact(currUser!.name, widget.data.reactions, widget.data.reaction);
+    }
     return Padding(
         padding: const EdgeInsets.only(top: 8.0),
         child: Card(
@@ -42,7 +45,8 @@ class _PostsState extends State<Posts> {
               NameBar(
                   data: widget.data,
                   reloadState: updateState,
-                  isPostpage: true),
+                  isPostpage: true,
+              ),
               Caption(
                 reloadState: updateState,
                 data: widget.data,
@@ -74,12 +78,11 @@ class NameBar extends StatefulWidget {
     Key? key,
     required this.data,
     required this.reloadState,
-    required this.isPostpage,
+    required this.isPostpage, 
   }) : super(key: key);
   final Post data;
   final bool isPostpage;
   final Function(Post) reloadState;
-
   @override
   State<NameBar> createState() => _NameBarState();
 }
@@ -158,12 +161,11 @@ class Caption extends StatefulWidget {
     Key? key,
     required this.isPostpage,
     required this.data,
-    required this.reloadState,
+    required this.reloadState, 
   }) : super(key: key);
   final bool isPostpage;
   final Post data;
   final Function(Post) reloadState;
-
   @override
   State<Caption> createState() => _Caption();
 }
