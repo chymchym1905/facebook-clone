@@ -12,5 +12,5 @@
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "[dart]": { "editor.defaultFormatter": "Dart-Code.dart-code" },
-  "editor.formatOnSave": false
+  "editor.formatOnSave": true
 }

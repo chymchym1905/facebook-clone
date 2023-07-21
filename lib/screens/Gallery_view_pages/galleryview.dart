@@ -39,9 +39,6 @@ class _GalleryViewPageState extends State<GalleryViewPage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: themeManager.themeMode == dark
-          ? const Color.fromARGB(255, 38, 38, 38)
-          : Colors.white,
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Color.fromARGB(255, 0, 0, 0),

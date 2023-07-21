@@ -20,7 +20,9 @@ class SettingListView extends StatelessWidget {
           height: 8,
         ),
         InkWell(
-            onTap: () {},
+            onTap: () {
+              Navigator.of(context).pushNamed('/profile');
+            },
             child: Ink(
               color: themeManager.themeMode == dark
                   ? lightdark
@@ -57,7 +59,10 @@ class ListElement extends StatelessWidget {
         const SizedBox(width: 10),
         Icon(icon, color: const Color.fromARGB(255, 176, 179, 184)),
         const SizedBox(width: 10),
-        Text(text)
+        Text(
+          text,
+          style: Theme.of(context).textTheme.labelLarge,
+        )
       ]),
     );
   }
