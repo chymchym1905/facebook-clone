@@ -5,12 +5,11 @@ class FBFullReaction extends StatefulWidget {
     Key? key,
     required this.data,
     this.reloadState,
-    this.comment,
+    this.comment, 
   }) : super(key: key);
   final Post data;
   final Function(Post)? reloadState;
   final Comment1? comment;
-
   @override
   State<FBFullReaction> createState() => _FBFullReactionState();
 }
@@ -168,10 +167,42 @@ class _FBFullReactionState extends State<FBFullReaction>
         _news[0]["reaction"] = _reactions[5];
         break;
     }
-    if(widget.data.reaction != 0){
-      // for(int i = )
-    }
+    // if(widget.data.reaction != 0){
+    //   // for(int i = )
+    // }
   }
+
+  void _changeIcon(int reaction) {
+    setState(() {
+      isLike = false;
+      switch (_reactSelected) {
+        case 0:
+          isLike = true;
+          reaction = 1;
+          break;
+        case 1:
+          reaction = 2;
+          break;
+        case 2:
+          reaction = 3;
+          break;
+        case 3:
+          reaction = 4;
+          break;
+        case 4:
+          reaction = 5;
+          break;
+        case 5:
+          reaction = 6;
+          break;
+      }
+      widget.data.reaction = reaction;
+      if(widget.comment != null){
+        widget.comment!.reaction = reaction;
+      }
+    });
+  }
+
 
   Widget _buildReactAnimation() {
     //Emotes pathway
@@ -337,8 +368,14 @@ class _FBFullReactionState extends State<FBFullReaction>
             onTap: () => setState(() {
                   if (_news[index]["reaction"] != null) {
                     widget.data.reaction = 0;
+                    if(widget.comment != null){
+                      widget.comment!.reaction = 0;
+                    }
                   } else {
                     widget.data.reaction = 1;
+                    if(widget.comment != null){
+                      widget.comment!.reaction = 1;
+                    }
                   }
                   // widget.data.reaction = 0;
                   _news[index]["reaction"] = null;
@@ -394,12 +431,10 @@ class _FBFullReactionState extends State<FBFullReaction>
                         ] else ...[
                           Text(
                             text,
-                           style: Theme.of(context)
+                            style: Theme.of(context)
                                   .textTheme
                                   .labelMedium!
-                                  .copyWith(
-                                      // fontWeight: FontWeight.bold,
-                                      color: const Color.fromARGB(255, 109, 107, 107))
+                                  .merge(TextStyle(color: textColor)),
                           )
                         ]
                       ],
@@ -425,6 +460,9 @@ class _FBFullReactionState extends State<FBFullReaction>
   Widget build(BuildContext context) {
     //main build function
     _setIcon(widget.data.reaction);
+    if(widget.comment != null){
+      _setIcon(widget.comment!.reaction);
+    }
     return Stack(children: [
       _buildItem(context, 0),
       _buildReactAnimation(),
@@ -533,27 +571,9 @@ class _FBFullReactionState extends State<FBFullReaction>
         });
       });
       removeOverlay();
-      isLike = false;
-      switch (_reactSelected) {
-        case 0:
-          isLike = true;
-          widget.data.reaction = 1;
-          break;
-        case 1:
-          widget.data.reaction = 2;
-          break;
-        case 2:
-          widget.data.reaction = 3;
-          break;
-        case 3:
-          widget.data.reaction = 4;
-          break;
-        case 4:
-          widget.data.reaction = 5;
-          break;
-        case 5:
-          widget.data.reaction = 6;
-          break;
+      _changeIcon(widget.data.reaction);
+      if(widget.comment != null){
+         _changeIcon(widget.comment!.reaction);
       }
       _reactCtr.forward(from: 0).then((_) {
         //renew

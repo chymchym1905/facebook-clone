@@ -6,7 +6,11 @@ import '../../../index.dart';
 import '../../../utils/count_react.dart';
 
 class DisplayReact extends StatefulWidget {
-  const DisplayReact({super.key, required this.data, required this.isRevert});
+  const DisplayReact({
+    super.key, 
+    required this.data, 
+    required this.isRevert,
+  });
   final List<Reaction> data;
   final bool isRevert;
   @override
@@ -63,7 +67,7 @@ class _DisplayReactState extends State<DisplayReact> {
               ] else if (sortedList.values.elementAt(1) != 0 &&
                   sortedList.values.first != 0) ...[
                 Indexed(
-                  index: 2,
+                  index: 3,
                   child: Padding(
                     padding: EdgeInsets.only(right: 25, bottom: 3, left:  widget.isRevert ? 5:10),
                     child: Container(
@@ -92,7 +96,7 @@ class _DisplayReactState extends State<DisplayReact> {
                   ),
                 ),
                 Indexed(
-                  index: 1,
+                  index: 2,
                   child: Positioned(
                     left: widget.isRevert ? MediaQuery.of(context).size.width * 0.06: MediaQuery.of(context).size.width * 0.07,
                     child: Padding(
@@ -104,7 +108,20 @@ class _DisplayReactState extends State<DisplayReact> {
                       ),
                     ),
                   ),
-                )
+                ),
+                // if(currUser == widget.data[0].user)...[
+                //   Indexed(
+                //     index: 1,
+                //     child: Positioned(
+                //       left: MediaQuery.of(context).size.width * 0.06,
+                //       child: Image.asset(
+                //         "assets/images/${sortedList.keys.elementAt(1)}.png",
+                //         width: MediaQuery.of(context).size.width * 0.05,
+                //         height: MediaQuery.of(context).size.width * 0.05,
+                //       ),
+                //     ),
+                //   )
+                // ]
               ]
             ],
           ),

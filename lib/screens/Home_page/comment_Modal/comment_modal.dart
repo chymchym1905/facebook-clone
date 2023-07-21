@@ -61,7 +61,7 @@ class _CommentModalState extends State<CommentModal>
           // mainAxisAlignment: MainAxisAlignment.end, 
           children: [
             Expanded(
-              child: DisplayReact(data: widget.data.reactions, isRevert: false,)
+              child: DisplayReact(data: widget.data.reactions, isRevert: false)
             ),
             Container(
               padding: const EdgeInsets.only(right: 20),
