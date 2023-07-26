@@ -9,30 +9,36 @@ ThemeData light = ThemeData(
     // brightness: Brightness.light,
     scaffoldBackgroundColor: const Color.fromARGB(235, 255, 255, 255),
     textTheme: const TextTheme(
-      titleLarge: TextStyle(
-        //feed name
-        letterSpacing: -1.0,
-        color: Colors.black,
-      ),
-      labelSmall: TextStyle(
-        //likes
-        color: Colors.grey,
-        letterSpacing: -0.2,
-      ),
-      labelLarge: TextStyle(
+        titleLarge: TextStyle(
+          //feed name
+          letterSpacing: -1.0,
+          color: Colors.black,
+        ),
+        labelSmall: TextStyle(
+          //likes
+          color: Colors.grey,
+          letterSpacing: -0.2,
+        ),
+        labelLarge: TextStyle(
           //setting list view text
           //content
           color: Colors.black,
           letterSpacing: -0.8),
-      titleMedium: TextStyle(
+        titleMedium: TextStyle(
           //Poster
           //user name in user profile
           letterSpacing: -1.0),
-      bodySmall: TextStyle(
-        color: Color.fromARGB(255, 49, 48, 48),
-        letterSpacing: -0.2,
+        bodySmall: TextStyle(
+          color: Color.fromARGB(255, 49, 48, 48),
+          letterSpacing: -0.2,
+        ),
+        headlineSmall: TextStyle(
+          //setting friend view text
+          //content
+          color: Colors.black,
+          letterSpacing: -0.8
+        )
       ),
-    ),
     appBarTheme: const AppBarTheme(
       backgroundColor: Color.fromARGB(255, 255, 255, 255),
       foregroundColor: Color.fromRGBO(0, 0, 0, 1),
@@ -89,7 +95,7 @@ ThemeData dark = ThemeData(
       letterSpacing: -0.2,
     ),
     labelLarge: TextStyle(
-        //content
+        //content 
         color: Color.fromRGBO(255, 255, 255, 1),
         letterSpacing: -0.8),
     titleMedium: TextStyle(
@@ -100,6 +106,12 @@ ThemeData dark = ThemeData(
       color: Color.fromARGB(255, 255, 255, 255),
       letterSpacing: -0.2,
     ),
+    headlineSmall: TextStyle(
+      //setting friend view text
+      //content
+      color: Color.fromRGBO(255, 255, 255, 1),
+      letterSpacing: -0.8
+    )
   ),
   appBarTheme: const AppBarTheme(
     backgroundColor: Color.fromARGB(255, 38, 38, 38),

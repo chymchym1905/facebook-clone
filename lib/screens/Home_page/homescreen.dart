@@ -210,10 +210,10 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
               body: TabBarView(
                 controller: _tabController,
                 children: [
-                  FriendListView(
-                      source: source1, pagekey: const PageStorageKey('tab1')),
                   PostListView(
-                      source: source2, pagekey: const PageStorageKey('tab2')),
+                      source: source2, pagekey: const PageStorageKey('tab1')),
+                  FriendListView(
+                      source: source1, pagekey: const PageStorageKey('tab2')),
                   WatchListView(
                       source: source3, pagekey: const PageStorageKey('tab3')),
                   SettingListView()

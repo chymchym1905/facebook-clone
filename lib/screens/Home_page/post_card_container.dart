@@ -1,6 +1,8 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 // import 'package:get/get.dart';
 import '../../index.dart';
+import '../../utils/count_comment.dart';
+import '../../utils/display_react.dart';
 import '../../utils/find_user_reaction.dart';
 import 'comment_Modal/comment_button_modal.dart';
 // import 'package:image_size_getter/image_size_getter.dart';
@@ -31,9 +33,11 @@ class _PostsState extends State<Posts> {
   Widget build(BuildContext context) {
     // AppDataProvider.of(context).currentViewData = widget.data;
     // AppDataProvider.of(context).updateCallback = (Post p) => updateState(p);
-    if(currUser != null){
-      findUserReact(currUser!.name, widget.data.reactions, widget.data.reaction);
+    if (currUser != null) {
+      findUserReact(
+          currUser!.name, widget.data.reactions, widget.data.reaction);
     }
+    int comments = countComment(widget.data.comment);
     return Padding(
         padding: const EdgeInsets.only(top: 8.0),
         child: Card(
@@ -43,9 +47,9 @@ class _PostsState extends State<Posts> {
           child: Column(
             children: [
               NameBar(
-                  data: widget.data,
-                  reloadState: updateState,
-                  isPostpage: true,
+                data: widget.data,
+                reloadState: updateState,
+                isPostpage: true,
               ),
               Caption(
                 reloadState: updateState,
@@ -53,6 +57,21 @@ class _PostsState extends State<Posts> {
                 isPostpage: true,
               ),
               if (widget.data.imageurl.isNotEmpty) ImageBox(data: widget.data),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: DisplayReact(
+                          data: widget.data.reactions,
+                          isRevert: false,
+                          hideIcon: true),
+                    ),
+                    Text("$comments comments "),
+                    const Text("· 0 shares")
+                  ],
+                ),
+              ),
               Container(
                   decoration: const BoxDecoration(
                       border: Border(
@@ -78,7 +97,7 @@ class NameBar extends StatefulWidget {
     Key? key,
     required this.data,
     required this.reloadState,
-    required this.isPostpage, 
+    required this.isPostpage,
   }) : super(key: key);
   final Post data;
   final bool isPostpage;
@@ -161,7 +180,7 @@ class Caption extends StatefulWidget {
     Key? key,
     required this.isPostpage,
     required this.data,
-    required this.reloadState, 
+    required this.reloadState,
   }) : super(key: key);
   final bool isPostpage;
   final Post data;

@@ -5,10 +5,10 @@ import '../index.dart';
 
 class ReactionPage extends StatefulWidget {
   const ReactionPage({
-    super.key, 
-    required this.reactions, 
-    required this.sortedList, 
-    required this.totalReact, 
+    super.key,
+    required this.reactions,
+    required this.sortedList,
+    required this.totalReact,
   });
   final List<Reaction> reactions;
   final Map<String, int> sortedList;
@@ -18,9 +18,8 @@ class ReactionPage extends StatefulWidget {
   State<ReactionPage> createState() => _ReactionPageState();
 }
 
-
-
-class _ReactionPageState extends State<ReactionPage> with TickerProviderStateMixin {
+class _ReactionPageState extends State<ReactionPage>
+    with TickerProviderStateMixin {
   late TabController _tabController;
   Color currentIndicatorColor = Colors.blue;
   List<String> keysortedList = ["All"];
@@ -28,15 +27,18 @@ class _ReactionPageState extends State<ReactionPage> with TickerProviderStateMix
   @override
   void initState() {
     super.initState();
-     int nonZeroValueCount = widget.sortedList.values.where((value) => value != 0).length;
-     keysortedList.addAll(widget.sortedList.keys);
+    int nonZeroValueCount =
+        widget.sortedList.values.where((value) => value != 0).length;
+    keysortedList.addAll(widget.sortedList.keys);
     _tabController = TabController(length: nonZeroValueCount + 1, vsync: this);
     _tabController.addListener(() {
       setState(() {
-        currentIndicatorColor = _getTabIndicatorColor(keysortedList[_tabController.index]);
+        currentIndicatorColor =
+            _getTabIndicatorColor(keysortedList[_tabController.index]);
       });
     });
-    currentIndicatorColor = _getTabIndicatorColor(keysortedList[_tabController.index]);
+    currentIndicatorColor =
+        _getTabIndicatorColor(keysortedList[_tabController.index]);
   }
 
   @override
@@ -54,13 +56,13 @@ class _ReactionPageState extends State<ReactionPage> with TickerProviderStateMix
       appBar: AppBar(
         elevation: 1,
         leading: IconButton(
-          splashRadius: MediaQuery.of(context).size.width * 0.07,
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.of(context).pop(false);
-        }),
+            splashRadius: MediaQuery.of(context).size.width * 0.07,
+            icon: const Icon(Icons.arrow_back),
+            onPressed: () {
+              Navigator.of(context).pop(false);
+            }),
         title: Text("People who reacted",
-              style: Theme.of(context).textTheme.titleLarge),
+            style: Theme.of(context).textTheme.titleLarge),
         actions: [
           IconButton(
               onPressed: () {},
@@ -75,7 +77,9 @@ class _ReactionPageState extends State<ReactionPage> with TickerProviderStateMix
             Tab(
               text: 'All ${widget.totalReact}',
             ),
-             ...widget.sortedList.entries.where((entry) => entry.value != 0).map((entry) {
+            ...widget.sortedList.entries
+                .where((entry) => entry.value != 0)
+                .map((entry) {
               final icon = entry.key;
               final number = entry.value;
               return Tab(
@@ -97,17 +101,17 @@ class _ReactionPageState extends State<ReactionPage> with TickerProviderStateMix
           ],
         ),
       ),
-      body: TabBarView(
-        controller: _tabController,
-        children: [
-          ReactionPageView(reactions: widget.reactions, icon: "All"),
-          ...widget.sortedList.entries.where((entry) => entry.value != 0)
-            .map((entry) => ReactionPageView(reactions: widget.reactions, icon: entry.key)
-          ).toList(),
-        ]
-      ),
+      body: TabBarView(controller: _tabController, children: [
+        ReactionPageView(reactions: widget.reactions, icon: "All"),
+        ...widget.sortedList.entries
+            .where((entry) => entry.value != 0)
+            .map((entry) =>
+                ReactionPageView(reactions: widget.reactions, icon: entry.key))
+            .toList(),
+      ]),
     );
   }
+
   Color _getTabIndicatorColor(String tabName) {
     switch (tabName) {
       case 'All':
@@ -131,7 +135,8 @@ class _ReactionPageState extends State<ReactionPage> with TickerProviderStateMix
 }
 
 class DecoratedTabBar extends StatelessWidget implements PreferredSizeWidget {
-  const DecoratedTabBar({super.key, required this.tabBar, required this.decoration});
+  const DecoratedTabBar(
+      {super.key, required this.tabBar, required this.decoration});
   final TabBar tabBar;
   final BoxDecoration decoration;
 
@@ -149,33 +154,41 @@ class DecoratedTabBar extends StatelessWidget implements PreferredSizeWidget {
   }
 }
 
-class ReactionPageView extends StatelessWidget {
-  const ReactionPageView({
-    super.key, 
-    required this.reactions, 
-    required this.icon
-  });
+class ReactionPageView extends StatefulWidget {
+  const ReactionPageView(
+      {super.key, required this.reactions, required this.icon});
   final List<Reaction> reactions;
   final String icon;
 
   @override
+  State<ReactionPageView> createState() => _ReactionPageViewState();
+}
+
+class _ReactionPageViewState extends State<ReactionPageView> {
+  @override
   Widget build(BuildContext context) {
     return ListView(
       children: [
-        for(int i = 0; i < reactions.length; i++) ...[
-          if(icon == "All") ...[
+        for (int i = 0; i < widget.reactions.length; i++) ...[
+          if (widget.icon == "All") ...[
             reactContent(context, i)
-          ] else if(icon == "like" && reactions[i].reaction == 0)...[
+          ] else if (widget.icon == "like" &&
+              widget.reactions[i].reaction == 0) ...[
             reactContent(context, i)
-          ] else if(icon == "love" && reactions[i].reaction == 1)...[
+          ] else if (widget.icon == "love" &&
+              widget.reactions[i].reaction == 1) ...[
             reactContent(context, i)
-          ] else if(icon == "haha" && reactions[i].reaction == 2)...[
+          ] else if (widget.icon == "haha" &&
+              widget.reactions[i].reaction == 2) ...[
             reactContent(context, i)
-          ] else if(icon == "wow" && reactions[i].reaction == 3)...[
+          ] else if (widget.icon == "wow" &&
+              widget.reactions[i].reaction == 3) ...[
             reactContent(context, i)
-          ] else if(icon == "sad" && reactions[i].reaction == 4)...[
+          ] else if (widget.icon == "sad" &&
+              widget.reactions[i].reaction == 4) ...[
             reactContent(context, i)
-          ] else if(icon == "angry" && reactions[i].reaction == 5)...[
+          ] else if (widget.icon == "angry" &&
+              widget.reactions[i].reaction == 5) ...[
             reactContent(context, i)
           ]
         ]
@@ -183,15 +196,30 @@ class ReactionPageView extends StatelessWidget {
     );
   }
 
-  Widget reactContent(BuildContext context, int index){
+  Widget reactContent(BuildContext context, int index) {
     List<String> listicon = [
-      "like" , ///0
-      "love" , ///1
-      "haha" , ///2
-      "wow"  , ///3
-      "sad"  , ///4
-      "angry", ///5
+      "like",
+
+      ///0
+      "love",
+
+      ///1
+      "haha",
+
+      ///2
+      "wow",
+
+      ///3
+      "sad",
+
+      ///4
+      "angry",
+
+      ///5
     ];
+    if (widget.reactions[0].reaction == -1) {
+      widget.reactions.removeAt(0);
+    }
     return Row(
       children: [
         Indexer(
@@ -199,10 +227,12 @@ class ReactionPageView extends StatelessWidget {
             Indexed(
               index: 1,
               child: Padding(
-                padding: const EdgeInsets.only(top: 10, bottom: 10,right: 15, left: 10),
+                padding: const EdgeInsets.only(
+                    top: 10, bottom: 10, right: 15, left: 10),
                 child: CircleAvatar(
                   radius: 22,
-                  backgroundImage: imageAvatar(reactions[index].user.imageurl),
+                  backgroundImage:
+                      imageAvatar(widget.reactions[index].user.imageurl),
                 ),
               ),
             ),
@@ -216,20 +246,20 @@ class ReactionPageView extends StatelessWidget {
                   height: MediaQuery.of(context).size.width * 0.07,
                   decoration: BoxDecoration(
                     color: const Color(0xff7c94b6),
-                    borderRadius: const BorderRadius.all( Radius.circular(50.0)),
+                    borderRadius: const BorderRadius.all(Radius.circular(50.0)),
                     border: Border.all(
                       color: themeManager.themeMode == dark
-                        ? const Color.fromARGB(255, 58, 59, 60)
-                        :  Colors.white,
+                          ? const Color.fromARGB(255, 58, 59, 60)
+                          : Colors.white,
                       width: 2,
                     ),
                   ),
                   child: ClipRRect(
                     child: Image.asset(
-                        "assets/images/${listicon[reactions[index].reaction]}.png",
-                        height:  MediaQuery.of(context).size.width * 0.07,
-                        width:  MediaQuery.of(context).size.width * 0.07,
-                        fit:BoxFit.cover,
+                      "assets/images/${listicon[widget.reactions[index].reaction]}.png",
+                      height: MediaQuery.of(context).size.width * 0.07,
+                      width: MediaQuery.of(context).size.width * 0.07,
+                      fit: BoxFit.cover,
                     ),
                   ),
                 ),
@@ -237,13 +267,11 @@ class ReactionPageView extends StatelessWidget {
             )
           ],
         ),
-        Text(
-          reactions[index].user.name,
-          style: Theme.of(context)
-                    .textTheme
-                    .titleMedium
-                    ?.copyWith(fontWeight: FontWeight.w300)
-        )
+        Text(widget.reactions[index].user.name,
+            style: Theme.of(context)
+                .textTheme
+                .titleMedium
+                ?.copyWith(fontWeight: FontWeight.w300))
       ],
     );
   }

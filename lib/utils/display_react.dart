@@ -10,9 +10,11 @@ class DisplayReact extends StatefulWidget {
     super.key,
     required this.data,
     required this.isRevert,
+    required this.hideIcon,
   });
   final List<Reaction> data;
   final bool isRevert;
+  final bool hideIcon;
   @override
   State<DisplayReact> createState() => _DisplayReactState();
 }
@@ -66,6 +68,7 @@ class _DisplayReactState extends State<DisplayReact> {
     Map<String, int> sortedList = Map.fromEntries(entries);
     int totalReact = sortedList.values.fold(0, (sum, value) => sum + value);
     return GestureDetector(
+      behavior: HitTestBehavior.opaque,
       onTap: () {
         Navigator.of(context).pushNamed('/viewreaction',
             arguments: ReactionPage(
@@ -192,16 +195,18 @@ class _DisplayReactState extends State<DisplayReact> {
                     .textTheme
                     .titleMedium
                     ?.copyWith(fontWeight: FontWeight.w300)),
-            Padding(
-              padding: const EdgeInsets.only(left: 1),
-              child: Icon(
-                size: MediaQuery.of(context).size.width * 0.05,
-                MfgLabs.right_open,
-                color: themeManager.themeMode == dark
-                    ? const Color.fromARGB(255, 234, 236, 238)
-                    : const Color.fromARGB(255, 58, 59, 60),
+            if (!widget.hideIcon) ...[
+              Padding(
+                padding: const EdgeInsets.only(left: 1),
+                child: Icon(
+                  size: MediaQuery.of(context).size.width * 0.05,
+                  MfgLabs.right_open,
+                  color: themeManager.themeMode == dark
+                      ? const Color.fromARGB(255, 234, 236, 238)
+                      : const Color.fromARGB(255, 58, 59, 60),
+                ),
               ),
-            ),
+            ]
           ]
         ],
       ),

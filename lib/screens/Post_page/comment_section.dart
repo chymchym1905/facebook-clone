@@ -2,22 +2,10 @@ import 'package:flutter_application_1/utils/display_react.dart';
 import 'package:flutter_application_1/utils/find_user_reaction.dart';
 
 import '../../index.dart';
+import '../../utils/count_comment.dart';
 
 Post fakedata = Post("", UserDummy("", "", "", "", "", DateTime.timestamp()),
     "", [], 0, 0, 0, [], 0, []);
-
-void countReply(Comment1 data, List<Comment1> listdata) {
-  int count = 0;
-  var countLoop = data.reply.length;
-  while (countLoop > 0) {
-    listdata.add(data.reply[count]);
-    if (data.reply[count].reply.isNotEmpty) {
-      countReply(data.reply[count], listdata);
-    }
-    count++;
-    countLoop--;
-  }
-}
 
 class CommentSection extends StatefulWidget {
   const CommentSection({
@@ -37,6 +25,15 @@ class CommentSection extends StatefulWidget {
 }
 
 class _CommentSectionState extends State<CommentSection> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  void reloadReaction(Comment1 data) {
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     Color hideTree;
@@ -77,7 +74,10 @@ class _CommentSectionState extends State<CommentSection> {
                     list: Comment1(
                         UserDummy("", "", "", "", "", DateTime.timestamp()),
                         0,
-                        "View $listLength more comment...", [], [],0),
+                        "View $listLength more comment...",
+                        [],
+                        [],
+                        0),
                     myfocusNode: widget.myfocusNode,
                     indexforreply1: index,
                     indexforreply2: 0,
@@ -120,7 +120,7 @@ class _CommentSectionState extends State<CommentSection> {
             },
             contentRoot: (context, data) {
               // Parent comment
-              if(currUser != null){
+              if (currUser != null) {
                 findUserReact(currUser!.name, data.reactions, data.reaction);
               }
               return Column(
@@ -169,7 +169,11 @@ class _CommentSectionState extends State<CommentSection> {
                                 const SizedBox(
                                   width: 8,
                                 ),
-                                FBFullReaction(data: fakedata, comment: data,),
+                                FBFullReaction(
+                                  data: fakedata,
+                                  comment: data,
+                                  reloadReaction: reloadReaction,
+                                ),
                                 ReplyButton(
                                     indexforreply1: index,
                                     indexforreply2: -1,
@@ -179,7 +183,10 @@ class _CommentSectionState extends State<CommentSection> {
                               ],
                             ),
                           ),
-                          DisplayReact(data: data.reactions, isRevert: true)
+                          DisplayReact(
+                              data: data.reactions,
+                              isRevert: true,
+                              hideIcon: true)
                         ],
                       ),
                     ),
@@ -281,6 +288,15 @@ class CommmentTreeSection extends StatefulWidget {
 
 class _CommmentTreeSectionState extends State<CommmentTreeSection> {
   @override
+  void initState() {
+    super.initState();
+  }
+
+  void reloadReaction(Comment1 data) {
+    setState(() {});
+  }
+
+  @override
   Widget build(BuildContext context) {
     List<Comment1> listReply = [];
     countReply(widget.list, listReply);
@@ -328,8 +344,9 @@ class _CommmentTreeSectionState extends State<CommmentTreeSection> {
                 ),
                 contentChild: (context, data) {
                   //Replies
-                  if(currUser != null){
-                    findUserReact(currUser!.name, data.reactions, data.reaction);
+                  if (currUser != null) {
+                    findUserReact(
+                        currUser!.name, data.reactions, data.reaction);
                   }
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -381,7 +398,11 @@ class _CommmentTreeSectionState extends State<CommmentTreeSection> {
                                     // const SizedBox(
                                     //   width: 15,
                                     // ),
-                                    FBFullReaction(data: fakedata, comment: data,),
+                                    FBFullReaction(
+                                      data: fakedata,
+                                      comment: data,
+                                      reloadReaction: reloadReaction,
+                                    ),
                                     ReplyButton(
                                         indexforreply1: widget.indexforreply1,
                                         indexforreply2: widget.indexforreply2,
@@ -391,7 +412,10 @@ class _CommmentTreeSectionState extends State<CommmentTreeSection> {
                                   ],
                                 ),
                               ),
-                              DisplayReact(data: data.reactions, isRevert: true)
+                              DisplayReact(
+                                  data: data.reactions,
+                                  isRevert: true,
+                                  hideIcon: true)
                             ],
                           ),
                         ),
@@ -400,8 +424,9 @@ class _CommmentTreeSectionState extends State<CommmentTreeSection> {
                   );
                 },
                 contentRoot: (context, data) {
-                  if(currUser != null){
-                    findUserReact(currUser!.name, data.reactions, data.reaction);
+                  if (currUser != null) {
+                    findUserReact(
+                        currUser!.name, data.reactions, data.reaction);
                   }
                   // Parent comment
                   return Column(
@@ -454,7 +479,11 @@ class _CommmentTreeSectionState extends State<CommmentTreeSection> {
                                     // const SizedBox(
                                     //   width: 15,
                                     // ),
-                                    FBFullReaction(data: fakedata, comment: data,),
+                                    FBFullReaction(
+                                      data: fakedata,
+                                      comment: data,
+                                      reloadReaction: reloadReaction,
+                                    ),
                                     ReplyButton(
                                         indexforreply1: widget.indexforreply1,
                                         indexforreply2: widget.indexforreply2,
@@ -464,8 +493,10 @@ class _CommmentTreeSectionState extends State<CommmentTreeSection> {
                                   ],
                                 ),
                               ),
-                              
-                              DisplayReact(data: data.reactions, isRevert: true)
+                              DisplayReact(
+                                  data: data.reactions,
+                                  isRevert: true,
+                                  hideIcon: true)
                             ],
                           ),
                         ),

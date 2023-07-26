@@ -1,6 +1,8 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 // import 'package:get/get.dart';
 import '../../index.dart';
+import '../../utils/display_react.dart';
+import '../../utils/find_user_reaction.dart';
 
 class IndexComment {
   static int intdex = -1;
@@ -13,7 +15,7 @@ class Postpage extends StatefulWidget {
   const Postpage({
     Key? key,
     required this.data,
-    required this.reloadState, 
+    required this.reloadState,
   }) : super(key: key);
   final Post data;
   final Function(Post) reloadState;
@@ -58,6 +60,12 @@ class _PostPageState extends State<Postpage>
     }
   }
 
+  void updateState(Post p) {
+    setState(() {
+      // AppDataProvider.of(context).currentViewData = p;
+    });
+  }
+
   void setViewMoreComment(int index) {
     setState(() {
       controlViewMoreComment[index] = false;
@@ -68,40 +76,18 @@ class _PostPageState extends State<Postpage>
   Widget build(BuildContext context) {
     super.build(context);
     final isKeyboard = MediaQuery.of(context).viewInsets.bottom != 0;
-
-    Widget iconSection = Container(
-      decoration: const BoxDecoration(
-          border: Border(top: BorderSide(color: Colors.grey, width: 0.2))),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(10),
-            child: Container(
-              padding: const EdgeInsets.all(4),
-              decoration: const BoxDecoration(
-                color: blue,
-                shape: BoxShape.circle,
-              ),
-              child: const Icon(
-                Icons.thumb_up,
-                size: 15,
-                color: Colors.white,
-              ),
-            ),
-          ),
-          Text(
-            widget.data.likes.toString(),
-            style: Theme.of(context).textTheme.labelSmall,
-          ),
-        ],
-      ),
-    );
+    if (currUser != null) {
+      findUserReact(
+          currUser!.name, widget.data.reactions, widget.data.reaction);
+    }
 
     Widget buttonSection = Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        FBFullReaction(data: widget.data, reloadState: widget.reloadState),
+        FBFullReaction(
+            data: widget.data,
+            reloadState: widget.reloadState,
+            updateState: updateState),
         const CommentButton(),
         ShareButton(data: widget.data),
       ],
@@ -141,9 +127,9 @@ class _PostPageState extends State<Postpage>
               child: ListView(
                 children: [
                   NameBar(
-                      data: widget.data,
-                      reloadState: widget.reloadState,
-                      isPostpage: false,
+                    data: widget.data,
+                    reloadState: widget.reloadState,
+                    isPostpage: false,
                   ),
                   Caption(
                     reloadState: widget.reloadState,
@@ -160,7 +146,17 @@ class _PostPageState extends State<Postpage>
                       height: 1,
                       width: MediaQuery.of(context).size.width * 0.9),
                   buttonSection,
-                  iconSection,
+                  Row(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: DisplayReact(
+                            data: widget.data.reactions,
+                            isRevert: false,
+                            hideIcon: true),
+                      ),
+                    ],
+                  ),
                   CommentSection(
                     myfocusNode: AppDataProvider.of(context).commentPostPage,
                     data: widget.data.comment,
