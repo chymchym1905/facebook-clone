@@ -5,11 +5,15 @@ class FBFullReaction extends StatefulWidget {
     Key? key,
     required this.data,
     this.reloadState,
-    this.comment, 
+    this.comment,
+    this.reloadReaction,
+    this.updateState,
   }) : super(key: key);
   final Post data;
   final Function(Post)? reloadState;
+  final Function(Post)? updateState;
   final Comment1? comment;
+  final Function(Comment1)? reloadReaction;
   @override
   State<FBFullReaction> createState() => _FBFullReactionState();
 }
@@ -197,12 +201,11 @@ class _FBFullReactionState extends State<FBFullReaction>
           break;
       }
       widget.data.reaction = reaction;
-      if(widget.comment != null){
+      if (widget.comment != null) {
         widget.comment!.reaction = reaction;
       }
     });
   }
-
 
   Widget _buildReactAnimation() {
     //Emotes pathway
@@ -347,7 +350,7 @@ class _FBFullReactionState extends State<FBFullReaction>
     ButtonReaction? reaction = _news[index]["reaction"];
     String text = "Like";
     Color textColor = Colors.grey;
-    if(widget.reloadState == null){
+    if (widget.reloadState == null) {
       textColor = const Color.fromARGB(255, 109, 107, 107);
     }
     if (widget.data.reaction == 1) {
@@ -368,12 +371,12 @@ class _FBFullReactionState extends State<FBFullReaction>
             onTap: () => setState(() {
                   if (_news[index]["reaction"] != null) {
                     widget.data.reaction = 0;
-                    if(widget.comment != null){
+                    if (widget.comment != null) {
                       widget.comment!.reaction = 0;
                     }
                   } else {
                     widget.data.reaction = 1;
-                    if(widget.comment != null){
+                    if (widget.comment != null) {
                       widget.comment!.reaction = 1;
                     }
                   }
@@ -381,6 +384,12 @@ class _FBFullReactionState extends State<FBFullReaction>
                   _news[index]["reaction"] = null;
                   if (widget.reloadState != null) {
                     widget.reloadState!(widget.data);
+                  }
+                  if (widget.reloadReaction != null) {
+                    widget.reloadReaction!(widget.comment!);
+                  }
+                  if (widget.updateState != null) {
+                    widget.updateState!(widget.data);
                   }
                 }),
             onLongPressMoveUpdate: _updatePointer,
@@ -432,9 +441,9 @@ class _FBFullReactionState extends State<FBFullReaction>
                           Text(
                             text,
                             style: Theme.of(context)
-                                  .textTheme
-                                  .labelMedium!
-                                  .merge(TextStyle(color: textColor)),
+                                .textTheme
+                                .labelMedium!
+                                .merge(TextStyle(color: textColor)),
                           )
                         ]
                       ],
@@ -460,7 +469,7 @@ class _FBFullReactionState extends State<FBFullReaction>
   Widget build(BuildContext context) {
     //main build function
     _setIcon(widget.data.reaction);
-    if(widget.comment != null){
+    if (widget.comment != null) {
       _setIcon(widget.comment!.reaction);
     }
     return Stack(children: [
@@ -572,8 +581,8 @@ class _FBFullReactionState extends State<FBFullReaction>
       });
       removeOverlay();
       _changeIcon(widget.data.reaction);
-      if(widget.comment != null){
-         _changeIcon(widget.comment!.reaction);
+      if (widget.comment != null) {
+        _changeIcon(widget.comment!.reaction);
       }
       _reactCtr.forward(from: 0).then((_) {
         //renew
@@ -586,6 +595,12 @@ class _FBFullReactionState extends State<FBFullReaction>
     // Future.delayed(Duration:)
     if (widget.reloadState != null) {
       widget.reloadState!(widget.data);
+    }
+    if (widget.reloadReaction != null) {
+      widget.reloadReaction!(widget.comment!);
+    }
+    if (widget.updateState != null) {
+      widget.updateState!(widget.data);
     }
   }
 

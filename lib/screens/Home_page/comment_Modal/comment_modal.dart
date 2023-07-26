@@ -58,24 +58,26 @@ class _CommentModalState extends State<CommentModal>
     return Column(
       children: [
         Row(
-          // mainAxisAlignment: MainAxisAlignment.end, 
-          children: [
-            Expanded(
-              child: DisplayReact(data: widget.data.reactions, isRevert: false)
-            ),
-            Container(
-              padding: const EdgeInsets.only(right: 20),
-              child: IconButton(
-                onPressed: () {
-                  setState(() {
-                    isLike = !isLike;
-                  });
-                },
-                icon: Icon(Icons.thumb_up_off_alt,
-                    color: isLike ? const Facebook.blue().color : Colors.grey),
-              )
-            ),
-        ]),
+            // mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Expanded(
+                  child: DisplayReact(
+                      data: widget.data.reactions,
+                      isRevert: false,
+                      hideIcon: false)),
+              Container(
+                  padding: const EdgeInsets.only(right: 20),
+                  child: IconButton(
+                    onPressed: () {
+                      setState(() {
+                        isLike = !isLike;
+                      });
+                    },
+                    icon: Icon(Icons.thumb_up_off_alt,
+                        color:
+                            isLike ? const Facebook.blue().color : Colors.grey),
+                  )),
+            ]),
         Expanded(
           child: CommentSection(
             myfocusNode: AppDataProvider.of(context).commentModal,

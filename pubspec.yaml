@@ -54,6 +54,7 @@ dependencies:
   indexed: ^0.0.8
   flutter_sound: ^9.2.13
   flutter_keyboard_visibility: ^5.4.1
+  provider: ^6.0.5
 
 dev_dependencies:
   flutter_test:

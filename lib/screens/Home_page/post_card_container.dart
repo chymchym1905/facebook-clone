@@ -1,6 +1,8 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 // import 'package:get/get.dart';
 import '../../index.dart';
+import '../../utils/count_comment.dart';
+import '../../utils/display_react.dart';
 import '../../utils/find_user_reaction.dart';
 import 'comment_Modal/comment_button_modal.dart';
 // import 'package:image_size_getter/image_size_getter.dart';
@@ -35,6 +37,7 @@ class _PostsState extends State<Posts> {
       findUserReact(
           currUser!.name, widget.data.reactions, widget.data.reaction);
     }
+    int comments = countComment(widget.data.comment);
     return Padding(
         padding: const EdgeInsets.only(top: 8.0),
         child: Card(
@@ -54,17 +57,27 @@ class _PostsState extends State<Posts> {
                 isPostpage: true,
               ),
               if (widget.data.imageurl.isNotEmpty) ImageBox(data: widget.data),
-              Divider(
-                indent: MediaQuery.of(context).size.width * 0.05,
-                endIndent: MediaQuery.of(context).size.width * 0.05,
-                thickness: 1,
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: DisplayReact(
+                          data: widget.data.reactions,
+                          isRevert: false,
+                          hideIcon: true),
+                    ),
+                    Text("$comments comments "),
+                    const Text("· 0 shares")
+                  ],
+                ),
               ),
-              // Container(
-              //     decoration: const BoxDecoration(
-              //         border: Border(
-              //             bottom: BorderSide(color: Colors.grey, width: 0.2))),
-              //     height: 1,
-              //     width: MediaQuery.of(context).size.width * 0.9),
+              Container(
+                  decoration: const BoxDecoration(
+                      border: Border(
+                          bottom: BorderSide(color: Colors.grey, width: 0.2))),
+                  height: 1,
+                  width: MediaQuery.of(context).size.width * 0.9),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
