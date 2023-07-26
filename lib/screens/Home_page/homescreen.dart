@@ -1,7 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter_application_1/screens/Home_page/listviews/friendlistview.dart';
 import 'package:flutter_application_1/screens/Home_page/listviews/watchlistview.dart';
-
 import '../../index.dart';
 
 //Variables
@@ -29,9 +28,37 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
   final GlobalKey<ExtendedNestedScrollViewState> _key =
       GlobalKey<ExtendedNestedScrollViewState>();
   bool isFirstLoad = true;
+  // OverlayEntry? _overlayEntry;
 
   // late AnimationController _animationController;
   // late final Animation<Offset> _offsetAnimation;
+
+  // void showOverlay() {
+  //   final RenderBox button = context.findRenderObject() as RenderBox;
+  //   final Offset offset = button.localToGlobal(Offset.zero);
+  //   _overlayEntry = OverlayEntry(
+  //     builder: (context) => Positioned(
+  //       top: offset.dy,
+  //       left: offset.dx,
+  //       child: GestureDetector(
+  //         onTap: () {
+  //           _removeColorLayer();
+  //           Navigator.of(context).pop();
+  //         },
+  //         child: Container(
+  //             width: button.size.width,
+  //             height: button.size.height,
+  //             color: Color.fromARGB(62, 96, 96, 96)),
+  //       ),
+  //     ),
+  //   );
+  //   Overlay.of(context).insert(_overlayEntry!);
+  // }
+
+  // void _removeColorLayer() {
+  //   _overlayEntry?.remove();
+  //   _overlayEntry = null;
+  // }
 
   @override
   void dispose() {
@@ -173,10 +200,42 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                   value: themeManager.themeMode == dark,
                   onChanged: (value) => themeManager.toggleTheme(value),
                   activeColor: whitee),
-              IconButton(
-                  splashRadius: MediaQuery.of(context).size.width * 0.07,
-                  onPressed: () {},
-                  icon: const Icon(Icons.add)),
+              PopupMenuButton<int>(
+                // onOpened: () {
+                //   showOverlay();
+                // },
+                // onSelected: (e) {
+                //   _removeColorLayer();
+                // },
+                // onCanceled: () {
+                //   _removeColorLayer();
+                // },
+                itemBuilder: (context) {
+                  return [
+                    PopupMenuItem(
+                        onTap: () {
+                          WidgetsBinding.instance.addPostFrameCallback((_) {
+                            Navigator.of(context).pushNamed('/createpost');
+                          });
+                        },
+                        child: const Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [Icon(FontAwesome5.edit), Text('Post')])),
+                    const PopupMenuDivider(height: 2),
+                    const PopupMenuItem(
+                        child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                          Icon(Elusive.video_alt),
+                          Text('Watch')
+                        ])),
+                  ];
+                },
+                icon: const Icon(Icons.add),
+                padding: EdgeInsets.zero,
+                position: PopupMenuPosition.under,
+                splashRadius: MediaQuery.of(context).size.width * 0.07,
+              ),
               IconButton(
                   splashRadius: MediaQuery.of(context).size.width * 0.07,
                   onPressed: () {},

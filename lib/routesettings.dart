@@ -54,6 +54,8 @@ class RouteGenerator {
       case '/profile':
         // final arg = args as ProfilePage;
         return MaterialPageRoute(builder: (_) => const ProfilePage());
+      case '/createpost':
+        return MaterialPageRoute(builder: (_) => const CreatePost());
       default:
         return _errorRoute();
     }

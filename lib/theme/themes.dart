@@ -61,7 +61,13 @@ ThemeData light = ThemeData(
             letterSpacing: -0.2,
             fontSize: 12,
             fontStyle: FontStyle.normal)),
-    listTileTheme: ListTileThemeData(textColor: Colors.black)
+    listTileTheme: ListTileThemeData(textColor: Colors.black),
+    popupMenuTheme: PopupMenuThemeData(
+      color: Color.fromARGB(255, 255, 255, 255),
+      shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10), side: BorderSide.none),
+    ),
+    bottomAppBarTheme: BottomAppBarTheme(color: Colors.white)
     // colorScheme: ColorScheme.fromSeed(seedColor: Colors.white),
     );
 
@@ -136,6 +142,12 @@ ThemeData dark = ThemeData(
           fontSize: 12,
           fontStyle: FontStyle.normal)),
   listTileTheme: ListTileThemeData(textColor: Colors.white),
+  popupMenuTheme: PopupMenuThemeData(
+    color: Color.fromARGB(255, 59, 56, 56),
+    shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10), side: BorderSide.none),
+  ),
+  bottomAppBarTheme: BottomAppBarTheme(color: lightdark),
 );
 
 class ThemeProvider with ChangeNotifier {

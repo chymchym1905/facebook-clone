@@ -48,3 +48,4 @@ export 'database.dart';
 export 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 export 'utils/commons.dart';
 export 'screens/Home_page/profile_page/profile.dart';
+export 'screens/Create_post_page/createpost.dart';

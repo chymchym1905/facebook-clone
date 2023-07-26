@@ -13,7 +13,7 @@ class Postpage extends StatefulWidget {
   const Postpage({
     Key? key,
     required this.data,
-    required this.reloadState, 
+    required this.reloadState,
   }) : super(key: key);
   final Post data;
   final Function(Post) reloadState;
@@ -141,9 +141,9 @@ class _PostPageState extends State<Postpage>
               child: ListView(
                 children: [
                   NameBar(
-                      data: widget.data,
-                      reloadState: widget.reloadState,
-                      isPostpage: false,
+                    data: widget.data,
+                    reloadState: widget.reloadState,
+                    isPostpage: false,
                   ),
                   Caption(
                     reloadState: widget.reloadState,
@@ -152,13 +152,18 @@ class _PostPageState extends State<Postpage>
                   ),
                   if (widget.data.imageurl.isNotEmpty)
                     ImageBox(data: widget.data),
-                  Container(
-                      decoration: const BoxDecoration(
-                          border: Border(
-                              bottom:
-                                  BorderSide(color: Colors.grey, width: 0.2))),
-                      height: 1,
-                      width: MediaQuery.of(context).size.width * 0.9),
+                  Divider(
+                    indent: MediaQuery.of(context).size.width * 0.05,
+                    endIndent: MediaQuery.of(context).size.width * 0.05,
+                    thickness: 1,
+                  ),
+                  // Container(
+                  //     decoration: const BoxDecoration(
+                  //         border: Border(
+                  //             bottom:
+                  //                 BorderSide(color: Colors.grey, width: 0.2))),
+                  //     height: 1,
+                  //     width: MediaQuery.of(context).size.width * 0.9),
                   buttonSection,
                   iconSection,
                   CommentSection(

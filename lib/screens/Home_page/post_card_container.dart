@@ -31,8 +31,9 @@ class _PostsState extends State<Posts> {
   Widget build(BuildContext context) {
     // AppDataProvider.of(context).currentViewData = widget.data;
     // AppDataProvider.of(context).updateCallback = (Post p) => updateState(p);
-    if(currUser != null){
-      findUserReact(currUser!.name, widget.data.reactions, widget.data.reaction);
+    if (currUser != null) {
+      findUserReact(
+          currUser!.name, widget.data.reactions, widget.data.reaction);
     }
     return Padding(
         padding: const EdgeInsets.only(top: 8.0),
@@ -43,9 +44,9 @@ class _PostsState extends State<Posts> {
           child: Column(
             children: [
               NameBar(
-                  data: widget.data,
-                  reloadState: updateState,
-                  isPostpage: true,
+                data: widget.data,
+                reloadState: updateState,
+                isPostpage: true,
               ),
               Caption(
                 reloadState: updateState,
@@ -53,12 +54,17 @@ class _PostsState extends State<Posts> {
                 isPostpage: true,
               ),
               if (widget.data.imageurl.isNotEmpty) ImageBox(data: widget.data),
-              Container(
-                  decoration: const BoxDecoration(
-                      border: Border(
-                          bottom: BorderSide(color: Colors.grey, width: 0.2))),
-                  height: 1,
-                  width: MediaQuery.of(context).size.width * 0.9),
+              Divider(
+                indent: MediaQuery.of(context).size.width * 0.05,
+                endIndent: MediaQuery.of(context).size.width * 0.05,
+                thickness: 1,
+              ),
+              // Container(
+              //     decoration: const BoxDecoration(
+              //         border: Border(
+              //             bottom: BorderSide(color: Colors.grey, width: 0.2))),
+              //     height: 1,
+              //     width: MediaQuery.of(context).size.width * 0.9),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -78,7 +84,7 @@ class NameBar extends StatefulWidget {
     Key? key,
     required this.data,
     required this.reloadState,
-    required this.isPostpage, 
+    required this.isPostpage,
   }) : super(key: key);
   final Post data;
   final bool isPostpage;
@@ -161,7 +167,7 @@ class Caption extends StatefulWidget {
     Key? key,
     required this.isPostpage,
     required this.data,
-    required this.reloadState, 
+    required this.reloadState,
   }) : super(key: key);
   final bool isPostpage;
   final Post data;
