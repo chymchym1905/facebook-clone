@@ -32,7 +32,7 @@ class ProfilePage extends StatelessWidget {
                   children: [
                     SizedBox(height: x),
                     Align(
-                      alignment: Alignment(-0.8, 0),
+                      alignment: const Alignment(-0.8, 0),
                       child: Text(
                         currUser!.name,
                         style: Theme.of(context)

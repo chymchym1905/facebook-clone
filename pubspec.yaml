@@ -102,6 +102,9 @@ flutter:
     - family: HyWenHei
       fonts:
         - asset: assets/fonts/zh-cn.ttf
+    - family: MyFlutterApp
+      fonts:
+        - asset: assets/fonts/MyFlutterApp.ttf
 
   #
   # For details regarding fonts from package dependencies,

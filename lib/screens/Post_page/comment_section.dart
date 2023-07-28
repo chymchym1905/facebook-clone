@@ -132,7 +132,7 @@ class _CommentSectionState extends State<CommentSection> {
                     decoration: BoxDecoration(
                         color: themeManager.themeMode == dark
                             ? const Color.fromARGB(255, 58, 59, 60)
-                            : const Color.fromARGB(155, 180, 177, 177),
+                            : const Color.fromARGB(255, 241, 242, 246),
                         borderRadius: BorderRadius.circular(12)),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -357,7 +357,7 @@ class _CommmentTreeSectionState extends State<CommmentTreeSection> {
                         decoration: BoxDecoration(
                             color: themeManager.themeMode == dark
                                 ? const Color.fromARGB(255, 58, 59, 60)
-                                : const Color.fromARGB(155, 180, 177, 177),
+                                : const Color.fromARGB(255, 241, 242, 246),
                             borderRadius: BorderRadius.circular(12)),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -438,7 +438,7 @@ class _CommmentTreeSectionState extends State<CommmentTreeSection> {
                         decoration: BoxDecoration(
                             color: themeManager.themeMode == dark
                                 ? const Color.fromARGB(255, 58, 59, 60)
-                                : const Color.fromARGB(155, 180, 177, 177),
+                                : const Color.fromARGB(255, 241, 242, 246),
                             borderRadius: BorderRadius.circular(12)),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,

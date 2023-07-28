@@ -123,7 +123,7 @@ class _NameBarState extends State<NameBar> {
       }),
       child: Ink(
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(8, 8, 12, 8),
+          padding: const EdgeInsets.fromLTRB(12, 8, 12, 8),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -203,7 +203,7 @@ class _Caption extends State<Caption> {
     // AppDataProvider.of(context).currentViewData = widget.data;
     return Container(
       alignment: Alignment.topLeft,
-      padding: const EdgeInsets.all(8.0),
+      padding: const EdgeInsets.only(left: 12.0, top: 8, bottom: 8),
       child: InkWell(
         onTap: () => setState(() {
           if (widget.isPostpage) {

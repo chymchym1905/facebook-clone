@@ -44,7 +44,7 @@ class _ShareButtonState extends State<ShareButton>
                     borderRadius:
                         BorderRadius.vertical(top: Radius.circular(10))),
                 context: context,
-                builder: (context) => shareModal(data: widget.data));
+                builder: (context) => ShareModal(data: widget.data));
           },
           icon: const Icon(
             FontAwesomeIcons.share,
