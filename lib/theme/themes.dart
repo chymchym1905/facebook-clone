@@ -20,25 +20,27 @@ ThemeData light = ThemeData(
           letterSpacing: -0.2,
         ),
         labelLarge: TextStyle(
-          //setting list view text
-          //content
-          color: Colors.black,
-          letterSpacing: -0.8),
+            //setting list view text
+            //content
+            color: Colors.black,
+            letterSpacing: -0.8),
         titleMedium: TextStyle(
-          //Poster
-          //user name in user profile
-          letterSpacing: -1.0),
+            //Poster
+            //user name in user profile
+            letterSpacing: -1.0),
         bodySmall: TextStyle(
           color: Color.fromARGB(255, 49, 48, 48),
           letterSpacing: -0.2,
         ),
+        bodyMedium: TextStyle(
+          color: Color.fromARGB(255, 49, 48, 48),
+          letterSpacing: -0.8,
+        ),
         headlineSmall: TextStyle(
-          //setting friend view text
-          //content
-          color: Colors.black,
-          letterSpacing: -0.8
-        )
-      ),
+            //setting friend view text
+            //content
+            color: Colors.black,
+            letterSpacing: -0.8)),
     appBarTheme: const AppBarTheme(
       backgroundColor: Color.fromARGB(255, 255, 255, 255),
       foregroundColor: Color.fromRGBO(0, 0, 0, 1),
@@ -83,42 +85,44 @@ ThemeData dark = ThemeData(
   scaffoldBackgroundColor: const Color.fromARGB(235, 0, 0, 0),
   // colorScheme: ColorScheme.fromSeed(seedColor: const Color.fromARGB(161, 158, 158, 158)),
   textTheme: const TextTheme(
-    // bodySmall: TextStyle(
-    //   color: Colors.grey,
-    // ),
-    // labelMedium: TextStyle(
-    //   color: Colors.black,
-    // ),
+      // bodySmall: TextStyle(
+      //   color: Colors.grey,
+      // ),
+      // labelMedium: TextStyle(
+      //   color: Colors.black,
+      // ),
 
-    titleLarge: TextStyle(
-      //feed name
-      letterSpacing: -1.0,
-      color: Colors.white,
-    ),
-    labelSmall: TextStyle(
-      //likes
-      color: Colors.grey,
-      letterSpacing: -0.2,
-    ),
-    labelLarge: TextStyle(
-        //content 
-        color: Color.fromRGBO(255, 255, 255, 1),
-        letterSpacing: -0.8),
-    titleMedium: TextStyle(
-        //Poster
-        color: Color.fromRGBO(255, 255, 255, 1),
-        letterSpacing: -1.0),
-    bodySmall: TextStyle(
-      color: Color.fromARGB(255, 255, 255, 255),
-      letterSpacing: -0.2,
-    ),
-    headlineSmall: TextStyle(
-      //setting friend view text
-      //content
-      color: Color.fromRGBO(255, 255, 255, 1),
-      letterSpacing: -0.8
-    )
-  ),
+      titleLarge: TextStyle(
+        //feed name
+        letterSpacing: -1.0,
+        color: Colors.white,
+      ),
+      labelSmall: TextStyle(
+        //likes
+        color: Colors.grey,
+        letterSpacing: -0.2,
+      ),
+      labelLarge: TextStyle(
+          //content
+          color: Color.fromRGBO(255, 255, 255, 1),
+          letterSpacing: -0.8),
+      titleMedium: TextStyle(
+          //Poster
+          color: Color.fromRGBO(255, 255, 255, 1),
+          letterSpacing: -1.0),
+      bodySmall: TextStyle(
+        color: Color.fromARGB(255, 255, 255, 255),
+        letterSpacing: -0.2,
+      ),
+      bodyMedium: TextStyle(
+        color: Color.fromARGB(255, 255, 255, 255),
+        letterSpacing: -0.8,
+      ),
+      headlineSmall: TextStyle(
+          //setting friend view text
+          //content
+          color: Color.fromRGBO(255, 255, 255, 1),
+          letterSpacing: -0.8)),
   appBarTheme: const AppBarTheme(
     backgroundColor: Color.fromARGB(255, 38, 38, 38),
     foregroundColor: Color.fromRGBO(255, 255, 255, 1),

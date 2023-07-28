@@ -1,18 +1,18 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import '../../index.dart';
 
-class shareModal extends StatefulWidget {
-  const shareModal({
+class ShareModal extends StatefulWidget {
+  const ShareModal({
     Key? key,
     required this.data,
   }) : super(key: key);
   final Post data;
 
   @override
-  State<shareModal> createState() => _shareModalState();
+  State<ShareModal> createState() => _ShareModalState();
 }
 
-class _shareModalState extends State<shareModal> {
+class _ShareModalState extends State<ShareModal> {
   @override
   Widget build(BuildContext context) {
     final bool isKeyboard = MediaQuery.of(context).viewInsets.bottom != 0;

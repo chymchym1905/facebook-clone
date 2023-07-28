@@ -20,10 +20,6 @@ class RouteGenerator {
           return MaterialPageRoute(
               builder: (_) => ForgotPasswordPage(email: args));
         }
-      case '/friends':
-        if (args is String) {
-          return MaterialPageRoute(builder: (_) => Friends(data: args));
-        }
       case '/watch':
         if (args is String) {
           return MaterialPageRoute(builder: (_) => Watch(data: args));
@@ -55,6 +51,13 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => const ProfilePage());
       case '/createpost':
         return MaterialPageRoute(builder: (_) => const CreatePost());
+      case '/userprofile':
+        final arg = args as Friends;
+        return MaterialPageRoute(
+            builder: (_) => Friends(
+                  user: arg.user,
+                  posts: args.posts,
+                ));
       default:
         return _errorRoute();
     }
