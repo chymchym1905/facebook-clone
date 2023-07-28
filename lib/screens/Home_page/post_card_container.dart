@@ -110,7 +110,9 @@ class _NameBarState extends State<NameBar> {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      splashColor: Colors.transparent,
+      splashColor: themeManager.themeMode == dark
+          ? const Color.fromARGB(255, 80, 82, 81)
+          : const Color.fromARGB(255, 228, 228, 228),
       highlightColor: themeManager.themeMode == dark
           ? const Color.fromARGB(255, 80, 82, 81)
           : const Color.fromARGB(255, 228, 228, 228),

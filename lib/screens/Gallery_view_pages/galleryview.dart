@@ -41,7 +41,7 @@ class _GalleryViewPageState extends State<GalleryViewPage>
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: Color.fromARGB(255, 0, 0, 0),
+        backgroundColor: const Color.fromARGB(255, 0, 0, 0),
         // foregroundColor: Colors.transparent,
         automaticallyImplyLeading: false,
         actions: [
@@ -97,10 +97,10 @@ class _GalleryViewPageState extends State<GalleryViewPage>
             ),
           ),
           AnimatedOpacity(
-            duration: Duration(milliseconds: 300),
+            duration: const Duration(milliseconds: 300),
             opacity: _visible ? 1 : 0,
             child: Container(
-              padding: EdgeInsets.only(bottom: 5),
+              padding: const EdgeInsets.only(bottom: 5),
               height: 100,
               width: double.infinity,
               child: AbsorbPointer(

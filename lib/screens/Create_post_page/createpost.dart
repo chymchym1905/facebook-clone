@@ -1,5 +1,7 @@
 import 'package:fluttericon/entypo_icons.dart';
 import '../../../index.dart';
+import 'package:snapping_sheet_2/snapping_sheet.dart';
+import '../../utils/grabbing_widget.dart';
 
 class CreatePost extends StatefulWidget {
   const CreatePost({super.key});
@@ -8,26 +10,123 @@ class CreatePost extends StatefulWidget {
   State<CreatePost> createState() => _CreatePostState();
 }
 
-class _CreatePostState extends State<CreatePost> {
-  bool canPost = false;
+class _CreatePostState extends State<CreatePost>
+    with SingleTickerProviderStateMixin {
+  TextEditingController caption = TextEditingController();
+  MaterialStatesController materialStates = MaterialStatesController();
+  List<Media> pickedMedia = [];
+  ScrollController scrollController = ScrollController();
 
-  Widget buildBottomBarIcon(IconData icon, Color color) {
-    return Expanded(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 4),
-        child: InkWell(
-          onTap: () {},
-          highlightColor: themeManager.themeMode == dark
-              ? const Color.fromARGB(255, 80, 82, 81)
-              : const Color.fromARGB(255, 228, 228, 228),
-          borderRadius: BorderRadius.circular(15),
-          splashColor: Colors.transparent,
-          child: Ink(
-              padding: EdgeInsets.symmetric(vertical: 9, horizontal: 10),
-              child: Icon(icon, color: color, size: 30)),
-        ),
-      ),
-    );
+  @override
+  void initState() {
+    super.initState();
+
+    caption.addListener(captionListener);
+  }
+
+  void captionListener() {
+    if (mounted) {
+      setState(() {});
+    }
+  }
+
+  @override
+  void dispose() {
+    caption.dispose();
+    super.dispose();
+  }
+
+  pickimage() {
+    return showModalBottomSheet(
+        context: context,
+        // enableDrag: false,
+        isScrollControlled: true,
+        backgroundColor: Colors.transparent,
+        builder: (context) => SnappingSheet(
+              lockOverflowDrag: true,
+              snappingPositions: const [
+                SnappingPosition.factor(
+                  snappingCurve: Curves.bounceInOut,
+                  snappingDuration: Duration(milliseconds: 100),
+                  positionFactor: 0.5,
+                ),
+                SnappingPosition.factor(
+                  grabbingContentOffset: GrabbingContentOffset.bottom,
+                  snappingCurve: Curves.bounceInOut,
+                  snappingDuration: Duration(milliseconds: 100),
+                  positionFactor: 0.9,
+                ),
+              ],
+              sheetBelow: SnappingSheetContent(
+                  childScrollController: scrollController,
+                  child: Container(
+                    color: Colors.white,
+                    child: MediaPicker(
+                      scrollController: scrollController,
+                      onPicked: (selectedList) {
+                        pickedMedia = selectedList;
+                        Navigator.of(context).pop();
+                      },
+                      onCancel: () => Navigator.of(context).pop(),
+                      mediaList: pickedMedia,
+                      decoration: PickerDecoration(
+                        completeText: "Next",
+                        completeButtonStyle: ButtonStyle(
+                            fixedSize: MaterialStatePropertyAll(
+                                Size(context.width * 0.23, 30)),
+                            backgroundColor: const MaterialStatePropertyAll(
+                                Palette.facebookBlue),
+                            overlayColor: const MaterialStatePropertyAll(
+                                Color.fromARGB(255, 10, 100, 219)),
+                            shape: MaterialStatePropertyAll(
+                                RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(6)))),
+                        blurStrength: 1,
+                        scaleAmount: 1,
+                        counterBuilder: (context, index) {
+                          if (index == null) return const SizedBox();
+                          return Align(
+                            alignment: Alignment(0.9, -1),
+                            child: Container(
+                              decoration: const BoxDecoration(
+                                  color: Palette.facebookBlue,
+                                  shape: BoxShape.circle),
+                              padding: const EdgeInsets.all(8),
+                              child: Text(
+                                '$index',
+                                style: const TextStyle(color: Colors.white),
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  )),
+              grabbing: GrabbingWidget(),
+              grabbingHeight: 40,
+            ));
+  }
+
+  Widget buildBottomBarIcon(IconData icon, Color color, callback) {
+    return Flexible(
+        flex: 1,
+        fit: FlexFit.tight,
+        child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 4),
+            child: InkWell(
+              onTap: callback,
+              borderRadius: BorderRadius.circular(15),
+              highlightColor: themeManager.themeMode == dark
+                  ? const Color.fromARGB(255, 80, 82, 81)
+                  : const Color.fromARGB(255, 228, 228, 228),
+              splashColor: themeManager.themeMode == dark
+                  ? const Color.fromARGB(255, 80, 82, 81)
+                  : const Color.fromARGB(255, 228, 228, 228),
+              child: Ink(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 9, horizontal: 10),
+                  child: Icon(icon, color: color, size: 30)),
+            )));
   }
 
   Widget customButton(String text, IconData icon) {
@@ -51,7 +150,7 @@ class _CreatePostState extends State<CreatePost> {
         onPressed: () {},
         child: Row(children: [
           Padding(
-            padding: EdgeInsets.only(right: 3),
+            padding: const EdgeInsets.only(right: 3),
             child: Icon(icon, size: 20),
           ),
           Text(text,
@@ -59,7 +158,7 @@ class _CreatePostState extends State<CreatePost> {
                   color: themeManager.themeMode == dark
                       ? const Color.fromARGB(255, 118, 182, 254)
                       : const Color.fromARGB(255, 105, 104, 109))),
-          Icon(Icons.arrow_drop_down, size: 18),
+          const Icon(Icons.arrow_drop_down, size: 18),
         ]),
       ),
     );
@@ -89,11 +188,11 @@ class _CreatePostState extends State<CreatePost> {
             child: Padding(
               padding: const EdgeInsets.only(right: 8.0),
               child: FilledButton(
-                onPressed: canPost ? () {} : null,
+                onPressed: caption.text != "" ? () {} : null,
                 style: ButtonStyle(
                     fixedSize: MaterialStatePropertyAll(
                         Size(context.width * 0.23, 30)),
-                    backgroundColor: canPost
+                    backgroundColor: caption.text != ""
                         ? const MaterialStatePropertyAll(Palette.facebookBlue)
                         : themeManager.themeMode == light
                             ? const MaterialStatePropertyAll(
@@ -108,7 +207,7 @@ class _CreatePostState extends State<CreatePost> {
                   'POST',
                   style: Theme.of(context).textTheme.bodySmall?.copyWith(
                       fontSize: 14,
-                      color: canPost
+                      color: caption.text != ""
                           ? Colors.white
                           : themeManager.themeMode == light
                               ? const Color.fromARGB(255, 190, 192, 197)
@@ -170,6 +269,10 @@ class _CreatePostState extends State<CreatePost> {
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 15),
                 child: TextField(
+                  onChanged: (value) {
+                    captionListener();
+                  },
+                  controller: caption,
                   cursorColor: themeManager.themeMode == light
                       ? const Color.fromARGB(255, 26, 84, 164)
                       : const Color.fromARGB(255, 20, 85, 175),
@@ -179,31 +282,35 @@ class _CreatePostState extends State<CreatePost> {
                       decoration: TextDecoration.none),
                   maxLines: null,
                   keyboardType: TextInputType.multiline,
-                  decoration: InputDecoration(focusedBorder: InputBorder.none),
+                  decoration:
+                      const InputDecoration(focusedBorder: InputBorder.none),
                 ),
               ),
             ),
             Align(
               alignment: Alignment.bottomCenter,
-              child: Material(
-                shape: BorderDirectional(
-                    top: BorderSide(
-                        color: themeManager.themeMode == dark
-                            ? const Color.fromARGB(255, 92, 93, 96)
-                            : const Color.fromARGB(255, 205, 205, 205))),
-                color: themeManager.themeMode == dark ? lightdark : whitee,
-                child: Row(children: [
-                  buildBottomBarIcon(Icons.photo_library,
-                      const Color.fromARGB(255, 106, 202, 130)),
-                  buildBottomBarIcon(
-                      Entypo.tag, const Color.fromARGB(255, 23, 120, 243)),
-                  buildBottomBarIcon(
-                      Icons.gif_box, const Color.fromARGB(255, 247, 185, 40)),
-                  buildBottomBarIcon(Icons.emoji_emotions,
-                      const Color.fromARGB(255, 237, 86, 67)),
-                  buildBottomBarIcon(FontAwesome5.camera,
-                      const Color.fromARGB(255, 176, 179, 184)),
-                ]),
+              child: Container(
+                decoration: BoxDecoration(
+                    border: BorderDirectional(
+                        top: BorderSide(
+                            color: themeManager.themeMode == dark
+                                ? const Color.fromARGB(255, 92, 93, 96)
+                                : const Color.fromARGB(255, 205, 205, 205)))),
+                child: Material(
+                  color: themeManager.themeMode == dark ? lightdark : whitee,
+                  child: Row(children: [
+                    buildBottomBarIcon(Icons.photo_library,
+                        const Color.fromARGB(255, 106, 202, 130), pickimage),
+                    buildBottomBarIcon(Entypo.tag,
+                        const Color.fromARGB(255, 23, 120, 243), () {}),
+                    buildBottomBarIcon(Icons.gif_box,
+                        const Color.fromARGB(255, 247, 185, 40), () {}),
+                    buildBottomBarIcon(Icons.emoji_emotions,
+                        const Color.fromARGB(255, 237, 86, 67), () {}),
+                    buildBottomBarIcon(FontAwesome5.camera,
+                        const Color.fromARGB(255, 176, 179, 184), () {}),
+                  ]),
+                ),
               ),
             )
           ]),

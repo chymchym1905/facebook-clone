@@ -87,7 +87,7 @@ class _LoginRegisterState extends State<LoginRegister>
 
   @override
   Widget build(BuildContext context) {
-    final _isKeyboard = MediaQuery.of(context).viewInsets.bottom != 0;
+    final isKeyboard = MediaQuery.of(context).viewInsets.bottom != 0;
     double buttonheight = MediaQuery.of(context).size.width * 0.15;
     double buttonwidth = MediaQuery.of(context).size.width * 0.9;
     final Brightness systemBrightness =
@@ -132,7 +132,7 @@ class _LoginRegisterState extends State<LoginRegister>
                   visible: !isLogin,
                   child: Padding(
                     //username field
-                    padding: EdgeInsets.only(left: 20, right: 20, bottom: 20),
+                    padding: const EdgeInsets.only(left: 20, right: 20, bottom: 20),
                     child: TextFormField(
                       keyboardType: TextInputType.text,
                       // style: TextStyle(letterSpacing: 2),
@@ -161,7 +161,7 @@ class _LoginRegisterState extends State<LoginRegister>
                   )),
               Padding(
                 //email field
-                padding: EdgeInsets.only(left: 20, right: 20, bottom: 20),
+                padding: const EdgeInsets.only(left: 20, right: 20, bottom: 20),
                 child: TextFormField(
                   keyboardType: TextInputType.emailAddress,
                   onTap: () {
@@ -190,7 +190,7 @@ class _LoginRegisterState extends State<LoginRegister>
               ),
               Padding(
                 //password field
-                padding: EdgeInsets.only(left: 20, right: 20, bottom: 20),
+                padding: const EdgeInsets.only(left: 20, right: 20, bottom: 20),
                 child: TextFormField(
                   keyboardType: TextInputType.visiblePassword,
                   obscureText: true,
@@ -290,7 +290,7 @@ class _LoginRegisterState extends State<LoginRegister>
             ]),
           ),
         ),
-        _isKeyboard //register or login
+        isKeyboard //register or login
             ? const SizedBox(height: 0)
             : Align(
                 alignment: Alignment.bottomCenter,

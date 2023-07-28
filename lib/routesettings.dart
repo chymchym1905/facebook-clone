@@ -1,6 +1,5 @@
 import 'package:flutter_application_1/screens/Authentication_pages/forgotpasswordscreen.dart';
 import 'package:flutter_application_1/screens/Gallery_view_pages/galleryview.dart';
-import 'package:flutter_application_1/screens/Home_page/profile_page/profile.dart';
 
 import 'index.dart';
 import 'screens/friends_page.dart';

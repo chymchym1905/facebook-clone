@@ -32,7 +32,7 @@ class ProfilePage extends StatelessWidget {
                   children: [
                     SizedBox(height: x),
                     Align(
-                      alignment: Alignment(-0.8, 0),
+                      alignment: const Alignment(-0.8, 0),
                       child: Text(
                         currUser!.name,
                         style: Theme.of(context)
@@ -105,13 +105,13 @@ class ProfilePage extends StatelessWidget {
                         )
                       ],
                     ),
-                    SizedBox(height: 10)
+                    const SizedBox(height: 10)
                   ],
                 ),
               ),
             ]),
             Transform.translate(
-              offset: Offset(20, 75),
+              offset: const Offset(20, 75),
               child: Container(
                 decoration: BoxDecoration(
                     shape: BoxShape.circle, border: Border.all(width: 6)),

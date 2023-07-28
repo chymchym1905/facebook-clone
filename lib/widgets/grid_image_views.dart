@@ -222,9 +222,9 @@ Widget batchImages(Post data, BuildContext context) => StaggeredGrid.count(
                           src: element),
                       Container(
                         alignment: Alignment.center,
-                        color: Color.fromRGBO(0, 0, 0, 0.214),
+                        color: const Color.fromRGBO(0, 0, 0, 0.214),
                         child: Text('+ ${data.imageurl.length - 5}',
-                            style: TextStyle(
+                            style: const TextStyle(
                                 fontSize: 40,
                                 color: Color.fromARGB(194, 255, 255, 255))),
                       )
@@ -284,9 +284,9 @@ Widget batchImagesHorizontal(Post data, BuildContext context) =>
                           src: element),
                       Container(
                         alignment: Alignment.center,
-                        color: Color.fromRGBO(0, 0, 0, 0.214),
+                        color: const Color.fromRGBO(0, 0, 0, 0.214),
                         child: Text('+ ${data.imageurl.length - 5}',
-                            style: TextStyle(
+                            style: const TextStyle(
                                 fontSize: 40,
                                 color: Color.fromARGB(194, 255, 255, 255))),
                       )
