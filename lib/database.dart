@@ -17,8 +17,7 @@ class Database {
   }
 
   Future<UserDummy?> getUser(String id) async {
-    final documentSnapshot =
-        FirebaseFirestore.instance.collection('users').doc(id);
+    final documentSnapshot = _db.collection('users').doc(id);
     var snapshot = await documentSnapshot.get();
     if (snapshot.exists) {
       return UserDummy(
@@ -30,5 +29,26 @@ class Database {
           snapshot.data()!['createDate'].toDate());
     }
     return null;
+  }
+
+  Future<List<UserDummy?>> getUsersbyId(List<String> id) async {
+    List<DocumentSnapshot<Map<String, dynamic>>> snapshots = [];
+    List<UserDummy?> users = [];
+    for (var i = 0; i < id.length; i++) {
+      final snapshot = await _db.collection('users').doc(id[i]).get();
+      snapshots.add(snapshot);
+    }
+    for (var i = 0; i < snapshots.length; i++) {
+      if (snapshots[i].exists) {
+        users.add(UserDummy(
+            snapshots[i].data()!['id'],
+            snapshots[i].data()!['name'],
+            snapshots[i].data()!['gender'],
+            snapshots[i].data()!['imageurl'],
+            snapshots[i].data()!['email'],
+            snapshots[i].data()!['createDate'].toDate()));
+      }
+    }
+    return users;
   }
 }
