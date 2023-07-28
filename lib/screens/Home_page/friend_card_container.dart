@@ -69,29 +69,22 @@ class _FriendCardState extends State<FriendCard> {
                       ),
                       Row(
                         children: [
-                          ElevatedButton(
-                            onPressed: () {},
-                            style: ElevatedButton.styleFrom(
-                                padding: EdgeInsets.symmetric(
-                                    horizontal:
-                                        MediaQuery.of(context).size.width *
-                                            0.08)),
-                            child: const Text("Confirm"),
+                          Expanded(
+                            child: ElevatedButton(
+                              onPressed: () {},
+                              style: ElevatedButton.styleFrom(),
+                              child: const Text("Confirm"),
+                            ),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 8),
+                          const SizedBox(width: 8),
+                          Expanded(
                             child: ElevatedButton(
                               onPressed: () {},
                               style: ElevatedButton.styleFrom(
-                                  backgroundColor: themeManager.themeMode ==
-                                          dark
-                                      ? const Color.fromARGB(255, 58, 59, 60)
-                                      : const Color.fromARGB(
-                                          255, 241, 242, 246),
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal:
-                                          MediaQuery.of(context).size.width *
-                                              0.09)),
+                                backgroundColor: themeManager.themeMode == dark
+                                    ? const Color.fromARGB(255, 58, 59, 60)
+                                    : const Color.fromARGB(255, 241, 242, 246),
+                              ),
                               child: Text("Delete",
                                   style:
                                       Theme.of(context).textTheme.bodyMedium),

@@ -70,80 +70,79 @@ class _FriendsState extends State<Friends> {
                             style: Theme.of(context).textTheme.titleLarge),
                       ),
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          ElevatedButton(
-                            onPressed: () {},
-                            // icon: const Icon(Icons.person_add),
-                            style: ElevatedButton.styleFrom(
-                                padding: EdgeInsets.symmetric(
-                                    horizontal:
-                                        MediaQuery.of(context).size.width *
-                                            0.06)),
-                            child: Row(
-                              children: [
-                                Transform.flip(
-                                    flipX: true,
-                                    child: const Icon(Icons.person_add)),
-                                const Padding(
-                                  padding: EdgeInsets.only(left: 5),
-                                  child: Text(
-                                    "Respond",
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 10),
+                          Expanded(
+                            flex: 3,
                             child: ElevatedButton(
                               onPressed: () {},
                               // icon: const Icon(Icons.person_add),
-                              style: ElevatedButton.styleFrom(
-                                  backgroundColor: themeManager.themeMode ==
-                                          dark
-                                      ? const Color.fromARGB(255, 58, 59, 60)
-                                      : const Color.fromARGB(
-                                          255, 241, 242, 246),
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal:
-                                          MediaQuery.of(context).size.width *
-                                              0.09)),
                               child: Row(
                                 children: [
-                                  Icon(
-                                    FontAwesome5.facebook_messenger,
-                                    color: Colors.black,
-                                    size: MediaQuery.of(context).size.width *
-                                        0.05,
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 7),
-                                    child: Text("Message",
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyMedium),
+                                  Transform.flip(
+                                      flipX: true,
+                                      child: const Icon(Icons.person_add)),
+                                  const Padding(
+                                    padding: EdgeInsets.only(left: 5),
+                                    child: Text(
+                                      "Respond",
+                                    ),
                                   ),
                                 ],
                               ),
                             ),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.only(left: 10),
-                            child: ElevatedButton(
+                          const SizedBox(width: 8),
+                          Expanded(
+                            flex: 3,
+                            child: ElevatedButton.icon(
                               onPressed: () {},
+                              // icon: const Icon(Icons.person_add),
                               style: ElevatedButton.styleFrom(
+                                  padding: EdgeInsets.zero,
                                   backgroundColor: themeManager.themeMode ==
                                           dark
                                       ? const Color.fromARGB(255, 58, 59, 60)
                                       : const Color.fromARGB(
-                                          255, 241, 242, 246),
-                                  minimumSize: Size.zero,
-                                  padding: EdgeInsets.symmetric(
-                                      horizontal:
-                                          MediaQuery.of(context).size.width *
-                                              0.03,
-                                      vertical: 5)),
+                                          255, 241, 242, 246)),
+                              icon: Icon(
+                                FontAwesome5.facebook_messenger,
+                                color: Colors.black,
+                                size: MediaQuery.of(context).size.width * 0.05,
+                              ),
+                              label: Text("Message",
+                                  style:
+                                      Theme.of(context).textTheme.bodyMedium),
+
+                              // child: Row(
+                              //   children: [
+                              //     Icon(
+                              //       FontAwesome5.facebook_messenger,
+                              //       color: Colors.black,
+                              //       size: MediaQuery.of(context).size.width *
+                              //           0.05,
+                              //     ),
+                              //     Padding(
+                              //       padding: const EdgeInsets.only(left: 7),
+                              //       child: Text("Message",
+                              //           style: Theme.of(context)
+                              //               .textTheme
+                              //               .bodyMedium),
+                              //     ),
+                              //   ],
+                              // ),
+                            ),
+                          ),
+                          const SizedBox(width: 8),
+                          Expanded(
+                            flex: 1,
+                            child: ElevatedButton(
+                              onPressed: () {},
+                              style: ElevatedButton.styleFrom(
+                                padding: EdgeInsets.zero,
+                                backgroundColor: themeManager.themeMode == dark
+                                    ? const Color.fromARGB(255, 58, 59, 60)
+                                    : const Color.fromARGB(255, 241, 242, 246),
+                              ),
                               child: Icon(Icons.more_horiz,
                                   color: themeManager.themeMode == light
                                       ? Colors.black
