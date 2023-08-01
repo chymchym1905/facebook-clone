@@ -15,18 +15,9 @@ class Comment1 {
 
   List<Comment1> reply;
 
-  int reaction;
-
   List<Reaction> reactions;
-  
-  Comment1(
-    this.user, 
-    this.react, 
-    this.content, 
-    this.reply, 
-    this.reactions,
-    this.reaction
-  );
+
+  Comment1(this.user, this.react, this.content, this.reply, this.reactions);
 
   factory Comment1.fromJson(Map<String, dynamic> json) =>
       _$Comment1FromJson(json);

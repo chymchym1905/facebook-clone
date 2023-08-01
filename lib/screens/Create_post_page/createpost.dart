@@ -205,10 +205,12 @@ class _CreatePostState extends State<CreatePost>
             child: Padding(
               padding: const EdgeInsets.only(right: 8.0),
               child: FilledButton(
-                onPressed:
-                    caption.text != "" || pickedMedia.isNotEmpty ? () {
-                      Database().createPost(Post(user, caption, imageurl, likes, comments, shares, comment, reactions))
-                    } : null,
+                onPressed: caption.text != "" || pickedMedia.isNotEmpty
+                    ? () {
+                        Database().createPost(
+                            Post(currUser!, caption.text, [], 0, 0, [], []));
+                      }
+                    : null,
                 style: ButtonStyle(
                     fixedSize: MaterialStatePropertyAll(
                         Size(context.width * 0.23, 30)),

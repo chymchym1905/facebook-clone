@@ -11,18 +11,14 @@ part 'post_class.g.dart';
 @JsonSerializable()
 class Post {
   Post(
-      this.id,
       this.user,
       this.caption,
       // this.visibility,
       this.imageurl,
       this.likes,
-      this.comments,
       this.shares,
       this.comment,
       this.reactions);
-  @JsonKey(required: true)
-  String id;
   @JsonKey(required: true)
   UserDummy user;
   @JsonKey(required: true)
@@ -35,8 +31,6 @@ class Post {
   List<Reaction> reactions;
 
   int? likes;
-
-  int? comments;
 
   int? shares;
 

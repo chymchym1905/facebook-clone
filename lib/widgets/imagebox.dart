@@ -34,7 +34,7 @@ class _ImageBoxState extends State<ImageBox>
           // print(snapshot.data);
           if (snapshot.hasError) {
             // setState(() {});
-            return Text('${snapshot.error} asdasdasdasdasd');
+            return Text('${snapshot.error}');
           } else if (snapshot.hasData) {
             if (widget.data.imageurl.length == 1) {
               return oneItem(widget.data, null);

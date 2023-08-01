@@ -17,8 +17,8 @@ class Database {
 
   Future createPost(Post data) async {
     final postdoc = _db.collection('posts').doc();
-    final json = Post(
-            postdoc.id, data.user, data.caption, data.imageurl, 0, 0, 0, [], [])
+    final json = Post(data.user, data.caption, data.imageurl, data.likes,
+            data.shares, data.comment, data.reactions)
         .toJson();
     await postdoc
         .set(json)
