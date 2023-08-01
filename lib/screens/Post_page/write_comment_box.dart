@@ -13,7 +13,7 @@ class WriteCommentBox extends StatefulWidget {
       required this.setViewMoreComment})
       : super(key: key);
 
-  final List<Comment1> data;
+  final Post data;
   final TextEditingController myController;
   final bool isKeyboard;
   final FocusNode myfocusNode;
@@ -93,19 +93,26 @@ class _WriteCommentBoxState extends State<WriteCommentBox> {
                 ),
                 IconButton(
                   onPressed: () {
+                    //write comment
                     if (widget.myController.text.toString().isNotEmpty) {
                       Comment1 newComment = Comment1(widget.instantUser, null,
                           widget.myController.text.toString(), [], []);
                       if (IndexComment.flagReply2) {
-                        widget.data[IndexComment.intdex]
+                        widget.data.comment[IndexComment.intdex]
                             .reply[IndexComment.intdex2].reply
                             .add(newComment);
+                        Database().writeComment(
+                            widget.data.id, newComment, CommentLevel.three);
                       } else {
                         if (IndexComment.flagReply) {
-                          widget.data[IndexComment.intdex].reply
+                          widget.data.comment[IndexComment.intdex].reply
                               .add(newComment);
+                          Database().writeComment(
+                              widget.data.id, newComment, CommentLevel.two);
                         } else {
-                          widget.data.add(newComment);
+                          widget.data.comment.add(newComment);
+                          Database().writeComment(
+                              widget.data.id, newComment, CommentLevel.one);
                         }
                       }
                       widget.controlViewMoreComment.add(true);

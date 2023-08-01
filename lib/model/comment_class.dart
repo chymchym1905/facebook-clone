@@ -6,7 +6,7 @@ part 'comment_class.g.dart';
 
 @JsonSerializable()
 class Comment1 {
-  @JsonKey(required: true)
+  @JsonKey(required: true, toJson: _usertoJson)
   UserDummy user;
   double? react;
   // String timeAgo;
@@ -18,6 +18,10 @@ class Comment1 {
   List<Reaction> reactions;
 
   Comment1(this.user, this.react, this.content, this.reply, this.reactions);
+
+  static Map<String, dynamic> _usertoJson(UserDummy user) {
+    return user.toJson();
+  }
 
   factory Comment1.fromJson(Map<String, dynamic> json) =>
       _$Comment1FromJson(json);
