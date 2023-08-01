@@ -18,6 +18,13 @@ class Database {
 
   Future createPost(Post data) async {
     final postdoc = _db.collection('posts').doc();
+    final json = Post(
+            postdoc.id, data.user, data.caption, data.imageurl, 0, 0, 0, [], [])
+        .toJson();
+    await postdoc
+        .set(json)
+        .whenComplete(() => print("Post created"))
+        .catchError((e) => print(e));
   }
 
   Future<List<Post>> getAllPost() async {
