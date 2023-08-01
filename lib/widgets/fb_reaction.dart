@@ -5,17 +5,15 @@ import '../index.dart';
 class FBFullReaction extends StatefulWidget {
   const FBFullReaction({
     Key? key,
-    required this.data,
     this.reloadState,
-    this.comment,
     this.reloadReaction,
     this.updateState,
+    required this.reactions,
   }) : super(key: key);
-  final Post data;
-  final Function(Post)? reloadState;
-  final Function(Post)? updateState;
-  final Comment1? comment;
-  final Function(Comment1)? reloadReaction;
+  final Function(List<Reaction>)? reloadState;
+  final Function(List<Reaction>)? updateState;
+  final Function(List<Reaction>)? reloadReaction;
+  final List<Reaction> reactions;
   @override
   State<FBFullReaction> createState() => _FBFullReactionState();
 }
@@ -62,7 +60,6 @@ class _FBFullReactionState extends State<FBFullReaction>
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _initReactions();
     _initNews();
@@ -196,16 +193,9 @@ class _FBFullReactionState extends State<FBFullReaction>
           reaction = 5;
           break;
       }
-      if (widget.data.reactions.isNotEmpty) {
-        if (widget.data.reactions[0].user.name == currUser!.name) {
-          widget.data.reactions[0].reaction = reaction;
-        }
-      }
-      if (widget.comment != null) {
-        if (widget.comment!.reactions.isNotEmpty) {
-          if (widget.comment!.reactions[0].user.name == currUser!.name) {
-            widget.comment!.reactions[0].reaction = reaction;
-          }
+      if (widget.reactions.isNotEmpty) {
+        if (widget.reactions[0].user.name == currUser!.name) {
+          widget.reactions[0].reaction = reaction;
         }
       }
     });
@@ -357,29 +347,15 @@ class _FBFullReactionState extends State<FBFullReaction>
     if (widget.reloadState == null) {
       textColor = const Color.fromARGB(255, 109, 107, 107);
     }
-
-    if (widget.data.reactions.isNotEmpty) {
-      if (widget.data.reactions[0].user.name == currUser!.name) {
-        if (widget.data.reactions[0].reaction == 1) {
+    if (widget.reactions.isNotEmpty) {
+      if (widget.reactions[0].user.name == currUser!.name) {
+        if (widget.reactions[0].reaction == 1) {
           isLike = true;
         } else {
           isLike = false;
         }
       } else {
         isLike = false;
-      }
-    }
-    if (widget.comment != null) {
-      if (widget.comment!.reactions.isNotEmpty) {
-        if (widget.comment!.reactions[0].user.name == currUser!.name) {
-          if (widget.comment!.reactions[0].reaction == 1) {
-            isLike = true;
-          } else {
-            isLike = false;
-          }
-        } else {
-          isLike = false;
-        }
       }
     }
     if (reaction != null) {
@@ -394,50 +370,28 @@ class _FBFullReactionState extends State<FBFullReaction>
         GestureDetector(
             onTap: () => setState(() {
                   if (_news[index]["reaction"] != null) {
-                    if (widget.data.reactions.isNotEmpty) {
-                      widget.data.reactions.removeAt(0);
-                    }
-                    if (widget.comment != null) {
-                      if (widget.comment!.reactions.isNotEmpty) {
-                        widget.comment!.reactions.removeAt(0);
-                      }
+                    if (widget.reactions.isNotEmpty) {
+                      widget.reactions.removeAt(0);
                     }
                   } else {
-                    if (widget.data.reactions.isNotEmpty) {
-                      if (widget.data.reactions[0].user.name ==
-                          currUser!.name) {
-                        widget.data.reactions[0].reaction = 0;
+                    if (widget.reactions.isNotEmpty) {
+                      if (widget.reactions[0].user.name == currUser!.name) {
+                        widget.reactions[0].reaction = 0;
                       } else {
-                        widget.data.reactions.insert(0, Reaction(currUser!, 0));
+                        widget.reactions.insert(0, Reaction(currUser!, 0));
                       }
                     } else {
-                      widget.data.reactions.insert(0, Reaction(currUser!, 0));
-                    }
-                    if (widget.comment != null) {
-                      if (widget.comment!.reactions.isNotEmpty) {
-                        if (widget.comment!.reactions[0].user.name ==
-                            currUser!.name) {
-                          widget.comment!.reactions[0].reaction = 0;
-                        } else {
-                          widget.comment!.reactions
-                              .insert(0, Reaction(currUser!, 0));
-                        }
-                      } else {
-                        widget.comment!.reactions
-                            .insert(0, Reaction(currUser!, 0));
-                      }
+                      widget.reactions.insert(0, Reaction(currUser!, 0));
                     }
                   }
-                  // widget.data.reaction = 0;
-                  // _news[index]["reaction"] = null;
                   if (widget.reloadState != null) {
-                    widget.reloadState!(widget.data);
+                    widget.reloadState!(widget.reactions);
                   }
                   if (widget.reloadReaction != null) {
-                    widget.reloadReaction!(widget.comment!);
+                    widget.reloadReaction!(widget.reactions);
                   }
                   if (widget.updateState != null) {
-                    widget.updateState!(widget.data);
+                    widget.updateState!(widget.reactions);
                   }
                 }),
             onLongPressMoveUpdate: _updatePointer,
@@ -517,16 +471,9 @@ class _FBFullReactionState extends State<FBFullReaction>
   Widget build(BuildContext context) {
     //main build function
     _news[0]["reaction"] = null;
-    if (widget.data.reactions.isNotEmpty) {
-      if (widget.data.reactions[0].user.name == currUser!.name) {
-        _setIcon(widget.data.reactions[0].reaction);
-      }
-    }
-    if (widget.comment != null) {
-      if (widget.comment!.reactions.isNotEmpty) {
-        if (widget.comment!.reactions[0].user.name == currUser!.name) {
-          _setIcon(widget.comment!.reactions[0].reaction);
-        }
+    if (widget.reactions.isNotEmpty) {
+      if (widget.reactions[0].user.name == currUser!.name) {
+        _setIcon(widget.reactions[0].reaction);
       }
     }
     return Stack(children: [
@@ -637,30 +584,16 @@ class _FBFullReactionState extends State<FBFullReaction>
         });
       });
       removeOverlay();
-      if (widget.data.reactions.isNotEmpty) {
-        if (widget.data.reactions[0].user.name == currUser!.name) {
-          _changeIcon(widget.data.reactions[0].reaction);
+      if (widget.reactions.isNotEmpty) {
+        if (widget.reactions[0].user.name == currUser!.name) {
+          _changeIcon(widget.reactions[0].reaction);
         } else {
-          widget.data.reactions.insert(0, Reaction(currUser!, 0));
-          _changeIcon(widget.data.reactions[0].reaction);
+          widget.reactions.insert(0, Reaction(currUser!, 0));
+          _changeIcon(widget.reactions[0].reaction);
         }
       } else {
-        widget.data.reactions.insert(0, Reaction(currUser!, 0));
-        _changeIcon(widget.data.reactions[0].reaction);
-      }
-      // _changeIcon(widget.data.reaction);
-      if (widget.comment != null) {
-        if (widget.comment!.reactions.isNotEmpty) {
-          if (widget.comment!.reactions[0].user.name == currUser!.name) {
-            _changeIcon(widget.comment!.reactions[0].reaction);
-          } else {
-            widget.comment!.reactions.insert(0, Reaction(currUser!, 0));
-            _changeIcon(widget.comment!.reactions[0].reaction);
-          }
-        } else {
-          widget.comment!.reactions.insert(0, Reaction(currUser!, 0));
-          _changeIcon(widget.comment!.reactions[0].reaction);
-        }
+        widget.reactions.insert(0, Reaction(currUser!, 0));
+        _changeIcon(widget.reactions[0].reaction);
       }
       _reactCtr.forward(from: 0).then((_) {
         //renew
@@ -672,13 +605,13 @@ class _FBFullReactionState extends State<FBFullReaction>
     }
     // Future.delayed(Duration:)
     if (widget.reloadState != null) {
-      widget.reloadState!(widget.data);
+      widget.reloadState!(widget.reactions);
     }
     if (widget.reloadReaction != null) {
-      widget.reloadReaction!(widget.comment!);
+      widget.reloadReaction!(widget.reactions);
     }
     if (widget.updateState != null) {
-      widget.updateState!(widget.data);
+      widget.updateState!(widget.reactions);
     }
   }
 

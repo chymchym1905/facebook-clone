@@ -2,6 +2,7 @@
 // import 'package:get/get.dart';
 import '../../data/focusNode.dart';
 import '../../index.dart';
+import '../../model/reaction_class.dart';
 import '../../utils/display_react.dart';
 import '../../utils/find_user_reaction.dart';
 
@@ -19,7 +20,7 @@ class Postpage extends StatefulWidget {
     required this.reloadState,
   }) : super(key: key);
   final Post data;
-  final Function(Post) reloadState;
+  final Function(List<Reaction>) reloadState;
 
   @override
   State<Postpage> createState() => _PostPageState();
@@ -63,7 +64,7 @@ class _PostPageState extends State<Postpage>
     }
   }
 
-  void updateState(Post p) {
+  void updateState(List<Reaction> reactions) {
     setState(() {
       // AppDataProvider.of(context).currentViewData = p;
     });
@@ -87,7 +88,7 @@ class _PostPageState extends State<Postpage>
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         FBFullReaction(
-            data: widget.data,
+            reactions: widget.data.reactions,
             reloadState: widget.reloadState,
             updateState: updateState),
         const CommentButton(),
