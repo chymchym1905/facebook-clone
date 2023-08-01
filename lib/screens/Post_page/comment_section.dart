@@ -5,8 +5,8 @@ import '../../index.dart';
 import '../../utils/count_comment.dart';
 import 'interact_comment.dart';
 
-Post fakedata = Post(
-    UserDummy("", "", "", "", DateTime.timestamp(), []), "", [], 0, 0, [], []);
+Post fakedata = Post("", UserDummy("", "", "", "", DateTime.timestamp(), []),
+    "", [], 0, 0, [], []);
 
 class CommentSection extends StatefulWidget {
   const CommentSection({

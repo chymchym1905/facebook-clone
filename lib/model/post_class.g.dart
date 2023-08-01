@@ -9,9 +9,10 @@ part of 'post_class.dart';
 Post _$PostFromJson(Map<String, dynamic> json) {
   $checkKeys(
     json,
-    requiredKeys: const ['user', 'caption'],
+    requiredKeys: const ['id', 'user', 'caption'],
   );
   return Post(
+    json['id'] as String,
     UserDummy.fromJson(json['user'] as Map<String, dynamic>),
     json['caption'] as String,
     (json['imageurl'] as List<dynamic>).map((e) => e as String).toList(),
@@ -27,6 +28,7 @@ Post _$PostFromJson(Map<String, dynamic> json) {
 }
 
 Map<String, dynamic> _$PostToJson(Post instance) => <String, dynamic>{
+      'id': instance.id,
       'user': instance.user,
       'caption': instance.caption,
       'imageurl': instance.imageurl,

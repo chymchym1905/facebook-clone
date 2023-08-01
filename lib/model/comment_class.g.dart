@@ -25,7 +25,7 @@ Comment1 _$Comment1FromJson(Map<String, dynamic> json) {
 }
 
 Map<String, dynamic> _$Comment1ToJson(Comment1 instance) => <String, dynamic>{
-      'user': instance.user,
+      'user': Comment1._usertoJson(instance.user),
       'react': instance.react,
       'content': instance.content,
       'reply': instance.reply,

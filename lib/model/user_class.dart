@@ -7,7 +7,6 @@ part 'user_class.g.dart';
 class UserDummy {
   UserDummy(this.name, this.gender, this.imageurl, this.email, this.createDate,
       this.friends);
-
   String name;
   String gender;
   String imageurl;

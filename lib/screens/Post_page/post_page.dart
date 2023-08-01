@@ -200,7 +200,7 @@ class _PostPageState extends State<Postpage>
               ),
             ),
             WriteCommentBox(
-              data: widget.data.comment,
+              data: widget.data,
               myfocusNode:
                   Provider.of<FocusNodeProvider>(context).commentPostPage,
               isKeyboard: isKeyboard,

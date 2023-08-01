@@ -112,7 +112,7 @@ class _CommentModalState extends State<CommentModal>
             padding: EdgeInsets.only(
                 bottom: MediaQuery.of(context).viewInsets.bottom),
             child: WriteCommentBox(
-              data: widget.data.comment,
+              data: widget.data,
               myfocusNode: Provider.of<FocusNodeProvider>(context).commentModal,
               isKeyboard: isKeyboard,
               myController: textController,
