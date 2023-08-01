@@ -7,7 +7,6 @@ part of 'user_class.dart';
 // **************************************************************************
 
 UserDummy _$UserDummyFromJson(Map<String, dynamic> json) => UserDummy(
-      json['id'] as String,
       json['name'] as String,
       json['gender'] as String,
       json['imageurl'] as String,
@@ -17,7 +16,6 @@ UserDummy _$UserDummyFromJson(Map<String, dynamic> json) => UserDummy(
     );
 
 Map<String, dynamic> _$UserDummyToJson(UserDummy instance) => <String, dynamic>{
-      'id': instance.id,
       'name': instance.name,
       'gender': instance.gender,
       'imageurl': instance.imageurl,

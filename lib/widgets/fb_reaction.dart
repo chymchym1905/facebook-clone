@@ -1,3 +1,5 @@
+import 'package:flutter_application_1/model/reaction_class.dart';
+
 import '../index.dart';
 
 class FBFullReaction extends StatefulWidget {
@@ -149,31 +151,25 @@ class _FBFullReactionState extends State<FBFullReaction>
     //utils
     switch (reaction) {
       case 0:
-        _news[0]["reaction"] = null;
-        break;
-      case 1:
         _news[0]["reaction"] = _reactions[0];
         isLike = true;
         break;
-      case 2:
+      case 1:
         _news[0]["reaction"] = _reactions[1];
         break;
-      case 3:
+      case 2:
         _news[0]["reaction"] = _reactions[2];
         break;
-      case 4:
+      case 3:
         _news[0]["reaction"] = _reactions[3];
         break;
-      case 5:
+      case 4:
         _news[0]["reaction"] = _reactions[4];
         break;
-      case 6:
+      case 5:
         _news[0]["reaction"] = _reactions[5];
         break;
     }
-    // if(widget.data.reaction != 0){
-    //   // for(int i = )
-    // }
   }
 
   void _changeIcon(int reaction) {
@@ -182,27 +178,35 @@ class _FBFullReactionState extends State<FBFullReaction>
       switch (_reactSelected) {
         case 0:
           isLike = true;
-          reaction = 1;
+          reaction = 0;
           break;
         case 1:
-          reaction = 2;
+          reaction = 1;
           break;
         case 2:
-          reaction = 3;
+          reaction = 2;
           break;
         case 3:
-          reaction = 4;
+          reaction = 3;
           break;
         case 4:
-          reaction = 5;
+          reaction = 4;
           break;
         case 5:
-          reaction = 6;
+          reaction = 5;
           break;
       }
-      widget.data.reaction = reaction;
+      if (widget.data.reactions.isNotEmpty) {
+        if (widget.data.reactions[0].user.name == currUser!.name) {
+          widget.data.reactions[0].reaction = reaction;
+        }
+      }
       if (widget.comment != null) {
-        widget.comment!.reaction = reaction;
+        if (widget.comment!.reactions.isNotEmpty) {
+          if (widget.comment!.reactions[0].user.name == currUser!.name) {
+            widget.comment!.reactions[0].reaction = reaction;
+          }
+        }
       }
     });
   }
@@ -353,10 +357,30 @@ class _FBFullReactionState extends State<FBFullReaction>
     if (widget.reloadState == null) {
       textColor = const Color.fromARGB(255, 109, 107, 107);
     }
-    if (widget.data.reaction == 1) {
-      isLike = true;
-    } else {
-      isLike = false;
+
+    if (widget.data.reactions.isNotEmpty) {
+      if (widget.data.reactions[0].user.name == currUser!.name) {
+        if (widget.data.reactions[0].reaction == 1) {
+          isLike = true;
+        } else {
+          isLike = false;
+        }
+      } else {
+        isLike = false;
+      }
+    }
+    if (widget.comment != null) {
+      if (widget.comment!.reactions.isNotEmpty) {
+        if (widget.comment!.reactions[0].user.name == currUser!.name) {
+          if (widget.comment!.reactions[0].reaction == 1) {
+            isLike = true;
+          } else {
+            isLike = false;
+          }
+        } else {
+          isLike = false;
+        }
+      }
     }
     if (reaction != null) {
       textColor = reaction.color;
@@ -370,18 +394,42 @@ class _FBFullReactionState extends State<FBFullReaction>
         GestureDetector(
             onTap: () => setState(() {
                   if (_news[index]["reaction"] != null) {
-                    widget.data.reaction = 0;
+                    if (widget.data.reactions.isNotEmpty) {
+                      widget.data.reactions.removeAt(0);
+                    }
                     if (widget.comment != null) {
-                      widget.comment!.reaction = 0;
+                      if (widget.comment!.reactions.isNotEmpty) {
+                        widget.comment!.reactions.removeAt(0);
+                      }
                     }
                   } else {
-                    widget.data.reaction = 1;
+                    if (widget.data.reactions.isNotEmpty) {
+                      if (widget.data.reactions[0].user.name ==
+                          currUser!.name) {
+                        widget.data.reactions[0].reaction = 0;
+                      } else {
+                        widget.data.reactions.insert(0, Reaction(currUser!, 0));
+                      }
+                    } else {
+                      widget.data.reactions.insert(0, Reaction(currUser!, 0));
+                    }
                     if (widget.comment != null) {
-                      widget.comment!.reaction = 1;
+                      if (widget.comment!.reactions.isNotEmpty) {
+                        if (widget.comment!.reactions[0].user.name ==
+                            currUser!.name) {
+                          widget.comment!.reactions[0].reaction = 0;
+                        } else {
+                          widget.comment!.reactions
+                              .insert(0, Reaction(currUser!, 0));
+                        }
+                      } else {
+                        widget.comment!.reactions
+                            .insert(0, Reaction(currUser!, 0));
+                      }
                     }
                   }
                   // widget.data.reaction = 0;
-                  _news[index]["reaction"] = null;
+                  // _news[index]["reaction"] = null;
                   if (widget.reloadState != null) {
                     widget.reloadState!(widget.data);
                   }
@@ -468,9 +516,18 @@ class _FBFullReactionState extends State<FBFullReaction>
   @override
   Widget build(BuildContext context) {
     //main build function
-    _setIcon(widget.data.reaction);
+    _news[0]["reaction"] = null;
+    if (widget.data.reactions.isNotEmpty) {
+      if (widget.data.reactions[0].user.name == currUser!.name) {
+        _setIcon(widget.data.reactions[0].reaction);
+      }
+    }
     if (widget.comment != null) {
-      _setIcon(widget.comment!.reaction);
+      if (widget.comment!.reactions.isNotEmpty) {
+        if (widget.comment!.reactions[0].user.name == currUser!.name) {
+          _setIcon(widget.comment!.reactions[0].reaction);
+        }
+      }
     }
     return Stack(children: [
       _buildItem(context, 0),
@@ -580,9 +637,30 @@ class _FBFullReactionState extends State<FBFullReaction>
         });
       });
       removeOverlay();
-      _changeIcon(widget.data.reaction);
+      if (widget.data.reactions.isNotEmpty) {
+        if (widget.data.reactions[0].user.name == currUser!.name) {
+          _changeIcon(widget.data.reactions[0].reaction);
+        } else {
+          widget.data.reactions.insert(0, Reaction(currUser!, 0));
+          _changeIcon(widget.data.reactions[0].reaction);
+        }
+      } else {
+        widget.data.reactions.insert(0, Reaction(currUser!, 0));
+        _changeIcon(widget.data.reactions[0].reaction);
+      }
+      // _changeIcon(widget.data.reaction);
       if (widget.comment != null) {
-        _changeIcon(widget.comment!.reaction);
+        if (widget.comment!.reactions.isNotEmpty) {
+          if (widget.comment!.reactions[0].user.name == currUser!.name) {
+            _changeIcon(widget.comment!.reactions[0].reaction);
+          } else {
+            widget.comment!.reactions.insert(0, Reaction(currUser!, 0));
+            _changeIcon(widget.comment!.reactions[0].reaction);
+          }
+        } else {
+          widget.comment!.reactions.insert(0, Reaction(currUser!, 0));
+          _changeIcon(widget.comment!.reactions[0].reaction);
+        }
       }
       _reactCtr.forward(from: 0).then((_) {
         //renew

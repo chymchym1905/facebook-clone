@@ -4,8 +4,8 @@ import 'package:flutter_application_1/utils/find_user_reaction.dart';
 import '../../index.dart';
 import '../../utils/count_comment.dart';
 
-Post fakedata = Post(UserDummy("", "", "", "", "", DateTime.timestamp(), []),
-    "", [], 0, 0, [], []);
+Post fakedata = Post(
+    UserDummy("", "", "", "", DateTime.timestamp(), []), "", [], 0, 0, [], []);
 
 class CommentSection extends StatefulWidget {
   const CommentSection({
@@ -53,7 +53,7 @@ class _CommentSectionState extends State<CommentSection> {
               : const Color.fromARGB(255, 234, 236, 238);
         }
         Comment1 fakeComment = Comment1(
-            UserDummy("", "", "", "", "", DateTime.timestamp(), []),
+            UserDummy("", "", "", "", DateTime.timestamp(), []),
             0,
             "View $listLength more comment...", [], []);
         return Container(
@@ -119,7 +119,7 @@ class _CommentSectionState extends State<CommentSection> {
             contentRoot: (context, data) {
               // Parent comment
               if (currUser != null) {
-                findUserReact(currUser!.name, data.reactions, data.reaction);
+                findUserReact(currUser!.name, data.reactions);
               }
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -343,8 +343,7 @@ class _CommmentTreeSectionState extends State<CommmentTreeSection> {
                 contentChild: (context, data) {
                   //Replies
                   if (currUser != null) {
-                    findUserReact(
-                        currUser!.name, data.reactions, data.reaction);
+                    findUserReact(currUser!.name, data.reactions);
                   }
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -423,8 +422,7 @@ class _CommmentTreeSectionState extends State<CommmentTreeSection> {
                 },
                 contentRoot: (context, data) {
                   if (currUser != null) {
-                    findUserReact(
-                        currUser!.name, data.reactions, data.reaction);
+                    findUserReact(currUser!.name, data.reactions);
                   }
                   // Parent comment
                   return Column(
