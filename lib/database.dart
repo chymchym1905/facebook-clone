@@ -15,9 +15,22 @@ class Database {
     }
   }
 
-  Future createPost(Post data) async {
+  Future createPost(Post data, List<Media> media) async {
     final postdoc = _db.collection('posts').doc();
-    final json = Post(data.user, data.caption, data.imageurl, data.likes,
+    final List<String> mediaURLS = [];
+    if (media.isNotEmpty) {
+      for (int i = 0; i < media.length; i++) {
+        var task = Storage().uploadBytes(
+            'posts/${postdoc.id}/${media[i].file!.path}', media[i].mediaByte!);
+        if (task == null) {
+          continue;
+        }
+        final snapshot = await task.whenComplete(() => null);
+        mediaURLS.add(await snapshot.ref.getDownloadURL());
+      }
+    }
+
+    final json = Post(data.user, data.caption, mediaURLS, data.likes,
             data.shares, data.comment, data.reactions)
         .toJson();
     await postdoc

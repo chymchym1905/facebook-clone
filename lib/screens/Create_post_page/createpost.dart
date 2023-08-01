@@ -208,7 +208,8 @@ class _CreatePostState extends State<CreatePost>
                 onPressed: caption.text != "" || pickedMedia.isNotEmpty
                     ? () {
                         Database().createPost(
-                            Post(currUser!, caption.text, [], 0, 0, [], []));
+                            Post(currUser!, caption.text, [], 0, 0, [], []),
+                            pickedMedia);
                       }
                     : null,
                 style: ButtonStyle(
