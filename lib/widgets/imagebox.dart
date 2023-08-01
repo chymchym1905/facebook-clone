@@ -34,32 +34,32 @@ class _ImageBoxState extends State<ImageBox>
           // print(snapshot.data);
           if (snapshot.hasError) {
             // setState(() {});
-            return Text('${snapshot.error}');
+            return Text('${snapshot.error} asdasdasdasdasd');
           } else if (snapshot.hasData) {
             if (widget.data.imageurl.length == 1) {
-              return oneItem(widget.data);
+              return oneItem(widget.data, null);
             } else if (widget.data.imageurl.length == 2) {
               if (snapshot.data!.width >= snapshot.data!.height) {
-                return twoItem(widget.data);
+                return twoItem(widget.data, null);
               }
-              return twoItemVertical(widget.data);
+              return twoItemVertical(widget.data, null);
             } else if (widget.data.imageurl.length == 3) {
-              return threeItem(widget.data);
+              return threeItem(widget.data, null);
             } else if (widget.data.imageurl.length == 4) {
               if (snapshot.data!.width >= snapshot.data!.height) {
-                return fourItem(widget.data);
+                return fourItem(widget.data, null);
               }
-              return fourItem2(widget.data);
+              return fourItem2(widget.data, null);
             } else if (widget.data.imageurl.length == 5) {
               if (snapshot.data!.width >= snapshot.data!.height) {
-                return fiveItemVertical(widget.data);
+                return fiveItemVertical(widget.data, null);
               }
-              return fiveItemHorizontal(widget.data);
+              return fiveItemHorizontal(widget.data, null);
             } else {
               if (snapshot.data!.width >= snapshot.data!.height) {
-                return batchImages(widget.data, context);
+                return batchImages(widget.data, null, context);
               }
-              return batchImagesHorizontal(widget.data, context);
+              return batchImagesHorizontal(widget.data, null, context);
             }
           } else {
             return const LoadingIndicator();

@@ -10,12 +10,26 @@ class GalleryViewPage extends StatefulWidget {
       {super.key,
       required this.initialIndex,
       required this.data,
-      required this.isPostpage})
+      required this.mediaList,
+      required this.imageType})
       : pageController = PageController(initialPage: initialIndex);
+  final ImageSourceType imageType;
   final int initialIndex;
-  final bool isPostpage;
   final Post data;
   final PageController pageController;
+  final List<Media> mediaList;
+
+  GalleryViewPage.network(this.initialIndex, this.data, {super.key})
+      : mediaList = [],
+        pageController = PageController(initialPage: initialIndex),
+        imageType = ImageSourceType.network;
+
+  GalleryViewPage.memory(this.initialIndex, this.mediaList, {super.key})
+      : data = Post("", UserDummy("", "", "", "", "", DateTime.timestamp()), "",
+            [], 0, 0, 0, [], 0, []),
+        pageController = PageController(initialPage: initialIndex),
+        imageType = ImageSourceType.memory;
+
   @override
   State<GalleryViewPage> createState() => _GalleryViewPageState();
 }
@@ -63,7 +77,9 @@ class _GalleryViewPageState extends State<GalleryViewPage>
             child: SizedBox(
               height: context.height,
               child: PhotoViewGallery.builder(
-                itemCount: widget.data.imageurl.length,
+                itemCount: widget.imageType == ImageSourceType.network
+                    ? widget.data.imageurl.length
+                    : widget.mediaList.length,
                 scrollPhysics: const RangeMaintainingScrollPhysics(),
                 pageController: widget.pageController,
                 builder: (context, index) {
@@ -71,8 +87,11 @@ class _GalleryViewPageState extends State<GalleryViewPage>
                       tightMode: true,
                       minScale: PhotoViewComputedScale.contained,
                       maxScale: PhotoViewComputedScale.covered * 1.1,
-                      imageProvider: CachedNetworkImageProvider(
-                          widget.data.imageurl[index]),
+                      imageProvider: widget.imageType == ImageSourceType.network
+                          ? CachedNetworkImageProvider(
+                              widget.data.imageurl[index])
+                          : Image.memory(widget.mediaList[index].mediaByte!)
+                              .image,
                       initialScale: PhotoViewComputedScale.contained,
                       heroAttributes: PhotoViewHeroAttributes(tag: index));
                 },
@@ -108,7 +127,9 @@ class _GalleryViewPageState extends State<GalleryViewPage>
                 child: ListView.builder(
                     scrollDirection: Axis.horizontal,
                     controller: autoScrollController,
-                    itemCount: widget.data.imageurl.length,
+                    itemCount: widget.imageType == ImageSourceType.network
+                        ? widget.data.imageurl.length
+                        : widget.mediaList.length,
                     itemBuilder: (context, index) {
                       return AutoScrollTag(
                         key: ValueKey(index),
@@ -125,17 +146,21 @@ class _GalleryViewPageState extends State<GalleryViewPage>
                             notClickBelow = true;
                           },
                           child: Card(
-                              clipBehavior: Clip.hardEdge,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(
-                                    10.0), // Set the border radius
-                                side: const BorderSide(
-                                    width: 2,
-                                    color: Colors
-                                        .white), // Set the border width and color
-                              ),
-                              child: CachedNetworkImage(
-                                  imageUrl: widget.data.imageurl[index])),
+                            clipBehavior: Clip.hardEdge,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(
+                                  10.0), // Set the border radius
+                              side: const BorderSide(
+                                  width: 2,
+                                  color: Colors
+                                      .white), // Set the border width and color
+                            ),
+                            child: widget.imageType == ImageSourceType.network
+                                ? CachedNetworkImage(
+                                    imageUrl: widget.data.imageurl[index])
+                                : Image.memory(
+                                    widget.mediaList[index].mediaByte!),
+                          ),
                         ),
                       );
                     }),

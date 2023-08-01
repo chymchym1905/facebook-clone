@@ -1,3 +1,4 @@
+import 'package:flutter_application_1/screens/Create_post_page/image_preview.dart';
 import 'package:fluttericon/entypo_icons.dart';
 import '../../../index.dart';
 import 'package:snapping_sheet_2/snapping_sheet.dart';
@@ -16,11 +17,18 @@ class _CreatePostState extends State<CreatePost>
   MaterialStatesController materialStates = MaterialStatesController();
   List<Media> pickedMedia = [];
   ScrollController scrollController = ScrollController();
+  // ValueNotifier<List<Media>> imageList = ValueNotifier<List<Media>>([]);
+
+  // StreamController<List<Media>> imagesStream = StreamController<List<Media>>();
 
   @override
   void initState() {
     super.initState();
-
+    // imageList.addListener(() {
+    //   setState(() {
+    //     debugPrint(imageList.toString());
+    //   });
+    // });
     caption.addListener(captionListener);
   }
 
@@ -30,8 +38,13 @@ class _CreatePostState extends State<CreatePost>
     }
   }
 
+  void updateState() {
+    setState(() {});
+  }
+
   @override
   void dispose() {
+    // imageList.dispose();
     caption.dispose();
     super.dispose();
   }
@@ -40,6 +53,7 @@ class _CreatePostState extends State<CreatePost>
     return showModalBottomSheet(
         context: context,
         // enableDrag: false,
+        isDismissible: true,
         isScrollControlled: true,
         backgroundColor: Colors.transparent,
         builder: (context) => SnappingSheet(
@@ -64,7 +78,10 @@ class _CreatePostState extends State<CreatePost>
                     child: MediaPicker(
                       scrollController: scrollController,
                       onPicked: (selectedList) {
-                        pickedMedia = selectedList;
+                        setState(() {
+                          pickedMedia = selectedList;
+                        });
+                        // pickedMedia = selectedList;
                         Navigator.of(context).pop();
                       },
                       onCancel: () => Navigator.of(context).pop(),
@@ -188,11 +205,13 @@ class _CreatePostState extends State<CreatePost>
             child: Padding(
               padding: const EdgeInsets.only(right: 8.0),
               child: FilledButton(
-                onPressed: caption.text != "" ? () {} : null,
+                onPressed:
+                    caption.text != "" || pickedMedia.isNotEmpty ? () {} : null,
                 style: ButtonStyle(
                     fixedSize: MaterialStatePropertyAll(
                         Size(context.width * 0.23, 30)),
-                    backgroundColor: caption.text != ""
+                    backgroundColor: caption.text != "" ||
+                            pickedMedia.isNotEmpty
                         ? const MaterialStatePropertyAll(Palette.facebookBlue)
                         : themeManager.themeMode == light
                             ? const MaterialStatePropertyAll(
@@ -207,7 +226,7 @@ class _CreatePostState extends State<CreatePost>
                   'POST',
                   style: Theme.of(context).textTheme.bodySmall?.copyWith(
                       fontSize: 14,
-                      color: caption.text != ""
+                      color: caption.text != "" || pickedMedia.isNotEmpty
                           ? Colors.white
                           : themeManager.themeMode == light
                               ? const Color.fromARGB(255, 190, 192, 197)
@@ -266,7 +285,7 @@ class _CreatePostState extends State<CreatePost>
               ],
             ),
             Expanded(
-              child: Padding(
+              child: Container(
                 padding: const EdgeInsets.symmetric(horizontal: 15),
                 child: TextField(
                   onChanged: (value) {
@@ -287,6 +306,9 @@ class _CreatePostState extends State<CreatePost>
                 ),
               ),
             ),
+            Expanded(
+                child:
+                    ImagePreview(images: pickedMedia, callback: updateState)),
             Align(
               alignment: Alignment.bottomCenter,
               child: Container(

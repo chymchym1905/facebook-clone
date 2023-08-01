@@ -16,6 +16,19 @@ class Database {
     }
   }
 
+  Future createPost(Post data) async {
+    final postdoc = _db.collection('posts').doc();
+  }
+
+  Future<List<Post>> getAllPost() async {
+    var allPosts = await _db.collection('posts').get();
+    List<Post> p = [];
+    for (var i = 0; i < allPosts.docs.length; i++) {
+      p.add(Post.fromJson(allPosts.docs[i].data()));
+    }
+    return p;
+  }
+
   Future<UserDummy?> getUser(String id) async {
     final documentSnapshot = _db.collection('users').doc(id);
     var snapshot = await documentSnapshot.get();

@@ -20,7 +20,6 @@ class Post {
       this.comments,
       this.shares,
       this.comment,
-      this.reaction,
       this.reactions);
   @JsonKey(required: true)
   String id;
@@ -32,8 +31,6 @@ class Post {
   @JsonKey(required: false)
   // Visibility visibility;
   List<String> imageurl;
-  
-  int reaction;
 
   List<Reaction> reactions;
 

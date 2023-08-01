@@ -33,11 +33,16 @@ class RouteGenerator {
                 ));
       case '/gallery':
         final arg = args as GalleryViewPage;
-        return MaterialPageRoute(
-            builder: (_) => GalleryViewPage(
-                initialIndex: arg.initialIndex,
-                data: arg.data,
-                isPostpage: arg.isPostpage));
+        if (arg.imageType == ImageSourceType.network) {
+          return MaterialPageRoute(
+              builder: (_) =>
+                  GalleryViewPage.network(arg.initialIndex, arg.data));
+        } else if (arg.imageType == ImageSourceType.memory) {
+          return MaterialPageRoute(
+              builder: (_) =>
+                  GalleryViewPage.memory(arg.initialIndex, arg.mediaList));
+        }
+
       case '/viewreaction':
         final arg = args as ReactionPage;
         return MaterialPageRoute(
