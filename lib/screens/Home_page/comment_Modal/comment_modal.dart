@@ -1,4 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import '../../../data/focusNode.dart';
 import '../../../index.dart';
 import '../../../utils/display_react.dart';
 
@@ -40,7 +41,10 @@ class _CommentModalState extends State<CommentModal>
     final value = WidgetsBinding
         .instance.platformDispatcher.views.first.viewInsets.bottom;
     if (value == 0 && MediaQuery.of(context).viewInsets.bottom != 0) {
-      AppDataProvider.of(context).commentModal.unfocus();
+      // AppDataProvider.of(context).commentModal.unfocus();
+      Provider.of<FocusNodeProvider>(context, listen: false)
+          .commentModal
+          .unfocus();
       IndexComment.flagReply = false;
       IndexComment.flagReply2 = false;
     }
@@ -80,7 +84,7 @@ class _CommentModalState extends State<CommentModal>
             ]),
         Expanded(
           child: CommentSection(
-            myfocusNode: AppDataProvider.of(context).commentModal,
+            myfocusNode: Provider.of<FocusNodeProvider>(context).commentModal,
             data: widget.data.comment,
             controlViewMoreComment: controlViewMoreComment,
             setViewMoreComment: setViewMoreComment,
@@ -92,7 +96,7 @@ class _CommentModalState extends State<CommentModal>
                 bottom: MediaQuery.of(context).viewInsets.bottom),
             child: WriteCommentBox(
               data: widget.data.comment,
-              myfocusNode: AppDataProvider.of(context).commentModal,
+              myfocusNode: Provider.of<FocusNodeProvider>(context).commentModal,
               isKeyboard: isKeyboard,
               myController: textController,
               instantUser: currUser!,

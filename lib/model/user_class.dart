@@ -5,7 +5,7 @@ part 'user_class.g.dart';
 @JsonSerializable()
 class UserDummy {
   UserDummy(this.id, this.name, this.gender, this.imageurl, this.email,
-      this.createDate);
+      this.createDate, this.friends);
 
   String id;
   String name;
@@ -14,6 +14,7 @@ class UserDummy {
   String email;
   @JsonKey(toJson: _dateTimeToJson)
   DateTime createDate;
+  List<String> friends;
 
   static DateTime _dateTimeToJson(DateTime dateTime) {
     return dateTime.toUtc();

@@ -1,6 +1,7 @@
 import 'package:loading_more_list/loading_more_list.dart';
 
 import '../../../index.dart';
+import '../../../widgets/friends_page.dart';
 import '../friend_card_container.dart';
 
 class FriendListView extends StatefulWidget {
@@ -83,7 +84,12 @@ class _FriendListViewState extends State<FriendListView>
           Padding(
             padding: const EdgeInsets.only(left: 12, bottom: 10),
             child: ElevatedButton(
-              onPressed: () {},
+              onPressed: () => setState(() {
+                Navigator.of(context).pushNamed("/friends",
+                    arguments: Friend(
+                      userFriends: currUser!.friends,
+                    ));
+              }),
               style: ElevatedButton.styleFrom(
                   backgroundColor: themeManager.themeMode == dark
                       ? const Color.fromARGB(255, 58, 59, 60)

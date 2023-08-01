@@ -6,9 +6,8 @@ class Database {
   Future createUser(User? user, String username, String gender) async {
     if (user != null) {
       final userdoc = _db.collection('users').doc(user.uid);
-      final json = UserDummy(
-              user.uid, username, gender, '', user.email!, DateTime.timestamp())
-          .toJson();
+      final json = UserDummy(user.uid, username, gender, '', user.email!,
+          DateTime.timestamp(), []).toJson();
       await userdoc
           .set(json)
           .whenComplete(() => print("Registered!"))
@@ -26,7 +25,8 @@ class Database {
           snapshot.data()!['gender'],
           snapshot.data()!['imageurl'],
           snapshot.data()!['email'],
-          snapshot.data()!['createDate'].toDate());
+          snapshot.data()!['createDate'].toDate(),
+          snapshot.data()!['friends'].cast<String>());
     }
     return null;
   }
@@ -46,7 +46,8 @@ class Database {
             snapshots[i].data()!['gender'],
             snapshots[i].data()!['imageurl'],
             snapshots[i].data()!['email'],
-            snapshots[i].data()!['createDate'].toDate()));
+            snapshots[i].data()!['createDate'].toDate(),
+            snapshots[i].data()!['friends'].cast<String>()));
       }
     }
     return users;

@@ -1,5 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 // import 'package:get/get.dart';
+import '../../data/focusNode.dart';
 import '../../index.dart';
 import '../../utils/display_react.dart';
 import '../../utils/find_user_reaction.dart';
@@ -56,7 +57,9 @@ class _PostPageState extends State<Postpage>
     final value = WidgetsBinding
         .instance.platformDispatcher.views.first.viewInsets.bottom;
     if (value == 0 && MediaQuery.of(context).viewInsets.bottom != 0) {
-      AppDataProvider.of(context).commentPostPage.unfocus();
+      Provider.of<FocusNodeProvider>(context, listen: false)
+          .commentPostPage
+          .unfocus();
     }
   }
 
@@ -163,7 +166,8 @@ class _PostPageState extends State<Postpage>
                     ],
                   ),
                   CommentSection(
-                    myfocusNode: AppDataProvider.of(context).commentPostPage,
+                    myfocusNode:
+                        Provider.of<FocusNodeProvider>(context).commentPostPage,
                     data: widget.data.comment,
                     controlViewMoreComment: controlViewMoreComment,
                     setViewMoreComment: setViewMoreComment,
@@ -173,7 +177,8 @@ class _PostPageState extends State<Postpage>
             ),
             WriteCommentBox(
               data: widget.data.comment,
-              myfocusNode: AppDataProvider.of(context).commentPostPage,
+              myfocusNode:
+                  Provider.of<FocusNodeProvider>(context).commentPostPage,
               isKeyboard: isKeyboard,
               myController: textController,
               instantUser: currUser!,

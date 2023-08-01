@@ -13,6 +13,7 @@ UserDummy _$UserDummyFromJson(Map<String, dynamic> json) => UserDummy(
       json['imageurl'] as String,
       json['email'] as String,
       DateTime.parse(json['createDate'] as String),
+      (json['friends'] as List).map((e) => e as String).toList(),
     );
 
 Map<String, dynamic> _$UserDummyToJson(UserDummy instance) => <String, dynamic>{
@@ -22,4 +23,5 @@ Map<String, dynamic> _$UserDummyToJson(UserDummy instance) => <String, dynamic>{
       'imageurl': instance.imageurl,
       'email': instance.email,
       'createDate': UserDummy._dateTimeToJson(instance.createDate),
+      'friends': instance.friends,
     };

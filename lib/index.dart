@@ -50,3 +50,4 @@ export 'utils/commons.dart';
 export 'screens/Home_page/profile_page/profile.dart';
 export 'screens/Create_post_page/createpost.dart';
 export 'package:media_picker_widget/media_picker_widget.dart';
+export 'package:provider/provider.dart';

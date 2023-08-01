@@ -1,8 +1,10 @@
 import 'package:flutter_application_1/screens/Authentication_pages/forgotpasswordscreen.dart';
 import 'package:flutter_application_1/screens/Gallery_view_pages/galleryview.dart';
+import 'package:flutter_application_1/widgets/friends_page.dart';
 
 import 'index.dart';
-import 'screens/friends_page.dart';
+
+import 'widgets/user_page.dart';
 import 'screens/watch_page.dart';
 
 class RouteGenerator {
@@ -52,12 +54,16 @@ class RouteGenerator {
       case '/createpost':
         return MaterialPageRoute(builder: (_) => const CreatePost());
       case '/userprofile':
-        final arg = args as Friends;
+        final arg = args as UserPage;
         return MaterialPageRoute(
-            builder: (_) => Friends(
+            builder: (_) => UserPage(
                   user: arg.user,
                   posts: args.posts,
                 ));
+      case '/friends':
+        final arg = args as Friend;
+        return MaterialPageRoute(
+            builder: (_) => Friend(userFriends: arg.userFriends));
       default:
         return _errorRoute();
     }
