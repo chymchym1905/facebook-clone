@@ -47,7 +47,9 @@ class _PostListViewState extends State<PostListView>
 
     return RefreshIndicator(
       onRefresh: () async {
-        await widget.source.refresh();
+        if (widget.source.hasMore) {
+          await widget.source.refresh();
+        }
       },
       child: LoadingMoreList<Post>(ListConfig<Post>(
         sourceList: widget.source,
@@ -82,9 +84,14 @@ class _PostListViewState extends State<PostListView>
             case IndicatorStatus.empty:
               return Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Center(
-                  child: Text('No posts available',
-                      style: Theme.of(context).textTheme.titleMedium),
+                child: ListView(
+                  physics: NeverScrollableScrollPhysics(),
+                  children: [
+                    Center(
+                      child: Text('No posts available',
+                          style: Theme.of(context).textTheme.titleMedium),
+                    ),
+                  ],
                 ),
               );
             case IndicatorStatus.fullScreenBusying:

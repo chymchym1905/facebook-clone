@@ -42,7 +42,7 @@ class Database {
   }
 
   Future<List<Post>> getAllPost() async {
-    var allPosts = await _db.collection('posts').get();
+    var allPosts = await _db.collection('posts').get(GetOptions());
     List<Post> p = [];
     if (allPosts.docs.isNotEmpty) {
       for (var i = 0; i < allPosts.docs.length; i++) {
@@ -95,4 +95,6 @@ class Database {
     }
     return users;
   }
+
+  Future writeComment(String id) async {}
 }
