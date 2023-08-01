@@ -63,7 +63,12 @@ class _FriendListViewState extends State<FriendListView>
                       splashRadius: MediaQuery.of(context).size.width * 0.07,
                       onPressed: () {},
                       iconSize: MediaQuery.of(context).size.width * 0.07,
-                      icon: const Icon(Octicons.three_bars)),
+                      icon: Icon(
+                        Octicons.three_bars,
+                        color: themeManager.themeMode == dark
+                            ? whitee
+                            : const Color.fromARGB(255, 58, 59, 60),
+                      )),
                   Text("Friends",
                       style: Theme.of(context).textTheme.headlineSmall)
                 ],
@@ -77,7 +82,12 @@ class _FriendListViewState extends State<FriendListView>
                     splashRadius: MediaQuery.of(context).size.width * 0.07,
                     onPressed: () {},
                     iconSize: MediaQuery.of(context).size.width * 0.06,
-                    icon: const Icon(Elusive.search)),
+                    icon: Icon(
+                      Elusive.search,
+                      color: themeManager.themeMode == dark
+                          ? whitee
+                          : const Color.fromARGB(255, 58, 59, 60),
+                    )),
               ),
             ),
           ]),

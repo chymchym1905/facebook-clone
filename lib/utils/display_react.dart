@@ -190,11 +190,19 @@ class _DisplayReactState extends State<DisplayReact> {
             ],
           ),
           if (!widget.isRevert) ...[
-            Text('$totalReact',
-                style: Theme.of(context)
-                    .textTheme
-                    .titleMedium
-                    ?.copyWith(fontWeight: FontWeight.w300)),
+            if (widget.data.length == 1) ...[
+              Text(widget.data[0].user.name,
+                  style: Theme.of(context)
+                      .textTheme
+                      .titleMedium
+                      ?.copyWith(fontWeight: FontWeight.w300))
+            ] else ...[
+              Text('$totalReact',
+                  style: Theme.of(context)
+                      .textTheme
+                      .titleMedium
+                      ?.copyWith(fontWeight: FontWeight.w300)),
+            ],
             if (!widget.hideIcon) ...[
               Padding(
                 padding: const EdgeInsets.only(left: 1),

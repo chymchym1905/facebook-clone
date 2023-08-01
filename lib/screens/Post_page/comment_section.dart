@@ -47,7 +47,7 @@ class _CommentSectionState extends State<CommentSection> {
         countReply(widget.data[index], listReply);
         int listLength = listReply.length - 1;
         if (widget.data[index].reply.isEmpty) {
-          hideTree = Colors.white;
+          hideTree = themeManager.themeMode == dark ? lightdark : whitee;
         } else {
           hideTree = themeManager.themeMode == dark
               ? const Color.fromARGB(255, 58, 59, 60)
@@ -233,14 +233,14 @@ class _ViewMoreCommentState extends State<ViewMoreComment> {
             width: MediaQuery.of(context).size.width,
             child: Row(
               children: [
-                if (widget.list.user.imageurl.isNotEmpty)
-                  Padding(
-                    padding: const EdgeInsets.only(right: 10),
-                    child: CircleAvatar(
-                      radius: 15,
-                      backgroundImage: imageAvatar(widget.list.user.imageurl),
-                    ),
+                // if (widget.list.user.imageurl.isNotEmpty)
+                Padding(
+                  padding: const EdgeInsets.only(right: 10),
+                  child: CircleAvatar(
+                    radius: 15,
+                    backgroundImage: imageAvatar(widget.list.user.imageurl),
                   ),
+                ),
                 Expanded(
                   child: Padding(
                     padding: const EdgeInsets.only(top: 4),
