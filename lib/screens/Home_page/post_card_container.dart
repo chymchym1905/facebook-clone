@@ -60,15 +60,20 @@ class _PostsState extends State<Posts> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    Expanded(
-                      child: DisplayReact(
-                          data: widget.data.reactions,
-                          isRevert: false,
-                          hideIcon: true),
-                    ),
-                    Text("$comments comments "),
-                    const Text("· 0 shares")
+                    if (widget.data.reactions.isNotEmpty) ...[
+                      Expanded(
+                        child: DisplayReact(
+                            data: widget.data.reactions,
+                            isRevert: false,
+                            hideIcon: true),
+                      ),
+                    ],
+                    if (comments != 0) ...[
+                      Text("$comments comments "),
+                    ]
+                    // const Text("· 0 shares")
                   ],
                 ),
               ),
@@ -218,10 +223,14 @@ class _Caption extends State<Caption> {
         }),
         child: Ink(
           color: themeManager.themeMode == dark ? lightdark : whitee,
-          child: Text(
-            widget.data.caption,
-            textAlign: TextAlign.start,
-            style: Theme.of(context).textTheme.labelLarge,
+          child: Row(
+            children: [
+              Text(
+                widget.data.caption,
+                textAlign: TextAlign.start,
+                style: Theme.of(context).textTheme.labelLarge,
+              ),
+            ],
           ),
         ),
       ),

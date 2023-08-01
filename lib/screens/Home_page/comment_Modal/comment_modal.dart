@@ -60,28 +60,45 @@ class _CommentModalState extends State<CommentModal>
   Widget build(BuildContext context) {
     final isKeyboard = MediaQuery.of(context).viewInsets.bottom != 0;
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Row(
-            // mainAxisAlignment: MainAxisAlignment.end,
+        if (widget.data.reactions.isNotEmpty) ...[
+          Row(mainAxisAlignment: MainAxisAlignment.end, children: [
+            Expanded(
+                child: DisplayReact(
+                    data: widget.data.reactions,
+                    isRevert: false,
+                    hideIcon: false)),
+            Container(
+                padding: const EdgeInsets.only(right: 20),
+                child: IconButton(
+                  onPressed: () {
+                    setState(() {
+                      isLike = !isLike;
+                    });
+                  },
+                  icon: Icon(Icons.thumb_up_off_alt,
+                      color:
+                          isLike ? const Facebook.blue().color : Colors.grey),
+                )),
+          ])
+        ],
+        TextButton(
+          onPressed: () {},
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
             children: [
-              Expanded(
-                  child: DisplayReact(
-                      data: widget.data.reactions,
-                      isRevert: false,
-                      hideIcon: false)),
-              Container(
-                  padding: const EdgeInsets.only(right: 20),
-                  child: IconButton(
-                    onPressed: () {
-                      setState(() {
-                        isLike = !isLike;
-                      });
-                    },
-                    icon: Icon(Icons.thumb_up_off_alt,
-                        color:
-                            isLike ? const Facebook.blue().color : Colors.grey),
-                  )),
-            ]),
+              Text("More relevant",
+                  style: Theme.of(context).textTheme.bodyMedium),
+              Icon(
+                Icons.keyboard_arrow_down,
+                color: themeManager.themeMode == dark
+                    ? whitee
+                    : const Color.fromARGB(255, 58, 59, 60),
+              ),
+            ],
+          ),
+        ),
         Expanded(
           child: CommentSection(
             myfocusNode: Provider.of<FocusNodeProvider>(context).commentModal,

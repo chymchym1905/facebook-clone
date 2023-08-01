@@ -125,6 +125,7 @@ class _PostPageState extends State<Postpage>
           // bottom: ,
         ),
         body: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Expanded(
               child: ListView(
@@ -154,14 +155,37 @@ class _PostPageState extends State<Postpage>
                   //     height: 1,
                   //     width: MediaQuery.of(context).size.width * 0.9),
                   buttonSection,
+                  Divider(
+                    indent: MediaQuery.of(context).size.width * 0.05,
+                    endIndent: MediaQuery.of(context).size.width * 0.05,
+                    thickness: 1,
+                  ),
+                  if (widget.data.reactions.isNotEmpty) ...[
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: DisplayReact(
+                          data: widget.data.reactions,
+                          isRevert: false,
+                          hideIcon: true),
+                    )
+                  ],
                   Row(
+                    mainAxisSize: MainAxisSize.min,
                     children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: DisplayReact(
-                            data: widget.data.reactions,
-                            isRevert: false,
-                            hideIcon: true),
+                      TextButton(
+                        onPressed: () {},
+                        child: Row(
+                          children: [
+                            Text("More relevant",
+                                style: Theme.of(context).textTheme.bodyMedium),
+                            Icon(
+                              Icons.keyboard_arrow_down,
+                              color: themeManager.themeMode == dark
+                                  ? whitee
+                                  : const Color.fromARGB(255, 58, 59, 60),
+                            ),
+                          ],
+                        ),
                       ),
                     ],
                   ),
