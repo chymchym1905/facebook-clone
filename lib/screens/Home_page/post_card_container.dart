@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 // import 'package:get/get.dart';
 import '../../index.dart';
+import '../../model/reaction_class.dart';
 import '../../utils/count_comment.dart';
 import '../../utils/display_react.dart';
 import '../../utils/find_user_reaction.dart';
@@ -23,7 +24,7 @@ class _PostsState extends State<Posts> {
     // _data = widget.data;
   }
 
-  void updateState(Post p) {
+  void updateState(List<Reaction> rections) {
     setState(() {
       // AppDataProvider.of(context).currentViewData = p;
     });
@@ -80,7 +81,9 @@ class _PostsState extends State<Posts> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  FBFullReaction(data: widget.data, reloadState: updateState),
+                  FBFullReaction(
+                      reactions: widget.data.reactions,
+                      reloadState: updateState),
                   CommentButtonModal(data: widget.data),
                   ShareButton(data: widget.data),
                 ],
@@ -100,7 +103,7 @@ class NameBar extends StatefulWidget {
   }) : super(key: key);
   final Post data;
   final bool isPostpage;
-  final Function(Post) reloadState;
+  final Function(List<Reaction>) reloadState;
   @override
   State<NameBar> createState() => _NameBarState();
 }
@@ -185,7 +188,7 @@ class Caption extends StatefulWidget {
   }) : super(key: key);
   final bool isPostpage;
   final Post data;
-  final Function(Post) reloadState;
+  final Function(List<Reaction>) reloadState;
   @override
   State<Caption> createState() => _Caption();
 }

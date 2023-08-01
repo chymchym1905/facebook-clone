@@ -2,6 +2,7 @@ import 'package:flutter_application_1/utils/display_react.dart';
 import 'package:flutter_application_1/utils/find_user_reaction.dart';
 
 import '../../index.dart';
+import '../../model/reaction_class.dart';
 import '../../utils/count_comment.dart';
 
 Post fakedata = Post(
@@ -30,7 +31,7 @@ class _CommentSectionState extends State<CommentSection> {
     super.initState();
   }
 
-  void reloadReaction(Comment1 data) {
+  void reloadReaction(List<Reaction> data) {
     setState(() {});
   }
 
@@ -168,8 +169,7 @@ class _CommentSectionState extends State<CommentSection> {
                                   width: 8,
                                 ),
                                 FBFullReaction(
-                                  data: fakedata,
-                                  comment: data,
+                                  reactions: data.reactions,
                                   reloadReaction: reloadReaction,
                                 ),
                                 ReplyButton(
@@ -290,7 +290,7 @@ class _CommmentTreeSectionState extends State<CommmentTreeSection> {
     super.initState();
   }
 
-  void reloadReaction(Comment1 data) {
+  void reloadReaction(List<Reaction> data) {
     setState(() {});
   }
 
@@ -396,8 +396,7 @@ class _CommmentTreeSectionState extends State<CommmentTreeSection> {
                                     //   width: 15,
                                     // ),
                                     FBFullReaction(
-                                      data: fakedata,
-                                      comment: data,
+                                      reactions: data.reactions,
                                       reloadReaction: reloadReaction,
                                     ),
                                     ReplyButton(
@@ -476,8 +475,7 @@ class _CommmentTreeSectionState extends State<CommmentTreeSection> {
                                     //   width: 15,
                                     // ),
                                     FBFullReaction(
-                                      data: fakedata,
-                                      comment: data,
+                                      reactions: data.reactions,
                                       reloadReaction: reloadReaction,
                                     ),
                                     ReplyButton(
