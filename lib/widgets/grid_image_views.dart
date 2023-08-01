@@ -591,8 +591,8 @@ class ImageTile extends StatelessWidget {
     required this.width,
     required this.height,
   })  : src = '',
-        data = Post(UserDummy("", "", "", "", "", DateTime.timestamp(), []), "",
-            [], 0, 0, [], []),
+        data = Post(UserDummy("", "", "", "", DateTime.timestamp(), []), "", [],
+            0, 0, [], []),
         imageSourceType = ImageSourceType.memory;
 
   @override

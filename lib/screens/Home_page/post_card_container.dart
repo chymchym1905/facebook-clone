@@ -34,8 +34,7 @@ class _PostsState extends State<Posts> {
     // AppDataProvider.of(context).currentViewData = widget.data;
     // AppDataProvider.of(context).updateCallback = (Post p) => updateState(p);
     if (currUser != null) {
-      findUserReact(
-          currUser!.name, widget.data.reactions, widget.data.reaction);
+      findUserReact(currUser!.name, widget.data.reactions);
     }
     int comments = countComment(widget.data.comment);
     return Padding(

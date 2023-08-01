@@ -80,8 +80,7 @@ class _PostPageState extends State<Postpage>
     super.build(context);
     final isKeyboard = MediaQuery.of(context).viewInsets.bottom != 0;
     if (currUser != null) {
-      findUserReact(
-          currUser!.name, widget.data.reactions, widget.data.reaction);
+      findUserReact(currUser!.name, widget.data.reactions);
     }
 
     Widget buttonSection = Row(

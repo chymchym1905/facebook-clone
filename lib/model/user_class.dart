@@ -4,10 +4,9 @@ part 'user_class.g.dart';
 
 @JsonSerializable()
 class UserDummy {
-  UserDummy(this.id, this.name, this.gender, this.imageurl, this.email,
-      this.createDate, this.friends);
+  UserDummy(this.name, this.gender, this.imageurl, this.email, this.createDate,
+      this.friends);
 
-  String id;
   String name;
   String gender;
   String imageurl;
