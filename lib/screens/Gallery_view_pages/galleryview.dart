@@ -25,8 +25,8 @@ class GalleryViewPage extends StatefulWidget {
         imageType = ImageSourceType.network;
 
   GalleryViewPage.memory(this.initialIndex, this.mediaList, {super.key})
-      : data = Post("", UserDummy("", "", "", "", "", DateTime.timestamp()), "",
-            [], 0, 0, 0, [], 0, []),
+      : data = Post("", UserDummy("", "", "", "", "", DateTime.timestamp(), []),
+            "", [], 0, 0, 0, [], []),
         pageController = PageController(initialPage: initialIndex),
         imageType = ImageSourceType.memory;
 

@@ -1,4 +1,7 @@
+import 'package:flutter_application_1/data/focusNode.dart';
+
 import '../index.dart';
+
 // import 'package:get/get.dart';
 
 void main() async {
@@ -6,12 +9,17 @@ void main() async {
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
   // await initialize();
-  runApp(AppDataProvider(
-      AppData(
-          commentPostPage: FocusNode(),
-          commentModal: FocusNode(),
-          notificationCount: 0),
-      child: const FakeBook()));
+  // runApp(AppDataProvider(
+  //     AppData(
+  //         commentPostPage: FocusNode(),
+  //         commentModal: FocusNode(),
+  //         notificationCount: 0),
+  //     child: const FakeBook()));
+  runApp(MultiProvider(providers: [
+    ChangeNotifierProvider<FocusNodeProvider>.value(
+      value: FocusNodeProvider(),
+    ),
+  ], child: const FakeBook()));
 }
 
 UserDummy? currUser;

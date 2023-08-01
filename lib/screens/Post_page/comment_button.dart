@@ -1,4 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import '../../data/focusNode.dart';
 import '../../index.dart';
 
 class CommentButton extends StatefulWidget {
@@ -20,7 +21,9 @@ class _CommentButtonState extends State<CommentButton> {
           onPressed: () {
             IndexComment.flagReply = false;
             IndexComment.flagReply2 = false;
-            AppDataProvider.of(context).commentPostPage.requestFocus();
+            Provider.of<FocusNodeProvider>(context, listen: false)
+                .commentPostPage
+                .requestFocus();
           },
           icon: const Icon(
             FontAwesomeIcons.message,

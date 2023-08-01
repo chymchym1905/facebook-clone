@@ -13,13 +13,13 @@ void countReply(Comment1 data, List<Comment1> listdata) {
   }
 }
 
-int countComment(List<Comment1> listadata) {
+int countComment(List<Comment1> listdata) {
   int count = 0;
-  for (int i = 0; i < listadata.length; i++) {
+  for (int i = 0; i < listdata.length; i++) {
     count++;
-    for (int j = 0; j < listadata[i].reply.length; j++) {
+    for (int j = 0; j < listdata[i].reply.length; j++) {
       count++;
-      for (int k = 0; k < listadata[i].reply[j].reply.length; k++) {
+      for (int k = 0; k < listdata[i].reply[j].reply.length; k++) {
         count++;
       }
     }

@@ -1,5 +1,6 @@
 import '../../index.dart';
-import '../friends_page.dart';
+import '../../utils/count_mutual_friend.dart';
+import '../../widgets/user_page.dart';
 
 class FriendCard extends StatefulWidget {
   const FriendCard({super.key, required this.user, required this.posts});
@@ -13,12 +14,14 @@ class FriendCard extends StatefulWidget {
 class _FriendCardState extends State<FriendCard> {
   @override
   Widget build(BuildContext context) {
+    int mutualFriend =
+        countMutualFriend(currUser!.friends, widget.user.friends);
     return Material(
       color: Colors.transparent,
       child: InkWell(
         onTap: () => setState(() {
           Navigator.of(context).pushNamed("/userprofile",
-              arguments: Friends(
+              arguments: UserPage(
                 user: widget.user,
                 posts: widget.posts,
               ));
@@ -62,7 +65,7 @@ class _FriendCardState extends State<FriendCard> {
                       Row(
                         children: [
                           Text(
-                            "num mutual friends",
+                            "$mutualFriend mutual friends",
                             style: Theme.of(context).textTheme.bodySmall,
                           )
                         ],
