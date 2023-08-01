@@ -2,8 +2,8 @@ import 'package:flutter_application_1/utils/display_react.dart';
 import 'package:flutter_application_1/utils/find_user_reaction.dart';
 
 import '../../index.dart';
-import '../../model/reaction_class.dart';
 import '../../utils/count_comment.dart';
+import 'interact_comment.dart';
 
 Post fakedata = Post(
     UserDummy("", "", "", "", DateTime.timestamp(), []), "", [], 0, 0, [], []);
@@ -31,7 +31,11 @@ class _CommentSectionState extends State<CommentSection> {
     super.initState();
   }
 
-  void reloadReaction(List<Reaction> data) {
+  void reloadReaction(List<Reaction> reaction) {
+    setState(() {});
+  }
+
+  void reloadComment(List<Comment1> comment) {
     setState(() {});
   }
 
@@ -125,34 +129,46 @@ class _CommentSectionState extends State<CommentSection> {
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Container(
-                    padding:
-                        const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
-                    decoration: BoxDecoration(
-                        color: themeManager.themeMode == dark
-                            ? const Color.fromARGB(255, 58, 59, 60)
-                            : const Color.fromARGB(255, 241, 242, 246),
-                        borderRadius: BorderRadius.circular(12)),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(data.user.name,
-                            style: Theme.of(context)
-                                .textTheme
-                                .labelLarge
-                                ?.copyWith(fontWeight: FontWeight.w300)),
-                        const SizedBox(
-                          height: 4,
-                        ),
-                        Text(
-                          data.content,
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodySmall
-                              ?.copyWith(fontStyle: FontStyle.normal),
-                        ),
-                      ],
-                    ),
+                  // GestureDetector(
+                  //   onLongPress: () {
+                  //     setState(() {
+                  //       widget.data.removeAt(index);
+                  //     });
+                  //   },
+                  //   child: Container(
+                  //     padding: const EdgeInsets.symmetric(
+                  //         vertical: 8, horizontal: 8),
+                  //     decoration: BoxDecoration(
+                  //         color: themeManager.themeMode == dark
+                  //             ? const Color.fromARGB(255, 58, 59, 60)
+                  //             : const Color.fromARGB(255, 241, 242, 246),
+                  //         borderRadius: BorderRadius.circular(12)),
+                  //     child: Column(
+                  //       crossAxisAlignment: CrossAxisAlignment.start,
+                  //       children: [
+                  //         Text(data.user.name,
+                  //             style: Theme.of(context)
+                  //                 .textTheme
+                  //                 .labelLarge
+                  //                 ?.copyWith(fontWeight: FontWeight.w300)),
+                  //         const SizedBox(
+                  //           height: 4,
+                  //         ),
+                  //         Text(
+                  //           data.content,
+                  //           style: Theme.of(context)
+                  //               .textTheme
+                  //               .bodySmall
+                  //               ?.copyWith(fontStyle: FontStyle.normal),
+                  //         ),
+                  //       ],
+                  //     ),
+                  //   ),
+                  // ),
+                  DisplayComment(
+                    data: widget.data,
+                    index1: index,
+                    reloadComment: reloadComment,
                   ),
                   DefaultTextStyle(
                     style: Theme.of(context).textTheme.bodySmall!.copyWith(

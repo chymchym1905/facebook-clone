@@ -36,7 +36,7 @@ class _FriendCardState extends State<FriendCard> {
                   padding:
                       const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
                   child: CircleAvatar(
-                    radius: MediaQuery.of(context).size.width * 0.12,
+                    radius: 40,
                     backgroundImage: imageAvatar(widget.user.imageurl),
                   ),
                 ),
