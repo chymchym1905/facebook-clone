@@ -59,7 +59,7 @@ class LoadMorePost extends LoadingMoreBase<Post> {
       List<dynamic>? posts;
       //to show loading more clearly, in your app,remove this
       // await Future.delayed(const Duration(milliseconds: 500));
-      await postManager.readPostJsonData(length, length + 5);
+      await postManager.readPostJsonData(length, length + 1);
       posts = postManager.post;
       // print(fullPost);
       if (_pageIndex == 1) {
