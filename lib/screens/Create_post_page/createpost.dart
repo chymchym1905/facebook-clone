@@ -210,6 +210,7 @@ class _CreatePostState extends State<CreatePost>
                         Database().createPost(
                             Post(currUser!, caption.text, [], 0, 0, [], []),
                             pickedMedia);
+                        Navigator.of(context).pop();
                       }
                     : null,
                 style: ButtonStyle(

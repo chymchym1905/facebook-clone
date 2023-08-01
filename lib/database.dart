@@ -7,7 +7,7 @@ class Database {
     if (user != null) {
       final userdoc = _db.collection('users').doc(user.uid);
       final json =
-          UserDummy(username, gender, '', user.email!, DateTime.timestamp(), [])
+          UserDummy(username, gender, '', user.email!, DateTime.now(), [])
               .toJson();
       await userdoc
           .set(json)
@@ -34,6 +34,7 @@ class Database {
     final json = Post(data.user, data.caption, mediaURLS, data.likes,
             data.shares, data.comment, data.reactions)
         .toJson();
+    json['user'] = json['user'].toJson();
     await postdoc
         .set(json)
         .whenComplete(() => print("Post created"))
@@ -43,8 +44,18 @@ class Database {
   Future<List<Post>> getAllPost() async {
     var allPosts = await _db.collection('posts').get();
     List<Post> p = [];
-    for (var i = 0; i < allPosts.docs.length; i++) {
-      p.add(Post.fromJson(allPosts.docs[i].data()));
+    if (allPosts.docs.isNotEmpty) {
+      for (var i = 0; i < allPosts.docs.length; i++) {
+        p.add(Post(
+          UserDummy.fromJson(allPosts.docs[i]['user']),
+          allPosts.docs[i]['caption'],
+          allPosts.docs[i]['imageurl'].cast<String>(),
+          allPosts.docs[i]['likes'],
+          allPosts.docs[i]['shares'],
+          allPosts.docs[i]['comment'].cast<Comment1>(),
+          allPosts.docs[i]['reactions'].cast<Reaction>(),
+        ));
+      }
     }
     return p;
   }

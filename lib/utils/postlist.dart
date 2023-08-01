@@ -14,7 +14,9 @@ class PostList {
     var string = await Database().getAllPost();
     // await Future<List<Post>?>.delayed(const Duration(seconds: 1));
     // _post = string.getRange(start, end).map((e) => Post.fromJson(e)).toList();
-    _post = string.getRange(start, end).toList();
+    if (string.isNotEmpty) {
+      _post = string.getRange(start, end).toList();
+    }
 
     // var _post1 = _post.map((e) => Post.fromJson(e)).toList();
     // _post =[];
@@ -53,7 +55,7 @@ class LoadMorePost extends LoadingMoreBase<Post> {
       List<dynamic>? posts;
       //to show loading more clearly, in your app,remove this
       await Future.delayed(const Duration(milliseconds: 500));
-      await postManager.readPostJsonData(length, length + 100);
+      await postManager.readPostJsonData(length, length + 1);
       posts = postManager.post;
       // print(fullPost);
       if (_pageIndex == 1) {

@@ -51,3 +51,4 @@ export 'widgets/grid_image_views.dart';
 export 'widgets/imagebox.dart';
 export 'package:provider/provider.dart';
 export 'package:get/get.dart';
+export 'model/reaction_class.dart';
