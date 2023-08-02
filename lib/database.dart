@@ -44,7 +44,7 @@ class Database {
   }
 
   List<Comment1> convert(List<dynamic> json) {
-    print(json);
+    // print(json);
     final List<Comment1> res = [];
     if (json.isNotEmpty) {
       for (int i = 0; i < json.length; i++) {
@@ -115,15 +115,14 @@ class Database {
   Future writeComment(String id, Comment1 reply, CommentLevel cmt) async {
     // var snapshot = await post.get();
     if (cmt == CommentLevel.three) {
-      final post = _db.collection('posts').doc();
+      final post = _db.collection('posts').doc(id);
       var snap = await post.get();
       var json = snap.data()!;
       if (snap.exists) {
-        json['comment'][IndexComment.intdex]
-            .reply[IndexComment.intdex2]
-            .reply
+        json['comment'][IndexComment.intdex]['reply'][IndexComment.intdex2]
+                ['reply']
             .add(reply.toJson());
-        print(json);
+        // print(json);
       }
       await post
           .set(json, SetOptions(merge: true))
@@ -134,8 +133,8 @@ class Database {
       var snap = await post.get();
       var json = snap.data()!;
       if (snap.exists) {
-        json['comment'][IndexComment.intdex].reply.add(reply.toJson());
-        print(json);
+        json['comment'][IndexComment.intdex]['reply'].add(reply.toJson());
+        // print(json);
       }
       await post
           .set(json, SetOptions(merge: true))
@@ -148,7 +147,7 @@ class Database {
       var json = snap.data()!;
       if (snap.exists) {
         json['comment'].add(reply.toJson());
-        print(json);
+        // print(json);
       }
       await post
           .set(json, SetOptions(merge: true))
