@@ -2,14 +2,13 @@
 import '../../index.dart';
 
 class ReplyButton extends StatelessWidget {
-  const   ReplyButton({
-    super.key, 
-    required this.indexforreply1, 
-    required this.indexforreply2, 
-    required this.myfocusNode, 
-    required this.flagReply, 
-    required this.flagReply2
-  });
+  const ReplyButton(
+      {super.key,
+      required this.indexforreply1,
+      required this.indexforreply2,
+      required this.myfocusNode,
+      required this.flagReply,
+      required this.flagReply2});
   final int indexforreply1;
   final int indexforreply2;
   final bool flagReply;
@@ -21,7 +20,7 @@ class ReplyButton extends StatelessWidget {
       onPressed: () {
         IndexComment.flagReply = false;
         IndexComment.flagReply2 = true;
-         IndexComment.flagReply = flagReply;
+        IndexComment.flagReply = flagReply;
         IndexComment.flagReply2 = flagReply2;
         IndexComment.intdex = indexforreply1;
         IndexComment.intdex2 = indexforreply2;
@@ -48,12 +47,9 @@ class ReplyButton extends StatelessWidget {
         tapTargetSize: MaterialTapTargetSize.shrinkWrap,
       ),
       child: Text('Reply',
-          style: Theme.of(context)
-              .textTheme
-              .labelMedium!
-              .copyWith(
-                  // fontWeight: FontWeight.bold,
-                  color: const Color.fromARGB(255, 109, 107, 107))),
+          style: Theme.of(context).textTheme.labelMedium!.copyWith(
+              // fontWeight: FontWeight.bold,
+              color: const Color.fromARGB(255, 109, 107, 107))),
     );
   }
 }

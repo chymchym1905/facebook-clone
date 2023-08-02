@@ -347,15 +347,12 @@ class _FBFullReactionState extends State<FBFullReaction>
     if (widget.reloadState == null) {
       textColor = const Color.fromARGB(255, 109, 107, 107);
     }
+    isLike = false;
     if (widget.reactions.isNotEmpty) {
       if (widget.reactions[0].user.name == currUser!.name) {
-        if (widget.reactions[0].reaction == 1) {
+        if (widget.reactions[0].reaction == 0) {
           isLike = true;
-        } else {
-          isLike = false;
         }
-      } else {
-        isLike = false;
       }
     }
     if (reaction != null) {

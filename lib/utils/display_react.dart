@@ -97,8 +97,8 @@ class _DisplayReactState extends State<DisplayReact> {
                         right: widget.isRevert ? 0 : 7, bottom: 3, left: 7),
                     child: Image.asset(
                       "assets/images/${sortedList.keys.first}.png",
-                      width: MediaQuery.of(context).size.width * 0.05,
-                      height: MediaQuery.of(context).size.width * 0.05,
+                      width: 22,
+                      height: 22,
                     ),
                   ),
                 ),
@@ -112,8 +112,8 @@ class _DisplayReactState extends State<DisplayReact> {
                         padding: const EdgeInsets.only(left: 23),
                         child: Image.asset(
                           "assets/images/${listicon[widget.data[0].reaction]}.png",
-                          width: MediaQuery.of(context).size.width * 0.05,
-                          height: MediaQuery.of(context).size.width * 0.05,
+                          width: 22,
+                          height: 22,
                         ),
                       ),
                     )
@@ -127,8 +127,8 @@ class _DisplayReactState extends State<DisplayReact> {
                     padding: EdgeInsets.only(
                         right: 22, bottom: 3, left: widget.isRevert ? 5 : 10),
                     child: Container(
-                      width: MediaQuery.of(context).size.width * 0.05,
-                      height: MediaQuery.of(context).size.width * 0.05,
+                      width: 22,
+                      height: 22,
                       decoration: BoxDecoration(
                         color: const Color(0xff7c94b6),
                         borderRadius:
@@ -143,8 +143,8 @@ class _DisplayReactState extends State<DisplayReact> {
                       child: ClipRRect(
                         child: Image.asset(
                           "assets/images/${sortedList.keys.first}.png",
-                          height: MediaQuery.of(context).size.width * 0.05,
-                          width: MediaQuery.of(context).size.width * 0.05,
+                          height: 22,
+                          width: 22,
                           fit: BoxFit.cover,
                         ),
                       ),
@@ -159,8 +159,8 @@ class _DisplayReactState extends State<DisplayReact> {
                       padding: const EdgeInsets.only(bottom: 3),
                       child: Image.asset(
                         "assets/images/${sortedList.keys.elementAt(1)}.png",
-                        width: MediaQuery.of(context).size.width * 0.05,
-                        height: MediaQuery.of(context).size.width * 0.05,
+                        width: 22,
+                        height: 22,
                       ),
                     ),
                   ),
@@ -179,8 +179,8 @@ class _DisplayReactState extends State<DisplayReact> {
                             right: widget.isRevert ? 0 : 5),
                         child: Image.asset(
                           "assets/images/${listicon[widget.data[0].reaction]}.png",
-                          width: MediaQuery.of(context).size.width * 0.05,
-                          height: MediaQuery.of(context).size.width * 0.05,
+                          width: 22,
+                          height: 22,
                         ),
                       ),
                     )
@@ -207,7 +207,7 @@ class _DisplayReactState extends State<DisplayReact> {
               Padding(
                 padding: const EdgeInsets.only(left: 1),
                 child: Icon(
-                  size: MediaQuery.of(context).size.width * 0.05,
+                  size: 22,
                   MfgLabs.right_open,
                   color: themeManager.themeMode == dark
                       ? const Color.fromARGB(255, 234, 236, 238)
