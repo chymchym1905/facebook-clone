@@ -5,9 +5,13 @@ class DisplayComment extends StatefulWidget {
       {super.key,
       required this.data,
       this.index1,
-      required this.reloadComment});
+      required this.reloadComment,
+      this.index2,
+      required this.commentDisplay});
   final List<Comment1> data;
   final int? index1;
+  final int? index2;
+  final Comment1 commentDisplay;
   final Function(List<Comment1>) reloadComment;
 
   @override
@@ -45,6 +49,12 @@ class _DisplayCommentState extends State<DisplayComment>
                 borderRadius: BorderRadius.vertical(top: Radius.circular(10))),
             context: context,
             builder: (context) => const InteractComment());
+        // if (widget.index2 != null) {
+        //   widget.data[widget.index2!].reply.removeAt(widget.index1!);
+        // } else {
+        //   widget.data.removeAt(widget.index1!);
+        // }
+        // widget.reloadComment;
       },
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
@@ -56,7 +66,7 @@ class _DisplayCommentState extends State<DisplayComment>
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(widget.data[widget.index1!].user.name,
+            Text(widget.commentDisplay.user.name,
                 style: Theme.of(context)
                     .textTheme
                     .labelLarge
@@ -65,7 +75,7 @@ class _DisplayCommentState extends State<DisplayComment>
               height: 4,
             ),
             Text(
-              widget.data[widget.index1!].content,
+              widget.commentDisplay.content,
               style: Theme.of(context)
                   .textTheme
                   .bodySmall
@@ -88,15 +98,42 @@ class InteractComment extends StatefulWidget {
 class _InteractCommentState extends State<InteractComment> {
   @override
   Widget build(BuildContext context) {
+    List<String> listicon = [
+      "like",
+      "love",
+      "haha",
+      "wow",
+      "sad",
+      "angry",
+    ];
     return SizedBox(
-      height: MediaQuery.of(context).size.height * 0.6,
+      height: MediaQuery.of(context).size.height * 0.5,
       child: Container(
         color: themeManager.themeMode == dark
             ? const Color.fromARGB(255, 38, 38, 38)
             : whitee,
         child: Column(
           children: [
-            // Row(),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                for (int i = 0; i < listicon.length; i++) ...[
+                  Padding(
+                    padding: const EdgeInsets.only(top: 20, bottom: 20),
+                    child: Image.asset(
+                      "assets/images/${listicon[i]}.gif",
+                      width: 35,
+                      height: 35,
+                    ),
+                  )
+                ]
+              ],
+            ),
+            Text("React to this comment",
+                style: Theme.of(context)
+                    .textTheme
+                    .bodyMedium!
+                    .copyWith(color: Colors.grey)),
             TextButton.icon(
               onPressed: () {},
               label: Text("Reply"),

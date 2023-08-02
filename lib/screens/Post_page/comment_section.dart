@@ -69,35 +69,39 @@ class _CommentSectionState extends State<CommentSection> {
               if (widget.controlViewMoreComment[index] &&
                   widget.data[index].reply.isNotEmpty) ...[
                 ViewMoreComment(
-                  controlViewMoreComment: widget.controlViewMoreComment[index],
-                  list: widget.data[index].reply[0],
-                  myfocusNode: widget.myfocusNode,
-                  indexforreply1: index,
-                  indexforreply2: 0,
-                  setViewMoreComment: widget.setViewMoreComment,
-                ),
-                if (listReply.length != 1) ...[
-                  ViewMoreComment(
                     controlViewMoreComment:
                         widget.controlViewMoreComment[index],
-                    list: fakeComment,
+                    list: widget.data[index].reply[0],
                     myfocusNode: widget.myfocusNode,
                     indexforreply1: index,
                     indexforreply2: 0,
                     setViewMoreComment: widget.setViewMoreComment,
-                  )
+                    data: widget.data,
+                    reloadComment: reloadComment),
+                if (listReply.length != 1) ...[
+                  ViewMoreComment(
+                      controlViewMoreComment:
+                          widget.controlViewMoreComment[index],
+                      list: fakeComment,
+                      myfocusNode: widget.myfocusNode,
+                      indexforreply1: index,
+                      indexforreply2: 0,
+                      setViewMoreComment: widget.setViewMoreComment,
+                      data: widget.data,
+                      reloadComment: reloadComment)
                 ]
               ] else ...[
                 for (int i = 0; i < widget.data[index].reply.length; i += 1)
                   ViewMoreComment(
-                    controlViewMoreComment:
-                        widget.controlViewMoreComment[index],
-                    list: widget.data[index].reply[i],
-                    myfocusNode: widget.myfocusNode,
-                    indexforreply1: index,
-                    indexforreply2: i,
-                    setViewMoreComment: widget.setViewMoreComment,
-                  )
+                      controlViewMoreComment:
+                          widget.controlViewMoreComment[index],
+                      list: widget.data[index].reply[i],
+                      myfocusNode: widget.myfocusNode,
+                      indexforreply1: index,
+                      indexforreply2: i,
+                      setViewMoreComment: widget.setViewMoreComment,
+                      data: widget.data,
+                      reloadComment: reloadComment)
               ]
             ],
             treeThemeData: TreeThemeData(
@@ -169,6 +173,7 @@ class _CommentSectionState extends State<CommentSection> {
                     data: widget.data,
                     index1: index,
                     reloadComment: reloadComment,
+                    commentDisplay: data,
                   ),
                   DefaultTextStyle(
                     style: Theme.of(context).textTheme.bodySmall!.copyWith(
@@ -223,13 +228,18 @@ class ViewMoreComment extends StatefulWidget {
       required this.myfocusNode,
       required this.indexforreply1,
       required this.indexforreply2,
-      required this.setViewMoreComment});
+      required this.setViewMoreComment,
+      required this.data,
+      required this.reloadComment});
   final bool controlViewMoreComment;
   final Comment1 list;
   final FocusNode myfocusNode;
   final int indexforreply1;
   final int indexforreply2;
+  final List<Comment1> data;
   final Function(int) setViewMoreComment;
+  final Function(List<Comment1>) reloadComment;
+
   @override
   State<ViewMoreComment> createState() => _ViewMoreCommentState();
 }
@@ -275,10 +285,13 @@ class _ViewMoreCommentState extends State<ViewMoreComment> {
       );
     } else {
       return CommmentTreeSection(
-          list: widget.list,
-          myfocusNode: widget.myfocusNode,
-          indexforreply1: widget.indexforreply1,
-          indexforreply2: widget.indexforreply2);
+        list: widget.list,
+        myfocusNode: widget.myfocusNode,
+        indexforreply1: widget.indexforreply1,
+        indexforreply2: widget.indexforreply2,
+        data: widget.data,
+        reloadComment: widget.reloadComment,
+      );
     }
   }
 }
@@ -290,11 +303,15 @@ class CommmentTreeSection extends StatefulWidget {
     required this.myfocusNode,
     required this.indexforreply1,
     required this.indexforreply2,
+    required this.data,
+    required this.reloadComment,
   });
   final Comment1 list;
   final FocusNode myfocusNode;
   final int indexforreply1;
   final int indexforreply2;
+  final List<Comment1> data;
+  final Function(List<Comment1>) reloadComment;
 
   @override
   State<CommmentTreeSection> createState() => _CommmentTreeSectionState();
@@ -443,34 +460,41 @@ class _CommmentTreeSectionState extends State<CommmentTreeSection> {
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 8, horizontal: 8),
-                        decoration: BoxDecoration(
-                            color: themeManager.themeMode == dark
-                                ? const Color.fromARGB(255, 58, 59, 60)
-                                : const Color.fromARGB(255, 241, 242, 246),
-                            borderRadius: BorderRadius.circular(12)),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(data.user.name,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .labelLarge
-                                    ?.copyWith(fontWeight: FontWeight.w300)),
-                            const SizedBox(
-                              height: 4,
-                            ),
-                            Text(
-                              data.content,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodySmall
-                                  ?.copyWith(fontStyle: FontStyle.normal),
-                            ),
-                          ],
-                        ),
+                      // Container(
+                      //   padding: const EdgeInsets.symmetric(
+                      //       vertical: 8, horizontal: 8),
+                      //   decoration: BoxDecoration(
+                      //       color: themeManager.themeMode == dark
+                      //           ? const Color.fromARGB(255, 58, 59, 60)
+                      //           : const Color.fromARGB(255, 241, 242, 246),
+                      //       borderRadius: BorderRadius.circular(12)),
+                      //   child: Column(
+                      //     crossAxisAlignment: CrossAxisAlignment.start,
+                      //     children: [
+                      //       Text(data.user.name,
+                      //           style: Theme.of(context)
+                      //               .textTheme
+                      //               .labelLarge
+                      //               ?.copyWith(fontWeight: FontWeight.w300)),
+                      //       const SizedBox(
+                      //         height: 4,
+                      //       ),
+                      //       Text(
+                      //         data.content,
+                      //         style: Theme.of(context)
+                      //             .textTheme
+                      //             .bodySmall
+                      //             ?.copyWith(fontStyle: FontStyle.normal),
+                      //       ),
+                      //     ],
+                      //   ),
+                      // ),
+                      DisplayComment(
+                        data: widget.data,
+                        index1: index,
+                        index2: widget.indexforreply1,
+                        reloadComment: widget.reloadComment,
+                        commentDisplay: data,
                       ),
                       DefaultTextStyle(
                         style: Theme.of(context).textTheme.bodySmall!.copyWith(
