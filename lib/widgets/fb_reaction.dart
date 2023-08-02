@@ -375,10 +375,10 @@ class _FBFullReactionState extends State<FBFullReaction>
                       if (widget.reactions[0].user.name == currUser!.name) {
                         widget.reactions[0].reaction = 0;
                       } else {
-                        widget.reactions.insert(0, Reaction(currUser!, 0));
+                        widget.reactions.insert(0, Reaction("", currUser!, 0));
                       }
                     } else {
-                      widget.reactions.insert(0, Reaction(currUser!, 0));
+                      widget.reactions.insert(0, Reaction("", currUser!, 0));
                     }
                   }
                   if (widget.reloadState != null) {
@@ -585,11 +585,11 @@ class _FBFullReactionState extends State<FBFullReaction>
         if (widget.reactions[0].user.name == currUser!.name) {
           _changeIcon(widget.reactions[0].reaction);
         } else {
-          widget.reactions.insert(0, Reaction(currUser!, 0));
+          widget.reactions.insert(0, Reaction("", currUser!, 0));
           _changeIcon(widget.reactions[0].reaction);
         }
       } else {
-        widget.reactions.insert(0, Reaction(currUser!, 0));
+        widget.reactions.insert(0, Reaction("", currUser!, 0));
         _changeIcon(widget.reactions[0].reaction);
       }
       _reactCtr.forward(from: 0).then((_) {

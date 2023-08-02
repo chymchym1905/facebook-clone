@@ -95,8 +95,8 @@ class _WriteCommentBoxState extends State<WriteCommentBox> {
                   onPressed: () {
                     //write comment
                     if (widget.myController.text.toString().isNotEmpty) {
-                      Comment1 newComment = Comment1(widget.instantUser, null,
-                          widget.myController.text.toString(), [], []);
+                      Comment1 newComment = Comment1("", widget.instantUser,
+                          null, widget.myController.text.toString(), [], []);
                       if (IndexReply.flagReply2) {
                         widget.data.comment[IndexReply.intdex]
                             .reply[IndexReply.intdex2].reply

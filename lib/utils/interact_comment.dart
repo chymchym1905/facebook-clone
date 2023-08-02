@@ -9,7 +9,7 @@ class DisplayComment extends StatefulWidget {
       this.index2,
       required this.commentDisplay,
       this.index3});
-  final List<Comment1> data;
+  final Post data;
   final int? index1;
   final int? index2;
   final int? index3;
@@ -55,17 +55,20 @@ class _DisplayCommentState extends State<DisplayComment>
           IndexComment.intdex1 = widget.index1!;
           IndexComment.intdex2 = widget.index2!;
           IndexComment.intdex3 = widget.index3!;
-          widget.data[widget.index1!].reply[widget.index2!].reply
+          widget.data.comment[widget.index1!].reply[widget.index2!].reply
               .removeAt(widget.index3!);
+          Database().deleteComment(widget.data.id, CommentLevel.three);
         } else if (widget.index2 != null) {
           IndexComment.intdex1 = widget.index1!;
           IndexComment.intdex2 = widget.index2!;
-          widget.data[widget.index1!].reply.removeAt(widget.index2!);
+          widget.data.comment[widget.index1!].reply.removeAt(widget.index2!);
+          Database().deleteComment(widget.data.id, CommentLevel.two);
         } else {
           IndexComment.intdex1 = widget.index1!;
-          widget.data.removeAt(widget.index1!);
+          widget.data.comment.removeAt(widget.index1!);
+          Database().deleteComment(widget.data.id, CommentLevel.one);
         }
-        widget.reloadComment(widget.data);
+        widget.reloadComment(widget.data.comment);
       },
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),

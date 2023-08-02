@@ -59,7 +59,7 @@ class Database {
     List<Post> p = [];
     if (allPosts.docs.isNotEmpty) {
       for (var i = 0; i < allPosts.docs.length; i++) {
-        final listcomment = convert(allPosts.docs[i]['comment']);
+        // final listcomment = convert(allPosts.docs[i]['comment']);
 
         p.add(Post(
           allPosts.docs[i]['id'],
@@ -68,7 +68,7 @@ class Database {
           allPosts.docs[i]['imageurl'].cast<String>(),
           allPosts.docs[i]['likes'],
           allPosts.docs[i]['shares'],
-          listcomment,
+          allPosts.docs[i]['comment'],
           allPosts.docs[i]['reactions'].cast<Reaction>(),
         ));
       }
@@ -112,19 +112,149 @@ class Database {
     return users;
   }
 
-  Future writeComment(String id, Comment1 reply, CommentLevel cmt) async {
+  // Future getAllcommentsfromPost(String postId) async{
+  //   List<Comment1> comments = await getAlllevel1Comment(postId);
+
+  // }
+
+  Future getAlllevel1Comment(String postId) async {
+    final commentDocRef = await _db.collection('posts/$postId/comment').get();
+    List<Comment1> c = [];
+    if (commentDocRef.docs.isNotEmpty) {
+      for (int i = 0; i < commentDocRef.docs.length; i++) {
+        c.add(Comment1(
+          commentDocRef.docs[i]['id'],
+          UserDummy.fromJson(commentDocRef.docs[i]['user']),
+          commentDocRef.docs[i]['react'],
+          commentDocRef.docs[i]['content'],
+          commentDocRef.docs[i]['reply'],
+          commentDocRef.docs[i]['reactions'],
+        ));
+      }
+    }
+    return c;
+  }
+
+  Future getAlllevel2Comment(String postId, String parentCommentId) async {
+    final commentDocRef = await _db
+        .collection('posts/$postId/comment/$parentCommentId/reply')
+        .get();
+    List<Comment1> c = [];
+    if (commentDocRef.docs.isNotEmpty) {
+      for (int i = 0; i < commentDocRef.docs.length; i++) {
+        c.add(Comment1(
+          commentDocRef.docs[i]['id'],
+          UserDummy.fromJson(commentDocRef.docs[i]['user']),
+          commentDocRef.docs[i]['react'],
+          commentDocRef.docs[i]['content'],
+          commentDocRef.docs[i]['reply'],
+          commentDocRef.docs[i]['reactions'],
+        ));
+      }
+    }
+    return c;
+  }
+
+  Future getAlllevel3Comment(String postId, String grandParentCommentId,
+      String parentCommentId) async {
+    final commentDocRef = await _db
+        .collection(
+            'posts/$postId/comment/$grandParentCommentId/reply/$parentCommentId/reply')
+        .get();
+    List<Comment1> c = [];
+    if (commentDocRef.docs.isNotEmpty) {
+      for (int i = 0; i < commentDocRef.docs.length; i++) {
+        c.add(Comment1(
+          commentDocRef.docs[i]['id'],
+          UserDummy.fromJson(commentDocRef.docs[i]['user']),
+          commentDocRef.docs[i]['react'],
+          commentDocRef.docs[i]['content'],
+          commentDocRef.docs[i]['reply'],
+          commentDocRef.docs[i]['reactions'],
+        ));
+      }
+    }
+    return c;
+  }
+
+  Future writeComment(String postId, Comment1 reply, CommentLevel cmt) async {
     // var snapshot = await post.get();
+    if (cmt == CommentLevel.one) {
+      final comment = _db.collection('posts/$postId/comment').doc();
+      reply.id = comment.id;
+      final commentListPost = await _db.collection('posts').doc(postId).get();
+      _db
+          .collection('posts')
+          .doc(postId)
+          .set(commentListPost.data()!['comment'].add(comment.id))
+          .whenComplete(() => print("setId"))
+          .catchError((e) => print(e));
+      comment
+          .set(reply.toJson())
+          .whenComplete(() => print("OK"))
+          .catchError((e) => print(e));
+    } else if (cmt == CommentLevel.two) {
+      final comment = _db.collection('posts').doc(postId);
+      var snap = await comment.get();
+      var json = snap.data()!['comment'][IndexReply.intdex];
+      final commentlv2 =
+          _db.collection('posts/$postId/comment/$json/reply').doc();
+      reply.id = commentlv2.id;
+      commentlv2
+          .set(reply.toJson())
+          .whenComplete(() => print('OK'))
+          .catchError((e) => print(e));
+    }
+    //   if (snap.exists) {
+    //     json['comment'][IndexReply.intdex]['reply'][IndexReply.intdex2]['reply']
+    //         .add(reply.toJson());
+    //     // print(json);
+    //   }
+    //   await post
+    //       .set(json, SetOptions(merge: true))
+    //       .whenComplete(() => print("Done"))
+    //       .catchError((error) => print(error));
+    // } else if (cmt == CommentLevel.two) {
+    //   final post = _db.collection('posts').doc(id);
+    //   var snap = await post.get();
+    //   var json = snap.data()!;
+    //   if (snap.exists) {
+    //     json['comment'][IndexReply.intdex]['reply'].add(reply.toJson());
+    //     // print(json);
+    //   }
+    //   await post
+    //       .set(json, SetOptions(merge: true))
+    //       .whenComplete(() => print("Done"))
+    //       .catchError((error) => print(error));
+    // } else {
+    //   final post = _db.collection('posts').doc(id);
+    //   // var snap = await post.get();
+    //   var snap = await post.get();
+    //   var json = snap.data()!;
+    //   if (snap.exists) {
+    //     json['comment'].add(reply.toJson());
+    //     // print(json);
+    //   }
+    //   await post
+    //       .set(json, SetOptions(merge: true))
+    //       .whenComplete(() => print("Done"))
+    //       .catchError((error) => print(error));
+    // }
+  }
+
+  Future deleteComment(String id, CommentLevel cmt) async {
     if (cmt == CommentLevel.three) {
       final post = _db.collection('posts').doc(id);
       var snap = await post.get();
       var json = snap.data()!;
       if (snap.exists) {
-        json['comment'][IndexReply.intdex]['reply'][IndexReply.intdex2]['reply']
-            .add(reply.toJson());
+        json['comment'][IndexComment.intdex1]['reply'][IndexComment.intdex2]
+                ['reply']
+            .removeAt(IndexComment.intdex3);
         // print(json);
       }
       await post
-          .set(json, SetOptions(merge: true))
+          .set(json)
           .whenComplete(() => print("Done"))
           .catchError((error) => print(error));
     } else if (cmt == CommentLevel.two) {
@@ -132,28 +262,26 @@ class Database {
       var snap = await post.get();
       var json = snap.data()!;
       if (snap.exists) {
-        json['comment'][IndexReply.intdex]['reply'].add(reply.toJson());
+        json['comment'][IndexComment.intdex1]['reply']
+            .removeAt(IndexComment.intdex2);
         // print(json);
       }
       await post
-          .set(json, SetOptions(merge: true))
+          .set(json)
           .whenComplete(() => print("Done"))
           .catchError((error) => print(error));
-    } else {
+    } else if (cmt == CommentLevel.one) {
       final post = _db.collection('posts').doc(id);
-      // var snap = await post.get();
       var snap = await post.get();
       var json = snap.data()!;
       if (snap.exists) {
-        json['comment'].add(reply.toJson());
+        json['comment'].removeAt(IndexComment.intdex1);
         // print(json);
       }
       await post
-          .set(json, SetOptions(merge: true))
+          .set(json)
           .whenComplete(() => print("Done"))
           .catchError((error) => print(error));
     }
   }
-
-  Future deleteComment(String id) async {}
 }

@@ -162,10 +162,9 @@ class _PostPageState extends State<Postpage>
                   //     width: MediaQuery.of(context).size.width * 0.9),
                   buttonSection,
                   Divider(
-                    indent: MediaQuery.of(context).size.width * 0.05,
-                    endIndent: MediaQuery.of(context).size.width * 0.05,
-                    thickness: 1,
-                  ),
+                      indent: MediaQuery.of(context).size.width * 0.05,
+                      endIndent: MediaQuery.of(context).size.width * 0.05,
+                      thickness: 1),
                   if (widget.data.reactions.isNotEmpty) ...[
                     Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -198,7 +197,7 @@ class _PostPageState extends State<Postpage>
                   CommentSection(
                     myfocusNode:
                         Provider.of<FocusNodeProvider>(context).commentPostPage,
-                    data: widget.data.comment,
+                    data: widget.data,
                     controlViewMoreComment: controlViewMoreComment,
                     setViewMoreComment: setViewMoreComment,
                   ),
