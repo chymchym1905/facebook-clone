@@ -7,10 +7,12 @@ class DisplayComment extends StatefulWidget {
       this.index1,
       required this.reloadComment,
       this.index2,
-      required this.commentDisplay});
+      required this.commentDisplay,
+      this.index3});
   final List<Comment1> data;
   final int? index1;
   final int? index2;
+  final int? index3;
   final Comment1 commentDisplay;
   final Function(List<Comment1>) reloadComment;
 
@@ -40,21 +42,24 @@ class _DisplayCommentState extends State<DisplayComment>
   Widget build(BuildContext context) {
     return GestureDetector(
       onLongPress: () {
-        showModalBottomSheet<void>(
-            transitionAnimationController: _animationController,
-            useRootNavigator: true,
-            isScrollControlled: true,
-            backgroundColor: Colors.white,
-            shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.vertical(top: Radius.circular(10))),
-            context: context,
-            builder: (context) => const InteractComment());
-        // if (widget.index2 != null) {
-        //   widget.data[widget.index2!].reply.removeAt(widget.index1!);
-        // } else {
-        //   widget.data.removeAt(widget.index1!);
-        // }
-        // widget.reloadComment;
+        // showModalBottomSheet<void>(
+        //     transitionAnimationController: _animationController,
+        //     useRootNavigator: true,
+        //     isScrollControlled: true,
+        //     backgroundColor: Colors.white,
+        //     shape: const RoundedRectangleBorder(
+        //         borderRadius: BorderRadius.vertical(top: Radius.circular(10))),
+        //     context: context,
+        //     builder: (context) => const InteractComment());
+        if (widget.index3 != null) {
+          widget.data[widget.index1!].reply[widget.index2!].reply
+              .removeAt(widget.index3!);
+        } else if (widget.index2 != null) {
+          widget.data[widget.index1!].reply.removeAt(widget.index2!);
+        } else {
+          widget.data.removeAt(widget.index1!);
+        }
+        widget.reloadComment(widget.data);
       },
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),

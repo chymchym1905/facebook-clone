@@ -381,34 +381,42 @@ class _CommmentTreeSectionState extends State<CommmentTreeSection> {
                   return Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 8, horizontal: 8),
-                        decoration: BoxDecoration(
-                            color: themeManager.themeMode == dark
-                                ? const Color.fromARGB(255, 58, 59, 60)
-                                : const Color.fromARGB(255, 241, 242, 246),
-                            borderRadius: BorderRadius.circular(12)),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(data.user.name,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .labelLarge
-                                    ?.copyWith(fontWeight: FontWeight.w300)),
-                            const SizedBox(
-                              height: 4,
-                            ),
-                            Text(
-                              data.content,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodySmall
-                                  ?.copyWith(fontStyle: FontStyle.normal),
-                            ),
-                          ],
-                        ),
+                      // Container(
+                      //   padding: const EdgeInsets.symmetric(
+                      //       vertical: 8, horizontal: 8),
+                      //   decoration: BoxDecoration(
+                      //       color: themeManager.themeMode == dark
+                      //           ? const Color.fromARGB(255, 58, 59, 60)
+                      //           : const Color.fromARGB(255, 241, 242, 246),
+                      //       borderRadius: BorderRadius.circular(12)),
+                      //   child: Column(
+                      //     crossAxisAlignment: CrossAxisAlignment.start,
+                      //     children: [
+                      //       Text(data.user.name,
+                      //           style: Theme.of(context)
+                      //               .textTheme
+                      //               .labelLarge
+                      //               ?.copyWith(fontWeight: FontWeight.w300)),
+                      //       const SizedBox(
+                      //         height: 4,
+                      //       ),
+                      //       Text(
+                      //         data.content,
+                      //         style: Theme.of(context)
+                      //             .textTheme
+                      //             .bodySmall
+                      //             ?.copyWith(fontStyle: FontStyle.normal),
+                      //       ),
+                      //     ],
+                      //   ),
+                      // ),
+                      DisplayComment(
+                        data: widget.data,
+                        index1: widget.indexforreply1,
+                        index2: widget.indexforreply2,
+                        index3: index,
+                        reloadComment: widget.reloadComment,
+                        commentDisplay: data,
                       ),
                       DefaultTextStyle(
                         style: Theme.of(context).textTheme.bodySmall!.copyWith(
@@ -491,8 +499,8 @@ class _CommmentTreeSectionState extends State<CommmentTreeSection> {
                       // ),
                       DisplayComment(
                         data: widget.data,
-                        index1: index,
-                        index2: widget.indexforreply1,
+                        index1: widget.indexforreply1,
+                        index2: widget.indexforreply2,
                         reloadComment: widget.reloadComment,
                         commentDisplay: data,
                       ),
