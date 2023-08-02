@@ -18,12 +18,12 @@ class ReplyButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextButton(
       onPressed: () {
-        IndexComment.flagReply = false;
-        IndexComment.flagReply2 = true;
-        IndexComment.flagReply = flagReply;
-        IndexComment.flagReply2 = flagReply2;
-        IndexComment.intdex = indexforreply1;
-        IndexComment.intdex2 = indexforreply2;
+        IndexReply.flagReply = false;
+        IndexReply.flagReply2 = true;
+        IndexReply.flagReply = flagReply;
+        IndexReply.flagReply2 = flagReply2;
+        IndexReply.intdex = indexforreply1;
+        IndexReply.intdex2 = indexforreply2;
         myfocusNode.requestFocus();
       },
       // style: ButtonStyle(

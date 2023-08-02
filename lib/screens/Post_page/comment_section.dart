@@ -3,7 +3,7 @@ import 'package:flutter_application_1/utils/find_user_reaction.dart';
 
 import '../../index.dart';
 import '../../utils/count_comment.dart';
-import 'interact_comment.dart';
+import '../../utils/interact_comment.dart';
 
 Post fakedata = Post("", UserDummy("", "", "", "", DateTime.timestamp(), []),
     "", [], 0, 0, [], []);

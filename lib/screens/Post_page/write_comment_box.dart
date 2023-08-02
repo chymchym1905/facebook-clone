@@ -97,15 +97,15 @@ class _WriteCommentBoxState extends State<WriteCommentBox> {
                     if (widget.myController.text.toString().isNotEmpty) {
                       Comment1 newComment = Comment1(widget.instantUser, null,
                           widget.myController.text.toString(), [], []);
-                      if (IndexComment.flagReply2) {
-                        widget.data.comment[IndexComment.intdex]
-                            .reply[IndexComment.intdex2].reply
+                      if (IndexReply.flagReply2) {
+                        widget.data.comment[IndexReply.intdex]
+                            .reply[IndexReply.intdex2].reply
                             .add(newComment);
                         Database().writeComment(
                             widget.data.id, newComment, CommentLevel.three);
                       } else {
-                        if (IndexComment.flagReply) {
-                          widget.data.comment[IndexComment.intdex].reply
+                        if (IndexReply.flagReply) {
+                          widget.data.comment[IndexReply.intdex].reply
                               .add(newComment);
                           Database().writeComment(
                               widget.data.id, newComment, CommentLevel.two);
@@ -116,12 +116,12 @@ class _WriteCommentBoxState extends State<WriteCommentBox> {
                         }
                       }
                       widget.controlViewMoreComment.add(true);
-                      if (IndexComment.flagReply || IndexComment.flagReply2) {
-                        widget.setViewMoreComment(IndexComment.intdex);
+                      if (IndexReply.flagReply || IndexReply.flagReply2) {
+                        widget.setViewMoreComment(IndexReply.intdex);
                       }
                     }
-                    IndexComment.flagReply = false;
-                    IndexComment.flagReply2 = false;
+                    IndexReply.flagReply = false;
+                    IndexReply.flagReply2 = false;
                     widget.myController.clear();
                     widget.myfocusNode.unfocus();
                   },
