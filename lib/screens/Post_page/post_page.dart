@@ -13,6 +13,12 @@ class IndexReply {
   static bool flagReply2 = false;
 }
 
+class IndexComment {
+  static int intdex1 = -1;
+  static int intdex2 = -1;
+  static int intdex3 = -1;
+}
+
 class Postpage extends StatefulWidget {
   const Postpage({
     Key? key,
