@@ -45,8 +45,8 @@ class _CommentModalState extends State<CommentModal>
       Provider.of<FocusNodeProvider>(context, listen: false)
           .commentModal
           .unfocus();
-      IndexComment.flagReply = false;
-      IndexComment.flagReply2 = false;
+      IndexReply.flagReply = false;
+      IndexReply.flagReply2 = false;
     }
   }
 

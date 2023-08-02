@@ -119,8 +119,7 @@ class Database {
       var snap = await post.get();
       var json = snap.data()!;
       if (snap.exists) {
-        json['comment'][IndexComment.intdex]['reply'][IndexComment.intdex2]
-                ['reply']
+        json['comment'][IndexReply.intdex]['reply'][IndexReply.intdex2]['reply']
             .add(reply.toJson());
         // print(json);
       }
@@ -133,7 +132,7 @@ class Database {
       var snap = await post.get();
       var json = snap.data()!;
       if (snap.exists) {
-        json['comment'][IndexComment.intdex]['reply'].add(reply.toJson());
+        json['comment'][IndexReply.intdex]['reply'].add(reply.toJson());
         // print(json);
       }
       await post

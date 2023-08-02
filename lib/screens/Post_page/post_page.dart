@@ -6,11 +6,17 @@ import '../../model/reaction_class.dart';
 import '../../utils/display_react.dart';
 import '../../utils/find_user_reaction.dart';
 
-class IndexComment {
+class IndexReply {
   static int intdex = -1;
   static int intdex2 = -1;
   static bool flagReply = false;
   static bool flagReply2 = false;
+}
+
+class IndexComment {
+  static int intdex1 = -1;
+  static int intdex2 = -1;
+  static int intdex3 = -1;
 }
 
 class Postpage extends StatefulWidget {
@@ -98,8 +104,8 @@ class _PostPageState extends State<Postpage>
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
-        IndexComment.flagReply = false;
-        IndexComment.flagReply2 = false;
+        IndexReply.flagReply = false;
+        IndexReply.flagReply2 = false;
       },
       child: Scaffold(
         backgroundColor: themeManager.themeMode == dark

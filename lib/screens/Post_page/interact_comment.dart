@@ -52,11 +52,17 @@ class _DisplayCommentState extends State<DisplayComment>
         //     context: context,
         //     builder: (context) => const InteractComment());
         if (widget.index3 != null) {
+          IndexComment.intdex1 = widget.index1!;
+          IndexComment.intdex2 = widget.index2!;
+          IndexComment.intdex3 = widget.index3!;
           widget.data[widget.index1!].reply[widget.index2!].reply
               .removeAt(widget.index3!);
         } else if (widget.index2 != null) {
+          IndexComment.intdex1 = widget.index1!;
+          IndexComment.intdex2 = widget.index2!;
           widget.data[widget.index1!].reply.removeAt(widget.index2!);
         } else {
+          IndexComment.intdex1 = widget.index1!;
           widget.data.removeAt(widget.index1!);
         }
         widget.reloadComment(widget.data);

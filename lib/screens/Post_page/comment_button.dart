@@ -19,8 +19,8 @@ class _CommentButtonState extends State<CommentButton> {
       children: [
         TextButton.icon(
           onPressed: () {
-            IndexComment.flagReply = false;
-            IndexComment.flagReply2 = false;
+            IndexReply.flagReply = false;
+            IndexReply.flagReply2 = false;
             Provider.of<FocusNodeProvider>(context, listen: false)
                 .commentPostPage
                 .requestFocus();
