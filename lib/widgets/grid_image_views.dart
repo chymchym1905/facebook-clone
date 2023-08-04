@@ -5,28 +5,15 @@ import 'package:collection/collection.dart';
 import '../index.dart';
 import '../screens/Gallery_view_pages/galleryview.dart';
 
-Widget oneItem(Post? data, List<Media>? media) => StaggeredGrid.count(
-        crossAxisCount: 1,
-        mainAxisSpacing: 4,
-        crossAxisSpacing: 4,
-        children: [
-          StaggeredGridTile.count(
-              crossAxisCellCount: 1,
-              mainAxisCellCount: 1,
-              child: data != null
-                  ? ImageTile.network(
-                      src: data.imageurl[0],
-                      height: 100,
-                      width: 100,
-                      index: 0,
-                      data: data)
-                  : ImageTile.memory(
-                      mediaList: media!,
-                      memoryImageBytes: media[0].mediaByte!,
-                      index: 0,
-                      width: 100,
-                      height: 100))
-        ]);
+Widget oneItem(Post? data, List<Media>? media) => data != null
+    ? ImageTile.network(
+        src: data.imageurl[0], height: 100, width: 100, index: 0, data: data)
+    : ImageTile.memory(
+        mediaList: media!,
+        memoryImageBytes: media[0].mediaByte!,
+        index: 0,
+        width: 100,
+        height: 100);
 
 Widget twoItem(Post? data, List<Media>? media) => StaggeredGrid.count(
       crossAxisCount: 2,
