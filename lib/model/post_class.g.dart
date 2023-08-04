@@ -16,14 +16,9 @@ Post _$PostFromJson(Map<String, dynamic> json) {
     UserDummy.fromJson(json['user'] as Map<String, dynamic>),
     json['caption'] as String,
     (json['imageurl'] as List<dynamic>).map((e) => e as String).toList(),
-    json['likes'] as int?,
-    json['shares'] as int?,
-    (json['comment'] as List<dynamic>)
-        .map((e) => Comment1.fromJson(e as Map<String, dynamic>))
-        .toList(),
-    (json['reactions'] as List<dynamic>)
-        .map((e) => Reaction.fromJson(e as Map<String, dynamic>))
-        .toList(),
+    commentsCount: json['commentsCount'] as int? ?? 0,
+    reactionsCount: json['reactionsCount'] as int? ?? 0,
+    sharesCount: json['sharesCount'] as int? ?? 0,
   );
 }
 
@@ -32,8 +27,7 @@ Map<String, dynamic> _$PostToJson(Post instance) => <String, dynamic>{
       'user': instance.user,
       'caption': instance.caption,
       'imageurl': instance.imageurl,
-      'reactions': instance.reactions,
-      'comment': instance.comment,
-      'likes': instance.likes,
-      'shares': instance.shares,
+      'reactionsCount': instance.reactionsCount,
+      'commentsCount': instance.commentsCount,
+      'sharesCount': instance.sharesCount,
     };

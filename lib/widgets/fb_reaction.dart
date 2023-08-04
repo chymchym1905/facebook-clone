@@ -195,7 +195,7 @@ class _FBFullReactionState extends State<FBFullReaction>
       }
       if (widget.reactions.isNotEmpty) {
         if (widget.reactions[0].user.name == currUser!.name) {
-          widget.reactions[0].reaction = reaction;
+          widget.reactions[0].emoji = reaction;
         }
       }
     });
@@ -350,7 +350,7 @@ class _FBFullReactionState extends State<FBFullReaction>
     isLike = false;
     if (widget.reactions.isNotEmpty) {
       if (widget.reactions[0].user.name == currUser!.name) {
-        if (widget.reactions[0].reaction == 0) {
+        if (widget.reactions[0].emoji == 0) {
           isLike = true;
         }
       }
@@ -373,7 +373,7 @@ class _FBFullReactionState extends State<FBFullReaction>
                   } else {
                     if (widget.reactions.isNotEmpty) {
                       if (widget.reactions[0].user.name == currUser!.name) {
-                        widget.reactions[0].reaction = 0;
+                        widget.reactions[0].emoji = 0;
                       } else {
                         widget.reactions.insert(0, Reaction("", currUser!, 0));
                       }
@@ -470,7 +470,7 @@ class _FBFullReactionState extends State<FBFullReaction>
     _news[0]["reaction"] = null;
     if (widget.reactions.isNotEmpty) {
       if (widget.reactions[0].user.name == currUser!.name) {
-        _setIcon(widget.reactions[0].reaction);
+        _setIcon(widget.reactions[0].emoji);
       }
     }
     return Stack(children: [
@@ -583,14 +583,14 @@ class _FBFullReactionState extends State<FBFullReaction>
       removeOverlay();
       if (widget.reactions.isNotEmpty) {
         if (widget.reactions[0].user.name == currUser!.name) {
-          _changeIcon(widget.reactions[0].reaction);
+          _changeIcon(widget.reactions[0].emoji);
         } else {
           widget.reactions.insert(0, Reaction("", currUser!, 0));
-          _changeIcon(widget.reactions[0].reaction);
+          _changeIcon(widget.reactions[0].emoji);
         }
       } else {
         widget.reactions.insert(0, Reaction("", currUser!, 0));
-        _changeIcon(widget.reactions[0].reaction);
+        _changeIcon(widget.reactions[0].emoji);
       }
       _reactCtr.forward(from: 0).then((_) {
         //renew

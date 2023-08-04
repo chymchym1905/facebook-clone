@@ -11,15 +11,12 @@ part 'reaction_class.g.dart';
 
 @JsonSerializable()
 class Reaction {
-  Reaction(this.id, this.user, this.reaction);
-  @JsonKey(required: true)
-  String id;
   @JsonKey(required: true)
   UserDummy user;
-
+  String destinationID;
   @JsonKey(required: true)
-  int reaction;
-
+  int emoji;
+  Reaction(this.user, this.emoji, this.destinationID);
   factory Reaction.fromJson(Map<String, dynamic> json) =>
       _$ReactionFromJson(json);
 

@@ -8,7 +8,11 @@ class ReplyButton extends StatelessWidget {
       required this.indexforreply2,
       required this.myfocusNode,
       required this.flagReply,
-      required this.flagReply2});
+      required this.flagReply2,
+      this.parentID,
+      this.grandParentID});
+  final String? parentID;
+  final String? grandParentID;
   final int indexforreply1;
   final int indexforreply2;
   final bool flagReply;
@@ -18,6 +22,8 @@ class ReplyButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextButton(
       onPressed: () {
+        CommentHelper.parentCommentId = parentID!;
+        CommentHelper.grandParentCommentId = grandParentID!;
         IndexReply.flagReply = false;
         IndexReply.flagReply2 = true;
         IndexReply.flagReply = flagReply;

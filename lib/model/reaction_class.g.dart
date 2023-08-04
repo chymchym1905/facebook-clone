@@ -9,17 +9,17 @@ part of 'reaction_class.dart';
 Reaction _$ReactionFromJson(Map<String, dynamic> json) {
   $checkKeys(
     json,
-    requiredKeys: const ['id', 'user', 'reaction'],
+    requiredKeys: const ['user', 'emoji'],
   );
   return Reaction(
-    json['id'] as String,
     UserDummy.fromJson(json['user'] as Map<String, dynamic>),
-    json['reaction'] as int,
+    json['emoji'] as int,
+    json['destinationID'] as String,
   );
 }
 
 Map<String, dynamic> _$ReactionToJson(Reaction instance) => <String, dynamic>{
-      'id': instance.id,
       'user': instance.user,
-      'reaction': instance.reaction,
+      'destinationID': instance.destinationID,
+      'emoji': instance.emoji,
     };

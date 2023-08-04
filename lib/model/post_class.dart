@@ -1,7 +1,5 @@
 import 'package:flutter_application_1/model/user_class.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'comment_class.dart';
-import 'reaction_class.dart';
 part 'post_class.g.dart';
 
 // class Visibility{}
@@ -10,16 +8,8 @@ part 'post_class.g.dart';
 
 @JsonSerializable()
 class Post {
-  Post(
-      this.id,
-      this.user,
-      this.caption,
-      // this.visibility,
-      this.imageurl,
-      this.likes,
-      this.shares,
-      this.comment,
-      this.reactions);
+  Post(this.id, this.user, this.caption, this.imageurl,
+      {this.commentsCount = 0, this.reactionsCount = 0, this.sharesCount = 0});
   @JsonKey(required: true)
   String id;
   @JsonKey(required: true)
@@ -31,13 +21,9 @@ class Post {
   // Visibility visibility;
   List<String> imageurl;
 
-  List<Reaction> reactions;
-  List<Comment1> comment;
-
-  int? likes;
-
-  int? shares;
-  // List<String> comment;
+  int reactionsCount;
+  int commentsCount;
+  int sharesCount;
 
   factory Post.fromJson(Map<String, dynamic> json) => _$PostFromJson(json);
 

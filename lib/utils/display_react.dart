@@ -103,15 +103,15 @@ class _DisplayReactState extends State<DisplayReact> {
                   ),
                 ),
                 if (currUser!.name == widget.data[0].user.name &&
-                    widget.data[0].reaction != -1) ...[
-                  if (listicon[widget.data[0].reaction] !=
+                    widget.data[0].emoji != -1) ...[
+                  if (listicon[widget.data[0].emoji] !=
                       sortedList.keys.first) ...[
                     Indexed(
                       index: 1,
                       child: Container(
                         padding: const EdgeInsets.only(left: 23),
                         child: Image.asset(
-                          "assets/images/${listicon[widget.data[0].reaction]}.png",
+                          "assets/images/${listicon[widget.data[0].emoji]}.png",
                           width: 22,
                           height: 22,
                         ),
@@ -166,10 +166,9 @@ class _DisplayReactState extends State<DisplayReact> {
                   ),
                 ),
                 if (currUser!.name == widget.data[0].user.name &&
-                    widget.data[0].reaction != -1) ...[
-                  if (listicon[widget.data[0].reaction] !=
-                          sortedList.keys.first &&
-                      listicon[widget.data[0].reaction] !=
+                    widget.data[0].emoji != -1) ...[
+                  if (listicon[widget.data[0].emoji] != sortedList.keys.first &&
+                      listicon[widget.data[0].emoji] !=
                           sortedList.keys.elementAt(1)) ...[
                     Indexed(
                       index: 1,
@@ -178,7 +177,7 @@ class _DisplayReactState extends State<DisplayReact> {
                             left: widget.isRevert ? 35.0 : 42,
                             right: widget.isRevert ? 0 : 5),
                         child: Image.asset(
-                          "assets/images/${listicon[widget.data[0].reaction]}.png",
+                          "assets/images/${listicon[widget.data[0].emoji]}.png",
                           width: 22,
                           height: 22,
                         ),

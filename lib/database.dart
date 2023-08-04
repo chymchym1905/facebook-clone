@@ -13,8 +13,8 @@ class Database {
               .toJson();
       await userdoc
           .set(json)
-          .whenComplete(() => print("Registered!"))
-          .catchError((e) => print(e));
+          .whenComplete(() => debugPrint("Registered!"))
+          .catchError((e) => debugPrint(e));
     }
   }
 
@@ -34,17 +34,19 @@ class Database {
     }
 
     final json = Post(postdoc.id, data.user, data.caption, mediaURLS,
-            data.likes, data.shares, data.comment, data.reactions)
+            reactionsCount: data.reactionsCount,
+            commentsCount: data.commentsCount,
+            sharesCount: data.sharesCount)
         .toJson();
     json['user'] = json['user'].toJson();
     await postdoc
         .set(json)
-        .whenComplete(() => print("Post created"))
-        .catchError((e) => print(e));
+        .whenComplete(() => debugPrint("Post created"))
+        .catchError((e) => debugPrint(e));
   }
 
   List<Comment1> convert(List<dynamic> json) {
-    // print(json);
+    // debugPrint(json);
     final List<Comment1> res = [];
     if (json.isNotEmpty) {
       for (int i = 0; i < json.length; i++) {
@@ -59,17 +61,14 @@ class Database {
     List<Post> p = [];
     if (allPosts.docs.isNotEmpty) {
       for (var i = 0; i < allPosts.docs.length; i++) {
-        // final listcomment = convert(allPosts.docs[i]['comment']);
-
         p.add(Post(
           allPosts.docs[i]['id'],
           UserDummy.fromJson(allPosts.docs[i]['user']),
           allPosts.docs[i]['caption'],
           allPosts.docs[i]['imageurl'].cast<String>(),
-          allPosts.docs[i]['likes'],
-          allPosts.docs[i]['shares'],
-          allPosts.docs[i]['comment'].cast<String>(),
-          allPosts.docs[i]['reactions'].cast<Reaction>(),
+          sharesCount: allPosts.docs[i]['sharesCount'],
+          reactionsCount: allPosts.docs[i]['reactionsCount'],
+          commentsCount: allPosts.docs[i]['commentsCount'],
         ));
       }
     }
@@ -118,55 +117,117 @@ class Database {
   // }
 
   Future<List<Comment1>> getAlllevel1Comment(String postId) async {
-    final commentDocRef = await _db.collection('posts/$postId/comment').get();
     List<Comment1> c = [];
-    if (commentDocRef.docs.isNotEmpty) {
-      for (int i = 0; i < commentDocRef.docs.length; i++) {
-        c.add(Comment1(
-          UserDummy.fromJson(commentDocRef.docs[i]['user']),
-          commentDocRef.docs[i]['content'],
-          commentDocRef.docs[i]['reply'].cast<String>(),
-          commentDocRef.docs[i]['reactions'].cast<Reaction>(),
-        ));
-      }
+    QuerySnapshot<Map<String, dynamic>> commentDocRef = PaginatedQueryHelper
+                .lastCommentlevel1Query !=
+            null
+        ? await _db
+            .collection('posts/$postId/comment')
+            .where('parentID', isEqualTo: null)
+            .orderBy('createDate')
+            .limit(10)
+            .get()
+        : await _db
+            .collection('posts/$postId/comment')
+            .where('parentId', isNull: true)
+            .orderBy('createDate')
+            .limit(10)
+            .startAfter([PaginatedQueryHelper.lastCommentlevel1Query]).get();
+
+    if (commentDocRef.docs.isEmpty) {
+      PaginatedQueryHelper.lastCommentlevel1Query = null;
+      return [];
+    }
+    PaginatedQueryHelper.lastCommentlevel1Query =
+        commentDocRef.docs[commentDocRef.size - 1];
+    for (int i = 0; i < commentDocRef.docs.length; i++) {
+      c.add(Comment1(
+        commentDocRef.docs[i]['id'],
+        UserDummy.fromJson(commentDocRef.docs[i]['user']),
+        commentDocRef.docs[i]['content'],
+        childCommentCount: commentDocRef.docs[i]['childCommentCount'],
+        reactionCount: commentDocRef.docs[i]['reactionCount'],
+        firstChild: commentDocRef.docs[i]['firstChild'].cast<Comment1>(),
+      ));
     }
     return c;
   }
 
-  Future getAlllevel2Comment(String postId, String parentCommentId) async {
-    final commentDocRef = await _db
-        .collection('posts/$postId/comment/$parentCommentId/reply')
-        .get();
+  Future<List<Comment1>> getAlllevel2Comment(
+      String postId, String parentCommentId) async {
     List<Comment1> c = [];
-    if (commentDocRef.docs.isNotEmpty) {
-      for (int i = 0; i < commentDocRef.docs.length; i++) {
-        c.add(Comment1(
-          UserDummy.fromJson(commentDocRef.docs[i]['user']),
-          commentDocRef.docs[i]['content'],
-          commentDocRef.docs[i]['reply'].cast<String>(),
-          commentDocRef.docs[i]['reactions'].cast<Reaction>(),
-        ));
-      }
+    QuerySnapshot<Map<String, dynamic>> commentDocRef = PaginatedQueryHelper
+                .lastCommentlevel1Query !=
+            null
+        ? await _db
+            .collection('posts/$postId/comment')
+            .where('parentID', isEqualTo: parentCommentId)
+            .where('grandParentID', isNull: true)
+            .orderBy('createDate')
+            .limit(10)
+            .get()
+        : await _db
+            .collection('posts/$postId/comment')
+            .where('parentID', isEqualTo: parentCommentId)
+            .where('grandParentID', isNull: true)
+            .orderBy('createDate')
+            .limit(10)
+            .startAfter([PaginatedQueryHelper.lastCommentlevel2Query]).get();
+
+    if (commentDocRef.docs.isEmpty) {
+      PaginatedQueryHelper.lastCommentlevel2Query = null;
+      return [];
+    }
+    PaginatedQueryHelper.lastCommentlevel2Query =
+        commentDocRef.docs[commentDocRef.size - 1];
+    for (int i = 0; i < commentDocRef.docs.length; i++) {
+      c.add(Comment1.level2(
+        commentDocRef.docs[i]['id'],
+        commentDocRef.docs[i]['parentID'],
+        UserDummy.fromJson(commentDocRef.docs[i]['user']),
+        commentDocRef.docs[i]['content'],
+        childCommentCount: commentDocRef.docs[i]['childCommentCount'],
+        reactionCount: commentDocRef.docs[i]['reactionCount'],
+        firstChild: commentDocRef.docs[i]['firstChild'].cast<Comment1>(),
+      ));
     }
     return c;
   }
 
-  Future getAlllevel3Comment(String postId, String grandParentCommentId,
-      String parentCommentId) async {
-    final commentDocRef = await _db
-        .collection(
-            'posts/$postId/comment/$grandParentCommentId/reply/$parentCommentId/reply')
-        .get();
+  Future<List<Comment1>> getAlllevel3Comment(String postId,
+      String grandParentCommentId, String parentCommentId) async {
     List<Comment1> c = [];
-    if (commentDocRef.docs.isNotEmpty) {
-      for (int i = 0; i < commentDocRef.docs.length; i++) {
-        c.add(Comment1(
+    final commentDocRef = PaginatedQueryHelper.lastCommentlevel2Query != null
+        ? await _db
+            .collection('posts/$postId/comment')
+            .where('parentID', isEqualTo: parentCommentId)
+            .where('grandParentID', isEqualTo: grandParentCommentId)
+            .orderBy('createDate')
+            .limit(10)
+            .get()
+        : await _db
+            .collection('posts/$postId/comment')
+            .where('parentID', isEqualTo: parentCommentId)
+            .where('grandParentID', isEqualTo: grandParentCommentId)
+            .orderBy('createDate')
+            .limit(10)
+            .startAfter([PaginatedQueryHelper.lastCommentlevel3Query]).get();
+    if (commentDocRef.docs.isEmpty) {
+      PaginatedQueryHelper.lastCommentlevel3Query = null;
+      return [];
+    }
+    PaginatedQueryHelper.lastCommentlevel3Query =
+        commentDocRef.docs[commentDocRef.size - 1];
+
+    for (int i = 0; i < commentDocRef.docs.length; i++) {
+      c.add(Comment1.level3(
+          commentDocRef.docs[i]['id'],
+          commentDocRef.docs[i]['parentID'],
+          commentDocRef.docs[i]['grandParentID'],
           UserDummy.fromJson(commentDocRef.docs[i]['user']),
           commentDocRef.docs[i]['content'],
-          commentDocRef.docs[i]['reply'].cast<String>(),
-          commentDocRef.docs[i]['reactions'].cast<Reaction>(),
-        ));
-      }
+          childCommentCount: commentDocRef.docs[i]['childCommentCount'],
+          reactionCount: commentDocRef.docs[i]['reactionCount']));
     }
     return c;
   }
@@ -175,105 +236,73 @@ class Database {
     // var snapshot = await post.get();
     if (cmt == CommentLevel.one) {
       final comment = _db.collection('posts/$postId/comment').doc();
-      final commentListPost = await _db.collection('posts').doc(postId).get();
-      _db
-          .collection('posts')
-          .doc(postId)
-          .set(commentListPost.data()!['comment'].add(comment.id))
-          .whenComplete(() => print("setId"))
-          .catchError((e) => print(e));
+      reply.id = comment.id;
       comment
           .set(reply.toJson())
-          .whenComplete(() => print("OK"))
-          .catchError((e) => print(e));
+          .whenComplete(() => debugPrint("OK"))
+          .catchError((e) => debugPrint(e));
     } else if (cmt == CommentLevel.two) {
-      final comment = _db.collection('posts').doc(postId);
-      var snap = await comment.get();
-      var json = snap.data()!['comment'][IndexReply.intdex];
-      final commentlv2 =
-          _db.collection('posts/$postId/comment/$json/reply').doc();
-      commentlv2
+      final comment = _db.collection('posts/$postId/comment').doc();
+      reply.id = comment.id;
+      comment
           .set(reply.toJson())
-          .whenComplete(() => print('OK'))
-          .catchError((e) => print(e));
+          .whenComplete(() => debugPrint('OK'))
+          .catchError((e) => debugPrint(e));
+    } else if (cmt == CommentLevel.three) {
+      final comment = _db.collection('posts/$postId/comment').doc();
+      reply.id = comment.id;
+      comment
+          .set(reply.toJson())
+          .whenComplete(() => debugPrint('OK'))
+          .catchError((e) => debugPrint(e));
     }
-    //   if (snap.exists) {
-    //     json['comment'][IndexReply.intdex]['reply'][IndexReply.intdex2]['reply']
-    //         .add(reply.toJson());
-    //     // print(json);
-    //   }
-    //   await post
-    //       .set(json, SetOptions(merge: true))
-    //       .whenComplete(() => print("Done"))
-    //       .catchError((error) => print(error));
-    // } else if (cmt == CommentLevel.two) {
-    //   final post = _db.collection('posts').doc(id);
-    //   var snap = await post.get();
-    //   var json = snap.data()!;
-    //   if (snap.exists) {
-    //     json['comment'][IndexReply.intdex]['reply'].add(reply.toJson());
-    //     // print(json);
-    //   }
-    //   await post
-    //       .set(json, SetOptions(merge: true))
-    //       .whenComplete(() => print("Done"))
-    //       .catchError((error) => print(error));
-    // } else {
-    //   final post = _db.collection('posts').doc(id);
-    //   // var snap = await post.get();
-    //   var snap = await post.get();
-    //   var json = snap.data()!;
-    //   if (snap.exists) {
-    //     json['comment'].add(reply.toJson());
-    //     // print(json);
-    //   }
-    //   await post
-    //       .set(json, SetOptions(merge: true))
-    //       .whenComplete(() => print("Done"))
-    //       .catchError((error) => print(error));
-    // }
   }
 
-  Future deleteComment(String id, CommentLevel cmt) async {
+// xóa comment và tất cả các child
+  Future deleteComment(String postID, String id, CommentLevel cmt) async {
     if (cmt == CommentLevel.three) {
-      final post = _db.collection('posts').doc(id);
-      var snap = await post.get();
-      var json = snap.data()!;
-      if (snap.exists) {
-        json['comment'][IndexComment.intdex1]['reply'][IndexComment.intdex2]
-                ['reply']
-            .removeAt(IndexComment.intdex3);
-        // print(json);
-      }
-      await post
-          .set(json)
-          .whenComplete(() => print("Done"))
-          .catchError((error) => print(error));
+      await _db.collection('posts/$postID/comment').doc(id).delete();
     } else if (cmt == CommentLevel.two) {
-      final post = _db.collection('posts').doc(id);
-      var snap = await post.get();
-      var json = snap.data()!;
-      if (snap.exists) {
-        json['comment'][IndexComment.intdex1]['reply']
-            .removeAt(IndexComment.intdex2);
-        // print(json);
+      await _db.collection('posts/$postID/comment').doc(id).delete();
+      final childComment = await _db
+          .collection('posts/$postID/comment')
+          .where('parentID', isEqualTo: id)
+          .get();
+      if (childComment.docs.isEmpty) return;
+      final batch = FirebaseFirestore.instance.batch();
+      for (final doc in childComment.docs) {
+        batch.delete(doc.reference);
       }
-      await post
-          .set(json)
-          .whenComplete(() => print("Done"))
-          .catchError((error) => print(error));
+      try {
+        await batch.commit();
+        debugPrint('Documents deleted successfully.');
+      } catch (e) {
+        debugPrint('Error deleting documents: $e');
+      }
     } else if (cmt == CommentLevel.one) {
-      final post = _db.collection('posts').doc(id);
-      var snap = await post.get();
-      var json = snap.data()!;
-      if (snap.exists) {
-        json['comment'].removeAt(IndexComment.intdex1);
-        // print(json);
+      await _db.collection('posts/$postID/comment').doc(id).delete();
+      final childComment = await _db
+          .collection('posts/$postID/comment')
+          .where('parentID', isEqualTo: id)
+          .where('grandParentID', isEqualTo: id)
+          .get();
+      if (childComment.docs.isEmpty) return;
+      final batch = FirebaseFirestore.instance.batch();
+      for (final doc in childComment.docs) {
+        batch.delete(doc.reference);
       }
-      await post
-          .set(json)
-          .whenComplete(() => print("Done"))
-          .catchError((error) => print(error));
+      try {
+        await batch.commit();
+        debugPrint('Documents deleted successfully.');
+      } catch (e) {
+        debugPrint('Error deleting documents: $e');
+      }
     }
   }
+}
+
+class PaginatedQueryHelper {
+  static QueryDocumentSnapshot<Map<String, dynamic>>? lastCommentlevel1Query;
+  static QueryDocumentSnapshot<Map<String, dynamic>>? lastCommentlevel2Query;
+  static QueryDocumentSnapshot<Map<String, dynamic>>? lastCommentlevel3Query;
 }

@@ -23,6 +23,11 @@ class IndexComment {
   static int intdex3 = -1;
 }
 
+class CommentHelper {
+  static String parentCommentId = '';
+  static String grandParentCommentId = '';
+} // lưu parentCommentId và grandParentCommentId khi bấm reply
+
 class Postpage extends StatefulWidget {
   const Postpage({
     Key? key,
