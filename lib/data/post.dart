@@ -6,42 +6,55 @@ class PostProvider extends ChangeNotifier {
 
   List<PostLocal> get posts => _posts;
 
-  Future<List<Comment1>> getCommentByID(
+  Future<List<Comment1>> getCommentLevel1(
       String postID, int? start, int? end) async {
     final post = _posts.firstWhere((p) => p.id == postID,
-        orElse: () => PostLocal(id: '', comments: []));
-    if (post.comments.isEmpty) {
+        orElse: () => PostLocal(
+            id: '', comment: [], commentLevel2: [], commentLevel3: []));
+    if (post.comment.isEmpty) {
       List<Comment1> firebaseComment =
           await Database().getAlllevel1Comment(postID);
-      post.comments = firebaseComment;
+      post.comment = firebaseComment;
       return firebaseComment;
     }
     List<Comment1> rangeComment = [];
     if (start != null && end != null) {
-      if (start > post.comments.length) {
-        if (end >= post.comments.length + 1) {
+      if (start > post.comment.length) {
+        if (end >= post.comment.length + 1) {
           end = start;
         }
       } else {
-        if (end >= post.comments.length) {
-          end = post.comments.length + 1;
+        if (end >= post.comment.length) {
+          end = post.comment.length;
         }
       }
-      rangeComment = post.comments.getRange(start, end).toList();
+      rangeComment = post.comment.getRange(start, end).toList();
       return rangeComment;
     }
-    return post.comments;
+    return post.comment;
   }
 
   void addPost(PostLocal post) {
     _posts.add(post);
-    // notifyListeners();
+  }
+
+  void addCommentLevel1(String postID, Comment1 newComment) {
+    final post = _posts.firstWhere((p) => p.id == postID,
+        orElse: () => PostLocal(
+            id: '', comment: [], commentLevel2: [], commentLevel3: []));
+    post.comment.add(newComment);
   }
 }
 
 class PostLocal {
   String id;
-  List<Comment1> comments;
+  List<Comment1> comment;
+  List<Comment1> commentLevel2;
+  List<Comment1> commentLevel3;
 
-  PostLocal({required this.id, required this.comments});
+  PostLocal(
+      {required this.id,
+      required this.comment,
+      required this.commentLevel2,
+      required this.commentLevel3});
 }

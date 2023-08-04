@@ -92,6 +92,8 @@ class _PostPageState extends State<Postpage>
 
   @override
   Widget build(BuildContext context) {
+    final isKeyboard = MediaQuery.of(context).viewInsets.bottom != 0;
+
     final postProvider = Provider.of<PostProvider>(context);
     final loadMoreComment = LoadMoreComment(postProvider, widget.data.id);
     super.build(context);
@@ -99,8 +101,8 @@ class _PostPageState extends State<Postpage>
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
-        IndexReply.flagReply = false;
-        IndexReply.flagReply2 = false;
+        CommentHelper.grandParentCommentId = "";
+        CommentHelper.parentCommentId = "";
       },
       child: Scaffold(
         backgroundColor: themeManager.themeMode == dark
@@ -211,81 +213,88 @@ class _PostPageState extends State<Postpage>
         //     // ),
         //   ],
         // ),
-        body: LoadingMoreList<Comment1>(ListConfig<Comment1>(
-          shrinkWrap: true,
-          physics: const ClampingScrollPhysics(),
-          sourceList: loadMoreComment,
-          itemBuilder: (context, item, index) {
-            // var items = list.map((e) => Post.fromJson(e)).toList();
-            if (index == 0) {
-              return Column(
-                children: [
-                  PostContent(
-                      data: widget.data, reloadState: widget.reloadState),
-                  CommentSection(data: item)
-                ],
-              );
-            } else {
-              return CommentSection(data: item);
-            }
-          },
-          indicatorBuilder: (context, status) {
-            switch (status) {
-              case IndicatorStatus.loadingMoreBusying:
-                return const Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Center(
-                    child: CircularProgressIndicator(),
-                  ),
-                );
-              case IndicatorStatus.error:
-                return Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Center(
-                    child: ErrorWidget('Not found'),
-                  ),
-                );
-              case IndicatorStatus.noMoreLoad:
-                return Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Center(
-                    child: Text('Come back tommrow!',
-                        style: Theme.of(context).textTheme.titleMedium),
-                  ),
-                );
-              case IndicatorStatus.empty:
-                return Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: ListView(
-                    physics: const NeverScrollableScrollPhysics(),
-                    children: [
-                      Center(
-                        child: Text('No posts available',
-                            style: Theme.of(context).textTheme.titleMedium),
-                      ),
-                    ],
-                  ),
-                );
-              case IndicatorStatus.fullScreenBusying:
-                return Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Center(
-                    child: Text('Fullscreen Busying...',
-                        style: Theme.of(context).textTheme.titleMedium),
-                  ),
-                );
-              case IndicatorStatus.none:
-              case IndicatorStatus.fullScreenError:
-                return Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Center(
-                    child: Text('Cannot load data',
-                        style: Theme.of(context).textTheme.titleMedium),
-                  ),
-                );
-            }
-          },
-        )),
+        body: Column(
+          children: [
+            Expanded(
+              child: LoadingMoreList<Comment1>(ListConfig<Comment1>(
+                sourceList: loadMoreComment,
+                itemBuilder: (context, item, index) {
+                  // var items = list.map((e) => Post.fromJson(e)).toList();
+                  if (index == 0) {
+                    return Column(
+                      children: [
+                        PostContent(
+                            data: widget.data, reloadState: widget.reloadState),
+                        CommentSection(data: item)
+                      ],
+                    );
+                  } else {
+                    return CommentSection(data: item);
+                  }
+                },
+                indicatorBuilder: (context, status) {
+                  switch (status) {
+                    case IndicatorStatus.loadingMoreBusying:
+                      return const Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Center(
+                          child: CircularProgressIndicator(),
+                        ),
+                      );
+                    case IndicatorStatus.error:
+                      return Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Center(
+                          child: ErrorWidget('Not found'),
+                        ),
+                      );
+                    case IndicatorStatus.noMoreLoad:
+                      return Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Center(
+                          child: Text('Come back tommrow!',
+                              style: Theme.of(context).textTheme.titleMedium),
+                        ),
+                      );
+                    case IndicatorStatus.empty:
+                      return ListView(
+                        children: [
+                          PostContent(
+                              data: widget.data,
+                              reloadState: widget.reloadState),
+                        ],
+                      );
+                    case IndicatorStatus.fullScreenBusying:
+                      return Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Center(
+                          child: Text('Fullscreen Busying...',
+                              style: Theme.of(context).textTheme.titleMedium),
+                        ),
+                      );
+                    case IndicatorStatus.none:
+                    case IndicatorStatus.fullScreenError:
+                      return Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Center(
+                          child: Text('Cannot load data',
+                              style: Theme.of(context).textTheme.titleMedium),
+                        ),
+                      );
+                  }
+                },
+              )),
+            ),
+            Align(
+              child: WriteCommentBox(
+                  data: widget.data,
+                  myController: textController,
+                  isKeyboard: isKeyboard,
+                  myfocusNode:
+                      Provider.of<FocusNodeProvider>(context).commentPostPage),
+            )
+          ],
+        ),
       ),
     );
   }
@@ -303,7 +312,6 @@ class PostContent extends StatefulWidget {
 class _PostContentState extends State<PostContent> {
   @override
   Widget build(BuildContext context) {
-    final isKeyboard = MediaQuery.of(context).viewInsets.bottom != 0;
     // if (currUser != null) {
     //   findUserReact(currUser!.name, widget.data.reactions);
     // }

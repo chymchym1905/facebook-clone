@@ -33,7 +33,7 @@ class LoadMoreComment extends LoadingMoreBase<Comment1> {
     bool isSuccess = false;
     try {
       List<Comment1> comments =
-          await postProvider.getCommentByID(commentID, length, length + 5);
+          await postProvider.getCommentLevel1(commentID, length, length + 5);
       //to show loading more clearly, in your app,remove this
       await Future.delayed(const Duration(milliseconds: 500));
       // print(fullPost);

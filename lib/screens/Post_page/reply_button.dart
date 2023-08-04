@@ -22,31 +22,14 @@ class ReplyButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextButton(
       onPressed: () {
-        CommentHelper.parentCommentId = parentID!;
-        CommentHelper.grandParentCommentId = grandParentID!;
-        IndexReply.flagReply = false;
-        IndexReply.flagReply2 = true;
-        IndexReply.flagReply = flagReply;
-        IndexReply.flagReply2 = flagReply2;
-        IndexReply.intdex = indexforreply1;
-        IndexReply.intdex2 = indexforreply2;
+        if (parentID != null) {
+          CommentHelper.parentCommentId = parentID!;
+        }
+        if (grandParentID != null) {
+          CommentHelper.grandParentCommentId = grandParentID!;
+        }
         myfocusNode.requestFocus();
       },
-      // style: ButtonStyle(
-      //   fixedSize:
-      //       MaterialStateProperty.resolveWith((states) {
-      //     final textStyle =
-      //         Theme.of(context).textTheme.labelMedium!;
-      //     final textWidth = TextPainter(
-      //       text:
-      //           TextSpan(text: 'Reply', style: textStyle),
-      //       textDirection: TextDirection.ltr,
-      //     )..layout();
-      //     final textHeight = textWidth.size.height;
-
-      //     return Size(textWidth.size.width, textHeight);
-      //   }),
-      // ),
       style: TextButton.styleFrom(
         padding: const EdgeInsets.only(left: 10),
         minimumSize: Size.zero,

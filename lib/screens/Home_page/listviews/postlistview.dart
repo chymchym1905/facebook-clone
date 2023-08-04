@@ -56,7 +56,8 @@ class _PostListViewState extends State<PostListView>
       child: LoadingMoreList<Post>(ListConfig<Post>(
         sourceList: widget.source,
         itemBuilder: (context, item, index) {
-          postProvider.addPost(PostLocal(id: item.id, comments: []));
+          postProvider.addPost(PostLocal(
+              id: item.id, comment: [], commentLevel2: [], commentLevel3: []));
           // var items = list.map((e) => Post.fromJson(e)).toList();
           return Posts(data: item);
         },
