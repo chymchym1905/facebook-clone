@@ -45,7 +45,7 @@ class Comment1 {
   }
 
   static Timestamp _timestampTotimestamp(dynamic dateTime) {
-    return dateTime.cast<Timestamp>();
+    return dateTime;
   }
 
   factory Comment1.fromJson(Map<String, dynamic> json) =>
