@@ -9,10 +9,10 @@ import '../model/reaction_class.dart';
 // 4 : sad
 // 5 : angry
 
-void countReact(List<Reaction> reactions, Map<String,int> listreact){
-  for(int i = 0; i < reactions.length; i++){
-    switch(reactions[i].reaction){
-       case 0:
+void countReact(List<Reaction> reactions, Map<String, int> listreact) {
+  for (int i = 0; i < reactions.length; i++) {
+    switch (reactions[i].emoji) {
+      case 0:
         listreact["like"] = (listreact["like"] ?? 0) + 1;
         break;
       case 1:

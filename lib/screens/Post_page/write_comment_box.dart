@@ -95,9 +95,14 @@ class _WriteCommentBoxState extends State<WriteCommentBox> {
                   onPressed: () {
                     //write comment
                     if (widget.myController.text.toString().isNotEmpty) {
-                      Comment1 newComment = Comment1("", widget.instantUser,
-                          null, widget.myController.text.toString(), [], []);
                       if (IndexReply.flagReply2) {
+                        Comment1 newComment = Comment1.level3(
+                            "",
+                            CommentHelper.parentCommentId,
+                            CommentHelper.grandParentCommentId,
+                            widget.instantUser,
+                            widget.myController.text.toString(),
+                            reactionCount: 0); // không sửa
                         widget.data.comment[IndexReply.intdex]
                             .reply[IndexReply.intdex2].reply
                             .add(newComment);
@@ -105,11 +110,20 @@ class _WriteCommentBoxState extends State<WriteCommentBox> {
                             widget.data.id, newComment, CommentLevel.three);
                       } else {
                         if (IndexReply.flagReply) {
+                          Comment1 newComment = Comment1.level2(
+                              "",
+                              CommentHelper.parentCommentId,
+                              widget.instantUser,
+                              widget.myController.text.toString(),
+                              reactionCount: 0); // không sửa
                           widget.data.comment[IndexReply.intdex].reply
                               .add(newComment);
                           Database().writeComment(
                               widget.data.id, newComment, CommentLevel.two);
                         } else {
+                          Comment1 newComment = Comment1("", widget.instantUser,
+                              widget.myController.text.toString(),
+                              reactionCount: 0); // không sửa
                           widget.data.comment.add(newComment);
                           Database().writeComment(
                               widget.data.id, newComment, CommentLevel.one);

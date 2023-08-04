@@ -173,22 +173,22 @@ class _ReactionPageViewState extends State<ReactionPageView> {
           if (widget.icon == "All") ...[
             reactContent(context, i)
           ] else if (widget.icon == "like" &&
-              widget.reactions[i].reaction == 0) ...[
+              widget.reactions[i].emoji == 0) ...[
             reactContent(context, i)
           ] else if (widget.icon == "love" &&
-              widget.reactions[i].reaction == 1) ...[
+              widget.reactions[i].emoji == 1) ...[
             reactContent(context, i)
           ] else if (widget.icon == "haha" &&
-              widget.reactions[i].reaction == 2) ...[
+              widget.reactions[i].emoji == 2) ...[
             reactContent(context, i)
           ] else if (widget.icon == "wow" &&
-              widget.reactions[i].reaction == 3) ...[
+              widget.reactions[i].emoji == 3) ...[
             reactContent(context, i)
           ] else if (widget.icon == "sad" &&
-              widget.reactions[i].reaction == 4) ...[
+              widget.reactions[i].emoji == 4) ...[
             reactContent(context, i)
           ] else if (widget.icon == "angry" &&
-              widget.reactions[i].reaction == 5) ...[
+              widget.reactions[i].emoji == 5) ...[
             reactContent(context, i)
           ]
         ]
@@ -217,7 +217,7 @@ class _ReactionPageViewState extends State<ReactionPageView> {
 
       ///5
     ];
-    if (widget.reactions[0].reaction == -1) {
+    if (widget.reactions[0].emoji == -1) {
       widget.reactions.removeAt(0);
     }
     return Row(
@@ -256,7 +256,7 @@ class _ReactionPageViewState extends State<ReactionPageView> {
                   ),
                   child: ClipRRect(
                     child: Image.asset(
-                      "assets/images/${listicon[widget.reactions[index].reaction]}.png",
+                      "assets/images/${listicon[widget.reactions[index].emoji]}.png",
                       height: MediaQuery.of(context).size.width * 0.07,
                       width: MediaQuery.of(context).size.width * 0.07,
                       fit: BoxFit.cover,

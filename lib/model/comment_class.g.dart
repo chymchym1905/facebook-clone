@@ -14,20 +14,26 @@ Comment1 _$Comment1FromJson(Map<String, dynamic> json) {
   return Comment1(
     json['id'] as String,
     UserDummy.fromJson(json['user'] as Map<String, dynamic>),
-    (json['react'] as num?)?.toDouble(),
     json['content'] as String,
-    (json['reply'] as List<dynamic>).map((e) => e as String).toList(),
-    (json['reactions'] as List<dynamic>)
-        .map((e) => Reaction.fromJson(e as Map<String, dynamic>))
-        .toList(),
-  );
+    childCommentCount: json['childCommentCount'] as int? ?? 0,
+    reactionCount: json['reactionCount'] as int? ?? 0,
+    firstChild: json['firstChild'] == null
+        ? null
+        : Comment1.fromJson(json['firstChild'] as Map<String, dynamic>),
+  )
+    ..parentID = json['parentID'] as String?
+    ..grandParentID = json['grandParentID'] as String?
+    ..createDate = Comment1._timestampTotimestamp(json['createDate']);
 }
 
 Map<String, dynamic> _$Comment1ToJson(Comment1 instance) => <String, dynamic>{
       'id': instance.id,
+      'parentID': instance.parentID,
+      'grandParentID': instance.grandParentID,
       'user': Comment1._usertoJson(instance.user),
-      'react': instance.react,
       'content': instance.content,
-      'reply': instance.reply,
-      'reactions': instance.reactions,
+      'childCommentCount': instance.childCommentCount,
+      'reactionCount': instance.reactionCount,
+      'firstChild': instance.firstChild,
+      'createDate': Comment1._timestampTotimestamp(instance.createDate),
     };
