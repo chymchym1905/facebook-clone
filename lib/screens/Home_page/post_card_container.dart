@@ -34,9 +34,9 @@ class _PostsState extends State<Posts> {
   Widget build(BuildContext context) {
     // AppDataProvider.of(context).currentViewData = widget.data;
     // AppDataProvider.of(context).updateCallback = (Post p) => updateState(p);
-    if (currUser != null) {
-      findUserReact(currUser!.name, widget.data.reactions);
-    }
+    // if (currUser != null) {
+    //   findUserReact(currUser!.name, widget.data.reactions);
+    // }
     // int comments = countComment(widget.data.comment);
     return Padding(
         padding: const EdgeInsets.only(top: 8.0),
@@ -62,14 +62,14 @@ class _PostsState extends State<Posts> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    if (widget.data.reactions.isNotEmpty) ...[
-                      Expanded(
-                        child: DisplayReact(
-                            data: widget.data.reactions,
-                            isRevert: false,
-                            hideIcon: true),
-                      ),
-                    ],
+                    // if (widget.data.reactions.isNotEmpty) ...[
+                    //   Expanded(
+                    //     child: DisplayReact(
+                    //         data: widget.data.reactions,
+                    //         isRevert: false,
+                    //         hideIcon: true),
+                    //   ),
+                    // ],
                     // if (comments != 0) ...[
                     //   Text("$comments comments "),
                     // ]
@@ -86,9 +86,9 @@ class _PostsState extends State<Posts> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  FBFullReaction(
-                      reactions: widget.data.reactions,
-                      reloadState: updateState),
+                  // FBFullReaction(
+                  //     reactions: widget.data.reactions,
+                  //     reloadState: updateState),
                   CommentButtonModal(data: widget.data),
                   ShareButton(data: widget.data),
                 ],

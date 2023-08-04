@@ -565,7 +565,7 @@ import '../../utils/interact_comment.dart';
 
 class CommentSection extends StatefulWidget {
   const CommentSection({super.key, required this.data});
-  final Post data;
+  final Comment1 data;
   @override
   State<CommentSection> createState() => _CommentSectionState();
 }
@@ -586,129 +586,99 @@ class _CommentSectionState extends State<CommentSection> {
 
   @override
   Widget build(BuildContext context) {
-    //   final postProvider = Provider.of<PostProvider>(context);
-    //   List<Comment1> level1Comment = [];
-    //   return ListView.builder(
-    //     physics: const ClampingScrollPhysics(),
-    //     shrinkWrap: true,
-    //     itemCount: widget.data.comment.length,
-    //     itemBuilder: (context, index) {
-    //       return Container(
-    //         padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 10),
-    //         child: FutureBuilder<List<Comment1>>(
-    //           future: postProvider.getCommentByID(widget.data.id),
-    //           builder: (context, snapshot) {
-    //             if (snapshot.connectionState == ConnectionState.waiting) {
-    //               return const Center(child: CircularProgressIndicator());
-    //             } else if (snapshot.hasError) {
-    //               return const Center(child: Text('Error loading data'));
-    //             } else {
-    //               level1Comment = snapshot.data ?? [];
-    //               return CommentTreeWidget<Comment1, Comment1>(
-    //                 level1Comment[index],
-    //                 const [],
-    //                 treeThemeData: const TreeThemeData(
-    //                   lineColor: Colors.white,
-    //                   lineWidth: 2,
-    //                 ),
-    //                 avatarRoot: (context, data) => PreferredSize(
-    //                   preferredSize: const Size.fromRadius(18),
-    //                   child: CircleAvatar(
-    //                     radius: 22,
-    //                     backgroundImage: imageAvatar(data.user.imageurl),
-    //                   ),
-    //                 ),
-    //                 contentRoot: (context, data) {
-    //                   if (currUser != null) {
-    //                     findUserReact(currUser!.name, data.reactions);
-    //                   }
-    //                   // Parent comment
-    //                   return Column(
-    //                     crossAxisAlignment: CrossAxisAlignment.start,
-    //                     children: [
-    //                       Container(
-    //                         padding: const EdgeInsets.symmetric(
-    //                             vertical: 8, horizontal: 8),
-    //                         decoration: BoxDecoration(
-    //                             color: themeManager.themeMode == dark
-    //                                 ? const Color.fromARGB(255, 58, 59, 60)
-    //                                 : const Color.fromARGB(255, 241, 242, 246),
-    //                             borderRadius: BorderRadius.circular(12)),
-    //                         child: Column(
-    //                           crossAxisAlignment: CrossAxisAlignment.start,
-    //                           children: [
-    //                             Text(data.user.name,
-    //                                 style: Theme.of(context)
-    //                                     .textTheme
-    //                                     .labelLarge
-    //                                     ?.copyWith(fontWeight: FontWeight.w300)),
-    //                             const SizedBox(
-    //                               height: 4,
-    //                             ),
-    //                             Text(
-    //                               data.content,
-    //                               style: Theme.of(context)
-    //                                   .textTheme
-    //                                   .bodySmall
-    //                                   ?.copyWith(fontStyle: FontStyle.normal),
-    //                             ),
-    //                           ],
-    //                         ),
-    //                       ),
-    //                       // DisplayComment(
-    //                       //   data: widget.data,
-    //                       //   index1: widget.indexforreply1,
-    //                       //   index2: widget.indexforreply2,
-    //                       //   reloadComment: widget.reloadComment,
-    //                       //   commentDisplay: data,
-    //                       // ),
-    //                       DefaultTextStyle(
-    //                         style: Theme.of(context)
-    //                             .textTheme
-    //                             .bodySmall!
-    //                             .copyWith(
-    //                                 color:
-    //                                     const Color.fromARGB(255, 109, 107, 107),
-    //                                 fontWeight: FontWeight.w300),
-    //                         child: Padding(
-    //                           padding: const EdgeInsets.only(top: 4),
-    //                           child: Row(
-    //                             children: [
-    //                               Expanded(
-    //                                 child: Row(
-    //                                   children: [
-    //                                     const SizedBox(
-    //                                       width: 8,
-    //                                     ),
-    //                                     // Text(data.timeAgo),
-    //                                     // const SizedBox(
-    //                                     //   width: 15,
-    //                                     // ),
-    //                                     FBFullReaction(
-    //                                       reactions: data.reactions,
-    //                                       reloadReaction: reloadReaction,
-    //                                     ),
-    //                                   ],
-    //                                 ),
-    //                               ),
-    //                               DisplayReact(
-    //                                   data: data.reactions,
-    //                                   isRevert: true,
-    //                                   hideIcon: true)
-    //                             ],
-    //                           ),
-    //                         ),
-    //                       )
-    //                     ],
-    //                   );
-    //                 },
-    //               );
-    //             }
-    //           },
-    //         ),
-    //       );
-    //     },
-    //   );
-    return const Placeholder();
+    return CommentTreeWidget<Comment1, Comment1>(
+      widget.data,
+      const [],
+      treeThemeData: const TreeThemeData(
+        lineColor: Colors.white,
+        lineWidth: 2,
+      ),
+      avatarRoot: (context, data) => PreferredSize(
+        preferredSize: const Size.fromRadius(18),
+        child: CircleAvatar(
+          radius: 22,
+          backgroundImage: imageAvatar(data.user.imageurl),
+        ),
+      ),
+      contentRoot: (context, data) {
+        // if (currUser != null) {
+        //   findUserReact(currUser!.name, data.reactions);
+        // }
+        // Parent comment
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
+              decoration: BoxDecoration(
+                  color: themeManager.themeMode == dark
+                      ? const Color.fromARGB(255, 58, 59, 60)
+                      : const Color.fromARGB(255, 241, 242, 246),
+                  borderRadius: BorderRadius.circular(12)),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(data.user.name,
+                      style: Theme.of(context)
+                          .textTheme
+                          .labelLarge
+                          ?.copyWith(fontWeight: FontWeight.w300)),
+                  const SizedBox(
+                    height: 4,
+                  ),
+                  Text(
+                    data.content,
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodySmall
+                        ?.copyWith(fontStyle: FontStyle.normal),
+                  ),
+                ],
+              ),
+            ),
+            // DisplayComment(
+            //   data: widget.data,
+            //   index1: widget.indexforreply1,
+            //   index2: widget.indexforreply2,
+            //   reloadComment: widget.reloadComment,
+            //   commentDisplay: data,
+            // ),
+            DefaultTextStyle(
+              style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                  color: const Color.fromARGB(255, 109, 107, 107),
+                  fontWeight: FontWeight.w300),
+              child: const Padding(
+                padding: EdgeInsets.only(top: 4),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Row(
+                        children: [
+                          SizedBox(
+                            width: 8,
+                          ),
+                          // Text(data.timeAgo),
+                          // const SizedBox(
+                          //   width: 15,
+                          // ),
+                          // FBFullReaction(
+                          //   reactions: data.reactions,
+                          //   reloadReaction: reloadReaction,
+                          // ),
+                        ],
+                      ),
+                    ),
+                    // DisplayReact(
+                    //     data: data.reactions,
+                    //     isRevert: true,
+                    //     hideIcon: true)
+                  ],
+                ),
+              ),
+            )
+          ],
+        );
+      },
+    );
   }
 }

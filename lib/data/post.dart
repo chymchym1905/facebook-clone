@@ -7,7 +7,7 @@ class PostProvider extends ChangeNotifier {
   List<PostLocal> get posts => _posts;
 
   Future<List<Comment1>> getCommentByID(
-      String postID, int start, int end) async {
+      String postID, int? start, int? end) async {
     final post = _posts.firstWhere((p) => p.id == postID,
         orElse: () => PostLocal(id: '', comments: []));
     if (post.comments.isEmpty) {
@@ -16,17 +16,21 @@ class PostProvider extends ChangeNotifier {
       post.comments = firebaseComment;
       return firebaseComment;
     }
-    if (start > post.comments.length) {
-      if (end >= post.comments.length + 1) {
-        end = start;
+    List<Comment1> rangeComment = [];
+    if (start != null && end != null) {
+      if (start > post.comments.length) {
+        if (end >= post.comments.length + 1) {
+          end = start;
+        }
+      } else {
+        if (end >= post.comments.length) {
+          end = post.comments.length + 1;
+        }
       }
-    } else {
-      if (end >= post.comments.length) {
-        end = post.comments.length;
-      }
+      rangeComment = post.comments.getRange(start, end).toList();
+      return rangeComment;
     }
-    var rangeComment = post.comments.getRange(start, end).toList();
-    return rangeComment;
+    return post.comments;
   }
 
   void addPost(PostLocal post) {

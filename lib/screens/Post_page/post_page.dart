@@ -54,9 +54,9 @@ class _PostPageState extends State<Postpage>
     super.initState();
     WidgetsBinding.instance.addObserver(this);
     textController = TextEditingController();
-    for (int i = 0; i < widget.data.comment.length; i++) {
-      controlViewMoreComment.add(true);
-    }
+    // for (int i = 0; i < widget.data.comment.length; i++) {
+    //   controlViewMoreComment.add(true);
+    // }
   }
 
   @override
@@ -95,22 +95,7 @@ class _PostPageState extends State<Postpage>
     final postProvider = Provider.of<PostProvider>(context);
     final loadMoreComment = LoadMoreComment(postProvider, widget.data.id);
     super.build(context);
-    final isKeyboard = MediaQuery.of(context).viewInsets.bottom != 0;
-    if (currUser != null) {
-      findUserReact(currUser!.name, widget.data.reactions);
-    }
 
-    Widget buttonSection = Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
-        FBFullReaction(
-            reactions: widget.data.reactions,
-            reloadState: widget.reloadState,
-            updateState: updateState),
-        const CommentButton(),
-        ShareButton(data: widget.data),
-      ],
-    );
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
@@ -235,162 +220,13 @@ class _PostPageState extends State<Postpage>
             if (index == 0) {
               return Column(
                 children: [
-                  NameBar(
-                    data: widget.data,
-                    reloadState: widget.reloadState,
-                    isPostpage: false,
-                  ),
-                  Caption(
-                    reloadState: widget.reloadState,
-                    data: widget.data,
-                    isPostpage: false,
-                  ),
-                  if (widget.data.imageurl.isNotEmpty)
-                    ImageBox(data: widget.data),
-                  Divider(
-                    indent: MediaQuery.of(context).size.width * 0.05,
-                    endIndent: MediaQuery.of(context).size.width * 0.05,
-                    thickness: 1,
-                  ),
-                  // Container(
-                  //     decoration: const BoxDecoration(
-                  //         border: Border(
-                  //             bottom:
-                  //                 BorderSide(color: Colors.grey, width: 0.2))),
-                  //     height: 1,
-                  //     width: MediaQuery.of(context).size.width * 0.9),
-                  buttonSection,
-                  Divider(
-                      indent: MediaQuery.of(context).size.width * 0.05,
-                      endIndent: MediaQuery.of(context).size.width * 0.05,
-                      thickness: 1),
-                  if (widget.data.reactions.isNotEmpty) ...[
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: DisplayReact(
-                          data: widget.data.reactions,
-                          isRevert: false,
-                          hideIcon: true),
-                    )
-                  ],
-                  Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      TextButton(
-                        onPressed: () {},
-                        child: Row(
-                          children: [
-                            Text("More relevant",
-                                style: Theme.of(context).textTheme.bodyMedium),
-                            Icon(
-                              Icons.keyboard_arrow_down,
-                              color: themeManager.themeMode == dark
-                                  ? whitee
-                                  : const Color.fromARGB(255, 58, 59, 60),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
+                  PostContent(
+                      data: widget.data, reloadState: widget.reloadState),
+                  CommentSection(data: item)
                 ],
               );
             } else {
-              return CommentTreeWidget<Comment1, Comment1>(
-                item,
-                const [],
-                treeThemeData: const TreeThemeData(
-                  lineColor: Colors.white,
-                  lineWidth: 2,
-                ),
-                avatarRoot: (context, data) => PreferredSize(
-                  preferredSize: const Size.fromRadius(18),
-                  child: CircleAvatar(
-                    radius: 22,
-                    backgroundImage: imageAvatar(data.user.imageurl),
-                  ),
-                ),
-                contentRoot: (context, data) {
-                  if (currUser != null) {
-                    findUserReact(currUser!.name, data.reactions);
-                  }
-                  // Parent comment
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 8, horizontal: 8),
-                        decoration: BoxDecoration(
-                            color: themeManager.themeMode == dark
-                                ? const Color.fromARGB(255, 58, 59, 60)
-                                : const Color.fromARGB(255, 241, 242, 246),
-                            borderRadius: BorderRadius.circular(12)),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(data.user.name,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .labelLarge
-                                    ?.copyWith(fontWeight: FontWeight.w300)),
-                            const SizedBox(
-                              height: 4,
-                            ),
-                            Text(
-                              data.content,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodySmall
-                                  ?.copyWith(fontStyle: FontStyle.normal),
-                            ),
-                          ],
-                        ),
-                      ),
-                      // DisplayComment(
-                      //   data: widget.data,
-                      //   index1: widget.indexforreply1,
-                      //   index2: widget.indexforreply2,
-                      //   reloadComment: widget.reloadComment,
-                      //   commentDisplay: data,
-                      // ),
-                      DefaultTextStyle(
-                        style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                            color: const Color.fromARGB(255, 109, 107, 107),
-                            fontWeight: FontWeight.w300),
-                        child: Padding(
-                          padding: const EdgeInsets.only(top: 4),
-                          child: Row(
-                            children: [
-                              const Expanded(
-                                child: Row(
-                                  children: [
-                                    SizedBox(
-                                      width: 8,
-                                    ),
-                                    // Text(data.timeAgo),
-                                    // const SizedBox(
-                                    //   width: 15,
-                                    // ),
-                                    // FBFullReaction(
-                                    //   reactions: data.reactions,
-                                    //   reloadReaction: reloadReaction,
-                                    // ),
-                                  ],
-                                ),
-                              ),
-                              DisplayReact(
-                                  data: data.reactions,
-                                  isRevert: true,
-                                  hideIcon: true)
-                            ],
-                          ),
-                        ),
-                      )
-                    ],
-                  );
-                },
-              );
+              return CommentSection(data: item);
             }
           },
           indicatorBuilder: (context, status) {
@@ -451,6 +287,98 @@ class _PostPageState extends State<Postpage>
           },
         )),
       ),
+    );
+  }
+}
+
+class PostContent extends StatefulWidget {
+  const PostContent({super.key, required this.data, required this.reloadState});
+  final Post data;
+  final Function(List<Reaction>) reloadState;
+
+  @override
+  State<PostContent> createState() => _PostContentState();
+}
+
+class _PostContentState extends State<PostContent> {
+  @override
+  Widget build(BuildContext context) {
+    final isKeyboard = MediaQuery.of(context).viewInsets.bottom != 0;
+    // if (currUser != null) {
+    //   findUserReact(currUser!.name, widget.data.reactions);
+    // }
+
+    Widget buttonSection = Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        // FBFullReaction(
+        //     reactions: widget.data.reactions,
+        //     reloadState: widget.reloadState,
+        //     updateState: updateState),
+        const CommentButton(),
+        ShareButton(data: widget.data),
+      ],
+    );
+    return Column(
+      children: [
+        NameBar(
+          data: widget.data,
+          reloadState: widget.reloadState,
+          isPostpage: false,
+        ),
+        Caption(
+          reloadState: widget.reloadState,
+          data: widget.data,
+          isPostpage: false,
+        ),
+        if (widget.data.imageurl.isNotEmpty) ImageBox(data: widget.data),
+        Divider(
+          indent: MediaQuery.of(context).size.width * 0.05,
+          endIndent: MediaQuery.of(context).size.width * 0.05,
+          thickness: 1,
+        ),
+        // Container(
+        //     decoration: const BoxDecoration(
+        //         border: Border(
+        //             bottom:
+        //                 BorderSide(color: Colors.grey, width: 0.2))),
+        //     height: 1,
+        //     width: MediaQuery.of(context).size.width * 0.9),
+        buttonSection,
+        Divider(
+            indent: MediaQuery.of(context).size.width * 0.05,
+            endIndent: MediaQuery.of(context).size.width * 0.05,
+            thickness: 1),
+        // if (widget.data.reactions.isNotEmpty) ...[
+        //   Padding(
+        //     padding: const EdgeInsets.all(8.0),
+        //     child: DisplayReact(
+        //         data: widget.data.reactions,
+        //         isRevert: false,
+        //         hideIcon: true),
+        //   )
+        // ],
+        Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            TextButton(
+              onPressed: () {},
+              child: Row(
+                children: [
+                  Text("More relevant",
+                      style: Theme.of(context).textTheme.bodyMedium),
+                  Icon(
+                    Icons.keyboard_arrow_down,
+                    color: themeManager.themeMode == dark
+                        ? whitee
+                        : const Color.fromARGB(255, 58, 59, 60),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ],
     );
   }
 }

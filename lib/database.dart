@@ -119,7 +119,7 @@ class Database {
   Future<List<Comment1>> getAlllevel1Comment(String postId) async {
     List<Comment1> c = [];
     QuerySnapshot<Map<String, dynamic>> commentDocRef = PaginatedQueryHelper
-                .lastCommentlevel1Query !=
+                .lastCommentlevel1Query ==
             null
         ? await _db
             .collection('posts/$postId/comment')
@@ -147,7 +147,8 @@ class Database {
         commentDocRef.docs[i]['content'],
         childCommentCount: commentDocRef.docs[i]['childCommentCount'],
         reactionCount: commentDocRef.docs[i]['reactionCount'],
-        firstChild: commentDocRef.docs[i]['firstChild'].cast<Comment1>(),
+        firstChild: commentDocRef.docs[i]['firstChild'] ??
+            commentDocRef.docs[i]['firstChild'].cast<Comment1>(),
       ));
     }
     return c;
@@ -157,7 +158,7 @@ class Database {
       String postId, String parentCommentId) async {
     List<Comment1> c = [];
     QuerySnapshot<Map<String, dynamic>> commentDocRef = PaginatedQueryHelper
-                .lastCommentlevel1Query !=
+                .lastCommentlevel1Query ==
             null
         ? await _db
             .collection('posts/$postId/comment')
@@ -197,7 +198,7 @@ class Database {
   Future<List<Comment1>> getAlllevel3Comment(String postId,
       String grandParentCommentId, String parentCommentId) async {
     List<Comment1> c = [];
-    final commentDocRef = PaginatedQueryHelper.lastCommentlevel2Query != null
+    final commentDocRef = PaginatedQueryHelper.lastCommentlevel2Query == null
         ? await _db
             .collection('posts/$postId/comment')
             .where('parentID', isEqualTo: parentCommentId)

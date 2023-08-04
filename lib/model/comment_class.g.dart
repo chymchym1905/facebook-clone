@@ -9,9 +9,10 @@ part of 'comment_class.dart';
 Comment1 _$Comment1FromJson(Map<String, dynamic> json) {
   $checkKeys(
     json,
-    requiredKeys: const ['user', 'content'],
+    requiredKeys: const ['id', 'user', 'content'],
   );
   return Comment1(
+    json['id'] as String,
     UserDummy.fromJson(json['user'] as Map<String, dynamic>),
     json['content'] as String,
     childCommentCount: json['childCommentCount'] as int? ?? 0,

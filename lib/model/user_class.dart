@@ -11,15 +11,15 @@ class UserDummy {
   String gender;
   String imageurl;
   String email;
-  @JsonKey(toJson: _dateTimeToJson)
+  @JsonKey(toJson: _dateTimeToJson, fromJson: _timestampToJson)
   DateTime createDate;
   List<String> friends;
 
-  static String _dateTimeToJson(DateTime dateTime) {
-    return dateTime.toIso8601String();
+  static DateTime _dateTimeToJson(DateTime dateTime) {
+    return dateTime.toUtc();
   }
 
-  static DateTime _timestampToJson(dateTime) {
+  static DateTime _timestampToJson(Timestamp dateTime) {
     return dateTime.toDate().toUtc();
   }
 
