@@ -23,28 +23,24 @@ class _UserPageState extends State<UserPage> {
           splashRadius: MediaQuery.of(context).size.width * 0.07,
           icon: const Icon(Icons.arrow_back),
         ),
-        title: Row(
-          children: [
-            Flexible(
-              child: TextField(
-                decoration: InputDecoration(
-                    // isDense: true,
-                    contentPadding: EdgeInsets.zero,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(50),
-                      borderSide: const BorderSide(
-                        width: 0,
-                        style: BorderStyle.none,
-                      ),
-                    ),
-                    filled: true,
-                    fillColor: const Color.fromARGB(255, 241, 242, 246),
-                    prefixIcon: const Icon(Icons.search, color: Colors.grey),
-                    hintStyle: const TextStyle(color: Colors.grey),
-                    hintText: "Search"),
+        title: TextField(
+          decoration: InputDecoration(
+              // isDense: true,
+              contentPadding: EdgeInsets.zero,
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(50),
+                borderSide: const BorderSide(
+                  width: 0,
+                  style: BorderStyle.none,
+                ),
               ),
-            )
-          ],
+              filled: true,
+              fillColor: themeManager.themeMode == light
+                  ? const Color.fromARGB(255, 241, 242, 246)
+                  : const Color.fromARGB(255, 57, 58, 60),
+              prefixIcon: const Icon(Icons.search, color: Colors.grey),
+              hintStyle: const TextStyle(color: Colors.grey),
+              hintText: "Search"),
         ),
       ),
       body: ListView(
@@ -78,15 +74,14 @@ class _UserPageState extends State<UserPage> {
                               onPressed: () {},
                               // icon: const Icon(Icons.person_add),
                               child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   Transform.flip(
                                       flipX: true,
                                       child: const Icon(Icons.person_add)),
                                   const Padding(
                                     padding: EdgeInsets.only(left: 5),
-                                    child: Text(
-                                      "Respond",
-                                    ),
+                                    child: Text("Respond"),
                                   ),
                                 ],
                               ),
@@ -95,25 +90,34 @@ class _UserPageState extends State<UserPage> {
                           const SizedBox(width: 8),
                           Expanded(
                             flex: 3,
-                            child: ElevatedButton.icon(
-                              onPressed: () {},
-                              // icon: const Icon(Icons.person_add),
-                              style: ElevatedButton.styleFrom(
-                                  padding: EdgeInsets.zero,
-                                  backgroundColor: themeManager.themeMode ==
-                                          dark
-                                      ? const Color.fromARGB(255, 58, 59, 60)
-                                      : const Color.fromARGB(
-                                          255, 241, 242, 246)),
-                              icon: Icon(
-                                FontAwesome5.facebook_messenger,
-                                color: Colors.black,
-                                size: MediaQuery.of(context).size.width * 0.05,
-                              ),
-                              label: Text("Message",
-                                  style:
-                                      Theme.of(context).textTheme.bodyMedium),
-                            ),
+                            child: ElevatedButton(
+                                onPressed: () {},
+                                // icon: const Icon(Icons.person_add),
+                                style: ElevatedButton.styleFrom(
+                                    padding: EdgeInsets.zero,
+                                    backgroundColor: themeManager.themeMode ==
+                                            dark
+                                        ? const Color.fromARGB(255, 58, 59, 60)
+                                        : const Color.fromARGB(
+                                            255, 241, 242, 246)),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(
+                                      FontAwesome5.facebook_messenger,
+                                      color: Colors.black,
+                                      size: MediaQuery.of(context).size.width *
+                                          0.05,
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 5),
+                                      child: Text("Message",
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyMedium),
+                                    ),
+                                  ],
+                                )),
                           ),
                           const SizedBox(width: 8),
                           Expanded(

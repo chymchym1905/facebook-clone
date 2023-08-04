@@ -27,7 +27,8 @@ class ProfilePage extends StatelessWidget {
               Image.asset('assets/images/R.jpg',
                   height: 200, width: context.width, fit: BoxFit.cover),
               Container(
-                color: Colors.white,
+                color:
+                    themeManager.themeMode == light ? Colors.white : lightdark,
                 child: Column(
                   children: [
                     SizedBox(height: x),

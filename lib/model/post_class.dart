@@ -1,6 +1,5 @@
 import 'package:flutter_application_1/model/user_class.dart';
 import 'package:json_annotation/json_annotation.dart';
-import 'comment_class.dart';
 import 'reaction_class.dart';
 part 'post_class.g.dart';
 
@@ -36,8 +35,7 @@ class Post {
   int? likes;
 
   int? shares;
-
-  List<Comment1> comment;
+  List<String> comment;
 
   factory Post.fromJson(Map<String, dynamic> json) => _$PostFromJson(json);
 

@@ -3,7 +3,7 @@ import 'package:flutter_application_1/utils/find_user_reaction.dart';
 
 import '../../index.dart';
 import '../../utils/count_comment.dart';
-import 'interact_comment.dart';
+import '../../utils/interact_comment.dart';
 
 Post fakedata = Post("", UserDummy("", "", "", "", DateTime.timestamp(), []),
     "", [], 0, 0, [], []);
@@ -16,7 +16,7 @@ class CommentSection extends StatefulWidget {
     required this.controlViewMoreComment,
     required this.setViewMoreComment,
   });
-  final List<Comment1> data;
+  final Post data;
   final FocusNode myfocusNode;
   final List<bool> controlViewMoreComment;
   final Function(int) setViewMoreComment;
@@ -45,12 +45,12 @@ class _CommentSectionState extends State<CommentSection> {
     return ListView.builder(
       physics: const ClampingScrollPhysics(),
       shrinkWrap: true,
-      itemCount: widget.data.length,
+      itemCount: widget.data.comment.length,
       itemBuilder: (context, index) {
         List<Comment1> listReply = [];
-        countReply(widget.data[index], listReply);
+        countReply(widget.data.comment[index], listReply);
         int listLength = listReply.length - 1;
-        if (widget.data[index].reply.isEmpty) {
+        if (widget.data.comment[index].reply.isEmpty) {
           hideTree = themeManager.themeMode == dark ? lightdark : whitee;
         } else {
           hideTree = themeManager.themeMode == dark
@@ -58,20 +58,21 @@ class _CommentSectionState extends State<CommentSection> {
               : const Color.fromARGB(255, 234, 236, 238);
         }
         Comment1 fakeComment = Comment1(
+            "",
             UserDummy("", "", "", "", DateTime.timestamp(), []),
             0,
             "View $listLength more comment...", [], []);
         return Container(
           padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 10),
           child: CommentTreeWidget<Comment1, ViewMoreComment>(
-            widget.data[index],
+            widget.data.comment[index],
             [
               if (widget.controlViewMoreComment[index] &&
-                  widget.data[index].reply.isNotEmpty) ...[
+                  widget.data.comment[index].reply.isNotEmpty) ...[
                 ViewMoreComment(
                     controlViewMoreComment:
                         widget.controlViewMoreComment[index],
-                    list: widget.data[index].reply[0],
+                    list: widget.data.comment[index].reply[0],
                     myfocusNode: widget.myfocusNode,
                     indexforreply1: index,
                     indexforreply2: 0,
@@ -91,11 +92,13 @@ class _CommentSectionState extends State<CommentSection> {
                       reloadComment: reloadComment)
                 ]
               ] else ...[
-                for (int i = 0; i < widget.data[index].reply.length; i += 1)
+                for (int i = 0;
+                    i < widget.data.comment[index].reply.length;
+                    i += 1)
                   ViewMoreComment(
                       controlViewMoreComment:
                           widget.controlViewMoreComment[index],
-                      list: widget.data[index].reply[i],
+                      list: widget.data.comment[index].reply[i],
                       myfocusNode: widget.myfocusNode,
                       indexforreply1: index,
                       indexforreply2: i,
@@ -236,7 +239,7 @@ class ViewMoreComment extends StatefulWidget {
   final FocusNode myfocusNode;
   final int indexforreply1;
   final int indexforreply2;
-  final List<Comment1> data;
+  final Post data;
   final Function(int) setViewMoreComment;
   final Function(List<Comment1>) reloadComment;
 
@@ -310,7 +313,7 @@ class CommmentTreeSection extends StatefulWidget {
   final FocusNode myfocusNode;
   final int indexforreply1;
   final int indexforreply2;
-  final List<Comment1> data;
+  final Post data;
   final Function(List<Comment1>) reloadComment;
 
   @override

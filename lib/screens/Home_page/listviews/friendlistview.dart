@@ -143,7 +143,7 @@ class _FriendListViewState extends State<FriendListView>
                                       Theme.of(context).textTheme.titleLarge),
                             ),
                             Expanded(
-                                child: Text("100",
+                                child: Text(currUser!.friends.length.toString(),
                                     style: Theme.of(context)
                                         .textTheme
                                         .titleLarge

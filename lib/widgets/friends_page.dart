@@ -22,13 +22,18 @@ class _FriendState extends State<Friend> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          leading: IconButton(
-        onPressed: () {
-          Navigator.of(context).pop();
-        },
-        splashRadius: MediaQuery.of(context).size.width * 0.07,
-        icon: const Icon(Icons.arrow_back),
-      )),
+        elevation: 0,
+        leading: IconButton(
+          onPressed: () {
+            Navigator.of(context).pop();
+          },
+          splashRadius: MediaQuery.of(context).size.width * 0.07,
+          icon: const Icon(Icons.arrow_back),
+        ),
+        title: Text('Your Friends'),
+        bottom: PreferredSize(
+            preferredSize: Size(context.width, 1), child: const Divider()),
+      ),
       body: Material(
         color: themeManager.themeMode == dark
             ? const Color.fromARGB(255, 38, 38, 38)
@@ -53,7 +58,9 @@ class _FriendState extends State<Friend> {
                             ),
                           ),
                           filled: true,
-                          fillColor: const Color.fromARGB(255, 241, 242, 246),
+                          fillColor: themeManager.themeMode == light
+                              ? const Color.fromARGB(255, 241, 242, 246)
+                              : const Color.fromARGB(255, 57, 58, 60),
                           prefixIcon:
                               const Icon(Icons.search, color: Colors.grey),
                           hintStyle: const TextStyle(color: Colors.grey),

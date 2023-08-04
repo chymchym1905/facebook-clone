@@ -102,7 +102,7 @@ class _CommentModalState extends State<CommentModal>
         Expanded(
           child: CommentSection(
             myfocusNode: Provider.of<FocusNodeProvider>(context).commentModal,
-            data: widget.data.comment,
+            data: widget.data,
             controlViewMoreComment: controlViewMoreComment,
             setViewMoreComment: setViewMoreComment,
           ),
