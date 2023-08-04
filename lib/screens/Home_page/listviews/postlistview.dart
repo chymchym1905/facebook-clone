@@ -1,3 +1,4 @@
+import '../../../data/post.dart';
 import '../../../index.dart';
 import 'package:loading_more_list/loading_more_list.dart';
 
@@ -42,6 +43,7 @@ class _PostListViewState extends State<PostListView>
 
   @override
   Widget build(BuildContext context) {
+    final postProvider = Provider.of<PostProvider>(context);
     super.build(context);
     // AppData appdata = AppDataProvider.of(context);
 
@@ -54,8 +56,9 @@ class _PostListViewState extends State<PostListView>
       child: LoadingMoreList<Post>(ListConfig<Post>(
         sourceList: widget.source,
         itemBuilder: (context, item, index) {
+          postProvider.addPost(PostLocal(id: item.id, comments: item.comment));
           // var items = list.map((e) => Post.fromJson(e)).toList();
-          return Posts(data: widget.source[index]);
+          return Posts(data: item);
         },
         indicatorBuilder: (context, status) {
           switch (status) {

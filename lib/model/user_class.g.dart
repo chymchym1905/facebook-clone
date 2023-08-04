@@ -11,7 +11,7 @@ UserDummy _$UserDummyFromJson(Map<String, dynamic> json) => UserDummy(
       json['gender'] as String,
       json['imageurl'] as String,
       json['email'] as String,
-      UserDummy._timestampToJson(json['createDate'] as Timestamp),
+      DateTime.parse(json['createDate'] as String),
       (json['friends'] as List<dynamic>).map((e) => e as String).toList(),
     );
 

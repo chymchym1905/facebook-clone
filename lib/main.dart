@@ -1,6 +1,7 @@
 import 'package:flutter_application_1/data/focusNode.dart';
 
 import '../index.dart';
+import 'data/post.dart';
 
 // import 'package:get/get.dart';
 
@@ -19,6 +20,9 @@ void main() async {
     ChangeNotifierProvider<FocusNodeProvider>.value(
       value: FocusNodeProvider(),
     ),
+    ChangeNotifierProvider(
+      create: (context) => PostProvider(),
+    )
   ], child: const FakeBook()));
 }
 

@@ -99,29 +99,29 @@ class _CommentModalState extends State<CommentModal>
             ],
           ),
         ),
-        Expanded(
-          child: CommentSection(
-            myfocusNode: Provider.of<FocusNodeProvider>(context).commentModal,
-            data: widget.data,
-            controlViewMoreComment: controlViewMoreComment,
-            setViewMoreComment: setViewMoreComment,
-          ),
-        ),
-        SingleChildScrollView(
-          child: Container(
-            padding: EdgeInsets.only(
-                bottom: MediaQuery.of(context).viewInsets.bottom),
-            child: WriteCommentBox(
-              data: widget.data,
-              myfocusNode: Provider.of<FocusNodeProvider>(context).commentModal,
-              isKeyboard: isKeyboard,
-              myController: textController,
-              instantUser: currUser!,
-              controlViewMoreComment: controlViewMoreComment,
-              setViewMoreComment: setViewMoreComment,
-            ),
-          ),
-        )
+        // Expanded(
+        //   child: CommentSection(
+        //     myfocusNode: Provider.of<FocusNodeProvider>(context).commentModal,
+        //     data: widget.data,
+        //     controlViewMoreComment: controlViewMoreComment,
+        //     setViewMoreComment: setViewMoreComment,
+        //   ),
+        // ),
+        // SingleChildScrollView(
+        //   child: Container(
+        //     padding: EdgeInsets.only(
+        //         bottom: MediaQuery.of(context).viewInsets.bottom),
+        //     child: WriteCommentBox(
+        //       data: widget.data,
+        //       myfocusNode: Provider.of<FocusNodeProvider>(context).commentModal,
+        //       isKeyboard: isKeyboard,
+        //       myController: textController,
+        //       instantUser: currUser!,
+        //       controlViewMoreComment: controlViewMoreComment,
+        //       setViewMoreComment: setViewMoreComment,
+        //     ),
+        //   ),
+        // )
       ],
     );
   }

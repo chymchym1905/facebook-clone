@@ -68,7 +68,7 @@ class Database {
           allPosts.docs[i]['imageurl'].cast<String>(),
           allPosts.docs[i]['likes'],
           allPosts.docs[i]['shares'],
-          allPosts.docs[i]['comment'],
+          allPosts.docs[i]['comment'].cast<String>(),
           allPosts.docs[i]['reactions'].cast<Reaction>(),
         ));
       }
@@ -117,18 +117,16 @@ class Database {
 
   // }
 
-  Future getAlllevel1Comment(String postId) async {
+  Future<List<Comment1>> getAlllevel1Comment(String postId) async {
     final commentDocRef = await _db.collection('posts/$postId/comment').get();
     List<Comment1> c = [];
     if (commentDocRef.docs.isNotEmpty) {
       for (int i = 0; i < commentDocRef.docs.length; i++) {
         c.add(Comment1(
-          commentDocRef.docs[i]['id'],
           UserDummy.fromJson(commentDocRef.docs[i]['user']),
-          commentDocRef.docs[i]['react'],
           commentDocRef.docs[i]['content'],
-          commentDocRef.docs[i]['reply'],
-          commentDocRef.docs[i]['reactions'],
+          commentDocRef.docs[i]['reply'].cast<String>(),
+          commentDocRef.docs[i]['reactions'].cast<Reaction>(),
         ));
       }
     }
@@ -143,12 +141,10 @@ class Database {
     if (commentDocRef.docs.isNotEmpty) {
       for (int i = 0; i < commentDocRef.docs.length; i++) {
         c.add(Comment1(
-          commentDocRef.docs[i]['id'],
           UserDummy.fromJson(commentDocRef.docs[i]['user']),
-          commentDocRef.docs[i]['react'],
           commentDocRef.docs[i]['content'],
-          commentDocRef.docs[i]['reply'],
-          commentDocRef.docs[i]['reactions'],
+          commentDocRef.docs[i]['reply'].cast<String>(),
+          commentDocRef.docs[i]['reactions'].cast<Reaction>(),
         ));
       }
     }
@@ -165,12 +161,10 @@ class Database {
     if (commentDocRef.docs.isNotEmpty) {
       for (int i = 0; i < commentDocRef.docs.length; i++) {
         c.add(Comment1(
-          commentDocRef.docs[i]['id'],
           UserDummy.fromJson(commentDocRef.docs[i]['user']),
-          commentDocRef.docs[i]['react'],
           commentDocRef.docs[i]['content'],
-          commentDocRef.docs[i]['reply'],
-          commentDocRef.docs[i]['reactions'],
+          commentDocRef.docs[i]['reply'].cast<String>(),
+          commentDocRef.docs[i]['reactions'].cast<Reaction>(),
         ));
       }
     }
@@ -181,7 +175,6 @@ class Database {
     // var snapshot = await post.get();
     if (cmt == CommentLevel.one) {
       final comment = _db.collection('posts/$postId/comment').doc();
-      reply.id = comment.id;
       final commentListPost = await _db.collection('posts').doc(postId).get();
       _db
           .collection('posts')
@@ -199,7 +192,6 @@ class Database {
       var json = snap.data()!['comment'][IndexReply.intdex];
       final commentlv2 =
           _db.collection('posts/$postId/comment/$json/reply').doc();
-      reply.id = commentlv2.id;
       commentlv2
           .set(reply.toJson())
           .whenComplete(() => print('OK'))

@@ -1,37 +1,12 @@
 import 'package:loading_more_list/loading_more_list.dart';
 
+import '../data/post.dart';
 import '../index.dart';
 
-class PostList {
-  List<dynamic> _post;
-  PostList(this._post);
-
-  List get post => _post;
-
-  Future<void> readPostJsonData(start, end) async {
-    final jsondata = await rootBundle.loadString('assets/jsons/posts.json');
-    var string = json.decode(jsondata) as List<dynamic>;
-    // var string = await Database().getAllPost();
-    await Future<List<Post>?>.delayed(const Duration(seconds: 1));
-    _post = string.getRange(start, end).map((e) => Post.fromJson(e)).toList();
-    // if (string.isNotEmpty && string.length >= end) {
-    //   // print('$start+$end+${string.length}');
-
-    //   _post = string.getRange(start, end).toList();
-    // } else {
-    //   _post = [];
-    // }
-
-    // var _post1 = _post.map((e) => Post.fromJson(e)).toList();
-    // _post =[];
-    // for (int i =0; i<100; i++){
-    //   _post.addAll(_post1);
-    // }
-    // print(_post);
-  }
-}
-
-class LoadMorePost extends LoadingMoreBase<Post> {
+class LoadMoreComment extends LoadingMoreBase<Comment1> {
+  final PostProvider postProvider;
+  final String commentID;
+  LoadMoreComment(this.postProvider, this.commentID);
   // bool isFirstLoad = true;
   bool _hasMore = true;
   bool forceRefresh = false;
@@ -41,6 +16,7 @@ class LoadMorePost extends LoadingMoreBase<Post> {
   bool get hasMore => (_hasMore && length < 1000) || forceRefresh;
 
   @override
+  // ignore: avoid_renaming_method_parameters
   Future<bool> refresh([bool clearBeforeRequest = false]) async {
     _hasMore = true;
     _pageIndex = 1;
@@ -56,20 +32,19 @@ class LoadMorePost extends LoadingMoreBase<Post> {
   Future<bool> loadData([bool isloadMoreAction = false]) async {
     bool isSuccess = false;
     try {
-      List<dynamic>? posts;
+      List<Comment1> comments =
+          await postProvider.getCommentByID(commentID, length, length + 5);
       //to show loading more clearly, in your app,remove this
-      // await Future.delayed(const Duration(milliseconds: 500));
-      await postManager.readPostJsonData(length, length + 1);
-      posts = postManager.post;
+      await Future.delayed(const Duration(milliseconds: 500));
       // print(fullPost);
       if (_pageIndex == 1) {
         clear();
       }
-      for (final Post item in posts) {
+      for (final Comment1 item in comments) {
         if (hasMore) add(item);
       }
       // if (res==false)_hasMore=false;
-      _hasMore = posts.isNotEmpty;
+      _hasMore = comments.isNotEmpty;
       _pageIndex++;
       isSuccess = true;
     } catch (exception, stack) {

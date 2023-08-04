@@ -37,7 +37,7 @@ class _PostsState extends State<Posts> {
     if (currUser != null) {
       findUserReact(currUser!.name, widget.data.reactions);
     }
-    int comments = countComment(widget.data.comment);
+    // int comments = countComment(widget.data.comment);
     return Padding(
         padding: const EdgeInsets.only(top: 8.0),
         child: Card(
@@ -70,9 +70,9 @@ class _PostsState extends State<Posts> {
                             hideIcon: true),
                       ),
                     ],
-                    if (comments != 0) ...[
-                      Text("$comments comments "),
-                    ]
+                    // if (comments != 0) ...[
+                    //   Text("$comments comments "),
+                    // ]
                     // const Text("· 0 shares")
                   ],
                 ),
@@ -223,7 +223,7 @@ class _Caption extends State<Caption> {
         }),
         child: Ink(
           color: themeManager.themeMode == dark ? lightdark : whitee,
-          child: Row(
+          child: Wrap(
             children: [
               Text(
                 widget.data.caption,
