@@ -4,11 +4,4 @@ class FocusNodeProvider extends ChangeNotifier {
   // int _notificationCount = 0;
   final FocusNode commentPostPage = FocusNode();
   final FocusNode commentModal = FocusNode();
-
-  @override
-  void dispose() {
-    commentPostPage.dispose();
-    commentModal.dispose();
-    super.dispose();
-  }
 }
