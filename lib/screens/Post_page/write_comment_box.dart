@@ -43,7 +43,7 @@ class _WriteCommentBoxState extends State<WriteCommentBox> {
             height: MediaQuery.of(context).size.height * 0.05,
             child: TextField(
               controller: widget.myController,
-              autocorrect: true,
+              // autocorrect: true,
               focusNode: widget.myfocusNode,
               decoration: InputDecoration(
                 hintText: 'Write a comment...',
