@@ -562,7 +562,7 @@ import '../../utils/interact_comment.dart';
 // }
 
 // late Color hideTree;
-
+//Comment box (1 comment)
 class CommentSection extends StatefulWidget {
   const CommentSection({super.key, required this.data});
   final Comment1 data;

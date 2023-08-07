@@ -57,3 +57,20 @@ class LoadMoreComment extends LoadingMoreBase<Comment1> {
     return isSuccess;
   }
 }
+
+
+// class LoadMoreCommentProvider extends ChangeNotifier{
+//   List<Comment1> data=[];
+//   int page = 1;
+//   bool isLoading = false;
+//   bool hasMore = true;
+  
+//   Future<void> fetchItems(String postID) async {
+//     if (isLoading) return;
+
+//     isLoading = true;
+//     notifyListeners();
+//     final data = Database().getAlllevel1Comment();
+    
+//   }
+// }
