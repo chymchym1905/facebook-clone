@@ -1,12 +1,10 @@
 import 'package:loading_more_list/loading_more_list.dart';
-
-import '../data/post.dart';
 import '../index.dart';
 
 class LoadMoreComment extends LoadingMoreBase<Comment1> {
-  final PostProvider postProvider;
-  final String commentID;
-  LoadMoreComment(this.postProvider, this.commentID);
+  // final PostProvider postProvider;
+  final String postID;
+  LoadMoreComment(this.postID);
   // bool isFirstLoad = true;
   bool _hasMore = true;
   bool forceRefresh = false;
@@ -32,8 +30,7 @@ class LoadMoreComment extends LoadingMoreBase<Comment1> {
   Future<bool> loadData([bool isloadMoreAction = false]) async {
     bool isSuccess = false;
     try {
-      List<Comment1> comments =
-          await postProvider.getCommentLevel1(commentID, length, length + 5);
+      List<Comment1> comments = await Database().getAlllevel1Comment(postID);
       //to show loading more clearly, in your app,remove this
       await Future.delayed(const Duration(milliseconds: 500));
       // print(fullPost);

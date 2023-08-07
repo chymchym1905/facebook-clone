@@ -1,14 +1,9 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 // import 'package:get/get.dart';
 import 'package:loading_more_list/loading_more_list.dart';
-
 import '../../data/focusNode.dart';
-import '../../data/post.dart';
 import '../../index.dart';
-import '../../model/reaction_class.dart';
 import '../../utils/commentlist.dart';
-import '../../utils/display_react.dart';
-import '../../utils/find_user_reaction.dart';
 
 class IndexReply {
   static int intdex = -1;
@@ -94,8 +89,8 @@ class _PostPageState extends State<Postpage>
   Widget build(BuildContext context) {
     final isKeyboard = MediaQuery.of(context).viewInsets.bottom != 0;
 
-    final postProvider = Provider.of<PostProvider>(context);
-    final loadMoreComment = LoadMoreComment(postProvider, widget.data.id);
+    // final postProvider = Provider.of<PostProvider>(context);
+    final loadMoreComment = LoadMoreComment(widget.data.id);
     super.build(context);
 
     return GestureDetector(
