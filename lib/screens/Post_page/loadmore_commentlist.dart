@@ -22,9 +22,20 @@ class _LoadMoreCommentListState extends State<LoadMoreCommentList> {
 
   Future<void> fetchItems(String postID) async {
     if (isLoading) return;
-
     isLoading = true;
-    final data = Database().getAlllevel1Comment(postID);
+    try {
+      final getter = await Database().getAlllevel1Comment(postID);
+      for (final Comment1 item in getter) {
+        if (hasMore) data.add(item);
+      }
+      hasMore = getter.isNotEmpty;
+      page++;
+    } catch (exception, stack) {
+      if (kDebugMode) {
+        print('Exception (* ￣︿￣): $exception');
+        print('Stack (ﾟДﾟ*)ﾉ: $stack');
+      }
+    }
   }
 
   @override

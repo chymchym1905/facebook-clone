@@ -11,7 +11,7 @@ class PostList {
   Future<void> readPostJsonData(start, end) async {
     // final jsondata = await rootBundle.loadString('assets/jsons/posts.json');
     // var string = json.decode(jsondata) as List<dynamic>;
-    var string = await Database().getAllPost();
+    var string = await dbObject.getAllPost();
     await Future<List<Post>?>.delayed(const Duration(seconds: 1));
     // _post = string.getRange(start, end).map((e) => Post.fromJson(e)).toList();
     if (string.isNotEmpty && string.length >= end) {

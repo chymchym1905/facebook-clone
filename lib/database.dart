@@ -4,6 +4,7 @@ enum CommentLevel { one, two, three }
 
 class Database {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
+  PaginatedQueryHelper helper = PaginatedQueryHelper();
 
   Future createUser(User? user, String username, String gender) async {
     if (user != null) {
@@ -117,53 +118,60 @@ class Database {
   // }
 
   Future<List<Comment1>> getAlllevel1Comment(String postId) async {
-    if (PaginatedQueryHelper.lastPostId != postId) {
-      PaginatedQueryHelper.lastCommentlevel1Query = null;
+    if (helper.lastPostId != postId) {
+      helper.lastCommentlevel1Query = null;
     }
+    helper.lastPostId = postId;
     List<Comment1> c = [];
-    final commentDocRef = PaginatedQueryHelper.lastCommentlevel1Query == null
-        ? await _db
+    print(helper.lastCommentlevel1Query?.data()['createDate'].toDate());
+    // final snapshot = await _db
+    //     .collection('post/$postId/comment')
+    //     .doc(helper.lastCommentlevel1Query?.data()['id'])
+    //     .get();
+    final commentDocRef = helper.lastCommentlevel1Query == null
+        ? _db
             .collection('posts/$postId/comment')
-            .where('parentID', isEqualTo: null)
-            .orderBy('createDate')
-            .limit(10)
-            .get()
-        : await _db
+            .where('parentID', isNull: true)
+            .orderBy('createDate', descending: true)
+            .limit(1)
+        : _db
             .collection('posts/$postId/comment')
-            .where('parentId', isNull: true)
-            .orderBy('createDate')
-            .limit(10)
-            .startAfter([PaginatedQueryHelper.lastCommentlevel1Query]).get();
+            .where('parentID', isNull: true)
+            .orderBy('createDate', descending: true)
+            .startAfter(
+                [helper.lastCommentlevel1Query?.data()['createDate']]).limit(1);
 
-    if (commentDocRef.docs.isEmpty) {
-      PaginatedQueryHelper.lastCommentlevel1Query = null;
-      return [];
-    }
-    PaginatedQueryHelper.lastCommentlevel1Query =
-        commentDocRef.docs[commentDocRef.size - 1];
-    for (int i = 0; i < commentDocRef.docs.length; i++) {
-      c.add(Comment1(
-        commentDocRef.docs[i]['id'],
-        UserDummy.fromJson(commentDocRef.docs[i]['user']),
-        commentDocRef.docs[i]['content'],
-        childCommentCount: commentDocRef.docs[i]['childCommentCount'],
-        reactionCount: commentDocRef.docs[i]['reactionCount'],
-        // ignore: prefer_null_aware_operators
-        firstChild: commentDocRef.docs[i]['firstChild'] == null
-            ? null
-            : commentDocRef.docs[i]['firstChild'].cast<Comment1>(),
-      ));
-    }
+    await commentDocRef.get().then((value) {
+      if (value.docs.isEmpty) {
+        print(value.docs);
+        helper.lastCommentlevel1Query = null;
+        return [];
+      }
+      helper.lastCommentlevel1Query = value.docs[value.size - 1];
+      for (int i = 0; i < value.docs.length; i++) {
+        c.add(Comment1(
+          value.docs[i]['id'],
+          UserDummy.fromJson(value.docs[i]['user']),
+          value.docs[i]['content'],
+          childCommentCount: value.docs[i]['childCommentCount'],
+          reactionCount: value.docs[i]['reactionCount'],
+          // ignore: prefer_null_aware_operators
+          firstChild: value.docs[i]['firstChild'] == null
+              ? null
+              : value.docs[i]['firstChild'].cast<Comment1>(),
+        ));
+      }
+    });
     return c;
   }
 
   Future<List<Comment1>> getAlllevel2Comment(
       String postId, String parentCommentId) async {
-    if (PaginatedQueryHelper.lastParentCommentId != parentCommentId) {
-      PaginatedQueryHelper.lastCommentlevel2Query = null;
+    if (helper.lastParentCommentId != parentCommentId) {
+      helper.lastCommentlevel2Query = null;
     }
     List<Comment1> c = [];
-    final commentDocRef = PaginatedQueryHelper.lastCommentlevel1Query == null
+    final commentDocRef = helper.lastCommentlevel1Query == null
         ? await _db
             .collection('posts/$postId/comment')
             .where('parentID', isEqualTo: parentCommentId)
@@ -177,14 +185,13 @@ class Database {
             .where('grandParentID', isNull: true)
             .orderBy('createDate')
             .limit(10)
-            .startAfter([PaginatedQueryHelper.lastCommentlevel2Query]).get();
+            .startAfter([helper.lastCommentlevel2Query]).get();
 
     if (commentDocRef.docs.isEmpty) {
-      PaginatedQueryHelper.lastCommentlevel2Query = null;
+      helper.lastCommentlevel2Query = null;
       return [];
     }
-    PaginatedQueryHelper.lastCommentlevel2Query =
-        commentDocRef.docs[commentDocRef.size - 1];
+    helper.lastCommentlevel2Query = commentDocRef.docs[commentDocRef.size - 1];
     for (int i = 0; i < commentDocRef.docs.length; i++) {
       c.add(Comment1.level2(
         commentDocRef.docs[i]['id'],
@@ -201,11 +208,11 @@ class Database {
 
   Future<List<Comment1>> getAlllevel3Comment(String postId,
       String grandParentCommentId, String parentCommentId) async {
-    if (PaginatedQueryHelper.lastGrandParentCommentId != grandParentCommentId) {
-      PaginatedQueryHelper.lastCommentlevel3Query = null;
+    if (helper.lastGrandParentCommentId != grandParentCommentId) {
+      helper.lastCommentlevel3Query = null;
     }
     List<Comment1> c = [];
-    final commentDocRef = PaginatedQueryHelper.lastCommentlevel3Query == null
+    final commentDocRef = helper.lastCommentlevel3Query == null
         ? await _db
             .collection('posts/$postId/comment')
             .where('parentID', isEqualTo: parentCommentId)
@@ -219,13 +226,12 @@ class Database {
             .where('grandParentID', isEqualTo: grandParentCommentId)
             .orderBy('createDate')
             .limit(10)
-            .startAfter([PaginatedQueryHelper.lastCommentlevel3Query]).get();
+            .startAfter([helper.lastCommentlevel3Query]).get();
     if (commentDocRef.docs.isEmpty) {
-      PaginatedQueryHelper.lastCommentlevel3Query = null;
+      helper.lastCommentlevel3Query = null;
       return [];
     }
-    PaginatedQueryHelper.lastCommentlevel3Query =
-        commentDocRef.docs[commentDocRef.size - 1];
+    helper.lastCommentlevel3Query = commentDocRef.docs[commentDocRef.size - 1];
 
     for (int i = 0; i < commentDocRef.docs.length; i++) {
       c.add(Comment1.level3(
@@ -310,10 +316,11 @@ class Database {
 }
 
 class PaginatedQueryHelper {
-  static String lastPostId = '';
-  static String lastParentCommentId = '';
-  static String lastGrandParentCommentId = '';
-  static QueryDocumentSnapshot<Map<String, dynamic>>? lastCommentlevel1Query;
-  static QueryDocumentSnapshot<Map<String, dynamic>>? lastCommentlevel2Query;
-  static QueryDocumentSnapshot<Map<String, dynamic>>? lastCommentlevel3Query;
+  String lastPostId = '';
+  String lastParentCommentId = '';
+  String lastGrandParentCommentId = '';
+  QueryDocumentSnapshot<Map<String, dynamic>>? lastCommentlevel1Query;
+  QueryDocumentSnapshot<Map<String, dynamic>>? lastCommentlevel2Query;
+  QueryDocumentSnapshot<Map<String, dynamic>>? lastCommentlevel3Query;
+  dynamic t;
 }

@@ -49,9 +49,7 @@ class _PostListViewState extends State<PostListView>
 
     return RefreshIndicator(
       onRefresh: () async {
-        if (widget.source.hasMore) {
-          await widget.source.refresh();
-        }
+        await widget.source.refresh();
       },
       child: LoadingMoreList<Post>(ListConfig<Post>(
         sourceList: widget.source,

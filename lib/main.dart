@@ -28,6 +28,7 @@ void main() async {
 
 UserDummy? currUser;
 ThemeProvider themeManager = ThemeProvider();
+Database dbObject = Database();
 
 class FakeBook extends StatefulWidget {
   const FakeBook({super.key});

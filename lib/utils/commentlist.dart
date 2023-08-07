@@ -30,7 +30,7 @@ class LoadMoreComment extends LoadingMoreBase<Comment1> {
   Future<bool> loadData([bool isloadMoreAction = false]) async {
     bool isSuccess = false;
     try {
-      List<Comment1> comments = await Database().getAlllevel1Comment(postID);
+      List<Comment1> comments = await dbObject.getAlllevel1Comment(postID);
       //to show loading more clearly, in your app,remove this
       await Future.delayed(const Duration(milliseconds: 500));
       // print(fullPost);
