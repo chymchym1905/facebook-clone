@@ -43,6 +43,7 @@ class PostProvider extends ChangeNotifier {
         orElse: () => PostLocal(
             id: '', comment: [], commentLevel2: [], commentLevel3: []));
     post.comment.add(newComment);
+    notifyListeners();
   }
 }
 

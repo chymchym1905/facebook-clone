@@ -32,6 +32,8 @@ class RouteGenerator {
             builder: (_) => Postpage(
                   data: arg.data,
                   reloadState: arg.reloadState,
+                  comment: arg.comment,
+                  // reloadComment: arg.reloadComment,
                 ));
       case '/gallery':
         final arg = args as GalleryViewPage;

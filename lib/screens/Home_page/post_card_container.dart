@@ -1,7 +1,9 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 // import 'package:get/get.dart';
+import '../../data/post.dart';
 import '../../index.dart';
 import '../../model/reaction_class.dart';
+import '../../utils/commentlist.dart';
 import '../../utils/count_comment.dart';
 import '../../utils/display_react.dart';
 import '../../utils/find_user_reaction.dart';
@@ -125,9 +127,15 @@ class _NameBarState extends State<NameBar> {
           : const Color.fromARGB(255, 228, 228, 228),
       onTap: () => setState(() {
         if (widget.isPostpage) {
+          // final postProvider = Provider.of<PostProvider>(context);
+          final loadMoreComment = LoadMoreComment(
+            widget.data.id,
+          );
           Navigator.of(context).pushNamed('/posts',
-              arguments:
-                  Postpage(data: widget.data, reloadState: widget.reloadState));
+              arguments: Postpage(
+                  data: widget.data,
+                  reloadState: widget.reloadState,
+                  comment: loadMoreComment));
         }
       }),
       child: Ink(
@@ -216,9 +224,13 @@ class _Caption extends State<Caption> {
       child: InkWell(
         onTap: () => setState(() {
           if (widget.isPostpage) {
+            final loadMoreComment = LoadMoreComment(widget.data.id);
             Navigator.of(context).pushNamed('/posts',
                 arguments: Postpage(
-                    data: widget.data, reloadState: widget.reloadState));
+                  data: widget.data,
+                  reloadState: widget.reloadState,
+                  comment: loadMoreComment,
+                ));
           }
         }),
         child: Ink(

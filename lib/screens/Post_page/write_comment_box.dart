@@ -15,6 +15,7 @@ class WriteCommentBox extends StatefulWidget {
   final TextEditingController myController;
   final bool isKeyboard;
   final FocusNode myfocusNode;
+
   // final List<bool> controlViewMoreComment;
   // final Function(int) setViewMoreComment;
 

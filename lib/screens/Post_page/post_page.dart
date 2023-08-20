@@ -28,9 +28,11 @@ class Postpage extends StatefulWidget {
     Key? key,
     required this.data,
     required this.reloadState,
+    required this.comment,
   }) : super(key: key);
   final Post data;
   final Function(List<Reaction>) reloadState;
+  final LoadMoreComment comment;
 
   @override
   State<Postpage> createState() => _PostPageState();
@@ -90,7 +92,7 @@ class _PostPageState extends State<Postpage>
     final isKeyboard = MediaQuery.of(context).viewInsets.bottom != 0;
 
     // final postProvider = Provider.of<PostProvider>(context);
-    final loadMoreComment = LoadMoreComment(widget.data.id);
+    // final loadMoreComment = LoadMoreComment(widget.data.id);
     super.build(context);
 
     return GestureDetector(
@@ -212,7 +214,7 @@ class _PostPageState extends State<Postpage>
           children: [
             Expanded(
               child: LoadingMoreList<Comment1>(ListConfig<Comment1>(
-                sourceList: loadMoreComment,
+                sourceList: widget.comment,
                 itemBuilder: (context, item, index) {
                   // var items = list.map((e) => Post.fromJson(e)).toList();
                   if (index == 0) {

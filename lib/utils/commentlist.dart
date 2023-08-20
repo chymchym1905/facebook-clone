@@ -1,4 +1,5 @@
 import 'package:loading_more_list/loading_more_list.dart';
+import '../data/post.dart';
 import '../index.dart';
 
 class LoadMoreComment extends LoadingMoreBase<Comment1> {
@@ -31,6 +32,8 @@ class LoadMoreComment extends LoadingMoreBase<Comment1> {
     bool isSuccess = false;
     try {
       List<Comment1> comments = await dbObject.getAlllevel1Comment(postID);
+      // List<Comment1> comments =
+      //     await postProvider.getCommentLevel1(postID, length, length + 1);
       //to show loading more clearly, in your app,remove this
       await Future.delayed(const Duration(milliseconds: 500));
       // print(fullPost);
