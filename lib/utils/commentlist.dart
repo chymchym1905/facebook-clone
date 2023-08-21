@@ -19,6 +19,7 @@ class LoadMoreComment extends LoadingMoreBase<Comment1> {
   Future<bool> refresh([bool clearBeforeRequest = false]) async {
     _hasMore = true;
     _pageIndex = 1;
+    dbObject.helper.lastCommentlevel1Query = null;
     //force to refresh list when you don't want clear list before request
     //for the case, if your list already has 20 items.
     forceRefresh = !clearBeforeRequest;

@@ -57,21 +57,54 @@ class Database {
     return res;
   }
 
-  Future<List<Post>> getAllPost() async {
-    var allPosts = await _db.collection('posts').get();
+  // Future<List<Post>> getAllPost() async {
+  //   var allPosts = await _db.collection('posts').get();
+  //   List<Post> p = [];
+  //   if (allPosts.docs.isNotEmpty) {
+  //     for (var i = 0; i < allPosts.docs.length; i++) {
+  //       p.add(Post(
+  //         allPosts.docs[i]['id'],
+  //         UserDummy.fromJson(allPosts.docs[i]['user']),
+  //         allPosts.docs[i]['caption'],
+  //         allPosts.docs[i]['imageurl'].cast<String>(),
+  //         sharesCount: allPosts.docs[i]['sharesCount'],
+  //         reactionsCount: allPosts.docs[i]['reactionsCount'],
+  //         commentsCount: allPosts.docs[i]['commentsCount'],
+  //       ));
+  //     }
+  //   }
+  //   return p;
+  // }
+
+  Future<List<Post>> getPosts() async {
     List<Post> p = [];
-    if (allPosts.docs.isNotEmpty) {
-      for (var i = 0; i < allPosts.docs.length; i++) {
-        p.add(Post(
-          allPosts.docs[i]['id'],
-          UserDummy.fromJson(allPosts.docs[i]['user']),
-          allPosts.docs[i]['caption'],
-          allPosts.docs[i]['imageurl'].cast<String>(),
-          sharesCount: allPosts.docs[i]['sharesCount'],
-          reactionsCount: allPosts.docs[i]['reactionsCount'],
-          commentsCount: allPosts.docs[i]['commentsCount'],
-        ));
-      }
+    final postDocRef = helper.lastPostQuery == null
+        ? await _db
+            .collection('posts')
+            .orderBy('createDate', descending: true)
+            .limit(1)
+            .get()
+        : await _db
+            .collection('posts')
+            .orderBy('createDate', descending: true)
+            .startAfter([helper.lastPostQuery?.data()['createDate']])
+            .limit(1)
+            .get();
+    if (postDocRef.docs.isEmpty) {
+      helper.lastPostQuery = null;
+      return [];
+    }
+    helper.lastPostQuery = postDocRef.docs[postDocRef.size - 1];
+    for (int i = 0; i < postDocRef.docs.length; i++) {
+      p.add(Post(
+        postDocRef.docs[i]['id'],
+        UserDummy.fromJson(postDocRef.docs[i]['user']),
+        postDocRef.docs[i]['caption'],
+        postDocRef.docs[i]['imageurl'].cast<String>(),
+        sharesCount: postDocRef.docs[i]['sharesCount'],
+        reactionsCount: postDocRef.docs[i]['reactionsCount'],
+        commentsCount: postDocRef.docs[i]['commentsCount'],
+      ));
     }
     return p;
   }
@@ -123,7 +156,7 @@ class Database {
     }
     helper.lastPostId = postId;
     List<Comment1> c = [];
-    print(helper.lastCommentlevel1Query?.data()['createDate'].toDate());
+    // print(helper.lastCommentlevel1Query?.data()['createDate'].toDate());
     // final snapshot = await _db
     //     .collection('post/$postId/comment')
     //     .doc(helper.lastCommentlevel1Query?.data()['id'])
@@ -143,7 +176,6 @@ class Database {
 
     await commentDocRef.get().then((value) {
       if (value.docs.isEmpty) {
-        print(value.docs);
         helper.lastCommentlevel1Query = null;
         return [];
       }
@@ -171,7 +203,7 @@ class Database {
       helper.lastCommentlevel2Query = null;
     }
     List<Comment1> c = [];
-    final commentDocRef = helper.lastCommentlevel1Query == null
+    final commentDocRef = helper.lastCommentlevel2Query == null
         ? await _db
             .collection('posts/$postId/comment')
             .where('parentID', isEqualTo: parentCommentId)
@@ -184,8 +216,9 @@ class Database {
             .where('parentID', isEqualTo: parentCommentId)
             .where('grandParentID', isNull: true)
             .orderBy('createDate')
+            .startAfter([helper.lastCommentlevel2Query])
             .limit(10)
-            .startAfter([helper.lastCommentlevel2Query]).get();
+            .get();
 
     if (commentDocRef.docs.isEmpty) {
       helper.lastCommentlevel2Query = null;
@@ -225,8 +258,9 @@ class Database {
             .where('parentID', isEqualTo: parentCommentId)
             .where('grandParentID', isEqualTo: grandParentCommentId)
             .orderBy('createDate')
+            .startAfter([helper.lastCommentlevel3Query])
             .limit(10)
-            .startAfter([helper.lastCommentlevel3Query]).get();
+            .get();
     if (commentDocRef.docs.isEmpty) {
       helper.lastCommentlevel3Query = null;
       return [];
@@ -316,11 +350,15 @@ class Database {
 }
 
 class PaginatedQueryHelper {
-  String lastPostId = '';
-  String lastParentCommentId = '';
-  String lastGrandParentCommentId = '';
-  QueryDocumentSnapshot<Map<String, dynamic>>? lastCommentlevel1Query;
-  QueryDocumentSnapshot<Map<String, dynamic>>? lastCommentlevel2Query;
-  QueryDocumentSnapshot<Map<String, dynamic>>? lastCommentlevel3Query;
+  String lastPostId = ''; //for Comment
+  String lastParentCommentId = ''; //for Comment
+  String lastGrandParentCommentId = ''; //for Comment
+  QueryDocumentSnapshot<Map<String, dynamic>>? lastPostQuery; //for PostPage
+  QueryDocumentSnapshot<Map<String, dynamic>>?
+      lastCommentlevel1Query; //for Comment
+  QueryDocumentSnapshot<Map<String, dynamic>>?
+      lastCommentlevel2Query; //for Comment
+  QueryDocumentSnapshot<Map<String, dynamic>>?
+      lastCommentlevel3Query; //for Comment
   dynamic t;
 }
