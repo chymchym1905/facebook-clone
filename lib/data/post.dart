@@ -13,7 +13,7 @@ class PostProvider extends ChangeNotifier {
             id: '', comment: [], commentLevel2: [], commentLevel3: []));
     if (post.comment.isEmpty) {
       List<Comment1> firebaseComment =
-          await Database().getAlllevel1Comment(postID);
+          await dbObject.getAlllevel1Comment(postID);
       post.comment = firebaseComment;
       return firebaseComment;
     }
