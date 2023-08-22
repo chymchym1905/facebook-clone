@@ -324,8 +324,16 @@ class Database {
     if (cmt == CommentLevel.three) {
       await _db
           .collection('posts/$postId/comment')
+          .doc(comment.grandParentID)
+          .update({'childCommentCount': FieldValue.increment(-1)});
+      await _db
+          .collection('posts/$postId/comment')
           .doc(comment.parentID)
           .update({'childCommentCount': FieldValue.increment(-1)});
+      await _db
+          .collection('posts')
+          .doc(postId)
+          .update({'commentsCount': FieldValue.increment(-1)});
       await _db.collection('posts/$postId/comment').doc(comment.id).delete();
     } else if (cmt == CommentLevel.two) {
       int totalCount = 1;
@@ -350,6 +358,10 @@ class Database {
           .collection('posts/$postId/comment')
           .doc(comment.parentID)
           .update({'childCommentCount': FieldValue.increment(-totalCount)});
+      await _db
+          .collection('posts')
+          .doc(postId)
+          .update({'commentsCount': FieldValue.increment(-totalCount)});
     } else if (cmt == CommentLevel.one) {
       int totalCount = 1;
       await _db.collection('posts/$postId/comment').doc(comment.id).delete();
