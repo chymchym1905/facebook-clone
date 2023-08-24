@@ -19,7 +19,7 @@ Post _$PostFromJson(Map<String, dynamic> json) {
     commentsCount: json['commentsCount'] as int? ?? 0,
     reactionsCount: json['reactionsCount'] as int? ?? 0,
     sharesCount: json['sharesCount'] as int? ?? 0,
-  );
+  )..createDate = Post._timestampTotimestamp(json['createDate']);
 }
 
 Map<String, dynamic> _$PostToJson(Post instance) => <String, dynamic>{
@@ -27,6 +27,7 @@ Map<String, dynamic> _$PostToJson(Post instance) => <String, dynamic>{
       'user': instance.user,
       'caption': instance.caption,
       'imageurl': instance.imageurl,
+      'createDate': Post._timestampTotimestamp(instance.createDate),
       'reactionsCount': instance.reactionsCount,
       'commentsCount': instance.commentsCount,
       'sharesCount': instance.sharesCount,

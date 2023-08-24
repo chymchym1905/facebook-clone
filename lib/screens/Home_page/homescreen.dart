@@ -5,8 +5,6 @@ import '../../index.dart';
 
 //Variables
 
-PostList postManager = PostList([]);
-
 //APP
 class Home extends StatefulWidget {
   const Home({

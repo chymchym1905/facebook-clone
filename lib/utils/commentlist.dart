@@ -3,9 +3,9 @@ import '../data/post.dart';
 import '../index.dart';
 
 class LoadMoreComment extends LoadingMoreBase<Comment1> {
-  // final PostProvider postProvider;
+  final PostProvider postProvider;
   final String postID;
-  LoadMoreComment(this.postID);
+  LoadMoreComment(this.postID, this.postProvider);
   // bool isFirstLoad = true;
   bool _hasMore = true;
   bool forceRefresh = false;
@@ -19,6 +19,7 @@ class LoadMoreComment extends LoadingMoreBase<Comment1> {
   Future<bool> refresh([bool clearBeforeRequest = false]) async {
     _hasMore = true;
     _pageIndex = 1;
+    dbObject.helper.lastCommentlevel1Query = null;
     //force to refresh list when you don't want clear list before request
     //for the case, if your list already has 20 items.
     forceRefresh = !clearBeforeRequest;
@@ -31,9 +32,26 @@ class LoadMoreComment extends LoadingMoreBase<Comment1> {
   Future<bool> loadData([bool isloadMoreAction = false]) async {
     bool isSuccess = false;
     try {
-      List<Comment1> comments = await dbObject.getAlllevel1Comment(postID);
-      // List<Comment1> comments =
-      //     await postProvider.getCommentLevel1(postID, length, length + 1);
+      // List<Comment1> comments = await dbObject.getAlllevel1Comment(postID);
+      List<Comment1> comments = [];
+      if (!postProvider.checkEndComment(postID)) {
+        comments = await dbObject.getAlllevel1Comment(postID);
+        if (comments.isNotEmpty) {
+          postProvider.addCommentLevel1(postID, comments.first);
+        } else {
+          postProvider.setEndCommnt(postID);
+        }
+      }
+      Comment1 temp = postProvider.getCommentLevel1(postID).first;
+      comments = [temp];
+      // comments = [comment];
+      // if (postProvider.checkEndComment(postID)) {
+      //   if (length >= comments.length) {
+      //     comments = [];
+      //   }
+      //   // comments = [];
+      // }
+
       //to show loading more clearly, in your app,remove this
       await Future.delayed(const Duration(milliseconds: 500));
       // print(fullPost);

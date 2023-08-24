@@ -213,76 +213,81 @@ class _PostPageState extends State<Postpage>
         body: Column(
           children: [
             Expanded(
-              child: LoadingMoreList<Comment1>(ListConfig<Comment1>(
-                sourceList: widget.comment,
-                itemBuilder: (context, item, index) {
-                  // var items = list.map((e) => Post.fromJson(e)).toList();
-                  if (index == 0) {
-                    return Column(
-                      children: [
-                        PostContent(
-                            data: widget.data,
-                            reloadState: widget
-                                .reloadState), //section Above comment list
-                        CommentSection(data: item)
-                      ]
-                    );
-                  } else {
-                    return CommentSection(data: item);
-                  }
+              child: RefreshIndicator(
+                onRefresh: () async {
+                  widget.comment.refresh();
                 },
-                indicatorBuilder: (context, status) {
-                  switch (status) {
-                    case IndicatorStatus.loadingMoreBusying:
-                      return const Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: Center(
-                          child: CircularProgressIndicator(),
-                        ),
-                      );
-                    case IndicatorStatus.error:
-                      return Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Center(
-                          child: ErrorWidget('Not found'),
-                        ),
-                      );
-                    case IndicatorStatus.noMoreLoad:
-                      return Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Center(
-                          child: Text('Come back tommrow!',
-                              style: Theme.of(context).textTheme.titleMedium),
-                        ),
-                      );
-                    case IndicatorStatus.empty:
-                      return ListView(
+                child: LoadingMoreList<Comment1>(ListConfig<Comment1>(
+                  sourceList: widget.comment,
+                  itemBuilder: (context, item, index) {
+                    // var items = list.map((e) => Post.fromJson(e)).toList();
+                    if (index == 0) {
+                      return Column(
                         children: [
                           PostContent(
                               data: widget.data,
-                              reloadState: widget.reloadState),
+                              reloadState: widget
+                                  .reloadState), //Namebar, caption and buttons
+                          CommentSection(data: item)
                         ],
                       );
-                    case IndicatorStatus.fullScreenBusying:
-                      return Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Center(
-                          child: Text('Fullscreen Busying...',
-                              style: Theme.of(context).textTheme.titleMedium),
-                        ),
-                      );
-                    case IndicatorStatus.none:
-                    case IndicatorStatus.fullScreenError:
-                      return Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Center(
-                          child: Text('Cannot load data',
-                              style: Theme.of(context).textTheme.titleMedium),
-                        ),
-                      );
-                  }
-                },
-              )),
+                    } else {
+                      return CommentSection(data: item);
+                    }
+                  },
+                  indicatorBuilder: (context, status) {
+                    switch (status) {
+                      case IndicatorStatus.loadingMoreBusying:
+                        return const Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: Center(
+                            child: CircularProgressIndicator(),
+                          ),
+                        );
+                      case IndicatorStatus.error:
+                        return Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Center(
+                            child: ErrorWidget('Not found'),
+                          ),
+                        );
+                      case IndicatorStatus.noMoreLoad:
+                        return Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Center(
+                            child: Text('Come back tommrow!',
+                                style: Theme.of(context).textTheme.titleMedium),
+                          ),
+                        );
+                      case IndicatorStatus.empty:
+                        return ListView(
+                          children: [
+                            PostContent(
+                                data: widget.data,
+                                reloadState: widget.reloadState),
+                          ],
+                        );
+                      case IndicatorStatus.fullScreenBusying:
+                        return Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Center(
+                            child: Text('Fullscreen Busying...',
+                                style: Theme.of(context).textTheme.titleMedium),
+                          ),
+                        );
+                      case IndicatorStatus.none:
+                      case IndicatorStatus.fullScreenError:
+                        return Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Center(
+                            child: Text('Cannot load data',
+                                style: Theme.of(context).textTheme.titleMedium),
+                          ),
+                        );
+                    }
+                  },
+                )),
+              ),
             ),
             Align(
               child: WriteCommentBox(
