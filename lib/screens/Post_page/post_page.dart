@@ -221,9 +221,11 @@ class _PostPageState extends State<Postpage>
                     return Column(
                       children: [
                         PostContent(
-                            data: widget.data, reloadState: widget.reloadState),
+                            data: widget.data,
+                            reloadState: widget
+                                .reloadState), //section Above comment list
                         CommentSection(data: item)
-                      ],
+                      ]
                     );
                   } else {
                     return CommentSection(data: item);
