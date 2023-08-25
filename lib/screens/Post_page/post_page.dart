@@ -237,7 +237,8 @@ class _PostPageState extends State<Postpage>
                         children: [
                           PostContent(
                               data: widget.data,
-                              reloadState: widget.reloadState),
+                              reloadState: widget
+                                  .reloadState), //Namebar, caption and buttons
                           CommentSection(data: item)
                         ],
                       );
