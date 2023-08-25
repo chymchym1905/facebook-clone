@@ -274,7 +274,7 @@ class Database {
           commentDocRef.docs[i]['grandParentID'],
           UserDummy.fromJson(commentDocRef.docs[i]['user']),
           commentDocRef.docs[i]['content'],
-          childCommentCount: commentDocRef.docs[i]['childCommentCount'],
+          // childCommentCount: commentDocRef.docs[i]['childCommentCount'],
           reactionCount: commentDocRef.docs[i]['reactionCount']));
     }
     return c;
@@ -289,6 +289,10 @@ class Database {
           .set(reply.toJson())
           .whenComplete(() => debugPrint("OK"))
           .catchError((e) => debugPrint(e));
+      await _db
+          .collection('posts')
+          .doc(postId)
+          .update({'commentsCount': FieldValue.increment(1)});
     } else if (cmt == CommentLevel.two) {
       final comment = _db.collection('posts/$postId/comment').doc();
       reply.id = comment.id;
@@ -296,6 +300,10 @@ class Database {
           .set(reply.toJson())
           .whenComplete(() => debugPrint('OK'))
           .catchError((e) => debugPrint(e));
+      await _db
+          .collection('posts/$postId/comment')
+          .doc(reply.parentID)
+          .update({'childCommentCount': FieldValue.increment(1)});
     } else if (cmt == CommentLevel.three) {
       final comment = _db.collection('posts/$postId/comment').doc();
       reply.id = comment.id;
@@ -303,20 +311,39 @@ class Database {
           .set(reply.toJson())
           .whenComplete(() => debugPrint('OK'))
           .catchError((e) => debugPrint(e));
+      await _db
+          .collection('posts/$postId/comment')
+          .doc(reply.parentID)
+          .update({'childCommentCount': FieldValue.increment(1)});
     }
   }
 
 // xóa comment và tất cả các child
-  Future deleteComment(String postID, String id, CommentLevel cmt) async {
+  Future deleteComment(
+      String postId, Comment1 comment, CommentLevel cmt) async {
     if (cmt == CommentLevel.three) {
-      await _db.collection('posts/$postID/comment').doc(id).delete();
+      await _db
+          .collection('posts/$postId/comment')
+          .doc(comment.grandParentID)
+          .update({'childCommentCount': FieldValue.increment(-1)});
+      await _db
+          .collection('posts/$postId/comment')
+          .doc(comment.parentID)
+          .update({'childCommentCount': FieldValue.increment(-1)});
+      await _db
+          .collection('posts')
+          .doc(postId)
+          .update({'commentsCount': FieldValue.increment(-1)});
+      await _db.collection('posts/$postId/comment').doc(comment.id).delete();
     } else if (cmt == CommentLevel.two) {
-      await _db.collection('posts/$postID/comment').doc(id).delete();
+      int totalCount = 1;
+      await _db.collection('posts/$postId/comment').doc(comment.id).delete();
       final childComment = await _db
-          .collection('posts/$postID/comment')
-          .where('parentID', isEqualTo: id)
+          .collection('posts/$postId/comment')
+          .where('parentID', isEqualTo: comment.id)
           .get();
       if (childComment.docs.isEmpty) return;
+      totalCount += childComment.docs.length;
       final batch = FirebaseFirestore.instance.batch();
       for (final doc in childComment.docs) {
         batch.delete(doc.reference);
@@ -327,14 +354,24 @@ class Database {
       } catch (e) {
         debugPrint('Error deleting documents: $e');
       }
+      await _db
+          .collection('posts/$postId/comment')
+          .doc(comment.parentID)
+          .update({'childCommentCount': FieldValue.increment(-totalCount)});
+      await _db
+          .collection('posts')
+          .doc(postId)
+          .update({'commentsCount': FieldValue.increment(-totalCount)});
     } else if (cmt == CommentLevel.one) {
-      await _db.collection('posts/$postID/comment').doc(id).delete();
+      int totalCount = 1;
+      await _db.collection('posts/$postId/comment').doc(comment.id).delete();
       final childComment = await _db
-          .collection('posts/$postID/comment')
-          .where('parentID', isEqualTo: id)
-          .where('grandParentID', isEqualTo: id)
+          .collection('posts/$postId/comment')
+          .where('parentID', isEqualTo: comment.id)
+          .where('grandParentID', isEqualTo: comment.id)
           .get();
       if (childComment.docs.isEmpty) return;
+      totalCount += childComment.docs.length;
       final batch = FirebaseFirestore.instance.batch();
       for (final doc in childComment.docs) {
         batch.delete(doc.reference);
@@ -345,6 +382,10 @@ class Database {
       } catch (e) {
         debugPrint('Error deleting documents: $e');
       }
+      await _db
+          .collection('posts')
+          .doc(postId)
+          .update({'commentsCount': FieldValue.increment(-totalCount)});
     }
   }
 }

@@ -20,7 +20,7 @@ class Comment1 {
   @JsonKey(required: true)
   String content;
   @JsonKey(required: false)
-  int childCommentCount;
+  int? childCommentCount;
   int reactionCount;
   Comment1? firstChild;
   @JsonKey(fromJson: _timestampTotimestamp, toJson: _timestampTotimestamp)
@@ -37,7 +37,7 @@ class Comment1 {
   //tạo comment level 3
   Comment1.level3(
       this.id, this.parentID, this.grandParentID, this.user, this.content,
-      {this.childCommentCount = 0, this.reactionCount = 0})
+      {this.reactionCount = 0})
       : createDate = Timestamp.now();
 
   static Map<String, dynamic> _usertoJson(UserDummy user) {
