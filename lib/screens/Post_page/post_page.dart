@@ -41,6 +41,7 @@ class Postpage extends StatefulWidget {
 class _PostPageState extends State<Postpage>
     with WidgetsBindingObserver, AutomaticKeepAliveClientMixin {
   late TextEditingController textController;
+  final ScrollController _scrollController = ScrollController();
 
   List<bool> controlViewMoreComment = [];
 
@@ -85,6 +86,15 @@ class _PostPageState extends State<Postpage>
     setState(() {
       controlViewMoreComment[index] = false;
     });
+  }
+
+  void scrollDown() {
+    _scrollController.animateTo(
+      _scrollController.position.maxScrollExtent,
+      duration:
+          const Duration(milliseconds: 500), // Adjust the duration as needed
+      curve: Curves.easeInOut, // Adjust the curve as needed
+    );
   }
 
   @override
@@ -218,6 +228,7 @@ class _PostPageState extends State<Postpage>
                   widget.comment.refresh();
                 },
                 child: LoadingMoreList<Comment1>(ListConfig<Comment1>(
+                  controller: _scrollController,
                   sourceList: widget.comment,
                   itemBuilder: (context, item, index) {
                     // var items = list.map((e) => Post.fromJson(e)).toList();
@@ -293,6 +304,8 @@ class _PostPageState extends State<Postpage>
                   data: widget.data,
                   myController: textController,
                   isKeyboard: isKeyboard,
+                  comment: widget.comment,
+                  scrollDown: scrollDown,
                   myfocusNode:
                       Provider.of<FocusNodeProvider>(context).commentPostPage),
             )
@@ -370,7 +383,7 @@ class _PostContentState extends State<PostContent> {
         //   )
         // ],
         Row(
-          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             TextButton(
               onPressed: () {},

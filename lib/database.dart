@@ -1,4 +1,3 @@
-import 'data/post.dart';
 import 'index.dart';
 
 enum CommentLevel { one, two, three }
