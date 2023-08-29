@@ -13,7 +13,7 @@ part 'reaction_class.g.dart';
 class Reaction {
   @JsonKey(required: true)
   UserDummy user;
-  String destinationID;
+  String destinationID; //comment or post
   @JsonKey(required: true)
   int emoji;
   Reaction(this.user, this.emoji, this.destinationID);

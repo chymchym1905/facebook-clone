@@ -44,7 +44,7 @@ class LoadMorePost extends LoadingMoreBase<Post> {
   Future<bool> refresh([bool clearBeforeRequest = false]) async {
     _hasMore = true;
     _pageIndex = 1;
-    dbObject.helper.lastPostQuery = null;
+    dbObject.helper.lastPostQuery = null; //set query cursor in db to null
     //force to refresh list when you don't want clear list before request
     //for the case, if your list already has 20 items.
     forceRefresh = !clearBeforeRequest;
