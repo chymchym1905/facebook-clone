@@ -141,6 +141,8 @@ class _WriteCommentBoxState extends State<WriteCommentBox> {
                             widget.data.id, newComment);
                         Database().writeComment(
                             widget.data.id, newComment, CommentLevel.one);
+                        widget.comment!.hasMore = true;
+                        widget.comment!.insert(0, newComment);
                       }
                       // widget.controlViewMoreComment.add(true);
                       // if (IndexReply.flagReply || IndexReply.flagReply2) {
@@ -149,7 +151,7 @@ class _WriteCommentBoxState extends State<WriteCommentBox> {
                     }
                     CommentHelper.parentCommentId = "";
                     CommentHelper.grandParentCommentId = "";
-                    widget.comment!.refresh();
+                    // widget.comment!.refresh();
                     widget.myController.clear();
                     widget.myfocusNode.unfocus();
                   },

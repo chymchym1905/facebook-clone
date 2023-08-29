@@ -13,6 +13,7 @@ class LoadMoreComment extends LoadingMoreBase<Comment1> {
 
   @override
   bool get hasMore => (_hasMore && length < 1000) || forceRefresh;
+  set hasMore(bool value) => _hasMore = value;
 
   @override
   // ignore: avoid_renaming_method_parameters
@@ -33,25 +34,25 @@ class LoadMoreComment extends LoadingMoreBase<Comment1> {
   Future<bool> loadData([bool isloadMoreAction = false]) async {
     bool isSuccess = false;
     try {
-      // List<Comment1> comments = await dbObject.getAlllevel1Comment(postID);
-      List<Comment1> comments = [];
-      if (length >= postProvider.getCommentLevel1(postID).length) {
-        comments = [];
-      } else {
-        comments = postProvider
-            .getCommentLevel1(postID)
-            .getRange(
-                length, length + postProvider.getCommentLevel1(postID).length)
-            .toList();
-      }
-      if (!postProvider.checkEndComment(postID)) {
-        comments = await dbObject.getAlllevel1Comment(postID);
-        if (comments.isNotEmpty) {
-          postProvider.addCommentLevel1(postID, comments.first);
-        } else {
-          postProvider.setEndCommnt(postID);
-        }
-      }
+      List<Comment1> comments = await dbObject.getAlllevel1Comment(postID);
+      // List<Comment1> comments = [];
+      // if (length >= postProvider.getCommentLevel1(postID).length) {
+      //   comments = [];
+      // } else {
+      //   comments = postProvider
+      //       .getCommentLevel1(postID)
+      //       .getRange(
+      //           length, length + postProvider.getCommentLevel1(postID).length)
+      //       .toList();
+      // }
+      // if (!postProvider.checkEndComment(postID)) {
+      //   comments = await dbObject.getAlllevel1Comment(postID);
+      //   if (comments.isNotEmpty) {
+      //     postProvider.addCommentLevel1(postID, comments.first);
+      //   } else {
+      //     postProvider.setEndCommnt(postID);
+      //   }
+      // }
       //to show loading more clearly, in your app,remove this
       await Future.delayed(const Duration(milliseconds: 500));
       // print(fullPost);
