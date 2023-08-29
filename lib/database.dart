@@ -176,7 +176,6 @@ class Database {
 
     await commentDocRef.get().then((value) {
       if (value.docs.isEmpty) {
-        helper.lastCommentlevel1Query = null;
         return [];
       }
       helper.lastCommentlevel1Query = value.docs[value.size - 1];

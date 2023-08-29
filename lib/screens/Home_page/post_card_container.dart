@@ -118,6 +118,7 @@ class NameBar extends StatefulWidget {
 class _NameBarState extends State<NameBar> {
   @override
   Widget build(BuildContext context) {
+    final postProvider = Provider.of<PostProvider>(context);
     return InkWell(
       splashColor: themeManager.themeMode == dark
           ? const Color.fromARGB(255, 80, 82, 81)
@@ -128,9 +129,7 @@ class _NameBarState extends State<NameBar> {
       onTap: () => setState(() {
         if (widget.isPostpage) {
           // final postProvider = Provider.of<PostProvider>(context);
-          final loadMoreComment = LoadMoreComment(
-            widget.data.id,
-          );
+          final loadMoreComment = LoadMoreComment(widget.data.id, postProvider);
           Navigator.of(context).pushNamed('/posts',
               arguments: Postpage(
                   data: widget.data,
@@ -217,6 +216,7 @@ class _Caption extends State<Caption> {
 
   @override
   Widget build(BuildContext context) {
+    final postProvider = Provider.of<PostProvider>(context);
     // AppDataProvider.of(context).currentViewData = widget.data;
     return Container(
       alignment: Alignment.topLeft,
@@ -224,7 +224,8 @@ class _Caption extends State<Caption> {
       child: InkWell(
         onTap: () => setState(() {
           if (widget.isPostpage) {
-            final loadMoreComment = LoadMoreComment(widget.data.id);
+            final loadMoreComment =
+                LoadMoreComment(widget.data.id, postProvider);
             Navigator.of(context).pushNamed('/posts',
                 arguments: Postpage(
                   data: widget.data,

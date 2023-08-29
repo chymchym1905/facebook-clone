@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import '../../data/post.dart';
 import '../../index.dart';
+import '../../utils/commentlist.dart';
 
 class WriteCommentBox extends StatefulWidget {
   const WriteCommentBox({
@@ -9,13 +10,16 @@ class WriteCommentBox extends StatefulWidget {
     required this.myController,
     required this.isKeyboard,
     required this.myfocusNode,
+    this.comment,
+    required this.scrollDown,
   }) : super(key: key);
 
   final Post data;
   final TextEditingController myController;
   final bool isKeyboard;
   final FocusNode myfocusNode;
-
+  final LoadMoreComment? comment;
+  final Function scrollDown;
   // final List<bool> controlViewMoreComment;
   // final Function(int) setViewMoreComment;
 
@@ -145,6 +149,7 @@ class _WriteCommentBoxState extends State<WriteCommentBox> {
                     }
                     CommentHelper.parentCommentId = "";
                     CommentHelper.grandParentCommentId = "";
+                    widget.comment!.refresh();
                     widget.myController.clear();
                     widget.myfocusNode.unfocus();
                   },
