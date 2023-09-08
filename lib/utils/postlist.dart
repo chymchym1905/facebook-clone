@@ -32,7 +32,6 @@ import '../index.dart';
 // }
 
 class LoadMorePost extends LoadingMoreBase<Post> {
-  // bool isFirstLoad = true;
   bool _hasMore = true;
   bool forceRefresh = false;
   int _pageIndex = 1;
@@ -40,15 +39,19 @@ class LoadMorePost extends LoadingMoreBase<Post> {
   @override
   bool get hasMore => (_hasMore && length < 1000) || forceRefresh;
 
+  set hasMore(bool value) => _hasMore = value;
+
   @override
   Future<bool> refresh([bool clearBeforeRequest = false]) async {
     _hasMore = true;
     _pageIndex = 1;
     dbObject.helper.lastPostQuery = null; //set query cursor in db to null
+    clear();
     //force to refresh list when you don't want clear list before request
     //for the case, if your list already has 20 items.
-    forceRefresh = !clearBeforeRequest;
+    forceRefresh = clearBeforeRequest;
     var result = await super.refresh(clearBeforeRequest);
+
     forceRefresh = false;
     return result;
   }
@@ -62,10 +65,11 @@ class LoadMorePost extends LoadingMoreBase<Post> {
       await Future.delayed(const Duration(milliseconds: 500));
       // posts = postManager.post;
       // print(fullPost);
-      if (_pageIndex == 1) {
-        //clear list when refresh
-        clear();
-      }
+      // if (_pageIndex == 1) {
+      //   //clear list when refresh
+      //   clear();
+      // }
+
       for (final Post item in posts) {
         if (hasMore) add(item);
       }

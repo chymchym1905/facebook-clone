@@ -5,8 +5,8 @@ import 'package:snapping_sheet_2/snapping_sheet.dart';
 import '../../utils/grabbing_widget.dart';
 
 class CreatePost extends StatefulWidget {
-  const CreatePost({super.key});
-
+  const CreatePost({super.key, required this.postlist});
+  final LoadMorePost postlist;
   @override
   State<CreatePost> createState() => _CreatePostState();
 }
@@ -206,10 +206,12 @@ class _CreatePostState extends State<CreatePost>
               padding: const EdgeInsets.only(right: 8.0),
               child: FilledButton(
                 onPressed: caption.text != "" || pickedMedia.isNotEmpty
-                    ? () {
-                        Database().createPost(
+                    ? () async {
+                        var res = await Database().createPost(
                             Post("", currUser!, caption.text, []), pickedMedia);
-                        Navigator.of(context).pop();
+                        widget.postlist.hasMore = true;
+                        widget.postlist.insert(0, res);
+                        if (context.mounted) Navigator.of(context).pop();
                       }
                     : null,
                 style: ButtonStyle(

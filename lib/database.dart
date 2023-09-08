@@ -19,7 +19,7 @@ class Database {
     }
   }
 
-  Future createPost(Post data, List<Media> media) async {
+  Future<Post> createPost(Post data, List<Media> media) async {
     final postdoc = _db.collection('posts').doc();
     final List<String> mediaURLS = [];
     if (media.isNotEmpty) {
@@ -34,16 +34,17 @@ class Database {
       }
     }
 
-    final json = Post(postdoc.id, data.user, data.caption, mediaURLS,
-            reactionsCount: data.reactionsCount,
-            commentsCount: data.commentsCount,
-            sharesCount: data.sharesCount)
-        .toJson();
+    final result = Post(postdoc.id, data.user, data.caption, mediaURLS,
+        reactionsCount: data.reactionsCount,
+        commentsCount: data.commentsCount,
+        sharesCount: data.sharesCount);
+    final json = result.toJson();
     json['user'] = json['user'].toJson();
     await postdoc
         .set(json)
         .whenComplete(() => debugPrint("Post created"))
         .catchError((e) => debugPrint(e));
+    return result;
   }
 
   List<Comment1> convert(List<dynamic> json) {
@@ -82,13 +83,13 @@ class Database {
         ? await _db
             .collection('posts')
             .orderBy('createDate', descending: true)
-            .limit(1)
+            .limit(3)
             .get()
         : await _db
             .collection('posts')
             .orderBy('createDate', descending: true)
             .startAfter([helper.lastPostQuery?.data()['createDate']])
-            .limit(1)
+            .limit(3)
             .get();
     if (postDocRef.docs.isEmpty) {
       helper.lastPostQuery = null;
@@ -166,13 +167,13 @@ class Database {
             .collection('posts/$postId/comment')
             .where('parentID', isNull: true)
             .orderBy('createDate', descending: true)
-            .limit(1)
+            .limit(3)
         : _db
             .collection('posts/$postId/comment')
             .where('parentID', isNull: true)
             .orderBy('createDate', descending: true)
             .startAfter(
-                [helper.lastCommentlevel1Query?.data()['createDate']]).limit(1);
+                [helper.lastCommentlevel1Query?.data()['createDate']]).limit(3);
 
     await commentDocRef.get().then((value) {
       if (value.docs.isEmpty) {

@@ -18,6 +18,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> with TickerProviderStateMixin {
   late TabController _tabController;
   // SliverAppBar currentAppBar = const SliverAppBar();
+  late PostListView postlistview;
   late LoadMorePost source1;
   late LoadMorePost source2;
   late LoadMorePost source3;
@@ -82,6 +83,8 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
     source1 = LoadMorePost();
     source2 = LoadMorePost();
     source3 = LoadMorePost();
+    postlistview =
+        PostListView(source: source2, pagekey: const PageStorageKey('tab1'));
   }
 
   themeListener() {
@@ -213,7 +216,8 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
                     PopupMenuItem(
                         onTap: () {
                           WidgetsBinding.instance.addPostFrameCallback((_) {
-                            Navigator.of(context).pushNamed('/createpost');
+                            Navigator.of(context).pushNamed('/createpost',
+                                arguments: postlistview.source);
                           });
                         },
                         child: const Row(
@@ -267,8 +271,7 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
               body: TabBarView(
                 controller: _tabController,
                 children: [
-                  PostListView(
-                      source: source2, pagekey: const PageStorageKey('tab1')),
+                  postlistview,
                   FriendListView(
                       source: source1, pagekey: const PageStorageKey('tab2')),
                   WatchListView(

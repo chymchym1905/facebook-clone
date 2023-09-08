@@ -43,12 +43,21 @@ class _PostListViewState extends State<PostListView>
 
   @override
   Widget build(BuildContext context) {
+    bool isRefreshing = false;
     final postProvider = Provider.of<PostProvider>(context);
     super.build(context);
     // AppData appdata = AppDataProvider.of(context);
     return RefreshIndicator(
       onRefresh: () async {
+        // print(isRefreshing);
+        if (isRefreshing) {
+          return;
+        }
+        isRefreshing = true;
         await widget.source.refresh();
+        isRefreshing = false;
+        // print(dbObject.helper.lastPostQuery?.data()['caption']);
+        // print('${dbObject.helper.lastPostQuery?.data()['caption']} + \n');
       },
       child: LoadingMoreList<Post>(ListConfig<Post>(
         sourceList: widget.source,

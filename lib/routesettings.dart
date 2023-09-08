@@ -59,7 +59,8 @@ class RouteGenerator {
         // final arg = args as ProfilePage;
         return MaterialPageRoute(builder: (_) => const ProfilePage());
       case '/createpost':
-        return MaterialPageRoute(builder: (_) => const CreatePost());
+        final arg = args as LoadMorePost;
+        return MaterialPageRoute(builder: (_) => CreatePost(postlist: arg));
       case '/userprofile':
         final arg = args as UserPage;
         return MaterialPageRoute(
