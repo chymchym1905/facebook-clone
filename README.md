@@ -1,3 +1,9 @@
 # Fakebook
 
-Simple Facebook clone using flutter and firebase
+###Features:
+- Loading more list
+- Tab view
+- Comments
+- Reaction bar
+- Profile view
+- Album
